@@ -9,9 +9,15 @@ const compat = new FlatCompat({
   baseDirectory: __dirname,
 });
 
+// Import configs from eslintrc format
+const nextConfig = compat.config({
+  extends: ['next/core-web-vitals', 'next/typescript'],
+});
+const prettierConfig = compat.config({ extends: ['prettier'] });
+
 const eslintConfig = [
-  ...compat.extends('next/core-web-vitals', 'next/typescript'),
-  ...compat.extends('prettier'),
+  ...nextConfig,
+  ...prettierConfig,
   {
     ignores: [
       'node_modules/**',
@@ -21,15 +27,6 @@ const eslintConfig = [
       'dist/**',
       'coverage/**',
     ],
-  },
-  {
-    files: ['**/*.js', '**/*.jsx', '**/*.ts', '**/*.tsx'],
-    plugins: {
-      prettier: compat.plugins('prettier'),
-    },
-    rules: {
-      'prettier/prettier': 'error',
-    },
   },
 ];
 
