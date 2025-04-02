@@ -1,7 +1,7 @@
 'use client';
 
 import { useState, useEffect, useRef } from 'react';
-import { motion } from 'framer-motion';
+import { motion, AnimatePresence } from 'framer-motion';
 import { cn } from '@/lib/utils';
 import { User, Code, Briefcase, GraduationCap, Globe } from 'lucide-react';
 
@@ -21,6 +21,7 @@ const sectionIcons: Record<string, React.ReactNode> = {
 export function NavMenu({ sections }: NavMenuProps) {
   const [activeSection, setActiveSection] = useState(sections[0]?.id);
   const [userClicked, setUserClicked] = useState(false);
+  const [showMenu, setShowMenu] = useState(false);
   const timeoutRef = useRef<NodeJS.Timeout | null>(null);
   const activeSectionRef = useRef(activeSection);
 
@@ -37,6 +38,13 @@ export function NavMenu({ sections }: NavMenuProps) {
 
       // Posição da janela de visualização
       const scrollPosition = window.scrollY + window.innerHeight / 4;
+
+      // Verificar se já devemos mostrar o menu
+      // (se já rolamos além da altura da página inicial)
+      const shouldShowMenu = window.scrollY > window.innerHeight / 3;
+      if (shouldShowMenu !== showMenu) {
+        setShowMenu(shouldShowMenu);
+      }
 
       // Encontrar qual seção está visível na posição atual
       let currentSection = null;
@@ -93,12 +101,13 @@ export function NavMenu({ sections }: NavMenuProps) {
         clearTimeout(timeoutRef.current);
       }
     };
-  }, [sections, userClicked]); // Removendo activeSection das dependências
+  }, [sections, userClicked, showMenu]); // Adicionando showMenu às dependências
 
   const scrollToSection = (id: string) => {
     // Marcar que o usuário clicou e atualizar a seção ativa
     setUserClicked(true);
     setActiveSection(id);
+    setShowMenu(true); // Sempre mostrar o menu quando um item for clicado
 
     // Limpar qualquer timeout existente
     if (timeoutRef.current) {
@@ -125,102 +134,107 @@ export function NavMenu({ sections }: NavMenuProps) {
     }
   };
 
-  // Menu desktop (lateral)
-  const DesktopMenu = (
-    <div className="hidden md:block">
-      <nav className="fixed left-8 top-1/2 -translate-y-1/2 z-50">
-        <motion.div
-          initial={{ opacity: 0, x: -20 }}
-          animate={{ opacity: 1, x: 0 }}
-          transition={{ duration: 0.5, delay: 0.2 }}
-        >
-          <div className="bg-card/80 backdrop-blur-sm border rounded-lg shadow-sm p-2 flex flex-col gap-2">
-            {sections.map(section => (
-              <motion.button
-                key={section.id}
-                onClick={() => scrollToSection(section.id)}
-                whileHover={{ scale: 1.05 }}
-                whileTap={{ scale: 0.95 }}
-                className={cn(
-                  'relative rounded-lg px-3 py-2 text-sm transition-colors min-w-[120px] text-left flex items-center gap-2',
-                  activeSection === section.id
-                    ? 'text-primary-foreground font-medium'
-                    : 'text-muted-foreground hover:text-foreground',
-                )}
-              >
-                {activeSection === section.id && (
-                  <motion.div
-                    layoutId="desktopNavIndicator"
-                    className="absolute inset-0 rounded-lg bg-primary"
-                    transition={{
-                      type: 'spring',
-                      stiffness: 500,
-                      damping: 30,
-                    }}
-                  />
-                )}
-                <span className="relative z-10">
-                  {sectionIcons[section.id]}
-                </span>
-                <span className="relative z-10">{section.label}</span>
-              </motion.button>
-            ))}
-          </div>
-        </motion.div>
-      </nav>
-    </div>
-  );
-
-  // Menu mobile (inferior com ícones)
-  const MobileMenu = (
-    <div className="md:hidden">
-      <nav className="fixed bottom-4 left-1/2 -translate-x-1/2 z-50">
-        <motion.div
-          initial={{ opacity: 0, y: 20 }}
-          animate={{ opacity: 1, y: 0 }}
-          transition={{ duration: 0.5 }}
-        >
-          <div className="bg-card/80 backdrop-blur-sm border rounded-full shadow-sm px-3 py-2 flex items-center gap-2">
-            {sections.map(section => (
-              <motion.button
-                key={section.id}
-                onClick={() => scrollToSection(section.id)}
-                whileHover={{ scale: 1.1 }}
-                whileTap={{ scale: 0.9 }}
-                className={cn(
-                  'relative rounded-full p-2 transition-colors',
-                  activeSection === section.id
-                    ? 'text-primary-foreground'
-                    : 'text-muted-foreground hover:text-foreground',
-                )}
-              >
-                {activeSection === section.id && (
-                  <motion.div
-                    layoutId="mobileNavIndicator"
-                    className="absolute inset-0 rounded-full bg-primary"
-                    transition={{
-                      type: 'spring',
-                      stiffness: 500,
-                      damping: 30,
-                    }}
-                  />
-                )}
-                <span className="relative z-10">
-                  {sectionIcons[section.id] ||
-                    section.id.charAt(0).toUpperCase()}
-                </span>
-              </motion.button>
-            ))}
-          </div>
-        </motion.div>
-      </nav>
-    </div>
-  );
-
   return (
     <>
-      {DesktopMenu}
-      {MobileMenu}
+      <AnimatePresence>
+        {showMenu && (
+          <>
+            {/* Menu desktop (lateral) */}
+            <div className="hidden md:block">
+              <motion.nav
+                className="fixed left-8 top-1/2 -translate-y-1/2 z-50"
+                initial={{ opacity: 0, x: -20 }}
+                animate={{ opacity: 1, x: 0 }}
+                exit={{ opacity: 0, x: -20 }}
+                transition={{
+                  duration: 0.5,
+                  ease: 'easeInOut',
+                }}
+              >
+                <div className="bg-card/80 backdrop-blur-sm border rounded-lg shadow-sm p-2 flex flex-col gap-2">
+                  {sections.map(section => (
+                    <motion.button
+                      key={section.id}
+                      onClick={() => scrollToSection(section.id)}
+                      whileHover={{ scale: 1.05 }}
+                      whileTap={{ scale: 0.95 }}
+                      className={cn(
+                        'relative rounded-lg px-3 py-2 text-sm transition-colors min-w-[120px] text-left flex items-center gap-2',
+                        activeSection === section.id
+                          ? 'text-primary-foreground font-medium'
+                          : 'text-muted-foreground hover:text-foreground',
+                      )}
+                    >
+                      {activeSection === section.id && (
+                        <motion.div
+                          layoutId="desktopNavIndicator"
+                          className="absolute inset-0 rounded-lg bg-primary"
+                          transition={{
+                            type: 'spring',
+                            stiffness: 500,
+                            damping: 30,
+                          }}
+                        />
+                      )}
+                      <span className="relative z-10">
+                        {sectionIcons[section.id]}
+                      </span>
+                      <span className="relative z-10">{section.label}</span>
+                    </motion.button>
+                  ))}
+                </div>
+              </motion.nav>
+            </div>
+
+            {/* Menu mobile (inferior com ícones) */}
+            <div className="md:hidden">
+              <motion.nav
+                className="fixed bottom-4 left-1/2 -translate-x-1/2 z-50"
+                initial={{ opacity: 0, y: 20 }}
+                animate={{ opacity: 1, y: 0 }}
+                exit={{ opacity: 0, y: 20 }}
+                transition={{
+                  duration: 0.5,
+                  ease: 'easeInOut',
+                }}
+              >
+                <div className="bg-card/80 backdrop-blur-sm border rounded-full shadow-sm px-3 py-2 flex items-center gap-2">
+                  {sections.map(section => (
+                    <motion.button
+                      key={section.id}
+                      onClick={() => scrollToSection(section.id)}
+                      whileHover={{ scale: 1.1 }}
+                      whileTap={{ scale: 0.9 }}
+                      className={cn(
+                        'relative rounded-full p-2 transition-colors',
+                        activeSection === section.id
+                          ? 'text-primary-foreground'
+                          : 'text-muted-foreground hover:text-foreground',
+                      )}
+                    >
+                      {activeSection === section.id && (
+                        <motion.div
+                          layoutId="mobileNavIndicator"
+                          className="absolute inset-0 rounded-full bg-primary"
+                          transition={{
+                            type: 'spring',
+                            stiffness: 500,
+                            damping: 30,
+                          }}
+                        />
+                      )}
+                      <span className="relative z-10">
+                        {sectionIcons[section.id] ||
+                          section.id.charAt(0).toUpperCase()}
+                      </span>
+                    </motion.button>
+                  ))}
+                </div>
+              </motion.nav>
+            </div>
+          </>
+        )}
+      </AnimatePresence>
     </>
   );
 }
