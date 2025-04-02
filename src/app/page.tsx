@@ -49,18 +49,27 @@ export default function Home() {
         <MotionSection id="about" ref={aboutRef} className="py-16">
           <SectionHeader title="Sobre" />
           <div className="prose prose-lg dark:prose-invert">
-            <p>
-              Engenheiro Frontend com mais de 8 anos de experiência,
-              especializado no desenvolvimento de aplicações web modernas e
-              responsivas. Tenho forte experiência com Angular, React, e
-              Next.js, além de conhecimentos em desenvolvimento backend com
-              Node.js e Python.
+            <p className="mb-4">
+              Desenvolvedor Frontend com quase 10 anos de experiência no
+              desenvolvimento de aplicações web, atuando em projetos complexos e
+              de alto impacto. Forte expertise em JavaScript, TypeScript, HTML e
+              CSS, com especialização em Angular, React e Next.js além das
+              melhores práticas em arquitetura de software e performance.
+            </p>
+            <p className="mb-4">
+              Experiência nos setores de restaurantes, fintechs, educação e
+              saúde, liderando o desenvolvimento de sistemas escaláveis e
+              modernos. Habilidade em monorepos (Nx), testes automatizados
+              (Jest, Cypress), microfrontends (Module Federation) e
+              infraestrutura em nuvem (AWS, Firebase, Vercel). Conhecimento
+              avançado em design system, acessibilidade e UI/UX.
             </p>
             <p>
-              Trabalho atualmente no desenvolvimento de sistemas para
-              restaurantes, onde lidero a construção de interfaces e componentes
-              reutilizáveis, sempre aplicando boas práticas e padrões de
-              desenvolvimento.
+              Experiência comprovada na mentoria de desenvolvedores, liderança
+              de times e facilitação da migração de sistemas legados para
+              tecnologias modernas. Sempre atualizado com as melhores práticas
+              do mercado, buscando constantemente aprender, inovar e otimizar
+              processos de desenvolvimento.
             </p>
           </div>
         </MotionSection>
