@@ -9,11 +9,14 @@ import {
 } from '@/components/ui/card';
 import { Input } from '@/components/ui/input';
 import { Label } from '@/components/ui/label';
+import { ThemeToggle } from '@/components/theme-toggle';
 
 export default function Home() {
   return (
     <main className="flex min-h-screen flex-col items-center justify-center p-24 gap-8">
-      <h1 className="text-4xl font-bold mb-6">Matsu Theme Demo</h1>
+      <div className="absolute top-4 right-4">
+        <ThemeToggle />
+      </div>
 
       <div className="grid grid-cols-1 md:grid-cols-2 gap-6 w-full max-w-4xl">
         <Card>
@@ -50,10 +53,6 @@ export default function Home() {
           </CardContent>
         </Card>
       </div>
-
-      <p className="text-center text-muted-foreground mt-4">
-        Ghibli Studio inspired theme for shadcn/ui
-      </p>
     </main>
   );
 }

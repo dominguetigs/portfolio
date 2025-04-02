@@ -94,6 +94,8 @@
   --primary-border: oklch(0.59 0.096 111.8);
   --destructive-foreground: oklch(0.97 0.018 0);
   --destructive-border: oklch(0.43 0.24 29.2);
+  --theme-background-image: none;
+  --theme-background-size: auto;
 }
 
 .dark {
@@ -128,6 +130,8 @@
   --sidebar-accent-foreground: oklch(0.984 0.003 247.858);
   --sidebar-border: oklch(1 0 0 / 10%);
   --sidebar-ring: oklch(0.551 0.027 264.364);
+  --theme-background-image: url('https://www.transparenttextures.com/patterns/brushed-alum.png');
+  --theme-background-size: 250px 250px;
 }
 
 @layer base {
@@ -137,6 +141,7 @@
   body {
     @apply bg-background text-foreground;
     font-weight: var(--font-weight-bold);
+    background-blend-mode: soft-light;
   }
   .border {
     border-width: 2px !important;
@@ -162,6 +167,7 @@
   .shadow-destructive-border {
     box-shadow: 0 2px 0 0 var(--destructive-border);
   }
+  /* Textura para o modo claro */
   .texture {
     background-image: url(https://matsu-theme.vercel.app/texture.jpg);
     background-size: 100% 100%;
@@ -175,5 +181,24 @@
     width: 100vw;
     height: 100dvh;
     pointer-events: none;
+  }
+
+  .dark .texture {
+    background-image: url(https://matsu-theme.vercel.app/texture.jpg);
+    background-size: 100% 100%;
+    background-repeat: repeat;
+    opacity: 0.45;
+    mix-blend-mode: screen;
+    filter: contrast(1.7) brightness(0.4) invert(0.25);
+    display: block;
+  }
+
+  /* Removendo as classes não utilizadas */
+  .dark-texture {
+    display: none;
+  }
+
+  .dark .dark-texture {
+    display: none;
   }
 }
