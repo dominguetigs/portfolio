@@ -45,7 +45,7 @@ export default function Home() {
 
       <NavMenu sections={sections} />
 
-      <div className="container mx-auto px-4 max-w-5xl">
+      <div className="container mx-auto px-4 max-w-5xl md:pl-[180px]">
         <MotionSection id="about" ref={aboutRef} className="py-16">
           <SectionHeader title="Sobre" />
           <div className="prose prose-lg dark:prose-invert">
