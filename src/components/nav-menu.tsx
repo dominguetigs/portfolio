@@ -22,8 +22,15 @@ export function NavMenu({ sections }: NavMenuProps) {
   const [activeSection, setActiveSection] = useState(sections[0]?.id);
   const [userClicked, setUserClicked] = useState(false);
   const [showMenu, setShowMenu] = useState(false);
+  const [mounted, setMounted] = useState(false);
   const timeoutRef = useRef<NodeJS.Timeout | null>(null);
   const activeSectionRef = useRef(activeSection);
+
+  // Verificar se o componente está montado (cliente)
+  useEffect(() => {
+    setMounted(true);
+    return () => setMounted(false);
+  }, []);
 
   // Atualizar a ref quando o estado mudar
   useEffect(() => {
@@ -31,60 +38,79 @@ export function NavMenu({ sections }: NavMenuProps) {
   }, [activeSection]);
 
   useEffect(() => {
+    // Só executar no cliente após a montagem
+    if (!mounted) return;
+
     // Função simplificada para determinar a seção mais visível
     const handleScroll = () => {
       // Se o usuário acabou de clicar, não modifique a seção ativa
       if (userClicked) return;
 
-      // Posição da janela de visualização
-      const scrollPosition = window.scrollY + window.innerHeight / 4;
+      try {
+        // Posição da janela de visualização
+        const scrollY = window.scrollY || document.documentElement.scrollTop;
+        const viewportHeight = window.innerHeight;
+        const scrollPosition = scrollY + viewportHeight / 4;
 
-      // Verificar se já devemos mostrar o menu
-      // (se já rolamos além da altura da página inicial)
-      const shouldShowMenu = window.scrollY > window.innerHeight / 3;
-      if (shouldShowMenu !== showMenu) {
-        setShowMenu(shouldShowMenu);
-      }
+        // Verificar se já devemos mostrar o menu
+        const shouldShowMenu = scrollY > viewportHeight / 3;
+        if (shouldShowMenu !== showMenu) {
+          setShowMenu(shouldShowMenu);
+        }
 
-      // Encontrar qual seção está visível na posição atual
-      let currentSection = null;
+        // Encontrar qual seção está visível na posição atual
+        let currentSection = null;
 
-      // Percorrer as seções da última para a primeira (para dar prioridade à que está mais abaixo quando há sobreposição)
-      for (let i = sections.length - 1; i >= 0; i--) {
-        const section = sections[i];
-        const element = document.getElementById(section.id);
+        // Percorrer as seções da última para a primeira
+        for (let i = sections.length - 1; i >= 0; i--) {
+          const section = sections[i];
+          const element = document.getElementById(section.id);
 
-        if (element) {
-          // Obter a posição e dimensões do elemento
-          const rect = element.getBoundingClientRect();
-          const elementTop = window.scrollY + rect.top;
-          const elementBottom = elementTop + rect.height;
+          if (element) {
+            const rect = element.getBoundingClientRect();
+            const elementTop = scrollY + rect.top;
+            const elementBottom = elementTop + rect.height;
 
-          // Se a posição de rolagem está dentro desta seção
-          if (scrollPosition >= elementTop && scrollPosition <= elementBottom) {
-            currentSection = section.id;
-            break;
+            // Se a posição de rolagem está dentro desta seção
+            if (
+              scrollPosition >= elementTop &&
+              scrollPosition <= elementBottom
+            ) {
+              currentSection = section.id;
+              break;
+            }
           }
         }
-      }
 
-      // Se nenhuma seção foi encontrada, use a primeira ou a última dependendo da posição
-      if (!currentSection) {
-        const firstElement = document.getElementById(sections[0]?.id);
-        if (
-          firstElement &&
-          scrollPosition <
-            firstElement.getBoundingClientRect().top + window.scrollY
-        ) {
-          currentSection = sections[0]?.id;
-        } else {
-          currentSection = sections[sections.length - 1]?.id;
+        // Se nenhuma seção foi encontrada, tente uma abordagem mais simples
+        if (!currentSection) {
+          for (const section of sections) {
+            const element = document.getElementById(section.id);
+            if (element) {
+              const rect = element.getBoundingClientRect();
+              // Se a seção estiver pelo menos parcialmente visível
+              if (rect.top < viewportHeight && rect.bottom > 0) {
+                currentSection = section.id;
+                // Quanto mais centralizada a seção, maior a probabilidade de ser escolhida
+                if (rect.top > 0 && rect.top < viewportHeight / 2) {
+                  break;
+                }
+              }
+            }
+          }
         }
-      }
 
-      // Apenas atualizar se a seção ativa mudou
-      if (currentSection && currentSection !== activeSectionRef.current) {
-        setActiveSection(currentSection);
+        // Se ainda não encontrou, use a primeira seção
+        if (!currentSection && sections.length > 0) {
+          currentSection = sections[0].id;
+        }
+
+        // Apenas atualizar se a seção ativa mudou
+        if (currentSection && currentSection !== activeSectionRef.current) {
+          setActiveSection(currentSection);
+        }
+      } catch (error) {
+        console.error('Erro na detecção de scroll:', error);
       }
     };
 
@@ -92,7 +118,7 @@ export function NavMenu({ sections }: NavMenuProps) {
     window.addEventListener('scroll', handleScroll);
 
     // Executar uma vez para definir a seção inicial
-    handleScroll();
+    setTimeout(handleScroll, 200);
 
     // Limpar
     return () => {
@@ -101,38 +127,48 @@ export function NavMenu({ sections }: NavMenuProps) {
         clearTimeout(timeoutRef.current);
       }
     };
-  }, [sections, userClicked, showMenu]); // Adicionando showMenu às dependências
+  }, [sections, userClicked, showMenu, mounted]);
 
   const scrollToSection = (id: string) => {
-    // Marcar que o usuário clicou e atualizar a seção ativa
-    setUserClicked(true);
-    setActiveSection(id);
-    setShowMenu(true); // Sempre mostrar o menu quando um item for clicado
+    // Só executar no cliente após a montagem
+    if (!mounted) return;
 
-    // Limpar qualquer timeout existente
-    if (timeoutRef.current) {
-      clearTimeout(timeoutRef.current);
-    }
+    try {
+      // Marcar que o usuário clicou e atualizar a seção ativa
+      setUserClicked(true);
+      setActiveSection(id);
+      setShowMenu(true); // Sempre mostrar o menu quando um item for clicado
 
-    // Rolar para a seção
-    const element = document.getElementById(id);
-    if (element) {
-      const headerOffset = 80;
-      const elementPosition = element.getBoundingClientRect().top;
-      const offsetPosition =
-        elementPosition + window.pageYOffset - headerOffset;
+      // Limpar qualquer timeout existente
+      if (timeoutRef.current) {
+        clearTimeout(timeoutRef.current);
+      }
 
-      window.scrollTo({
-        top: offsetPosition,
-        behavior: 'smooth',
-      });
+      // Rolar para a seção
+      const element = document.getElementById(id);
+      if (element) {
+        const headerOffset = 80;
+        const elementPosition = element.getBoundingClientRect().top;
+        const offsetPosition = elementPosition + window.scrollY - headerOffset;
 
-      // Reativar a detecção de scroll após a animação terminar
-      timeoutRef.current = setTimeout(() => {
-        setUserClicked(false);
-      }, 1000);
+        window.scrollTo({
+          top: offsetPosition,
+          behavior: 'smooth',
+        });
+
+        // Reativar a detecção de scroll após a animação terminar
+        timeoutRef.current = setTimeout(() => {
+          setUserClicked(false);
+        }, 1000);
+      }
+    } catch (error) {
+      console.error('Erro ao rolar para seção:', error);
+      setUserClicked(false); // Garantir que o usuário possa tentar novamente
     }
   };
+
+  // Se não estiver montado (renderização no servidor), não renderizar nada
+  if (!mounted) return null;
 
   return (
     <>
