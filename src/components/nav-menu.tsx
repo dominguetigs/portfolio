@@ -19,9 +19,9 @@ const sectionIcons: Record<string, React.ReactNode> = {
 };
 
 export function NavMenu({ sections }: NavMenuProps) {
-  const [activeSection, setActiveSection] = useState(sections[0]?.id);
+  const [activeSection, setActiveSection] = useState('');
   const [userClicked, setUserClicked] = useState(false);
-  const [showMenu, setShowMenu] = useState(false);
+  const [showMenu, setShowMenu] = useState(true);
   const [mounted, setMounted] = useState(false);
   const timeoutRef = useRef<NodeJS.Timeout | null>(null);
   const activeSectionRef = useRef(activeSection);
@@ -41,19 +41,30 @@ export function NavMenu({ sections }: NavMenuProps) {
     // Só executar no cliente após a montagem
     if (!mounted) return;
 
-    // Função simplificada para determinar a seção mais visível
+    // Função para determinar a visibilidade do menu
+    const checkInitialScrollPosition = () => {
+      const scrollY = window.scrollY || document.documentElement.scrollTop;
+      const viewportHeight = window.innerHeight;
+      const isAtHeroSection = scrollY < viewportHeight * 0.9;
+
+      // Definir a visibilidade do menu com base na posição inicial
+      setShowMenu(!isAtHeroSection);
+    };
+
+    // Verificar a posição inicial do scroll
+    checkInitialScrollPosition();
+
+    // Função para lidar com o scroll
     const handleScroll = () => {
       // Se o usuário acabou de clicar, não modifique a seção ativa
       if (userClicked) return;
 
       try {
-        // Posição da janela de visualização
         const scrollY = window.scrollY || document.documentElement.scrollTop;
         const viewportHeight = window.innerHeight;
         const scrollPosition = scrollY + viewportHeight / 4;
 
         // Verificar se estamos na seção hero ou próximo do topo da página
-        // Usar uma abordagem mais agressiva para ocultar o menu no topo
         const isAtHeroSection = scrollY < viewportHeight * 0.9;
 
         // Atualizar a visibilidade do menu
