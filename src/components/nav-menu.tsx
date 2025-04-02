@@ -52,10 +52,13 @@ export function NavMenu({ sections }: NavMenuProps) {
         const viewportHeight = window.innerHeight;
         const scrollPosition = scrollY + viewportHeight / 4;
 
-        // Verificar se já devemos mostrar o menu
-        const shouldShowMenu = scrollY > viewportHeight / 3;
-        if (shouldShowMenu !== showMenu) {
-          setShowMenu(shouldShowMenu);
+        // Verificar se estamos na seção hero ou próximo do topo da página
+        // Usar uma abordagem mais agressiva para ocultar o menu no topo
+        const isAtHeroSection = scrollY < viewportHeight * 0.9;
+
+        // Atualizar a visibilidade do menu
+        if (showMenu !== !isAtHeroSection) {
+          setShowMenu(!isAtHeroSection);
         }
 
         // Encontrar qual seção está visível na posição atual
@@ -176,7 +179,7 @@ export function NavMenu({ sections }: NavMenuProps) {
         {showMenu && (
           <>
             {/* Menu desktop (lateral) */}
-            <div className="hidden md:block">
+            <div className="hidden lg:block">
               <motion.nav
                 className="fixed left-8 top-1/2 -translate-y-1/2 z-50"
                 initial={{ opacity: 0, x: -20 }}
@@ -187,7 +190,7 @@ export function NavMenu({ sections }: NavMenuProps) {
                   ease: 'easeInOut',
                 }}
               >
-                <div className="bg-card/80 backdrop-blur-sm border rounded-lg shadow-sm p-2 flex flex-col gap-2">
+                <div className="bg-card/80 backdrop-blur-sm border rounded-full shadow-sm p-2 flex flex-col gap-2">
                   {sections.map(section => (
                     <motion.button
                       key={section.id}
@@ -195,7 +198,7 @@ export function NavMenu({ sections }: NavMenuProps) {
                       whileHover={{ scale: 1.05 }}
                       whileTap={{ scale: 0.95 }}
                       className={cn(
-                        'relative rounded-lg px-3 py-2 text-sm transition-colors min-w-[120px] text-left flex items-center gap-2',
+                        'relative rounded-full p-2 transition-colors flex items-center gap-2 group',
                         activeSection === section.id
                           ? 'text-primary-foreground font-medium'
                           : 'text-muted-foreground hover:text-foreground',
@@ -204,7 +207,7 @@ export function NavMenu({ sections }: NavMenuProps) {
                       {activeSection === section.id && (
                         <motion.div
                           layoutId="desktopNavIndicator"
-                          className="absolute inset-0 rounded-lg bg-primary"
+                          className="absolute inset-0 rounded-full bg-primary"
                           transition={{
                             type: 'spring',
                             stiffness: 500,
@@ -215,7 +218,9 @@ export function NavMenu({ sections }: NavMenuProps) {
                       <span className="relative z-10">
                         {sectionIcons[section.id]}
                       </span>
-                      <span className="relative z-10">{section.label}</span>
+                      <span className="absolute left-10 opacity-0 group-hover:opacity-100 transition-opacity bg-card/90 backdrop-blur-sm border rounded-md py-1 px-2 text-xs whitespace-nowrap shadow-sm text-foreground">
+                        {section.label}
+                      </span>
                     </motion.button>
                   ))}
                 </div>
@@ -223,7 +228,7 @@ export function NavMenu({ sections }: NavMenuProps) {
             </div>
 
             {/* Menu mobile (inferior com ícones) */}
-            <div className="md:hidden">
+            <div className="lg:hidden">
               <motion.nav
                 className="fixed bottom-4 left-1/2 -translate-x-1/2 z-50"
                 initial={{ opacity: 0, y: 20 }}

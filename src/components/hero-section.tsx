@@ -97,7 +97,6 @@ export function HeroSection({
         className="absolute bottom-10 left-0 right-0 flex justify-center"
       >
         <Button
-          variant="ghost"
           size="icon"
           onClick={onScrollDown}
           className="rounded-full animate-bounce"
