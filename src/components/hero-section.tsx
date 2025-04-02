@@ -94,7 +94,7 @@ export function HeroSection({
           initial={{ opacity: 0, y: 20 }}
           animate={{ opacity: 1, y: 0 }}
           transition={{ duration: 0.6, delay: 0.4 }}
-          className="flex justify-center gap-4"
+          className="flex flex-wrap justify-center gap-4"
         >
           <a href={linkedin} target="_blank" rel="noopener noreferrer">
             <Button variant="outline" size="sm">
@@ -118,7 +118,7 @@ export function HeroSection({
         initial={{ opacity: 0, y: 20 }}
         animate={{ opacity: 1, y: 0 }}
         transition={{ duration: 0.6, delay: 0.8 }}
-        className="absolute bottom-10 left-0 right-0 flex justify-center"
+        className="mt-[100px] sm:mt-[200px]"
       >
         <Button
           size="icon"
