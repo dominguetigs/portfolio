@@ -187,18 +187,9 @@
     background-image: url(https://matsu-theme.vercel.app/texture.jpg);
     background-size: 100% 100%;
     background-repeat: repeat;
-    opacity: 0.45;
+    opacity: 0.15;
     mix-blend-mode: screen;
-    filter: contrast(1.7) brightness(0.4) invert(0.25);
+    filter: contrast(1.3) brightness(0.45) invert(0.1);
     display: block;
-  }
-
-  /* Removendo as classes não utilizadas */
-  .dark-texture {
-    display: none;
-  }
-
-  .dark .dark-texture {
-    display: none;
   }
 }
