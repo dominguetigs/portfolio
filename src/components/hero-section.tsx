@@ -3,6 +3,7 @@
 import { motion } from 'framer-motion';
 import { Button } from '@/components/ui/button';
 import { ArrowDown } from 'lucide-react';
+import Image from 'next/image';
 
 interface HeroSectionProps {
   name: string;
@@ -36,6 +37,29 @@ export function HeroSection({
           transition={{ duration: 0.6 }}
           className="mb-6"
         >
+          <motion.div
+            initial={{ opacity: 0, scale: 0.8 }}
+            animate={{ opacity: 1, scale: 1 }}
+            transition={{ duration: 0.8, type: 'spring' }}
+            className="mb-6 relative"
+          >
+            <div className="w-48 h-48 mx-auto relative mb-6 overflow-hidden rounded-full border-4 border-primary/20 shadow-lg">
+              <Image
+                src="/hero-profile.png"
+                alt="Profile"
+                fill
+                sizes="(max-width: 768px) 100vw, 192px"
+                className="object-cover"
+                style={{
+                  filter: 'contrast(1.05) saturate(1.1)',
+                }}
+                priority
+              />
+              <div className="absolute inset-0 bg-gradient-to-b from-primary/5 to-transparent mix-blend-overlay"></div>
+            </div>
+            <div className="absolute -z-10 w-64 h-64 rounded-full blur-3xl bg-primary/10 opacity-60 top-1/2 left-1/2 transform -translate-x-1/2 -translate-y-1/2"></div>
+          </motion.div>
+
           <h1 className="text-4xl sm:text-5xl md:text-6xl font-bold mb-2">
             {name}
           </h1>
