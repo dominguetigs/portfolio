@@ -145,7 +145,7 @@ export function SplashScreen({ onComplete }: SplashScreenProps) {
                     <div className="flex">
                       {/* Numeração de linhas */}
                       <div
-                        className="mr-4 text-gray-500 font-mono text-xs text-right pr-2 select-none border-r border-gray-700/50"
+                        className="mr-4 text-gray-500 font-mono text-xs text-right pr-2 select-none"
                         style={{ minWidth: '1.5rem' }}
                       >
                         {displayedCode.split('\n').map((_, i) => (
