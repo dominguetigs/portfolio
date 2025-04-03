@@ -49,6 +49,38 @@ export default function RootLayout({
           content="Gustavo Domingueti - Portfolio"
         />
         <meta property="og:locale" content="pt_BR" />
+        <meta
+          name="viewport"
+          content="width=device-width, initial-scale=1.0, viewport-fit=cover, user-scalable=no"
+        />
+        <meta name="orientation" content="portrait" />
+        <style>
+          {`
+            @media only screen and (max-width: 1024px) and (orientation: landscape) {
+              body::before {
+                content: "Por favor, gire o dispositivo para o modo retrato";
+                position: fixed;
+                top: 0;
+                left: 0;
+                width: 100%;
+                height: 100%;
+                background-color: var(--background);
+                color: var(--foreground);
+                display: flex;
+                align-items: center;
+                justify-content: center;
+                font-size: 1.5rem;
+                font-family: var(--font-nunito);
+                text-align: center;
+                padding: 2rem;
+                z-index: 9999;
+              }
+              body > div {
+                display: none;
+              }
+            }
+          `}
+        </style>
       </head>
       <body
         className={`${nunito.variable} ${ptSans.variable} antialiased relative`}
