@@ -25,7 +25,7 @@ export function HeroSection({
   email,
   linkedin,
   github,
-  twitter,
+  // twitter,
   onScrollDown,
 }: HeroSectionProps) {
   return (
@@ -106,11 +106,11 @@ export function HeroSection({
               GitHub
             </Button>
           </a>
-          <a href={twitter} target="_blank" rel="noopener noreferrer">
+          {/* <a href={twitter} target="_blank" rel="noopener noreferrer">
             <Button variant="outline" size="sm">
               Twitter
             </Button>
-          </a>
+          </a> */}
         </motion.div>
       </div>
 
