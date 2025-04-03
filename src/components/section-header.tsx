@@ -13,6 +13,9 @@ export function SectionHeader({ title }: SectionHeaderProps) {
     threshold: 0.1,
   });
 
+  // ID para o título, usando o título em lowercase e removendo espaços
+  const titleId = `title-${title.toLowerCase().replace(/\s+/g, '-')}`;
+
   return (
     <motion.div
       ref={ref}
@@ -21,7 +24,10 @@ export function SectionHeader({ title }: SectionHeaderProps) {
       transition={{ duration: 0.5 }}
       className="mb-8"
     >
-      <h2 className="text-2xl font-bold text-primary relative inline-block">
+      <h2
+        id={titleId}
+        className="text-2xl font-bold text-primary relative inline-block"
+      >
         {title}
         <motion.div
           initial={{ width: 0 }}

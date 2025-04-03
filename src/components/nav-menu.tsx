@@ -90,7 +90,7 @@ export function NavMenu({ sections }: NavMenuProps) {
       try {
         const scrollY = window.scrollY || document.documentElement.scrollTop;
         const viewportHeight = window.innerHeight;
-        const scrollPosition = scrollY + viewportHeight / 4;
+        const scrollPosition = scrollY + 80; // Usar uma posição mais próxima ao topo da tela
 
         // Verificar se estamos na seção hero ou próximo do topo da página
         const isAtHeroSection = scrollY < viewportHeight * 0.9;
@@ -106,49 +106,31 @@ export function NavMenu({ sections }: NavMenuProps) {
 
         // Encontrar qual seção está visível na posição atual
         let currentSection = null;
+        let minDistance = Infinity;
 
-        // Percorrer as seções da última para a primeira
-        for (let i = sections.length - 1; i >= 0; i--) {
-          const section = sections[i];
+        // Para cada seção, calcular a distância entre o topo da seção e a posição de referência
+        for (const section of sections) {
           const element = document.getElementById(section.id);
 
           if (element) {
-            const rect = element.getBoundingClientRect();
+            // Tentar encontrar o título da seção
+            const titleId = `title-${section.label.toLowerCase().replace(/\s+/g, '-')}`;
+            const titleElement =
+              document.getElementById(titleId) ||
+              element.querySelector('h2') ||
+              element.firstElementChild;
+
+            const targetElement = titleElement || element;
+            const rect = targetElement.getBoundingClientRect();
             const elementTop = scrollY + rect.top;
-            const elementBottom = elementTop + rect.height;
+            const distance = Math.abs(scrollPosition - elementTop);
 
-            // Se a posição de rolagem está dentro desta seção
-            if (
-              scrollPosition >= elementTop &&
-              scrollPosition <= elementBottom
-            ) {
+            // A seção cuja distância do título ao topo da viewport é a menor
+            if (distance < minDistance) {
+              minDistance = distance;
               currentSection = section.id;
-              break;
             }
           }
-        }
-
-        // Se nenhuma seção foi encontrada, tente uma abordagem mais simples
-        if (!currentSection) {
-          for (const section of sections) {
-            const element = document.getElementById(section.id);
-            if (element) {
-              const rect = element.getBoundingClientRect();
-              // Se a seção estiver pelo menos parcialmente visível
-              if (rect.top < viewportHeight && rect.bottom > 0) {
-                currentSection = section.id;
-                // Quanto mais centralizada a seção, maior a probabilidade de ser escolhida
-                if (rect.top > 0 && rect.top < viewportHeight / 2) {
-                  break;
-                }
-              }
-            }
-          }
-        }
-
-        // Se ainda não encontrou, use a primeira seção
-        if (!currentSection && sections.length > 0) {
-          currentSection = sections[0].id;
         }
 
         // Apenas atualizar se a seção ativa mudou
@@ -196,31 +178,76 @@ export function NavMenu({ sections }: NavMenuProps) {
       // Marcar que o usuário clicou e atualizar a seção ativa
       setUserClicked(true);
       setActiveSection(id);
-      // Não forçamos mais o menu a ficar visível indefinidamente
-      // Deixamos a lógica de scroll natural determinar a visibilidade
 
       // Limpar qualquer timeout existente
       if (timeoutRef.current) {
         clearTimeout(timeoutRef.current);
       }
 
-      // Rolar para a seção
-      const element = document.getElementById(id);
-      if (element) {
-        const headerOffset = 80;
-        const elementPosition = element.getBoundingClientRect().top;
-        const offsetPosition = elementPosition + window.scrollY - headerOffset;
+      // Obter o elemento da seção
+      const sectionElement = document.getElementById(id);
 
+      if (sectionElement) {
+        // Procurar pelo título da seção com ID específico
+        const titleId = `title-${sections
+          .find(s => s.id === id)
+          ?.label.toLowerCase()
+          .replace(/\s+/g, '-')}`;
+        const titleElement =
+          document.getElementById(titleId) ||
+          sectionElement.querySelector('h2') ||
+          sectionElement.firstElementChild;
+
+        const targetElement = titleElement || sectionElement;
+
+        // Posição desejada do título na tela (em px a partir do topo)
+        const desiredTopPosition = 100;
+
+        // Calcular a posição de scroll para posicionar o elemento na posição desejada
+        const rect = targetElement.getBoundingClientRect();
+        const currentTopPosition = rect.top;
+        const currentScrollPosition = window.scrollY;
+
+        // Quanto precisamos rolar para que o elemento esteja na posição desejada
+        const offsetPosition =
+          currentScrollPosition + (currentTopPosition - desiredTopPosition);
+
+        // Realizar o scroll
         window.scrollTo({
-          top: offsetPosition,
+          top: Math.max(0, offsetPosition), // Evitar valores negativos
           behavior: 'smooth',
         });
 
-        // Reativar a detecção de scroll após a animação terminar
-        // Tempo aumentado para garantir que a animação de scroll termine
+        // Verificar se o título está visível após o scroll
+        const checkTitleVisibility = () => {
+          // Se o elemento não existir mais, retorne
+          if (!targetElement) return;
+
+          const newRect = targetElement.getBoundingClientRect();
+
+          // Se o topo do elemento estiver fora da área visível, ajuste
+          if (newRect.top < 30) {
+            // Ajuste adicional para garantir que o título esteja visível
+            window.scrollBy({
+              top: newRect.top - desiredTopPosition,
+              behavior: 'smooth',
+            });
+          } else if (newRect.top > 150) {
+            // Se estiver muito abaixo, também ajustar
+            window.scrollBy({
+              top: newRect.top - desiredTopPosition,
+              behavior: 'smooth',
+            });
+          }
+        };
+
+        // Reativar a detecção de scroll após a animação terminar e verificar visibilidade
         timeoutRef.current = setTimeout(() => {
-          setUserClicked(false);
-        }, 1200);
+          checkTitleVisibility();
+          setTimeout(() => {
+            setUserClicked(false);
+          }, 300);
+        }, 1000);
       }
     } catch (error) {
       console.error('Erro ao rolar para seção:', error);
