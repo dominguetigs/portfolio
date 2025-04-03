@@ -18,6 +18,37 @@ const sectionIcons: Record<string, React.ReactNode> = {
   languages: <Globe className="h-4 w-4" />,
 };
 
+// Função de throttle para limitar a frequência de chamadas de uma função
+function throttle<T extends (...args: unknown[]) => unknown>(
+  func: T,
+  delay: number,
+): (...args: Parameters<T>) => void {
+  let lastCall = 0;
+  return (...args: Parameters<T>) => {
+    const now = Date.now();
+    if (now - lastCall >= delay) {
+      lastCall = now;
+      func(...args);
+    }
+  };
+}
+
+// Função de debounce para atrasar a execução de uma função
+function debounce<T extends (...args: unknown[]) => unknown>(
+  func: T,
+  delay: number,
+): (...args: Parameters<T>) => void {
+  let timeoutId: NodeJS.Timeout | null = null;
+  return (...args: Parameters<T>) => {
+    if (timeoutId) {
+      clearTimeout(timeoutId);
+    }
+    timeoutId = setTimeout(() => {
+      func(...args);
+    }, delay);
+  };
+}
+
 export function NavMenu({ sections }: NavMenuProps) {
   const [activeSection, setActiveSection] = useState('');
   const [userClicked, setUserClicked] = useState(false);
@@ -56,9 +87,6 @@ export function NavMenu({ sections }: NavMenuProps) {
 
     // Função para lidar com o scroll
     const handleScroll = () => {
-      // Se o usuário acabou de clicar, não modifique a seção ativa
-      if (userClicked) return;
-
       try {
         const scrollY = window.scrollY || document.documentElement.scrollTop;
         const viewportHeight = window.innerHeight;
@@ -71,6 +99,10 @@ export function NavMenu({ sections }: NavMenuProps) {
         if (showMenu !== !isAtHeroSection) {
           setShowMenu(!isAtHeroSection);
         }
+
+        // Se o usuário acabou de clicar, não modifique a seção ativa
+        // mas ainda permite que o menu desapareça quando necessário
+        if (userClicked) return;
 
         // Encontrar qual seção está visível na posição atual
         let currentSection = null;
@@ -128,15 +160,28 @@ export function NavMenu({ sections }: NavMenuProps) {
       }
     };
 
-    // Registrar o event listener
-    window.addEventListener('scroll', handleScroll);
+    // Aplicar throttle e debounce à função de scroll
+    const throttledHandleScroll = throttle(handleScroll, 50);
+
+    // Debounce para atualização da visibilidade do menu
+    const debouncedVisibilityUpdate = debounce(() => {
+      const scrollY = window.scrollY || document.documentElement.scrollTop;
+      const viewportHeight = window.innerHeight;
+      const isAtHeroSection = scrollY < viewportHeight * 0.9;
+      setShowMenu(!isAtHeroSection);
+    }, 150);
+
+    // Registrar os event listeners
+    window.addEventListener('scroll', throttledHandleScroll);
+    window.addEventListener('scroll', debouncedVisibilityUpdate);
 
     // Executar uma vez para definir a seção inicial
     setTimeout(handleScroll, 200);
 
     // Limpar
     return () => {
-      window.removeEventListener('scroll', handleScroll);
+      window.removeEventListener('scroll', throttledHandleScroll);
+      window.removeEventListener('scroll', debouncedVisibilityUpdate);
       if (timeoutRef.current) {
         clearTimeout(timeoutRef.current);
       }
@@ -151,7 +196,8 @@ export function NavMenu({ sections }: NavMenuProps) {
       // Marcar que o usuário clicou e atualizar a seção ativa
       setUserClicked(true);
       setActiveSection(id);
-      setShowMenu(true); // Sempre mostrar o menu quando um item for clicado
+      // Não forçamos mais o menu a ficar visível indefinidamente
+      // Deixamos a lógica de scroll natural determinar a visibilidade
 
       // Limpar qualquer timeout existente
       if (timeoutRef.current) {
@@ -171,9 +217,10 @@ export function NavMenu({ sections }: NavMenuProps) {
         });
 
         // Reativar a detecção de scroll após a animação terminar
+        // Tempo aumentado para garantir que a animação de scroll termine
         timeoutRef.current = setTimeout(() => {
           setUserClicked(false);
-        }, 1000);
+        }, 1200);
       }
     } catch (error) {
       console.error('Erro ao rolar para seção:', error);
