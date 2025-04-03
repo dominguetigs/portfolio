@@ -3,6 +3,7 @@ import { Nunito } from 'next/font/google';
 import { PT_Sans } from 'next/font/google';
 import './globals.css';
 import { ThemeProvider } from '@/components/theme-provider';
+import { MainContent } from '@/components/main-content';
 
 const nunito = Nunito({
   variable: '--font-nunito',
@@ -58,8 +59,7 @@ export default function RootLayout({
           enableSystem
           disableTransitionOnChange
         >
-          <div className="texture" />
-          {children}
+          <MainContent>{children}</MainContent>
         </ThemeProvider>
       </body>
     </html>
