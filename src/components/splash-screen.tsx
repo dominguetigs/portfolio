@@ -127,6 +127,8 @@ export function SplashScreen({ onComplete }: SplashScreenProps) {
           }}
           className="fixed inset-0 z-50 flex items-center justify-center bg-background"
         >
+          {/* Add texture background */}
+          <div className="texture" />
           <div className="relative w-[500px] h-[300px]">
             {/* Container do código */}
             <div className="absolute inset-0 flex items-center justify-center">
