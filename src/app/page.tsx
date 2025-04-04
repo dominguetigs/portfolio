@@ -10,7 +10,7 @@ import { TechSkillItem } from '@/components/tech-skill-item';
 import { ExperienceItem } from '@/components/experience-item';
 import { EducationItem } from '@/components/education-item';
 import { motion } from 'framer-motion';
-import { GraduationCap, Award } from 'lucide-react';
+import { GraduationCap, Award, Check } from 'lucide-react';
 
 const sections = [
   { id: 'about', label: 'Sobre' },
@@ -170,25 +170,101 @@ export default function Home() {
           <div className="space-y-2">
             <ExperienceItem
               period="2023 – Atual"
-              title="Engenheiro Frontend"
+              title="Líder Técnico Frontend • Engenheiro Frontend"
               company="Tagme"
-              location="São Paulo, SP"
-              description="Experiência em uma equipe dedicada ao desenvolvimento de sistemas para restaurantes."
-              responsibilities={[
-                'Liderança na construção de um novo menu customizável para cardápios.',
-                'Liderança do front-end geral da empresa, aplicando boas práticas e criando bibliotecas.',
-                'Liderança de um time na construção de um novo aplicativo em React Native.',
-                'Utilização das tecnologias Angular, React/Next, e Tailwind CSS.',
-              ]}
+              location="Rio de Janeiro, RJ"
+              description={
+                <>
+                  <div className="absolute -top-3 right-5 bg-primary text-white text-xs px-2 py-1 rounded-md shadow-sm z-10">
+                    Atual
+                  </div>
+                  <div className="mb-6">
+                    <div className="flex items-center gap-2 mb-3">
+                      <span className="text-primary font-medium">
+                        Abr 2024 – Atual
+                      </span>
+                      <span className="text-sm bg-primary/10 px-2 py-0.5 rounded">
+                        Líder Técnico Frontend
+                      </span>
+                    </div>
+                    <div className="mb-4">
+                      <h4 className="font-medium mb-2 text-sm uppercase tracking-wide text-primary/70">
+                        Responsabilidades
+                      </h4>
+                      <ul className="space-y-2">
+                        {[
+                          'Responsável pela liderança da arquitetura Front-end da empresa, promovendo a aplicação de boas práticas e desenvolvendo bibliotecas reutilizáveis.',
+                          'Liderança e execução na criação de um sistema de cardápios customizável, utilizando Next.js/React.js, garantindo flexibilidade e escalabilidade.',
+                          'Liderança e desenvolvimento de um sistema administrativo centralizado para gestão dos produtos da empresa, utilizando tecnologias como NX, microfrontends, Dynamic Federation e Angular 18.',
+                        ].map((item, idx) => (
+                          <motion.li
+                            key={`lead-${idx}`}
+                            initial={{ opacity: 0, x: -10 }}
+                            animate={{ opacity: 1, x: 0 }}
+                            transition={{
+                              duration: 0.3,
+                              delay: 0.1 + idx * 0.05,
+                            }}
+                            className="flex gap-2"
+                          >
+                            <Check className="h-5 w-5 text-primary flex-shrink-0 mt-0.5" />
+                            <span>{item}</span>
+                          </motion.li>
+                        ))}
+                      </ul>
+                    </div>
+                  </div>
+                  <div>
+                    <div className="flex items-center gap-2 mb-3">
+                      <span className="text-primary font-medium">
+                        Nov 2023 – Atual
+                      </span>
+                      <span className="text-sm bg-primary/10 px-2 py-0.5 rounded">
+                        Engenheiro Frontend
+                      </span>
+                    </div>
+                    <div>
+                      <h4 className="font-medium mb-2 text-sm uppercase tracking-wide text-primary/70">
+                        Responsabilidades
+                      </h4>
+                      <ul className="space-y-2">
+                        {[
+                          'Manutenção de sistema customizado de cardápios.',
+                          'Manutenção e novas features de Admin para configuração dos cardápios.',
+                          'Utilização das tecnologias Angular, React/Next, e Tailwind CSS.',
+                        ].map((item, idx) => (
+                          <motion.li
+                            key={`eng-${idx}`}
+                            initial={{ opacity: 0, x: -10 }}
+                            animate={{ opacity: 1, x: 0 }}
+                            transition={{
+                              duration: 0.3,
+                              delay: 0.1 + idx * 0.05,
+                            }}
+                            className="flex gap-2"
+                          >
+                            <Check className="h-5 w-5 text-primary flex-shrink-0 mt-0.5" />
+                            <span>{item}</span>
+                          </motion.li>
+                        ))}
+                      </ul>
+                    </div>
+                  </div>
+                </>
+              }
+              responsibilities={[]}
               technologies={[
                 'Angular',
                 'React',
                 'Next.js',
                 'Tailwind CSS',
-                'React Native',
                 'TypeScript',
+                'NX',
+                'Microfrontends',
+                'Dynamic Federation',
               ]}
               delay={0.1}
+              className="border-l-4 border-primary/60 shadow-md"
             />
 
             <ExperienceItem
