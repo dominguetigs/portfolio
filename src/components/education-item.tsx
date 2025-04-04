@@ -3,6 +3,7 @@
 import { motion } from 'framer-motion';
 import { GraduationCap, Award, Calendar, MapPin, Building } from 'lucide-react';
 import React from 'react';
+import { Badge } from '@/components/ui/badge';
 
 interface EducationItemProps {
   period: string;
@@ -81,9 +82,7 @@ export function EducationItem({
           </span>
         </div>
 
-        <div className="inline-block bg-muted px-2 py-0.5 rounded text-xs font-medium mb-2">
-          {type}
-        </div>
+        <Badge variant="secondary">{type}</Badge>
 
         {description && (
           <p className="text-muted-foreground text-xs sm:text-sm mt-2">

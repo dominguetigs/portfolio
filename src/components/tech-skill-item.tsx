@@ -1,6 +1,7 @@
 'use client';
 
 import { motion } from 'framer-motion';
+import { Card } from '@/components/ui/card';
 import {
   Code,
   CodeSquare,
@@ -198,27 +199,28 @@ export function TechSkillItem({ label, items, delay = 0 }: TechSkillItemProps) {
             initial={{ opacity: 0, y: 10 }}
             animate={{ opacity: 1, y: 0 }}
             transition={{ duration: 0.3, delay: delay + index * 0.05 }}
-            className="bg-card border rounded-lg p-3 hover:shadow-md transition-shadow"
           >
-            <div className="flex items-center gap-2 mb-2">
-              <span className="text-primary">
-                {techIcons[item] || <Code className="h-5 w-5" />}
-              </span>
-              <span className="font-medium">{item}</span>
-            </div>
+            <Card className="p-3 hover:shadow-md transition-shadow">
+              <div className="flex items-center gap-2 mb-2">
+                <span className="text-primary">
+                  {techIcons[item] || <Code className="h-5 w-5" />}
+                </span>
+                <span className="font-medium">{item}</span>
+              </div>
 
-            <div className="flex gap-1">
-              {[1, 2, 3, 4, 5].map(i => (
-                <div
-                  key={i}
-                  className={`w-5 h-2 rounded-full ${
-                    i <= (techSkillLevels[item] || 3)
-                      ? 'bg-primary'
-                      : 'bg-muted'
-                  }`}
-                ></div>
-              ))}
-            </div>
+              <div className="flex gap-1">
+                {[1, 2, 3, 4, 5].map(i => (
+                  <div
+                    key={i}
+                    className={`w-5 h-2 rounded-full ${
+                      i <= (techSkillLevels[item] || 3)
+                        ? 'bg-primary'
+                        : 'bg-muted'
+                    }`}
+                  ></div>
+                ))}
+              </div>
+            </Card>
           </motion.div>
         ))}
       </div>

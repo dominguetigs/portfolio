@@ -3,6 +3,7 @@
 import { motion } from 'framer-motion';
 import { Building2, Calendar, MapPin, Check, Code } from 'lucide-react';
 import { ReactNode } from 'react';
+import { Badge } from '@/components/ui/badge';
 
 interface ExperienceItemProps {
   period: string;
@@ -98,7 +99,7 @@ export function ExperienceItem({
             </h4>
             <div className="flex flex-wrap gap-2">
               {technologies.map((tech, index) => (
-                <motion.span
+                <motion.div
                   key={index}
                   initial={{ opacity: 0, scale: 0.8 }}
                   animate={{ opacity: 1, scale: 1 }}
@@ -106,10 +107,9 @@ export function ExperienceItem({
                     duration: 0.2,
                     delay: delay + 0.2 + index * 0.05,
                   }}
-                  className="bg-primary/10 text-primary px-3 py-1 rounded-full text-sm font-medium"
                 >
-                  {tech}
-                </motion.span>
+                  <Badge variant="secondary">{tech}</Badge>
+                </motion.div>
               ))}
             </div>
           </div>

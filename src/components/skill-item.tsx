@@ -1,6 +1,7 @@
 'use client';
 
 import { motion } from 'framer-motion';
+import { Badge } from '@/components/ui/badge';
 
 interface SkillItemProps {
   label: string;
@@ -28,15 +29,14 @@ export function SkillItem({ label, items, delay = 0 }: SkillItemProps) {
             transition={{ staggerChildren: 0.1, delayChildren: delay + 0.2 }}
           >
             {items.map((item, index) => (
-              <motion.span
+              <motion.div
                 key={index}
                 initial={{ opacity: 0, scale: 0.8 }}
                 animate={{ opacity: 1, scale: 1 }}
                 transition={{ duration: 0.3 }}
-                className="bg-muted px-3 py-1 rounded-full text-sm"
               >
-                {item}
-              </motion.span>
+                <Badge variant="outline">{item}</Badge>
+              </motion.div>
             ))}
           </motion.div>
         </div>
