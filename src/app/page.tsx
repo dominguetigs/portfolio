@@ -300,7 +300,7 @@ export default function Home() {
               title="Engenheiro Frontend"
               company="Zup Innovation"
               location="São Paulo, SP"
-              description="Experiência na squad Pj Emps da tribo de Seguros do banco Itaú."
+              description=""
               responsibilities={[
                 'Experiência na squad Pj Emps da tribo de Seguros do banco Itaú.',
                 'Desenvolvimento do fluxo completo para consultores de seguros.',
@@ -356,7 +356,7 @@ export default function Home() {
               title="Desenvolvedor de Software"
               company="Digesto Pesquisa e Banco de Dados"
               location="São Paulo, SP"
-              description="Desenvolvimento de software para pesquisa e banco de dados jurídicos."
+              description="No Digesto, fiz parte de um time onde a principal responsabilidade era dar suporte/customizar/promover o principal produto da empresa - Digesto Informações processuais - onde o cliente - advogados, escritórios de advocacia e empresas que queriam melhor controle de seu jurídico - tinham disponível uma plataforma em que conseguiam monitorar seus processos, acompanhar e distribuir os mesmos e através disso obter informações concretas."
               responsibilities={[
                 'Desenvolvimento Frontend com Angular 7, 8, 9, Sass, HTML5 e Angular Material.',
                 'Testes E2E com Cypress.',
@@ -384,6 +384,69 @@ export default function Home() {
                 'Scrum',
               ]}
               delay={0.6}
+            />
+
+            <ExperienceItem
+              period="2018 – 2019"
+              title="Analista de Desenvolvimento"
+              company="Cedro Technologies"
+              location="São Paulo, SP"
+              description="Participação no desenvolvimento de diversos projetos do ramo financeiro, incluindo a construção do Front-end da plataforma ImparCapital desde o início."
+              responsibilities={[
+                'Utilização de Angular 6 no Frontend para criar interfaces de usuário dinâmicas e responsivas.',
+                'Estilização do Frontend utilizando Sass para garantir uma apresentação visual atraente e moderna.',
+                'Contribuição no Backend utilizando .NET Core para fornecer a lógica de negócios e funcionalidades necessárias aos sistemas financeiros.',
+                'Utilização do banco de dados MySQL para armazenar e gerenciar os dados dos projetos.',
+                'Versionamento do código-fonte realizado com Git para facilitar o trabalho colaborativo e rastrear as alterações.',
+              ]}
+              technologies={['Angular 6', 'Sass', '.NET Core', 'MySQL', 'Git']}
+              delay={0.7}
+            />
+
+            <ExperienceItem
+              period="2018 – 2018"
+              title="Web UI Developer"
+              company="Grupo Sym"
+              location="Divinópolis, MG"
+              description="Desenvolvimento de sistema de apoio ao público profissional de Medicina."
+              responsibilities={[
+                'Desenvolvimento Frontend em um sistema de apoio ao público profissional de Medicina, utilizando AngularJS.',
+                'Estilização do Frontend utilizando Sass para garantir uma apresentação visual atraente e consistente.',
+                'Contribuição no Backend utilizando .Net Core para fornecer suporte e funcionalidades essenciais ao sistema.',
+                'Utilização do Controle de Versão SVN para gerenciar e rastrear alterações no código-fonte.',
+                'Customização e implementação de quebra de páginas no editor de texto, semelhante ao Microsoft Word, para melhorar a usabilidade e a experiência do usuário.',
+              ]}
+              technologies={['AngularJS', 'Sass', '.NET Core', 'SVN']}
+              delay={0.8}
+            />
+
+            <ExperienceItem
+              period="2016 – 2018"
+              title="Full Stack Web Developer"
+              company="Find Soluções Corporativa Ltda"
+              location="Divinópolis, MG"
+              description="Desenvolvimento Full Stack em projeto de rede social estudantil."
+              responsibilities={[
+                'Utilização de AngularJS no Frontend, com Gulp para o fluxo de trabalho e LESS para estilização.',
+                'Implementação do Backend com Node.js.',
+                'Utilização do banco de dados NoSQL MongoDB.',
+                'Integração do Firebase para notificações em tempo real.',
+                'Utilização do Socket.IO para construção do chat na plataforma.',
+                'Utilização do Google Analytics para mapeamento da interação do usuário.',
+                'Controle de versão realizado com Git.',
+              ]}
+              technologies={[
+                'AngularJS',
+                'Node.js',
+                'MongoDB',
+                'Firebase',
+                'Socket.IO',
+                'LESS',
+                'Gulp',
+                'Git',
+                'Google Analytics',
+              ]}
+              delay={0.9}
             />
           </div>
         </MotionSection>
