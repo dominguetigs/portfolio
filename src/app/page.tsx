@@ -9,11 +9,12 @@ import { SectionHeader } from '@/components/section-header';
 import { TechSkillItem } from '@/components/tech-skill-item';
 import { ExperienceItem } from '@/components/experience-item';
 import { EducationItem } from '@/components/education-item';
+import { motion } from 'framer-motion';
 
 const sections = [
   { id: 'about', label: 'Sobre' },
   { id: 'skills', label: 'Habilidades' },
-  { id: 'experience', label: 'Experiência' },
+  { id: 'experience', label: 'Experiência Profissional' },
   { id: 'education', label: 'Educação' },
   { id: 'languages', label: 'Idiomas' },
 ];
@@ -152,8 +153,21 @@ export default function Home() {
         </MotionSection>
 
         <MotionSection id="experience" className="py-16" delay={0.1}>
-          <SectionHeader title="Experiência" />
-          <div className="space-y-12">
+          <SectionHeader title="Experiência Profissional" />
+          <motion.div
+            initial={{ opacity: 0 }}
+            animate={{ opacity: 1 }}
+            transition={{ duration: 0.5, delay: 0.2 }}
+            className="mb-8"
+          >
+            <p className="text-muted-foreground">
+              Minha jornada profissional inclui experiência em diferentes
+              setores e projetos, sempre focando em desenvolvimento frontend e
+              entrega de valor. A linha do tempo abaixo mostra minha trajetória
+              dos cargos mais recentes aos mais antigos.
+            </p>
+          </motion.div>
+          <div className="space-y-2">
             <ExperienceItem
               period="2023 – Atual"
               title="Engenheiro Frontend"
@@ -165,6 +179,14 @@ export default function Home() {
                 'Liderança do front-end geral da empresa, aplicando boas práticas e criando bibliotecas.',
                 'Liderança de um time na construção de um novo aplicativo em React Native.',
                 'Utilização das tecnologias Angular, React/Next, e Tailwind CSS.',
+              ]}
+              technologies={[
+                'Angular',
+                'React',
+                'Next.js',
+                'Tailwind CSS',
+                'React Native',
+                'TypeScript',
               ]}
               delay={0.1}
             />
@@ -185,6 +207,15 @@ export default function Home() {
                 'Participação ativa na definição da arquitetura dos projetos Front-end.',
                 'Contribuição na mentoria de estagiários/juniores da equipe.',
               ]}
+              technologies={[
+                'Vue.js',
+                'Angular',
+                'Next.js',
+                'React',
+                'Shopify',
+                'Sass',
+                'JavaScript',
+              ]}
               delay={0.2}
             />
 
@@ -204,6 +235,15 @@ export default function Home() {
                 'Utilização do Gitflow para gerenciamento do código.',
                 'Configuração de build/deploy em esteiras da AWS.',
               ]}
+              technologies={[
+                'Angular',
+                'React',
+                'Web Components',
+                'Jest',
+                'Nx',
+                'AWS',
+                'GitFlow',
+              ]}
               delay={0.3}
             />
 
@@ -218,6 +258,7 @@ export default function Home() {
                 'Participação em segmentos migrados para Angular 4+, contribuindo para a modernização.',
                 'Envolvimento em diversas frentes, incluindo Plantão, Credenciamento, Corporativo e Blindagem.',
               ]}
+              technologies={['JSP', 'jQuery', 'Angular', 'JavaScript']}
               delay={0.4}
             />
 
@@ -230,6 +271,7 @@ export default function Home() {
               responsibilities={[
                 'Trabalho intensivo com Angular, começando com a versão 4 e migrando para a versão 10.',
               ]}
+              technologies={['Angular', 'TypeScript', 'RxJS', 'SCSS']}
               delay={0.5}
             />
 
@@ -251,6 +293,19 @@ export default function Home() {
                 'Atuação como Scrum Master, responsável pelo planejamento de sprints e daily meetings.',
                 'Participação em projetos importantes do Governo, incluindo STF Jurisprudência e STF CMS.',
                 'Suporte ao cliente e orientação para a utilização do sistema.',
+              ]}
+              technologies={[
+                'Angular',
+                'Angular Material',
+                'Sass',
+                'HTML5',
+                'Cypress',
+                'Python',
+                'Flask',
+                'MySQL',
+                'PostgreSQL',
+                'Git',
+                'Scrum',
               ]}
               delay={0.6}
             />
