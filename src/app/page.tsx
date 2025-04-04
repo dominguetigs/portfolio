@@ -6,7 +6,7 @@ import { HeroSection } from '@/components/hero-section';
 import { NavMenu } from '@/components/nav-menu';
 import { MotionSection } from '@/components/motion-section';
 import { SectionHeader } from '@/components/section-header';
-import { SkillItem } from '@/components/skill-item';
+import { TechSkillItem } from '@/components/tech-skill-item';
 import { ExperienceItem } from '@/components/experience-item';
 import { EducationItem } from '@/components/education-item';
 
@@ -78,7 +78,7 @@ export default function Home() {
           <SectionHeader title="Habilidades" />
           <div className="space-y-8">
             <div>
-              <SkillItem
+              <TechSkillItem
                 label="Frontend"
                 items={[
                   'Vanilla JavaScript',
@@ -100,33 +100,37 @@ export default function Home() {
                 ]}
                 delay={0.1}
               />
-              <SkillItem
+              <TechSkillItem
                 label="Transpiladores"
                 items={['Less', 'Sass', 'Typescript']}
                 delay={0.2}
               />
-              <SkillItem
+              <TechSkillItem
                 label="Backend"
                 items={['NodeJS', 'Python', 'Elixir']}
                 delay={0.3}
               />
-              <SkillItem label="Websockets" items={['Socket.Io']} delay={0.4} />
-              <SkillItem
+              <TechSkillItem
+                label="Websockets"
+                items={['Socket.Io']}
+                delay={0.4}
+              />
+              <TechSkillItem
                 label="Testes"
                 items={['Protractor', 'Karma', 'Cypress', 'Jest']}
                 delay={0.5}
               />
-              <SkillItem
+              <TechSkillItem
                 label="Task Mng."
                 items={['Gulp', 'Grunt', 'Webpack']}
                 delay={0.6}
               />
-              <SkillItem
+              <TechSkillItem
                 label="Pkg Mng."
                 items={['Bower', 'Npm', 'Yarn']}
                 delay={0.7}
               />
-              <SkillItem
+              <TechSkillItem
                 label="Database"
                 items={[
                   'MySQL',
@@ -136,13 +140,13 @@ export default function Home() {
                 ]}
                 delay={0.8}
               />
-              <SkillItem label="Mobile" items={['Ionic 4']} delay={0.9} />
-              <SkillItem
+              <TechSkillItem label="Mobile" items={['Ionic 4']} delay={0.9} />
+              <TechSkillItem
                 label="Infraestrutura"
                 items={['AWS', 'Firebase', 'Vercel']}
                 delay={1.0}
               />
-              <SkillItem label="ALM" items={['VSTS', 'Jira']} delay={1.1} />
+              <TechSkillItem label="ALM" items={['VSTS', 'Jira']} delay={1.1} />
             </div>
           </div>
         </MotionSection>
