@@ -175,7 +175,7 @@ export default function Home() {
               location="Rio de Janeiro, RJ"
               description={
                 <>
-                  <div className="absolute -top-3 right-5 bg-primary text-white text-xs px-2 py-1 rounded-md shadow-sm z-10">
+                  <div className="absolute -top-3 right-5 bg-primary text-background text-xs px-2 py-1 rounded-md shadow-sm z-10">
                     Atual
                   </div>
                   <div className="mb-6">
