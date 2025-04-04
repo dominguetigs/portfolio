@@ -10,6 +10,7 @@ import { TechSkillItem } from '@/components/tech-skill-item';
 import { ExperienceItem } from '@/components/experience-item';
 import { EducationItem } from '@/components/education-item';
 import { motion } from 'framer-motion';
+import { GraduationCap, Award } from 'lucide-react';
 
 const sections = [
   { id: 'about', label: 'Sobre' },
@@ -163,8 +164,7 @@ export default function Home() {
             <p className="text-muted-foreground">
               Minha jornada profissional inclui experiência em diferentes
               setores e projetos, sempre focando em desenvolvimento frontend e
-              entrega de valor. A linha do tempo abaixo mostra minha trajetória
-              dos cargos mais recentes aos mais antigos.
+              entrega de valor.
             </p>
           </motion.div>
           <div className="space-y-2">
@@ -314,93 +314,129 @@ export default function Home() {
 
         <MotionSection id="education" className="py-16" delay={0.1}>
           <SectionHeader title="Educação" />
-          <div className="space-y-8">
-            <EducationItem
-              period="2013-2017"
-              type="Bacharelado"
-              institution="Pitágoras"
-              course="Engenharia de Controle e Automação"
-              location="Divinópolis"
-              delay={0.1}
-            />
-            <EducationItem
-              period="2010-2011"
-              type="Técnico"
-              institution="CECON"
-              course="Análises clínicas"
-              location="Divinópolis"
-              delay={0.2}
-            />
-            <EducationItem
-              period="2003-2004"
-              type="Técnico"
-              institution="INFO"
-              course="Informática"
-              location="Varginha"
-              delay={0.3}
-            />
+          <motion.div
+            initial={{ opacity: 0 }}
+            animate={{ opacity: 1 }}
+            transition={{ duration: 0.5, delay: 0.2 }}
+            className="mb-6"
+          >
+            <p className="text-muted-foreground">
+              Minha formação acadêmica e cursos complementares que contribuíram
+              para o meu desenvolvimento profissional e aprimoramento técnico na
+              área de desenvolvimento.
+            </p>
+          </motion.div>
 
-            <div className="pt-8">
-              <h3 className="text-lg font-semibold mb-4">
-                Cursos e Certificações
+          <div className="space-y-10">
+            <div>
+              <h3 className="text-xl font-semibold mb-4 text-primary flex items-center gap-2">
+                <GraduationCap className="h-5 w-5" />
+                <span>Formação Acadêmica</span>
               </h3>
-              <div className="space-y-4">
+
+              <div className="mb-8">
                 <EducationItem
-                  period="2021–2023"
-                  type="Curso"
-                  institution="Rocketseat"
-                  course="Ignite, ReactJS"
-                  delay={0.4}
+                  period="2013-2017"
+                  type="Bacharelado"
+                  institution="Pitágoras"
+                  course="Engenharia de Controle e Automação"
+                  location="Divinópolis"
+                  description="Formação com foco em automação industrial, sistemas de controle, programação, eletrônica e gestão de projetos."
+                  delay={0.1}
+                  showTimeline={false}
                 />
                 <EducationItem
-                  period="4 horas"
-                  type="Curso"
-                  institution="Domestika"
-                  course="Programação Criativa: produza peças visuais com Javascript"
-                  delay={0.5}
+                  period="2010-2011"
+                  type="Técnico"
+                  institution="CECON"
+                  course="Análises clínicas"
+                  location="Divinópolis"
+                  description="Curso técnico em análises laboratoriais, desenvolvendo habilidades analíticas e metodológicas."
+                  delay={0.2}
+                  showTimeline={false}
                 />
                 <EducationItem
-                  period="21 horas"
-                  type="Curso"
-                  institution="desenvolvedor.io"
-                  course="Desenvolvimento Avançado em Angular"
-                  delay={0.6}
+                  period="2003-2004"
+                  type="Técnico"
+                  institution="INFO"
+                  course="Informática"
+                  location="Varginha"
+                  description="Curso técnico em informática, com foco em manutenção de computadores e fundamentos de programação."
+                  delay={0.3}
+                  isLast={true}
+                  showTimeline={false}
                 />
-                <EducationItem
-                  period="30 horas"
-                  type="Curso"
-                  institution="Cod3r"
-                  course="Javascript Funcional e Reativo"
-                  delay={0.7}
-                />
-                <EducationItem
-                  period="39 aulas"
-                  type="Curso"
-                  institution="Udemy"
-                  course="Protótipos rápidos e funcionais com Figma"
-                  delay={0.8}
-                />
-                <EducationItem
-                  period="8 horas"
-                  type="Curso"
-                  institution="Data Science Academy"
-                  course="Introdução à Ciência de Dados 2.0"
-                  delay={0.9}
-                />
-                <EducationItem
-                  period="8 horas"
-                  type="Curso"
-                  institution="Data Science Academy"
-                  course="Big Data Fundamentos 2.0"
-                  delay={1.0}
-                />
-                <EducationItem
-                  period="8 horas"
-                  type="Curso"
-                  institution="Data Science Academy"
-                  course="Inteligência Artificial Fundamentos"
-                  delay={1.1}
-                />
+              </div>
+            </div>
+
+            <div>
+              <h3 className="text-xl font-semibold mb-4 text-primary flex items-center gap-2">
+                <Award className="h-5 w-5" />
+                <span>Cursos e Certificações</span>
+              </h3>
+
+              <div className="grid grid-cols-1 lg:grid-cols-2 gap-x-6 gap-y-0 mt-0">
+                <div>
+                  <EducationItem
+                    period="2021–2023"
+                    type="Curso"
+                    institution="Rocketseat"
+                    course="Ignite - ReactJS"
+                    description="Curso avançado de ReactJS, abordando conceitos como Context API, Hooks, React Query, e desenvolvimento de aplicações modernas."
+                    delay={0.4}
+                    showTimeline={false}
+                  />
+                  <EducationItem
+                    period="21 horas"
+                    type="Curso"
+                    institution="desenvolvedor.io"
+                    course="Desenvolvimento Avançado em Angular"
+                    description="Aprofundamento em Angular, incluindo arquitetura de componentes, gerenciamento de estado, performance e técnicas avançadas."
+                    delay={0.5}
+                    showTimeline={false}
+                  />
+                  <EducationItem
+                    period="30 horas"
+                    type="Curso"
+                    institution="Cod3r"
+                    course="Javascript Funcional e Reativo"
+                    description="Programação funcional e reativa com JavaScript, explorando paradigmas funcionais e uso de RxJS."
+                    delay={0.6}
+                    isLast={true}
+                    showTimeline={false}
+                  />
+                </div>
+
+                <div>
+                  <EducationItem
+                    period="4 horas"
+                    type="Curso"
+                    institution="Domestika"
+                    course="Programação Criativa: produza peças visuais com Javascript"
+                    description="Curso de programação criativa com JavaScript para criar visualizações e animações interativas."
+                    delay={0.7}
+                    showTimeline={false}
+                  />
+                  <EducationItem
+                    period="39 aulas"
+                    type="Curso"
+                    institution="Udemy"
+                    course="Protótipos rápidos e funcionais com Figma"
+                    description="Criação de protótipos de alta fidelidade usando Figma, com foco em UX/UI Design e prototipagem interativa."
+                    delay={0.8}
+                    showTimeline={false}
+                  />
+                  <EducationItem
+                    period="8 horas"
+                    type="Curso"
+                    institution="Data Science Academy"
+                    course="Inteligência Artificial Fundamentos"
+                    description="Introdução aos conceitos fundamentais de inteligência artificial e aplicações práticas."
+                    delay={0.9}
+                    isLast={true}
+                    showTimeline={false}
+                  />
+                </div>
               </div>
             </div>
           </div>

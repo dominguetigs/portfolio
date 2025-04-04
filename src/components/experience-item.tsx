@@ -29,16 +29,16 @@ export function ExperienceItem({
       initial={{ opacity: 0, y: 20 }}
       animate={{ opacity: 1, y: 0 }}
       transition={{ duration: 0.5, delay }}
-      className="relative pl-8 pb-8"
+      className="relative pl-8 sm:pl-10 pb-10 mb-2"
     >
       {/* Timeline vertical line */}
-      <div className="absolute left-0 top-2 bottom-0 w-px bg-primary/40"></div>
+      <div className="absolute left-0 top-3 bottom-0 w-px bg-primary/40"></div>
 
       {/* Timeline circle */}
-      <div className="absolute left-[-6px] top-2 h-3 w-3 rounded-full bg-primary ring-4 ring-background"></div>
+      <div className="absolute left-[-6px] top-3 h-3 w-3 rounded-full bg-primary ring-4 ring-background"></div>
 
       {/* Content container */}
-      <div className="bg-card border rounded-lg p-5 shadow-sm hover:shadow-md transition-shadow">
+      <div className="bg-card border rounded-lg p-4 sm:p-5 shadow-sm hover:shadow-md transition-shadow">
         <div className="flex flex-col sm:flex-row sm:items-center justify-between mb-4 gap-2">
           <div className="flex items-center gap-2 text-primary font-medium">
             <Calendar className="h-4 w-4 flex-shrink-0" />
