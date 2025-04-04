@@ -47,49 +47,123 @@ export function EducationItem({
     >
       {/* Timeline vertical line - só mostra se tiver timeline habilitada e não for o último item */}
       {showTimeline && !isLast && (
-        <div className="absolute left-0 top-3 bottom-0 w-px bg-primary/40"></div>
+        <motion.div
+          className="absolute left-0 top-3 bottom-0 w-px bg-primary/40"
+          initial={{ height: 0 }}
+          animate={{ height: '100%' }}
+          transition={{ duration: 0.8, delay: delay + 0.2 }}
+        ></motion.div>
       )}
 
       {/* Timeline circle with icon - só mostra se tiver timeline habilitada */}
       {showTimeline && (
-        <div className="absolute left-[-8px] sm:left-[-10px] top-2 h-5 w-5 rounded-full bg-card border-2 border-primary flex items-center justify-center">
-          <span className="text-primary">{icon}</span>
-        </div>
+        <motion.div
+          className="absolute left-[-8px] sm:left-[-10px] top-2 h-5 w-5 rounded-full bg-card border-2 border-primary flex items-center justify-center"
+          initial={{ scale: 0, rotate: -90 }}
+          animate={{ scale: 1, rotate: 0 }}
+          transition={{
+            type: 'spring',
+            stiffness: 300,
+            damping: 15,
+            delay: delay + 0.1,
+          }}
+          whileHover={{
+            scale: 1.2,
+            rotate: 5,
+            boxShadow: '0 0 8px rgba(var(--primary), 0.5)',
+          }}
+        >
+          <motion.span className="text-primary" whileHover={{ scale: 1.2 }}>
+            {icon}
+          </motion.span>
+        </motion.div>
       )}
 
       {/* Content container */}
-      <div className="bg-card border rounded-lg p-4 shadow-sm hover:shadow-md transition-shadow">
+      <motion.div
+        className="bg-card border rounded-lg p-4 shadow-sm hover:shadow-md transition-all"
+        whileHover={{
+          y: -5,
+          transition: { type: 'spring', stiffness: 400, damping: 10 },
+        }}
+      >
         <div className="flex flex-row flex-wrap items-center justify-between mb-2 sm:mb-3 gap-1 sm:gap-2">
-          <div className="flex items-center gap-1.5 text-primary font-medium">
+          <motion.div
+            className="flex items-center gap-1.5 text-primary font-medium"
+            initial={{ opacity: 0 }}
+            animate={{ opacity: 1 }}
+            transition={{ duration: 0.5, delay: delay + 0.3 }}
+          >
             <Calendar className="h-3.5 w-3.5 sm:h-4 sm:w-4 flex-shrink-0" />
             <span className="text-sm sm:text-base">{period}</span>
-          </div>
+          </motion.div>
 
           {location && (
-            <div className="flex items-center gap-1.5 text-muted-foreground">
+            <motion.div
+              className="flex items-center gap-1.5 text-muted-foreground"
+              initial={{ opacity: 0 }}
+              animate={{ opacity: 1 }}
+              transition={{ duration: 0.5, delay: delay + 0.3 }}
+            >
               <MapPin className="h-3.5 w-3.5 sm:h-4 sm:w-4 flex-shrink-0" />
               <span className="text-xs sm:text-sm">{location}</span>
-            </div>
+            </motion.div>
           )}
         </div>
 
-        <h3 className="text-base sm:text-lg font-semibold mb-1">{course}</h3>
+        <motion.h3
+          className="text-base sm:text-lg font-semibold mb-1"
+          initial={{ opacity: 0, y: 5 }}
+          animate={{ opacity: 1, y: 0 }}
+          transition={{ duration: 0.4, delay: delay + 0.4 }}
+        >
+          {course}
+        </motion.h3>
 
-        <div className="flex items-center gap-1.5 mb-1">
+        <motion.div
+          className="flex items-center gap-1.5 mb-1"
+          initial={{ opacity: 0, y: 5 }}
+          animate={{ opacity: 1, y: 0 }}
+          transition={{ duration: 0.4, delay: delay + 0.5 }}
+        >
           <Building className="h-3.5 w-3.5 sm:h-4 sm:w-4 flex-shrink-0 text-primary/80" />
           <span className="text-sm sm:text-base font-medium">
             {institution}
           </span>
-        </div>
+        </motion.div>
 
-        <Badge variant="secondary">{type}</Badge>
+        <motion.div
+          initial={{ opacity: 0, scale: 0.9 }}
+          animate={{ opacity: 1, scale: 1 }}
+          transition={{
+            duration: 0.3,
+            delay: delay + 0.6,
+            type: 'spring',
+          }}
+          className="inline-block"
+        >
+          <motion.span
+            whileHover={{
+              scale: 1.05,
+              transition: { type: 'spring', stiffness: 400 },
+            }}
+            className="inline-block"
+          >
+            <Badge variant="secondary">{type}</Badge>
+          </motion.span>
+        </motion.div>
 
         {description && (
-          <p className="text-muted-foreground text-xs sm:text-sm mt-2">
+          <motion.p
+            className="text-muted-foreground text-xs sm:text-sm mt-2"
+            initial={{ opacity: 0 }}
+            animate={{ opacity: 1 }}
+            transition={{ duration: 0.4, delay: delay + 0.7 }}
+          >
             {description}
-          </p>
+          </motion.p>
         )}
-      </div>
+      </motion.div>
     </motion.div>
   );
 }

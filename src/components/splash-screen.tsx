@@ -4,7 +4,7 @@ import { useEffect, useState, useRef } from 'react';
 import { motion, AnimatePresence } from 'framer-motion';
 
 const loadingCode = `const loadPortfolio = () => {
-  return "Ready!";
+  return 'Ready!';
 };
 
 loadPortfolio();`;

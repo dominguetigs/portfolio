@@ -1,6 +1,6 @@
 'use client';
 
-import { motion } from 'framer-motion';
+import { motion, AnimatePresence } from 'framer-motion';
 import { Card } from '@/components/ui/card';
 import {
   Code,
@@ -18,6 +18,8 @@ import {
   Globe,
   Terminal,
   BoxIcon,
+  Star,
+  Wrench,
 } from 'lucide-react';
 
 // Mapeamento de ícones para cada categoria
@@ -33,6 +35,18 @@ const categoryIcons: Record<string, React.ReactNode> = {
   Mobile: <Smartphone className="h-5 w-5" />,
   Infraestrutura: <Cloud className="h-5 w-5" />,
   ALM: <GitBranch className="h-5 w-5" />,
+  'Build & Bundlers': <Terminal className="h-5 w-5" />,
+  'Gerenciadores de Pacotes': <Package className="h-5 w-5" />,
+  'DevOps & CI/CD': <Cloud className="h-5 w-5" />,
+  'Gestão de Projetos': <CheckSquare className="h-5 w-5" />,
+  'Tecnologias Backend': <Server className="h-5 w-5" />,
+  Comunicação: <Globe className="h-5 w-5" />,
+  'Bancos de Dados': <Database className="h-5 w-5" />,
+  'UI & Estilização': <PenTool className="h-5 w-5" />,
+  'Frameworks & Bibliotecas': <Layout className="h-5 w-5" />,
+  Core: <Code className="h-5 w-5" />,
+  'Linguagens de Programação': <CodeSquare className="h-5 w-5" />,
+  Ferramentas: <Wrench className="h-5 w-5" />,
 };
 
 // Mapeamento de tecnologias para seus respectivos ícones
@@ -178,51 +192,129 @@ interface TechSkillItemProps {
 }
 
 export function TechSkillItem({ label, items, delay = 0 }: TechSkillItemProps) {
+  // Função para ordenar os itens por nível de habilidade (do maior para o menor)
+  const sortedItems = [...items].sort(
+    (a, b) => (techSkillLevels[b] || 3) - (techSkillLevels[a] || 3),
+  );
+
   return (
     <motion.div
-      initial={{ opacity: 0, x: -20 }}
-      animate={{ opacity: 1, x: 0 }}
-      transition={{ duration: 0.3, delay }}
+      initial={{ opacity: 0, y: 20 }}
+      animate={{ opacity: 1, y: 0 }}
+      transition={{ duration: 0.5, delay }}
       className="mb-8"
     >
-      <div className="flex items-center gap-2 mb-3">
+      <motion.div
+        className="flex items-center gap-2 mb-4"
+        initial={{ opacity: 0 }}
+        animate={{ opacity: 1 }}
+        transition={{ duration: 0.5, delay: delay + 0.1 }}
+      >
         {categoryIcons[label] && (
-          <span className="text-primary">{categoryIcons[label]}</span>
+          <motion.span
+            className="text-primary"
+            whileHover={{ scale: 1.2, rotate: 5 }}
+            transition={{ type: 'spring', stiffness: 400, damping: 10 }}
+          >
+            {categoryIcons[label]}
+          </motion.span>
         )}
         <h3 className="text-lg font-semibold">{label}</h3>
-      </div>
+      </motion.div>
 
-      <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-4">
-        {items.map((item, index) => (
-          <motion.div
-            key={index}
-            initial={{ opacity: 0, y: 10 }}
-            animate={{ opacity: 1, y: 0 }}
-            transition={{ duration: 0.3, delay: delay + index * 0.05 }}
-          >
-            <Card className="p-3 hover:shadow-md transition-shadow">
-              <div className="flex items-center gap-2 mb-2">
-                <span className="text-primary">
-                  {techIcons[item] || <Code className="h-5 w-5" />}
-                </span>
-                <span className="font-medium">{item}</span>
-              </div>
+      <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-2">
+        <AnimatePresence>
+          {sortedItems.map((item, index) => (
+            <motion.div
+              key={item}
+              initial={{ opacity: 0, scale: 0.9 }}
+              animate={{ opacity: 1, scale: 1 }}
+              exit={{ opacity: 0, scale: 0.9 }}
+              transition={{
+                duration: 0.3,
+                delay: delay + index * 0.05,
+                type: 'spring',
+                stiffness: 200,
+              }}
+              whileHover={{
+                scale: 1.03,
+                y: -5,
+                boxShadow: '0px 10px 20px rgba(0, 0, 0, 0.1)',
+                transition: {
+                  type: 'spring',
+                  stiffness: 300,
+                  damping: 15,
+                  mass: 0.8,
+                },
+              }}
+              whileTap={{ scale: 0.98 }}
+              layout
+              className="relative"
+            >
+              <Card className="p-3 hover:shadow-md transition-all h-full overflow-hidden">
+                <div className="flex items-center gap-3 relative">
+                  <motion.div
+                    className="text-primary flex-shrink-0"
+                    whileHover={{
+                      scale: 1.3,
+                      rotate: 5,
+                      transition: {
+                        type: 'spring',
+                        stiffness: 400,
+                        damping: 5,
+                      },
+                    }}
+                    whileTap={{ scale: 0.9 }}
+                  >
+                    {techIcons[item] || <Code className="h-5 w-5" />}
+                  </motion.div>
 
-              <div className="flex gap-1">
-                {[1, 2, 3, 4, 5].map(i => (
-                  <div
-                    key={i}
-                    className={`w-5 h-2 rounded-full ${
-                      i <= (techSkillLevels[item] || 3)
-                        ? 'bg-primary'
-                        : 'bg-muted'
-                    }`}
-                  ></div>
-                ))}
-              </div>
-            </Card>
-          </motion.div>
-        ))}
+                  <div className="flex-1 min-w-0">
+                    <div className="font-medium text-sm truncate pr-2">
+                      {item}
+                    </div>
+                    <div className="flex gap-1 mt-1.5">
+                      {[1, 2, 3, 4, 5].map(i => (
+                        <motion.div
+                          key={i}
+                          initial={{ scale: 0, opacity: 0 }}
+                          animate={{
+                            scale: 1,
+                            opacity: 1,
+                          }}
+                          transition={{
+                            delay: delay + index * 0.05 + i * 0.05,
+                            duration: 0.3,
+                          }}
+                          className={`w-3 h-1.5 rounded-full ${
+                            i <= (techSkillLevels[item] || 3)
+                              ? 'bg-primary'
+                              : 'bg-muted'
+                          }`}
+                        ></motion.div>
+                      ))}
+                    </div>
+                  </div>
+
+                  {(techSkillLevels[item] || 3) >= 5 && (
+                    <motion.div
+                      className="absolute -top-2 -right-2 bg-primary text-primary-foreground rounded-full p-0.5 shadow-sm z-10"
+                      initial={{ scale: 0 }}
+                      animate={{ scale: 1 }}
+                      transition={{
+                        delay: delay + index * 0.05 + 0.2,
+                        type: 'spring',
+                        stiffness: 300,
+                      }}
+                    >
+                      <Star className="h-3 w-3 fill-current" />
+                    </motion.div>
+                  )}
+                </div>
+              </Card>
+            </motion.div>
+          ))}
+        </AnimatePresence>
       </div>
     </motion.div>
   );
