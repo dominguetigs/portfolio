@@ -44,7 +44,13 @@ export const MotionSection = forwardRef<HTMLElement, MotionSectionProps>(
         animate={
           inView || hasAnimated ? { opacity: 1, y: 0 } : { opacity: 0, y: 50 }
         }
-        transition={{ duration: 0.5, delay }}
+        transition={{
+          duration: 0.5,
+          delay,
+          type: 'spring',
+          stiffness: 50,
+          damping: 10,
+        }}
         className={className}
       >
         {children}

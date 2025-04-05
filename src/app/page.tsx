@@ -464,6 +464,7 @@ export default function Home() {
                             transition={{
                               duration: 0.3,
                               delay: 0.1 + idx * 0.05,
+                              type: 'tween',
                             }}
                             className="flex gap-2"
                           >
@@ -500,6 +501,7 @@ export default function Home() {
                             transition={{
                               duration: 0.3,
                               delay: 0.1 + idx * 0.05,
+                              type: 'tween',
                             }}
                             className="flex gap-2"
                           >

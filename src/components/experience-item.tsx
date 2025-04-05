@@ -32,7 +32,7 @@ export function ExperienceItem({
     <motion.div
       initial={{ opacity: 0, y: 20 }}
       animate={{ opacity: 1, y: 0 }}
-      transition={{ duration: 0.5, delay }}
+      transition={{ duration: 0.5, delay, type: 'spring', stiffness: 100 }}
       className="relative pl-8 sm:pl-10 pb-10 mb-2"
     >
       {/* Timeline vertical line */}
@@ -80,6 +80,7 @@ export function ExperienceItem({
                   transition={{
                     duration: 0.3,
                     delay: delay + 0.1 + index * 0.05,
+                    type: 'tween',
                   }}
                   className="flex gap-2"
                 >
@@ -106,6 +107,7 @@ export function ExperienceItem({
                   transition={{
                     duration: 0.2,
                     delay: delay + 0.2 + index * 0.05,
+                    type: 'tween',
                   }}
                 >
                   <Badge variant="secondary">{tech}</Badge>
