@@ -31,8 +31,8 @@ export function ExperienceItem({
 }: ExperienceItemProps) {
   const [ref, inView] = useInView({
     triggerOnce: true,
-    threshold: 0.05,
-    rootMargin: '-20px 0px 0px 0px',
+    threshold: 0.01,
+    rootMargin: '-10px 0px -10px 0px',
   });
 
   return (
@@ -42,7 +42,7 @@ export function ExperienceItem({
       animate={inView ? { opacity: 1, y: 0 } : { opacity: 0, y: 20 }}
       transition={{
         duration: 0.4,
-        delay: delay * 0.7,
+        delay: delay * 0.5,
         type: 'spring',
         stiffness: 110,
       }}

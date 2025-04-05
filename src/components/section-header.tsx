@@ -10,7 +10,8 @@ interface SectionHeaderProps {
 export function SectionHeader({ title }: SectionHeaderProps) {
   const [ref, inView] = useInView({
     triggerOnce: true,
-    threshold: 0.1,
+    threshold: 0.05,
+    rootMargin: '-10px 0px -10px 0px',
   });
 
   // ID para o título, usando o título em lowercase e removendo espaços
@@ -21,7 +22,7 @@ export function SectionHeader({ title }: SectionHeaderProps) {
       ref={ref}
       initial={{ opacity: 0, x: -20 }}
       animate={inView ? { opacity: 1, x: 0 } : { opacity: 0, x: -20 }}
-      transition={{ duration: 0.5 }}
+      transition={{ duration: 0.4 }}
       className="mb-8"
     >
       <h2
@@ -32,7 +33,7 @@ export function SectionHeader({ title }: SectionHeaderProps) {
         <motion.div
           initial={{ width: 0 }}
           animate={inView ? { width: '100%' } : { width: 0 }}
-          transition={{ duration: 0.7, delay: 0.3 }}
+          transition={{ duration: 0.5, delay: 0.2 }}
           className="absolute -bottom-1 left-0 h-1 bg-primary rounded-full"
         />
       </h2>

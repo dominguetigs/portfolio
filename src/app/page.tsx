@@ -779,8 +779,8 @@ export default function Home() {
           <motion.div
             initial={{ opacity: 0 }}
             whileInView={{ opacity: 1 }}
-            viewport={{ once: true, amount: 0.03, margin: '-30px 0px 0px 0px' }}
-            transition={{ duration: 0.4, delay: 0.15 }}
+            viewport={{ once: true, amount: 0.01, margin: '-10px 0px' }}
+            transition={{ duration: 0.3, delay: 0.1 }}
             className="mb-8"
           >
             <p className="text-muted-foreground">
@@ -825,12 +825,12 @@ export default function Home() {
                             whileInView={{ opacity: 1, x: 0 }}
                             viewport={{
                               once: true,
-                              amount: 0.05,
-                              margin: '-20px 0px 0px 0px',
+                              amount: 0.01,
+                              margin: '-10px 0px',
                             }}
                             transition={{
-                              duration: 0.3,
-                              delay: 0.1 + idx * 0.05,
+                              duration: 0.25,
+                              delay: 0.05 + idx * 0.03,
                               type: 'tween',
                             }}
                             className="flex gap-2"
@@ -867,12 +867,12 @@ export default function Home() {
                             whileInView={{ opacity: 1, x: 0 }}
                             viewport={{
                               once: true,
-                              amount: 0.05,
-                              margin: '-20px 0px 0px 0px',
+                              amount: 0.01,
+                              margin: '-10px 0px',
                             }}
                             transition={{
-                              duration: 0.3,
-                              delay: 0.1 + idx * 0.05,
+                              duration: 0.25,
+                              delay: 0.05 + idx * 0.03,
                               type: 'tween',
                             }}
                             className="flex gap-2"

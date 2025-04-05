@@ -20,7 +20,8 @@ export const MotionSection = forwardRef<HTMLElement, MotionSectionProps>(
     const [hasAnimated, setHasAnimated] = useState(false);
     const [internalRef, inView] = useInView({
       triggerOnce: true,
-      threshold: 0.1,
+      threshold: 0.05,
+      rootMargin: '-10px 0px -10px 0px',
     });
 
     // Uma vez que a seção entra na viewport e é animada, marcamos como true permanentemente
@@ -43,7 +44,7 @@ export const MotionSection = forwardRef<HTMLElement, MotionSectionProps>(
     // Definir os valores iniciais e de animação com base no skipYAnimation
     const initialAnimation = skipYAnimation
       ? { opacity: 0 }
-      : { opacity: 0, y: 50 };
+      : { opacity: 0, y: 30 };
 
     const targetAnimation = skipYAnimation
       ? { opacity: 1 }
@@ -51,7 +52,7 @@ export const MotionSection = forwardRef<HTMLElement, MotionSectionProps>(
 
     const idleAnimation = skipYAnimation
       ? { opacity: 0 }
-      : { opacity: 0, y: 50 };
+      : { opacity: 0, y: 30 };
 
     return (
       <motion.section
@@ -60,11 +61,11 @@ export const MotionSection = forwardRef<HTMLElement, MotionSectionProps>(
         initial={initialAnimation}
         animate={inView || hasAnimated ? targetAnimation : idleAnimation}
         transition={{
-          duration: 0.5,
+          duration: 0.4,
           delay,
           type: 'spring',
-          stiffness: 50,
-          damping: 10,
+          stiffness: 60,
+          damping: 8,
         }}
         className={className}
       >
