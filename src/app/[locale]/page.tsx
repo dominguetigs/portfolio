@@ -22,7 +22,7 @@ export default function Home() {
   };
 
   return (
-    <div className="min-h-screen pb-20">
+    <div className="min-h-screen pb-20 container max-w-7xl mx-auto px-4">
       <Header />
 
       <HeroSection
@@ -34,14 +34,16 @@ export default function Home() {
 
       <NavMenu />
 
-      <div className="container mx-auto px-4 max-w-5xl lg:pl-[180px]">
-        <AboutSection aboutRef={aboutRef} />
-        <SkillsSection />
-        <ProjectsSection />
-        <ExperienceSection />
-        <EducationSection />
-        <LanguagesSection />
-      </div>
+      <AboutSection aboutRef={aboutRef} />
+      <SkillsSection />
+      <ProjectsSection />
+      <ExperienceSection />
+      <EducationSection />
+      <LanguagesSection />
+
+      {/* <div className="container mx-auto px-4 max-w-5xl lg:pl-[180px]">
+        
+      </div> */}
 
       <Footer />
     </div>

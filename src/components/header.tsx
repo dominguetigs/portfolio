@@ -6,11 +6,12 @@ import {
 } from '@/components/ui/popover';
 import { Button } from '@/components/ui/button';
 import { ThemeToggle } from '@/components/theme-toggle';
+import { LanguageSwitcher } from '@/components/language-switcher';
 
 export function Header() {
   return (
-    <header className="w-full py-4 px-4">
-      <div className="container mx-auto flex justify-end z-50">
+    <header className="w-full py-4">
+      <div className="flex justify-end z-50">
         <div className="flex items-center gap-3">
           <Popover>
             <PopoverTrigger asChild>
@@ -59,6 +60,7 @@ export function Header() {
               </div>
             </PopoverContent>
           </Popover>
+          <LanguageSwitcher />
           <ThemeToggle />
         </div>
       </div>

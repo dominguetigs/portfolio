@@ -4,7 +4,7 @@ import { PT_Sans } from 'next/font/google';
 
 import { hasLocale, NextIntlClientProvider } from 'next-intl';
 
-import './globals.css';
+import '../globals.css';
 import { ThemeProvider } from '@/hooks/theme-provider';
 import { MainContent } from '@/components/main-content';
 import { routing } from '@/i18n/routing';
