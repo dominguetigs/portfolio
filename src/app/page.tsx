@@ -49,13 +49,6 @@ import {
 import { Button } from '@/components/ui/button';
 import { Badge } from '@/components/ui/badge';
 import Image from 'next/image';
-import {
-  Dialog,
-  DialogContent,
-  DialogHeader,
-  DialogTitle,
-  DialogFooter,
-} from '@/components/ui/dialog';
 
 type Project = {
   id: string;
@@ -158,7 +151,6 @@ export default function Home() {
   const [selectedSkillTab, setSelectedSkillTab] = useState('frontend');
   const [hasAnimated, setHasAnimated] = useState(false);
   const [clickedSection, setClickedSection] = useState<string | null>(null);
-  const [selectedProject, setSelectedProject] = useState<Project | null>(null);
   const [refSkills, inViewSkills] = useInView({
     triggerOnce: true,
     threshold: 0.05,
@@ -184,11 +176,6 @@ export default function Home() {
       setHasAnimated(true);
     }
   }, [inViewSkills, hasAnimated]);
-
-  // Função para abrir o modal de detalhes do projeto
-  const openProjectDetails = (project: Project) => {
-    setSelectedProject(project);
-  };
 
   return (
     <div className="min-h-screen pb-20">
@@ -641,8 +628,8 @@ export default function Home() {
           >
             <p className="text-muted-foreground">
               Seleção de projetos pessoais que demonstram minhas habilidades
-              técnicas e criatividade. Clique nos links para acessar o
-              repositório ou a demonstração.
+              técnicas e criatividade. Clique nos cards para acessar o
+              repositório no GitHub ou no botão para ver a demonstração.
             </p>
           </motion.div>
 
@@ -663,7 +650,7 @@ export default function Home() {
                   delay: 0.05 + projects.indexOf(project) * 0.05,
                   ease: 'easeOut',
                 }}
-                onClick={() => openProjectDetails(project)}
+                onClick={() => window.open(project.repository, '_blank')}
               >
                 <div className="aspect-video w-full bg-muted/40 relative overflow-hidden">
                   <div className="absolute inset-0 bg-gradient-to-t from-black/80 dark:from-black/70 to-black/10 dark:to-black/0 z-10"></div>
@@ -705,25 +692,7 @@ export default function Home() {
                       </Badge>
                     ))}
                   </div>
-                  <div className="flex justify-between items-center">
-                    <Button
-                      variant="ghost"
-                      size="sm"
-                      asChild
-                      className="p-0 h-auto font-medium text-primary hover:text-primary/80 hover:bg-transparent"
-                      onClick={e => e.stopPropagation()}
-                    >
-                      <a
-                        href={project.repository}
-                        target="_blank"
-                        rel="noopener noreferrer"
-                        className="inline-flex items-center"
-                      >
-                        <Github className="mr-1.5 h-4 w-4" />
-                        <span>Repositório</span>
-                      </a>
-                    </Button>
-
+                  <div className="flex justify-center items-center">
                     {project.demo && (
                       <Button
                         variant="secondary"
@@ -1314,85 +1283,6 @@ export default function Home() {
           </a>
         </p>
       </footer>
-
-      {/* Modal de Detalhes do Projeto */}
-      <Dialog
-        open={selectedProject !== null}
-        onOpenChange={open => !open && setSelectedProject(null)}
-      >
-        {selectedProject && (
-          <DialogContent className="max-w-3xl max-h-[90vh] overflow-y-auto">
-            <DialogHeader>
-              <DialogTitle className="text-2xl flex items-center justify-between">
-                {selectedProject.title}
-                <span className="text-sm font-normal bg-primary/10 dark:bg-primary/20 text-primary px-2 py-1 rounded">
-                  {selectedProject.language}
-                </span>
-              </DialogTitle>
-            </DialogHeader>
-
-            <div className="relative w-full aspect-video rounded-md overflow-hidden my-4 border">
-              {selectedProject.image ? (
-                <Image
-                  src={selectedProject.image}
-                  alt={selectedProject.title}
-                  fill
-                  className="object-cover object-top"
-                  sizes="(max-width: 768px) 100vw, 800px"
-                />
-              ) : (
-                <div className="flex items-center justify-center w-full h-full bg-muted/40">
-                  <Rocket className="w-20 h-20 text-primary/50" />
-                </div>
-              )}
-            </div>
-
-            <div className="space-y-4">
-              <p className="text-base">{selectedProject.detailedDescription}</p>
-
-              <div>
-                <h4 className="text-sm uppercase tracking-wide text-muted-foreground mb-2">
-                  Tecnologias utilizadas
-                </h4>
-                <div className="flex flex-wrap gap-2">
-                  {selectedProject.technologies.map(tech => (
-                    <Badge
-                      key={tech}
-                      variant="secondary"
-                      className="bg-primary/10 text-primary hover:bg-primary/20"
-                    >
-                      {tech}
-                    </Badge>
-                  ))}
-                </div>
-              </div>
-            </div>
-
-            <DialogFooter className="mt-6 flex items-center gap-4">
-              <a
-                href={selectedProject.repository}
-                target="_blank"
-                rel="noopener noreferrer"
-                className="inline-flex items-center gap-2 bg-primary hover:bg-primary/90 text-primary-foreground px-4 py-2 rounded-md transition-colors"
-              >
-                <Github className="h-4 w-4" />
-                Ver Repositório
-              </a>
-              {selectedProject.demo && (
-                <a
-                  href={selectedProject.demo}
-                  target="_blank"
-                  rel="noopener noreferrer"
-                  className="inline-flex items-center gap-2 bg-card hover:bg-muted border px-4 py-2 rounded-md transition-colors"
-                >
-                  <ExternalLink className="h-4 w-4" />
-                  Ver Demo
-                </a>
-              )}
-            </DialogFooter>
-          </DialogContent>
-        )}
-      </Dialog>
     </div>
   );
 }
