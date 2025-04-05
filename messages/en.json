@@ -64,6 +64,33 @@
       "alt": {
         "profileImage": "Gustavo Domingueti"
       }
+    },
+    "Skills": {
+      "title": "Skills",
+      "description": "Main technologies and tools I master, organized by categories.",
+      "mobileSelectLabel": "Select a category",
+      "categories": {
+        "frontend": "Frontend",
+        "languages": "Languages",
+        "backend": "Backend",
+        "data": "Data",
+        "tools": "Tools"
+      },
+      "sections": {
+        "core": "Core",
+        "frameworks": "Frameworks & Libraries",
+        "ui": "UI & Styling",
+        "mobile": "Mobile",
+        "programmingLanguages": "Programming Languages",
+        "backendTechnologies": "Backend Technologies",
+        "communication": "Communication",
+        "databases": "Databases",
+        "testing": "Testing",
+        "build": "Build & Bundlers",
+        "packageManagers": "Package Managers",
+        "devops": "DevOps & CI/CD",
+        "projectManagement": "Project Management"
+      }
     }
   }
 }

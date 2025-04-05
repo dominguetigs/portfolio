@@ -1,3 +1,5 @@
+'use client';
+
 import { useState, useEffect } from 'react';
 import { motion } from 'framer-motion';
 import { useInView } from 'react-intersection-observer';
@@ -12,8 +14,10 @@ import {
   SelectTrigger,
   SelectValue,
 } from '@/components/ui/select';
+import { useTranslations } from 'next-intl';
 
 export function SkillsSection() {
+  const t = useTranslations('Index.Skills');
   const [selectedSkillTab, setSelectedSkillTab] = useState('frontend');
   const [hasAnimated, setHasAnimated] = useState(false);
   const [refSkills, inViewSkills] = useInView({
@@ -36,7 +40,7 @@ export function SkillsSection() {
 
   return (
     <MotionSection id="skills" className="py-16" delay={0.1} ref={refSkills}>
-      <SectionHeader title="Habilidades" />
+      <SectionHeader title={t('title')} />
       <motion.div
         initial={{ opacity: 0 }}
         whileInView={{ opacity: 1 }}
@@ -44,10 +48,7 @@ export function SkillsSection() {
         transition={{ duration: 0.4, delay: 0.15 }}
         className="mb-6"
       >
-        <p className="text-muted-foreground">
-          Principais tecnologias e ferramentas que domino, organizadas por
-          categorias.
-        </p>
+        <p className="text-muted-foreground">{t('description')}</p>
       </motion.div>
 
       <Tabs
@@ -69,11 +70,11 @@ export function SkillsSection() {
           {/* Seletor para dispositivos móveis */}
           <div className="block lg:hidden w-full mb-4">
             <label className="block text-sm font-medium mb-2 text-muted-foreground">
-              Selecione uma categoria
+              {t('mobileSelectLabel')}
             </label>
             <Select value={selectedSkillTab} onValueChange={handleTabChange}>
               <SelectTrigger className="w-full max-w-xs bg-card">
-                <SelectValue placeholder="Selecione uma categoria" />
+                <SelectValue placeholder={t('mobileSelectLabel')} />
               </SelectTrigger>
               <SelectContent>
                 <SelectItem
@@ -82,7 +83,7 @@ export function SkillsSection() {
                 >
                   <div className="flex items-center gap-2">
                     <Layout className="h-4 w-4 text-primary" />
-                    <span>Frontend</span>
+                    <span>{t('categories.frontend')}</span>
                   </div>
                 </SelectItem>
                 <SelectItem
@@ -91,19 +92,19 @@ export function SkillsSection() {
                 >
                   <div className="flex items-center gap-2">
                     <CodeSquare className="h-4 w-4 text-primary" />
-                    <span>Linguagens</span>
+                    <span>{t('categories.languages')}</span>
                   </div>
                 </SelectItem>
                 <SelectItem value="backend" className="flex items-center gap-2">
                   <div className="flex items-center gap-2">
                     <Server className="h-4 w-4 text-primary" />
-                    <span>Backend</span>
+                    <span>{t('categories.backend')}</span>
                   </div>
                 </SelectItem>
                 <SelectItem value="data" className="flex items-center gap-2">
                   <div className="flex items-center gap-2">
                     <Database className="h-4 w-4 text-primary" />
-                    <span>Dados</span>
+                    <span>{t('categories.data')}</span>
                   </div>
                 </SelectItem>
                 <SelectItem
@@ -112,7 +113,7 @@ export function SkillsSection() {
                 >
                   <div className="flex items-center gap-2">
                     <Wrench className="h-4 w-4 text-primary" />
-                    <span>Ferramentas</span>
+                    <span>{t('categories.tools')}</span>
                   </div>
                 </SelectItem>
               </SelectContent>
@@ -123,41 +124,41 @@ export function SkillsSection() {
           <TabsList className="hidden lg:grid grid-cols-5 w-full gap-1">
             <TabsTrigger value="frontend" className="flex items-center gap-1.5">
               <Layout className="h-4 w-4" />
-              <span>Frontend</span>
+              <span>{t('categories.frontend')}</span>
             </TabsTrigger>
             <TabsTrigger
               value="languages"
               className="flex items-center gap-1.5"
             >
               <CodeSquare className="h-4 w-4" />
-              <span>Linguagens</span>
+              <span>{t('categories.languages')}</span>
             </TabsTrigger>
             <TabsTrigger value="backend" className="flex items-center gap-1.5">
               <Server className="h-4 w-4" />
-              <span>Backend</span>
+              <span>{t('categories.backend')}</span>
             </TabsTrigger>
             <TabsTrigger value="data" className="flex items-center gap-1.5">
               <Database className="h-4 w-4" />
-              <span>Dados</span>
+              <span>{t('categories.data')}</span>
             </TabsTrigger>
             <TabsTrigger
               value="tools-infra"
               className="flex items-center gap-1.5"
             >
               <Wrench className="h-4 w-4" />
-              <span>Ferramentas</span>
+              <span>{t('categories.tools')}</span>
             </TabsTrigger>
           </TabsList>
         </motion.div>
 
         <TabsContent value="frontend" className="space-y-8">
           <TechSkillItem
-            label="Core"
+            label={t('sections.core')}
             items={['Html5', 'Css3', 'Vanilla JavaScript']}
             delay={0.1}
           />
           <TechSkillItem
-            label="Frameworks & Bibliotecas"
+            label={t('sections.frameworks')}
             items={[
               'Angular',
               'ReactJS',
@@ -170,7 +171,7 @@ export function SkillsSection() {
             delay={0.2}
           />
           <TechSkillItem
-            label="UI & Estilização"
+            label={t('sections.ui')}
             items={[
               'Tailwind',
               'Sass',
@@ -184,7 +185,7 @@ export function SkillsSection() {
             delay={0.3}
           />
           <TechSkillItem
-            label="Mobile"
+            label={t('sections.mobile')}
             items={['Ionic 4', 'Swift']}
             delay={0.4}
           />
@@ -192,7 +193,7 @@ export function SkillsSection() {
 
         <TabsContent value="languages" className="space-y-8">
           <TechSkillItem
-            label="Linguagens de Programação"
+            label={t('sections.programmingLanguages')}
             items={[
               'JavaScript',
               'TypeScript',
@@ -207,12 +208,12 @@ export function SkillsSection() {
 
         <TabsContent value="backend" className="space-y-8">
           <TechSkillItem
-            label="Tecnologias Backend"
+            label={t('sections.backendTechnologies')}
             items={['NodeJS', 'Python', 'Elixir', 'Go']}
             delay={0.1}
           />
           <TechSkillItem
-            label="Comunicação"
+            label={t('sections.communication')}
             items={['Socket.Io', 'REST API', 'GraphQL']}
             delay={0.2}
           />
@@ -220,7 +221,7 @@ export function SkillsSection() {
 
         <TabsContent value="data" className="space-y-8">
           <TechSkillItem
-            label="Bancos de Dados"
+            label={t('sections.databases')}
             items={['MySQL', 'Postgres', 'MongoDB', 'Firebase Realtime DB']}
             delay={0.1}
           />
@@ -228,7 +229,7 @@ export function SkillsSection() {
 
         <TabsContent value="tools-infra" className="space-y-8">
           <TechSkillItem
-            label="Testes"
+            label={t('sections.testing')}
             items={[
               'Jest',
               'Cypress',
@@ -239,22 +240,22 @@ export function SkillsSection() {
             delay={0.1}
           />
           <TechSkillItem
-            label="Build & Bundlers"
+            label={t('sections.build')}
             items={['Webpack', 'Gulp', 'Grunt']}
             delay={0.2}
           />
           <TechSkillItem
-            label="Gerenciadores de Pacotes"
+            label={t('sections.packageManagers')}
             items={['Npm', 'Yarn', 'Bower']}
             delay={0.3}
           />
           <TechSkillItem
-            label="DevOps & CI/CD"
+            label={t('sections.devops')}
             items={['Git', 'GitHub', 'GitFlow', 'AWS', 'Vercel', 'Firebase']}
             delay={0.4}
           />
           <TechSkillItem
-            label="Gestão de Projetos"
+            label={t('sections.projectManagement')}
             items={['Jira', 'VSTS', 'Scrum', 'Kanban']}
             delay={0.5}
           />

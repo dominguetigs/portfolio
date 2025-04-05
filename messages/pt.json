@@ -64,6 +64,33 @@
       "alt": {
         "profileImage": "Gustavo Domingueti"
       }
+    },
+    "Skills": {
+      "title": "Habilidades",
+      "description": "Principais tecnologias e ferramentas que domino, organizadas por categorias.",
+      "mobileSelectLabel": "Selecione uma categoria",
+      "categories": {
+        "frontend": "Frontend",
+        "languages": "Linguagens",
+        "backend": "Backend",
+        "data": "Dados",
+        "tools": "Ferramentas"
+      },
+      "sections": {
+        "core": "Core",
+        "frameworks": "Frameworks & Bibliotecas",
+        "ui": "UI & Estilização",
+        "mobile": "Mobile",
+        "programmingLanguages": "Linguagens de Programação",
+        "backendTechnologies": "Tecnologias Backend",
+        "communication": "Comunicação",
+        "databases": "Bancos de Dados",
+        "testing": "Testes",
+        "build": "Build & Bundlers",
+        "packageManagers": "Gerenciadores de Pacotes",
+        "devops": "DevOps & CI/CD",
+        "projectManagement": "Gestão de Projetos"
+      }
     }
   }
 }
