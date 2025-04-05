@@ -33,156 +33,141 @@ function throttle<T extends (...args: unknown[]) => unknown>(
   };
 }
 
-// Função de debounce para atrasar a execução de uma função
-function debounce<T extends (...args: unknown[]) => unknown>(
-  func: T,
-  delay: number,
-): (...args: Parameters<T>) => void {
-  let timeoutId: NodeJS.Timeout | null = null;
-  return (...args: Parameters<T>) => {
-    if (timeoutId) {
-      clearTimeout(timeoutId);
-    }
-    timeoutId = setTimeout(() => {
-      func(...args);
-    }, delay);
-  };
-}
-
 export function NavMenu({ sections }: NavMenuProps) {
   const [activeSection, setActiveSection] = useState('');
   const [userClicked, setUserClicked] = useState(false);
   const [showMenu, setShowMenu] = useState(true);
   const [mounted, setMounted] = useState(false);
   const timeoutRef = useRef<NodeJS.Timeout | null>(null);
+  const clickTimeoutRef = useRef<NodeJS.Timeout | null>(null);
+  const observersRef = useRef<Record<string, IntersectionObserver>>({});
   const activeSectionRef = useRef(activeSection);
+  const userClickedRef = useRef(userClicked);
 
   // Verificar se o componente está montado (cliente)
   useEffect(() => {
     setMounted(true);
-    return () => setMounted(false);
+    return () => {
+      setMounted(false);
+      // Limpar todos os observers quando o componente for desmontado
+      Object.values(observersRef.current).forEach(observer =>
+        observer.disconnect(),
+      );
+    };
   }, []);
 
-  // Atualizar a ref quando o estado mudar
+  // Atualizar as refs quando os estados mudarem
   useEffect(() => {
     activeSectionRef.current = activeSection;
   }, [activeSection]);
 
   useEffect(() => {
-    // Só executar no cliente após a montagem
+    userClickedRef.current = userClicked;
+  }, [userClicked]);
+
+  // Configurar os observadores de interseção para cada seção
+  useEffect(() => {
     if (!mounted) return;
 
-    // Função para determinar a visibilidade do menu
-    const checkInitialScrollPosition = () => {
-      const scrollY = window.scrollY || document.documentElement.scrollTop;
-      const viewportHeight = window.innerHeight;
-      const isAtHeroSection = scrollY < viewportHeight * 0.9;
+    // Limpar observers existentes
+    Object.values(observersRef.current).forEach(observer =>
+      observer.disconnect(),
+    );
+    observersRef.current = {};
 
-      // Definir a visibilidade do menu com base na posição inicial
-      setShowMenu(!isAtHeroSection);
+    // Criar novo conjunto de observers
+    const sectionObservers: Record<string, IntersectionObserver> = {};
+    const observerOptions = {
+      rootMargin: '-10% 0px -80% 0px', // Dá destaque para elementos próximos ao topo da tela
+      threshold: [0, 0.1, 0.2, 0.3, 0.4, 0.5], // Vários thresholds para detecção mais suave
     };
 
-    // Verificar a posição inicial do scroll
-    checkInitialScrollPosition();
+    // Callback para quando a interseção muda
+    const handleIntersection = (entries: IntersectionObserverEntry[]) => {
+      // Se o usuário acabou de clicar, não modifique a seção ativa com base no scroll
+      if (userClickedRef.current) return;
 
-    // Função para lidar com o scroll
-    const handleScroll = () => {
-      try {
-        const scrollY = window.scrollY || document.documentElement.scrollTop;
-        const viewportHeight = window.innerHeight;
-        const scrollPosition = scrollY + 80; // Usar uma posição mais próxima ao topo da tela
+      // Encontrar a entrada com maior proporção de interseção
+      let maxRatio = -1;
+      let maxSectionId = '';
 
-        // Verificar se estamos na seção hero ou próximo do topo da página
-        const isAtHeroSection = scrollY < viewportHeight * 0.9;
-
-        // Atualizar a visibilidade do menu
-        if (showMenu !== !isAtHeroSection) {
-          setShowMenu(!isAtHeroSection);
+      entries.forEach(entry => {
+        const sectionId = entry.target.id;
+        if (entry.isIntersecting && entry.intersectionRatio > maxRatio) {
+          maxRatio = entry.intersectionRatio;
+          maxSectionId = sectionId;
         }
+      });
 
-        // Se o usuário acabou de clicar, não modifique a seção ativa
-        // mas ainda permite que o menu desapareça quando necessário
-        if (userClicked) return;
-
-        // Encontrar qual seção está visível na posição atual
-        let currentSection = null;
-        let minDistance = Infinity;
-
-        // Para cada seção, calcular a distância entre o topo da seção e a posição de referência
-        for (const section of sections) {
-          const element = document.getElementById(section.id);
-
-          if (element) {
-            // Tentar encontrar o título da seção
-            const titleId = `title-${section.label.toLowerCase().replace(/\s+/g, '-')}`;
-            const titleElement =
-              document.getElementById(titleId) ||
-              element.querySelector('h2') ||
-              element.firstElementChild;
-
-            const targetElement = titleElement || element;
-            const rect = targetElement.getBoundingClientRect();
-            const elementTop = scrollY + rect.top;
-            const distance = Math.abs(scrollPosition - elementTop);
-
-            // A seção cuja distância do título ao topo da viewport é a menor
-            if (distance < minDistance) {
-              minDistance = distance;
-              currentSection = section.id;
-            }
-          }
-        }
-
-        // Apenas atualizar se a seção ativa mudou
-        if (currentSection && currentSection !== activeSectionRef.current) {
-          setActiveSection(currentSection);
-        }
-      } catch (error) {
-        console.error('Erro na detecção de scroll:', error);
+      // Se encontramos uma seção com interseção, ative-a
+      if (maxSectionId && maxSectionId !== activeSectionRef.current) {
+        setActiveSection(maxSectionId);
       }
     };
 
-    // Aplicar throttle e debounce à função de scroll
-    const throttledHandleScroll = throttle(handleScroll, 50);
+    // Criar um observer para cada seção
+    sections.forEach(section => {
+      const element = document.getElementById(section.id);
+      if (element) {
+        const observer = new IntersectionObserver(
+          handleIntersection,
+          observerOptions,
+        );
+        observer.observe(element);
+        sectionObservers[section.id] = observer;
+      }
+    });
 
-    // Debounce para atualização da visibilidade do menu
-    const debouncedVisibilityUpdate = debounce(() => {
+    observersRef.current = sectionObservers;
+
+    return () => {
+      // Limpar observers quando as seções mudarem
+      Object.values(sectionObservers).forEach(observer =>
+        observer.disconnect(),
+      );
+    };
+  }, [sections, mounted, userClicked]);
+
+  // Função para determinar a visibilidade do menu com base na posição de scroll
+  useEffect(() => {
+    if (!mounted) return;
+
+    const checkScrollPosition = throttle(() => {
       const scrollY = window.scrollY || document.documentElement.scrollTop;
       const viewportHeight = window.innerHeight;
       const isAtHeroSection = scrollY < viewportHeight * 0.9;
+
       setShowMenu(!isAtHeroSection);
-    }, 150);
+    }, 100);
 
-    // Registrar os event listeners
-    window.addEventListener('scroll', throttledHandleScroll);
-    window.addEventListener('scroll', debouncedVisibilityUpdate);
+    // Verificar a posição inicial do scroll
+    checkScrollPosition();
 
-    // Executar uma vez para definir a seção inicial
-    setTimeout(handleScroll, 200);
+    // Registrar o event listener
+    window.addEventListener('scroll', checkScrollPosition);
 
     // Limpar
     return () => {
-      window.removeEventListener('scroll', throttledHandleScroll);
-      window.removeEventListener('scroll', debouncedVisibilityUpdate);
-      if (timeoutRef.current) {
-        clearTimeout(timeoutRef.current);
-      }
+      window.removeEventListener('scroll', checkScrollPosition);
     };
-  }, [sections, userClicked, showMenu, mounted]);
+  }, [mounted]);
 
   const scrollToSection = (id: string) => {
-    // Só executar no cliente após a montagem
     if (!mounted) return;
 
     try {
-      // Marcar que o usuário clicou e atualizar a seção ativa
-      setUserClicked(true);
-      setActiveSection(id);
-
       // Limpar qualquer timeout existente
       if (timeoutRef.current) {
         clearTimeout(timeoutRef.current);
       }
+
+      if (clickTimeoutRef.current) {
+        clearTimeout(clickTimeoutRef.current);
+      }
+
+      // Marcar que o usuário clicou e atualizar a seção ativa
+      setUserClicked(true);
+      setActiveSection(id);
 
       // Obter o elemento da seção
       const sectionElement = document.getElementById(id);
@@ -201,7 +186,7 @@ export function NavMenu({ sections }: NavMenuProps) {
         const targetElement = titleElement || sectionElement;
 
         // Posição desejada do título na tela (em px a partir do topo)
-        const desiredTopPosition = 100;
+        const desiredTopPosition = 50;
 
         // Calcular a posição de scroll para posicionar o elemento na posição desejada
         const rect = targetElement.getBoundingClientRect();
@@ -218,40 +203,29 @@ export function NavMenu({ sections }: NavMenuProps) {
           behavior: 'smooth',
         });
 
-        // Verificar se o título está visível após o scroll
-        const checkTitleVisibility = () => {
-          // Se o elemento não existir mais, retorne
-          if (!targetElement) return;
-
+        // Reativar a detecção de scroll após um período suficiente para a animação completar
+        // e garantir que o usuário possa ver o resultado do clique
+        timeoutRef.current = setTimeout(() => {
+          // Verificar se o título está visível após o scroll e ajustar se necessário
           const newRect = targetElement.getBoundingClientRect();
-
-          // Se o topo do elemento estiver fora da área visível, ajuste
-          if (newRect.top < 30) {
-            // Ajuste adicional para garantir que o título esteja visível
-            window.scrollBy({
-              top: newRect.top - desiredTopPosition,
-              behavior: 'smooth',
-            });
-          } else if (newRect.top > 150) {
-            // Se estiver muito abaixo, também ajustar
+          if (Math.abs(newRect.top - desiredTopPosition) > 20) {
+            // Se a posição ainda estiver muito distante do desejado, fazer um ajuste final
             window.scrollBy({
               top: newRect.top - desiredTopPosition,
               behavior: 'smooth',
             });
           }
-        };
 
-        // Reativar a detecção de scroll após a animação terminar e verificar visibilidade
-        timeoutRef.current = setTimeout(() => {
-          checkTitleVisibility();
-          setTimeout(() => {
+          // Usar um segundo timeout para desativar o userClicked após as animações
+          clickTimeoutRef.current = setTimeout(() => {
             setUserClicked(false);
-          }, 300);
-        }, 1000);
+          }, 500); // Tempo extra após a animação de scroll
+        }, 800); // Aguardar a animação de scroll
       }
     } catch (error) {
       console.error('Erro ao rolar para seção:', error);
-      setUserClicked(false); // Garantir que o usuário possa tentar novamente
+      // Em caso de erro, garantir que o usuário não fique preso no estado de clique
+      setUserClicked(false);
     }
   };
 
