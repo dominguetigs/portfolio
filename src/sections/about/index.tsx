@@ -7,7 +7,7 @@ import {
   GanttChart,
   Lightbulb,
 } from 'lucide-react';
-import { MotionSection, SectionHeader } from '@/app/sections/ui';
+import { MotionSection, SectionHeader } from '@/sections/ui';
 import Image from 'next/image';
 
 interface AboutSectionProps {

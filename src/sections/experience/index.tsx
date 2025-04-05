@@ -1,5 +1,5 @@
 import { motion } from 'framer-motion';
-import { SectionHeader, MotionSection } from '@/app/sections/ui';
+import { SectionHeader, MotionSection } from '@/sections/ui';
 import { ExperienceItem } from './components/experience-item';
 import { Check } from 'lucide-react';
 

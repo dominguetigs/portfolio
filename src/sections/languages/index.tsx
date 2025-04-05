@@ -1,4 +1,4 @@
-import { SectionHeader, MotionSection } from '@/app/sections/ui';
+import { SectionHeader, MotionSection } from '@/sections/ui';
 import { LanguageItem } from './components/language-item';
 
 export function LanguagesSection() {

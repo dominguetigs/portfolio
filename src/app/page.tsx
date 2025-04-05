@@ -1,18 +1,18 @@
 'use client';
 
 import { useRef } from 'react';
-import { HeroSection } from '@/app/sections/hero';
+import { HeroSection } from '@/sections/hero';
 import { NavMenu } from '@/components/nav-menu';
 import { Header } from '@/components/header';
 import { Footer } from '@/components/footer';
 
 // Import sections
-import { AboutSection } from '@/app/sections/about';
-import { SkillsSection } from '@/app/sections/skills';
-import { ProjectsSection } from '@/app/sections/projects';
-import { ExperienceSection } from '@/app/sections/experience';
-import { EducationSection } from '@/app/sections/education';
-import { LanguagesSection } from '@/app/sections/languages';
+import { AboutSection } from '@/sections/about';
+import { SkillsSection } from '@/sections/skills';
+import { ProjectsSection } from '@/sections/projects';
+import { ExperienceSection } from '@/sections/experience';
+import { EducationSection } from '@/sections/education';
+import { LanguagesSection } from '@/sections/languages';
 
 export default function Home() {
   const aboutRef = useRef<HTMLElement | null>(null);
