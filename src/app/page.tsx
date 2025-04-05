@@ -48,7 +48,27 @@ import {
   PopoverTrigger,
 } from '@/components/ui/popover';
 import { Button } from '@/components/ui/button';
+import { Badge } from '@/components/ui/badge';
 import Image from 'next/image';
+import {
+  Dialog,
+  DialogContent,
+  DialogHeader,
+  DialogTitle,
+  DialogFooter,
+} from '@/components/ui/dialog';
+
+type Project = {
+  id: string;
+  title: string;
+  description: string;
+  detailedDescription: string;
+  repository: string;
+  demo?: string;
+  image?: string;
+  technologies: string[];
+  language: string;
+};
 
 const sections = [
   { id: 'about', label: 'Sobre' },
@@ -59,11 +79,87 @@ const sections = [
   { id: 'languages', label: 'Idiomas' },
 ];
 
+const projects: Project[] = [
+  {
+    id: 'task-management-app',
+    title: 'Task Management App',
+    description:
+      'Aplicativo de gerenciamento de tarefas construído com React/NextJS e TypeScript.',
+    detailedDescription:
+      'Uma aplicação completa de gerenciamento de tarefas com recursos como criação, edição, exclusão e filtragem de tarefas. Inclui autenticação de usuários, personalização de temas e armazenamento local. O projeto foi desenvolvido usando React e Next.js com TypeScript para garantir tipagem estática e melhor manutenção do código.',
+    repository: 'https://github.com/dominguetigs/task-management-app',
+    demo: 'https://task-management-app-gt62.vercel.app/',
+    image: '/projects/task-management-app.png',
+    technologies: ['React', 'NextJS', 'TypeScript'],
+    language: 'TypeScript',
+  },
+  {
+    id: 'chat-bot-experiment',
+    title: 'Chat Bot Experiment',
+    description:
+      'Experimento de chatbot construído com React e Vite utilizando TypeScript.',
+    detailedDescription:
+      'Um experimento de chatbot que simula conversas usando processamento de linguagem natural básico. O projeto usa React com Vite para um ambiente de desenvolvimento rápido e eficiente. Implementei vários tipos de respostas, incluindo sugestões, links e ações automatizadas para demonstrar as possibilidades de um sistema de chatbot.',
+    repository: 'https://github.com/dominguetigs/chat-bot-experiment',
+    demo: 'https://chat-bot-experiment.vercel.app/',
+    image: '/projects/chat-bot-experiment.png',
+    technologies: ['React', 'Vite', 'TypeScript'],
+    language: 'TypeScript',
+  },
+  {
+    id: 'js-funcional',
+    title: 'JS Funcional',
+    description:
+      'Conceitos de programação funcional utilizando a linguagem Javascript.',
+    detailedDescription:
+      'Um projeto para explorar e demonstrar conceitos de programação funcional em JavaScript. Inclui exemplos de funções puras, imutabilidade, funções de primeira classe, composição de funções, currying, e outras técnicas funcionais. O objetivo é mostrar como esses conceitos podem ser aplicados em projetos reais para criar código mais limpo e manutenível.',
+    repository: 'https://github.com/dominguetigs/js-funcional',
+    technologies: ['JavaScript', 'Functional'],
+    language: 'JavaScript',
+  },
+  {
+    id: 'ps-scheduler',
+    title: 'PS Scheduler',
+    description: 'Aplicação web e mobile para agendar mensagens para contatos.',
+    detailedDescription:
+      'PS Scheduler é uma aplicação híbrida que permite aos usuários programar mensagens para serem enviadas automaticamente em datas e horários específicos. Desenvolvida com tecnologias web e empacotada para mobile, a aplicação sincroniza os dados entre dispositivos e oferece opções como mensagens recorrentes, templates personalizados e notificações de entrega.',
+    repository: 'https://github.com/dominguetigs/ps-scheduler',
+    demo: 'https://ps-scheduler.vercel.app/',
+    image: '/projects/ps-scheduler.png',
+    technologies: ['TypeScript', 'Web', 'Mobile'],
+    language: 'TypeScript',
+  },
+  {
+    id: 'snake-game',
+    title: 'Snake Game',
+    description: 'Jogo da cobrinha em JavaScript e Canvas.',
+    detailedDescription:
+      'Uma implementação clássica do jogo da cobrinha (Snake) usando JavaScript e a API Canvas. O jogo inclui diferentes níveis de dificuldade, sistema de pontuação e ranking. Foi desenvolvido com foco em práticas modernas de JavaScript e otimização de desempenho para garantir uma experiência de jogo suave em diversos dispositivos.',
+    repository: 'https://github.com/dominguetigs/snake-game',
+    image: '/projects/snake-game.png',
+    technologies: ['JavaScript', 'Canvas', 'Game'],
+    language: 'JavaScript',
+  },
+  {
+    id: 'memory-game',
+    title: 'Memory Game',
+    description: 'Jogo da memória utilizando JS e WEBPACK.',
+    detailedDescription:
+      'Um jogo da memória interativo construído com JavaScript e empacotado com Webpack. O jogo oferece diferentes temas e níveis de dificuldade, com animações suaves e responsividade para funcionar em qualquer dispositivo. Implementei um sistema de pontuação baseado no tempo e número de tentativas para adicionar um elemento competitivo.',
+    repository: 'https://github.com/dominguetigs/memory-game',
+    demo: 'https://dominguetigs.github.io/memory-game/src',
+    image: '/projects/memory-game.webp',
+    technologies: ['JavaScript', 'Webpack', 'Game'],
+    language: 'JavaScript',
+  },
+];
+
 export default function Home() {
   const aboutRef = useRef<HTMLElement>(null);
   const [selectedSkillTab, setSelectedSkillTab] = useState('frontend');
   const [hasAnimated, setHasAnimated] = useState(false);
   const [clickedSection, setClickedSection] = useState<string | null>(null);
+  const [selectedProject, setSelectedProject] = useState<Project | null>(null);
   const [refSkills, inViewSkills] = useInView({
     triggerOnce: true,
     threshold: 0.05,
@@ -89,6 +185,11 @@ export default function Home() {
       setHasAnimated(true);
     }
   }, [inViewSkills, hasAnimated]);
+
+  // Função para abrir o modal de detalhes do projeto
+  const openProjectDetails = (project: Project) => {
+    setSelectedProject(project);
+  };
 
   return (
     <div className="min-h-screen pb-20">
@@ -533,450 +634,106 @@ export default function Home() {
           </motion.div>
 
           <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
-            {/* Task Management App */}
-            <motion.div
-              className="group relative overflow-hidden rounded-xl border bg-card hover:bg-card/80 transition-colors shadow-sm"
-              initial={{ opacity: 0, y: 20 }}
-              whileInView={{ opacity: 1, y: 0 }}
-              viewport={{
-                once: true,
-                amount: 0.1,
-                margin: '-20px 0px 0px 0px',
-              }}
-              transition={{
-                duration: 0.3,
-                delay: 0.05,
-                ease: 'easeOut',
-              }}
-            >
-              <div className="aspect-video w-full bg-muted/40 relative overflow-hidden">
-                <div className="absolute inset-0 bg-gradient-to-t from-black/80 dark:from-black/70 to-black/10 dark:to-black/0 z-10"></div>
-                <Image
-                  src="/projects/task-management-app.png"
-                  alt="Task Management App"
-                  fill
-                  className="object-cover object-top"
-                  sizes="(max-width: 768px) 100vw, 400px"
-                />
-                <div className="absolute bottom-2 left-2 z-20">
-                  <span className="bg-primary/90 text-primary-foreground text-xs px-2 py-1 rounded">
-                    TypeScript
-                  </span>
-                </div>
-              </div>
-
-              <div className="p-4">
-                <div className="flex justify-between items-start mb-2">
-                  <h3 className="text-lg font-semibold">Task Management App</h3>
-                  <div className="flex gap-2">
-                    <a
-                      href="https://github.com/dominguetigs/task-management-app"
-                      target="_blank"
-                      rel="noopener noreferrer"
-                      className="text-muted-foreground hover:text-foreground transition-colors"
-                      aria-label="Ver código no GitHub"
-                    >
-                      <Github className="h-5 w-5" />
-                    </a>
+            {projects.map(project => (
+              <motion.div
+                key={project.id}
+                className="group relative overflow-hidden rounded-xl border bg-card hover:bg-card/80 transition-colors shadow-sm cursor-pointer"
+                initial={{ opacity: 0, y: 20 }}
+                whileInView={{ opacity: 1, y: 0 }}
+                viewport={{
+                  once: true,
+                  amount: 0.1,
+                  margin: '-20px 0px 0px 0px',
+                }}
+                transition={{
+                  duration: 0.3,
+                  delay: 0.05 + projects.indexOf(project) * 0.05,
+                  ease: 'easeOut',
+                }}
+                onClick={() => openProjectDetails(project)}
+              >
+                <div className="aspect-video w-full bg-muted/40 relative overflow-hidden">
+                  <div className="absolute inset-0 bg-gradient-to-t from-black/80 dark:from-black/70 to-black/10 dark:to-black/0 z-10"></div>
+                  {project.image ? (
+                    <Image
+                      src={project.image}
+                      alt={project.title}
+                      fill
+                      className="object-cover object-top"
+                      sizes="(max-width: 768px) 100vw, 400px"
+                    />
+                  ) : (
+                    <div className="w-full h-full flex items-center justify-center">
+                      <Rocket className="w-20 h-20 text-primary/50 dark:text-primary/40" />
+                    </div>
+                  )}
+                  <div className="absolute bottom-2 left-2 z-20">
+                    <span className="bg-primary/90 text-primary-foreground text-xs px-2 py-1 rounded">
+                      {project.language}
+                    </span>
                   </div>
                 </div>
-                <p className="text-sm text-muted-foreground mb-4">
-                  Aplicativo de gerenciamento de tarefas construído com
-                  React/NextJS e TypeScript.
-                </p>
-                <div className="flex flex-wrap gap-1 mb-4">
-                  <span className="bg-primary/10 text-primary text-xs px-2 py-1 rounded">
-                    React
-                  </span>
-                  <span className="bg-primary/10 text-primary text-xs px-2 py-1 rounded">
-                    NextJS
-                  </span>
-                  <span className="bg-primary/10 text-primary text-xs px-2 py-1 rounded">
-                    TypeScript
-                  </span>
-                </div>
-                <a
-                  href="https://github.com/dominguetigs/task-management-app"
-                  target="_blank"
-                  rel="noopener noreferrer"
-                  className="inline-flex items-center text-sm font-medium text-primary hover:text-primary/80 transition-colors"
-                >
-                  Ver repositório
-                  <ExternalLink className="ml-1 h-3 w-3" />
-                </a>
-              </div>
-            </motion.div>
 
-            {/* Chat Bot Experiment */}
-            <motion.div
-              className="group relative overflow-hidden rounded-xl border bg-card hover:bg-card/80 transition-colors shadow-sm"
-              initial={{ opacity: 0, y: 20 }}
-              whileInView={{ opacity: 1, y: 0 }}
-              viewport={{
-                once: true,
-                amount: 0.1,
-                margin: '-20px 0px 0px 0px',
-              }}
-              transition={{
-                duration: 0.3,
-                delay: 0.1,
-                ease: 'easeOut',
-              }}
-            >
-              <div className="aspect-video w-full bg-muted/40 relative overflow-hidden">
-                <div className="absolute inset-0 bg-gradient-to-t from-black/80 dark:from-black/70 to-black/10 dark:to-black/0 z-10"></div>
-                <Image
-                  src="/projects/chat-bot-experiment.png"
-                  alt="Chat Bot Experiment"
-                  fill
-                  className="object-cover object-top"
-                  sizes="(max-width: 768px) 100vw, 400px"
-                />
-                <div className="absolute bottom-2 left-2 z-20">
-                  <span className="bg-primary/90 text-primary-foreground text-xs px-2 py-1 rounded">
-                    TypeScript
-                  </span>
-                </div>
-              </div>
-
-              <div className="p-4">
-                <div className="flex justify-between items-start mb-2">
-                  <h3 className="text-lg font-semibold">Chat Bot Experiment</h3>
-                  <div className="flex gap-2">
-                    <a
-                      href="https://github.com/dominguetigs/chat-bot-experiment"
-                      target="_blank"
-                      rel="noopener noreferrer"
-                      className="text-muted-foreground hover:text-foreground transition-colors"
-                      aria-label="Ver código no GitHub"
+                <div className="p-4">
+                  <h3 className="text-lg font-semibold mb-2">
+                    {project.title}
+                  </h3>
+                  <p className="text-sm text-muted-foreground mb-4">
+                    {project.description}
+                  </p>
+                  <div className="flex flex-wrap gap-1 mb-4">
+                    {project.technologies.map(tech => (
+                      <Badge
+                        key={`${project.id}-${tech}`}
+                        variant="secondary"
+                        className="bg-primary/10 text-primary hover:bg-primary/20"
+                      >
+                        {tech}
+                      </Badge>
+                    ))}
+                  </div>
+                  <div className="flex justify-between items-center">
+                    <Button
+                      variant="ghost"
+                      size="sm"
+                      asChild
+                      className="p-0 h-auto font-medium text-primary hover:text-primary/80 hover:bg-transparent"
+                      onClick={e => e.stopPropagation()}
                     >
-                      <Github className="h-5 w-5" />
-                    </a>
+                      <a
+                        href={project.repository}
+                        target="_blank"
+                        rel="noopener noreferrer"
+                        className="inline-flex items-center"
+                      >
+                        <Github className="mr-1.5 h-4 w-4" />
+                        <span>Repositório</span>
+                      </a>
+                    </Button>
+
+                    {project.demo && (
+                      <Button
+                        variant="secondary"
+                        size="sm"
+                        asChild
+                        className="bg-primary/20 hover:bg-primary/30"
+                        onClick={e => e.stopPropagation()}
+                      >
+                        <a
+                          href={project.demo}
+                          target="_blank"
+                          rel="noopener noreferrer"
+                          className="inline-flex items-center"
+                        >
+                          <span>Ver demo</span>
+                          <ExternalLink className="ml-1.5 h-3.5 w-3.5" />
+                        </a>
+                      </Button>
+                    )}
                   </div>
                 </div>
-                <p className="text-sm text-muted-foreground mb-4">
-                  Experimento de chatbot construído com React e Vite utilizando
-                  TypeScript.
-                </p>
-                <div className="flex flex-wrap gap-1 mb-4">
-                  <span className="bg-primary/10 text-primary text-xs px-2 py-1 rounded">
-                    React
-                  </span>
-                  <span className="bg-primary/10 text-primary text-xs px-2 py-1 rounded">
-                    Vite
-                  </span>
-                  <span className="bg-primary/10 text-primary text-xs px-2 py-1 rounded">
-                    TypeScript
-                  </span>
-                </div>
-                <a
-                  href="https://github.com/dominguetigs/chat-bot-experiment"
-                  target="_blank"
-                  rel="noopener noreferrer"
-                  className="inline-flex items-center text-sm font-medium text-primary hover:text-primary/80 transition-colors"
-                >
-                  Ver repositório
-                  <ExternalLink className="ml-1 h-3 w-3" />
-                </a>
-              </div>
-            </motion.div>
-
-            {/* JS Funcional */}
-            <motion.div
-              className="group relative overflow-hidden rounded-xl border bg-card hover:bg-card/80 transition-colors shadow-sm"
-              initial={{ opacity: 0, y: 20 }}
-              whileInView={{ opacity: 1, y: 0 }}
-              viewport={{
-                once: true,
-                amount: 0.1,
-                margin: '-20px 0px 0px 0px',
-              }}
-              transition={{
-                duration: 0.3,
-                delay: 0.15,
-                ease: 'easeOut',
-              }}
-            >
-              <div className="aspect-video w-full bg-muted/40 relative overflow-hidden">
-                <div className="absolute inset-0 bg-gradient-to-t from-black/80 dark:from-black/70 to-black/10 dark:to-black/0 z-10"></div>
-                <motion.div
-                  className="absolute inset-0 bg-primary/20"
-                  initial={{ opacity: 0 }}
-                  whileInView={{ opacity: 1 }}
-                  transition={{ duration: 0.5, delay: 0.2 }}
-                ></motion.div>
-                <motion.div
-                  className="w-full h-full flex items-center justify-center text-4xl font-bold"
-                  initial={{ scale: 0.8, opacity: 0 }}
-                  whileInView={{ scale: 1, opacity: 1 }}
-                  transition={{ duration: 0.5, delay: 0.3 }}
-                >
-                  <Rocket className="w-20 h-20 text-primary/50 dark:text-primary/40" />
-                </motion.div>
-                <div className="absolute bottom-2 left-2 z-20">
-                  <span className="bg-primary/90 text-primary-foreground text-xs px-2 py-1 rounded">
-                    JavaScript
-                  </span>
-                </div>
-              </div>
-
-              <div className="p-4">
-                <div className="flex justify-between items-start mb-2">
-                  <h3 className="text-lg font-semibold">JS Funcional</h3>
-                  <div className="flex gap-2">
-                    <a
-                      href="https://github.com/dominguetigs/js-funcional"
-                      target="_blank"
-                      rel="noopener noreferrer"
-                      className="text-muted-foreground hover:text-foreground transition-colors"
-                      aria-label="Ver código no GitHub"
-                    >
-                      <Github className="h-5 w-5" />
-                    </a>
-                  </div>
-                </div>
-                <p className="text-sm text-muted-foreground mb-4">
-                  Conceitos de programação funcional utilizando a linguagem
-                  Javascript.
-                </p>
-                <div className="flex flex-wrap gap-1 mb-4">
-                  <span className="bg-primary/10 text-primary text-xs px-2 py-1 rounded">
-                    JavaScript
-                  </span>
-                  <span className="bg-primary/10 text-primary text-xs px-2 py-1 rounded">
-                    Functional
-                  </span>
-                </div>
-                <a
-                  href="https://github.com/dominguetigs/js-funcional"
-                  target="_blank"
-                  rel="noopener noreferrer"
-                  className="inline-flex items-center text-sm font-medium text-primary hover:text-primary/80 transition-colors"
-                >
-                  Ver repositório
-                  <ExternalLink className="ml-1 h-3 w-3" />
-                </a>
-              </div>
-            </motion.div>
-
-            {/* PS Scheduler */}
-            <motion.div
-              className="group relative overflow-hidden rounded-xl border bg-card hover:bg-card/80 transition-colors shadow-sm"
-              initial={{ opacity: 0, y: 20 }}
-              whileInView={{ opacity: 1, y: 0 }}
-              viewport={{
-                once: true,
-                amount: 0.1,
-                margin: '-20px 0px 0px 0px',
-              }}
-              transition={{
-                duration: 0.3,
-                delay: 0.2,
-                ease: 'easeOut',
-              }}
-            >
-              <div className="aspect-video w-full bg-muted/40 relative overflow-hidden">
-                <div className="absolute inset-0 bg-gradient-to-t from-black/80 dark:from-black/70 to-black/10 dark:to-black/0 z-10"></div>
-                <Image
-                  src="/projects/ps-scheduler.png"
-                  alt="PS Scheduler"
-                  fill
-                  className="object-cover object-top"
-                  sizes="(max-width: 768px) 100vw, 400px"
-                />
-                <div className="absolute bottom-2 left-2 z-20">
-                  <span className="bg-primary/90 text-primary-foreground text-xs px-2 py-1 rounded">
-                    TypeScript
-                  </span>
-                </div>
-              </div>
-
-              <div className="p-4">
-                <div className="flex justify-between items-start mb-2">
-                  <h3 className="text-lg font-semibold">PS Scheduler</h3>
-                  <div className="flex gap-2">
-                    <a
-                      href="https://github.com/dominguetigs/ps-scheduler"
-                      target="_blank"
-                      rel="noopener noreferrer"
-                      className="text-muted-foreground hover:text-foreground transition-colors"
-                      aria-label="Ver código no GitHub"
-                    >
-                      <Github className="h-5 w-5" />
-                    </a>
-                  </div>
-                </div>
-                <p className="text-sm text-muted-foreground mb-4">
-                  Aplicação web e mobile para agendar mensagens para contatos.
-                </p>
-                <div className="flex flex-wrap gap-1 mb-4">
-                  <span className="bg-primary/10 text-primary text-xs px-2 py-1 rounded">
-                    TypeScript
-                  </span>
-                  <span className="bg-primary/10 text-primary text-xs px-2 py-1 rounded">
-                    Web
-                  </span>
-                  <span className="bg-primary/10 text-primary text-xs px-2 py-1 rounded">
-                    Mobile
-                  </span>
-                </div>
-                <a
-                  href="https://github.com/dominguetigs/ps-scheduler"
-                  target="_blank"
-                  rel="noopener noreferrer"
-                  className="inline-flex items-center text-sm font-medium text-primary hover:text-primary/80 transition-colors"
-                >
-                  Ver repositório
-                  <ExternalLink className="ml-1 h-3 w-3" />
-                </a>
-              </div>
-            </motion.div>
-
-            {/* Snake Game */}
-            <motion.div
-              className="group relative overflow-hidden rounded-xl border bg-card hover:bg-card/80 transition-colors shadow-sm"
-              initial={{ opacity: 0, y: 20 }}
-              whileInView={{ opacity: 1, y: 0 }}
-              viewport={{
-                once: true,
-                amount: 0.1,
-                margin: '-20px 0px 0px 0px',
-              }}
-              transition={{
-                duration: 0.3,
-                delay: 0.25,
-                ease: 'easeOut',
-              }}
-            >
-              <div className="aspect-video w-full bg-muted/40 relative overflow-hidden">
-                <div className="absolute inset-0 bg-gradient-to-t from-black/80 dark:from-black/70 to-black/10 dark:to-black/0 z-10"></div>
-                <Image
-                  src="/projects/snake-game.png"
-                  alt="Snake Game"
-                  fill
-                  className="object-cover object-top"
-                  sizes="(max-width: 768px) 100vw, 400px"
-                />
-                <div className="absolute bottom-2 left-2 z-20">
-                  <span className="bg-primary/90 text-primary-foreground text-xs px-2 py-1 rounded">
-                    JavaScript
-                  </span>
-                </div>
-              </div>
-
-              <div className="p-4">
-                <div className="flex justify-between items-start mb-2">
-                  <h3 className="text-lg font-semibold">Snake Game</h3>
-                  <div className="flex gap-2">
-                    <a
-                      href="https://github.com/dominguetigs/snake-game"
-                      target="_blank"
-                      rel="noopener noreferrer"
-                      className="text-muted-foreground hover:text-foreground transition-colors"
-                      aria-label="Ver código no GitHub"
-                    >
-                      <Github className="h-5 w-5" />
-                    </a>
-                  </div>
-                </div>
-                <p className="text-sm text-muted-foreground mb-4">
-                  Jogo da cobrinha em JavaScript e Canvas.
-                </p>
-                <div className="flex flex-wrap gap-1 mb-4">
-                  <span className="bg-primary/10 text-primary text-xs px-2 py-1 rounded">
-                    JavaScript
-                  </span>
-                  <span className="bg-primary/10 text-primary text-xs px-2 py-1 rounded">
-                    Canvas
-                  </span>
-                  <span className="bg-primary/10 text-primary text-xs px-2 py-1 rounded">
-                    Game
-                  </span>
-                </div>
-                <a
-                  href="https://github.com/dominguetigs/snake-game"
-                  target="_blank"
-                  rel="noopener noreferrer"
-                  className="inline-flex items-center text-sm font-medium text-primary hover:text-primary/80 transition-colors"
-                >
-                  Ver repositório
-                  <ExternalLink className="ml-1 h-3 w-3" />
-                </a>
-              </div>
-            </motion.div>
-
-            {/* Memory Game */}
-            <motion.div
-              className="group relative overflow-hidden rounded-xl border bg-card hover:bg-card/80 transition-colors shadow-sm"
-              initial={{ opacity: 0, y: 20 }}
-              whileInView={{ opacity: 1, y: 0 }}
-              viewport={{
-                once: true,
-                amount: 0.1,
-                margin: '-20px 0px 0px 0px',
-              }}
-              transition={{
-                duration: 0.3,
-                delay: 0.3,
-                ease: 'easeOut',
-              }}
-            >
-              <div className="aspect-video w-full bg-muted/40 relative overflow-hidden">
-                <div className="absolute inset-0 bg-gradient-to-t from-black/80 dark:from-black/70 to-black/10 dark:to-black/0 z-10"></div>
-                <Image
-                  src="/projects/memory-game.webp"
-                  alt="Memory Game"
-                  fill
-                  className="object-cover object-top"
-                  sizes="(max-width: 768px) 100vw, 400px"
-                />
-                <div className="absolute bottom-2 left-2 z-20">
-                  <span className="bg-primary/90 text-primary-foreground text-xs px-2 py-1 rounded">
-                    JavaScript
-                  </span>
-                </div>
-              </div>
-
-              <div className="p-4">
-                <div className="flex justify-between items-start mb-2">
-                  <h3 className="text-lg font-semibold">Memory Game</h3>
-                  <div className="flex gap-2">
-                    <a
-                      href="https://github.com/dominguetigs/memory-game"
-                      target="_blank"
-                      rel="noopener noreferrer"
-                      className="text-muted-foreground hover:text-foreground transition-colors"
-                      aria-label="Ver código no GitHub"
-                    >
-                      <Github className="h-5 w-5" />
-                    </a>
-                  </div>
-                </div>
-                <p className="text-sm text-muted-foreground mb-4">
-                  Jogo da memória utilizando JS e WEBPACK.
-                </p>
-                <div className="flex flex-wrap gap-1 mb-4">
-                  <span className="bg-primary/10 text-primary text-xs px-2 py-1 rounded">
-                    JavaScript
-                  </span>
-                  <span className="bg-primary/10 text-primary text-xs px-2 py-1 rounded">
-                    Webpack
-                  </span>
-                  <span className="bg-primary/10 text-primary text-xs px-2 py-1 rounded">
-                    Game
-                  </span>
-                </div>
-                <a
-                  href="https://github.com/dominguetigs/memory-game"
-                  target="_blank"
-                  rel="noopener noreferrer"
-                  className="inline-flex items-center text-sm font-medium text-primary hover:text-primary/80 transition-colors"
-                >
-                  Ver repositório
-                  <ExternalLink className="ml-1 h-3 w-3" />
-                </a>
-              </div>
-            </motion.div>
+              </motion.div>
+            ))}
           </div>
 
           <motion.div
@@ -1544,6 +1301,85 @@ export default function Home() {
           </a>
         </p>
       </footer>
+
+      {/* Modal de Detalhes do Projeto */}
+      <Dialog
+        open={selectedProject !== null}
+        onOpenChange={open => !open && setSelectedProject(null)}
+      >
+        {selectedProject && (
+          <DialogContent className="max-w-3xl max-h-[90vh] overflow-y-auto">
+            <DialogHeader>
+              <DialogTitle className="text-2xl flex items-center justify-between">
+                {selectedProject.title}
+                <span className="text-sm font-normal bg-primary/10 dark:bg-primary/20 text-primary px-2 py-1 rounded">
+                  {selectedProject.language}
+                </span>
+              </DialogTitle>
+            </DialogHeader>
+
+            <div className="relative w-full aspect-video rounded-md overflow-hidden my-4 border">
+              {selectedProject.image ? (
+                <Image
+                  src={selectedProject.image}
+                  alt={selectedProject.title}
+                  fill
+                  className="object-cover object-top"
+                  sizes="(max-width: 768px) 100vw, 800px"
+                />
+              ) : (
+                <div className="flex items-center justify-center w-full h-full bg-muted/40">
+                  <Rocket className="w-20 h-20 text-primary/50" />
+                </div>
+              )}
+            </div>
+
+            <div className="space-y-4">
+              <p className="text-base">{selectedProject.detailedDescription}</p>
+
+              <div>
+                <h4 className="text-sm uppercase tracking-wide text-muted-foreground mb-2">
+                  Tecnologias utilizadas
+                </h4>
+                <div className="flex flex-wrap gap-2">
+                  {selectedProject.technologies.map(tech => (
+                    <Badge
+                      key={tech}
+                      variant="secondary"
+                      className="bg-primary/10 text-primary hover:bg-primary/20"
+                    >
+                      {tech}
+                    </Badge>
+                  ))}
+                </div>
+              </div>
+            </div>
+
+            <DialogFooter className="mt-6 flex items-center gap-4">
+              <a
+                href={selectedProject.repository}
+                target="_blank"
+                rel="noopener noreferrer"
+                className="inline-flex items-center gap-2 bg-primary hover:bg-primary/90 text-primary-foreground px-4 py-2 rounded-md transition-colors"
+              >
+                <Github className="h-4 w-4" />
+                Ver Repositório
+              </a>
+              {selectedProject.demo && (
+                <a
+                  href={selectedProject.demo}
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  className="inline-flex items-center gap-2 bg-card hover:bg-muted border px-4 py-2 rounded-md transition-colors"
+                >
+                  <ExternalLink className="h-4 w-4" />
+                  Ver Demo
+                </a>
+              )}
+            </DialogFooter>
+          </DialogContent>
+        )}
+      </Dialog>
     </div>
   );
 }
