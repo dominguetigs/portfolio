@@ -1,6 +1,10 @@
 import type { Metadata } from 'next';
 import { Nunito } from 'next/font/google';
 import { PT_Sans } from 'next/font/google';
+
+import { NextIntlClientProvider } from 'next-intl';
+import { getLocale } from 'next-intl/server';
+
 import './globals.css';
 import { ThemeProvider } from '@/components/theme-provider';
 import { MainContent } from '@/components/main-content';
@@ -29,13 +33,14 @@ export const metadata: Metadata = {
   },
 };
 
-export default function RootLayout({
+export default async function RootLayout({
   children,
 }: Readonly<{
   children: React.ReactNode;
 }>) {
+  const locale = await getLocale();
   return (
-    <html lang="pt-BR" suppressHydrationWarning>
+    <html lang={locale} suppressHydrationWarning>
       <head>
         <meta property="og:type" content="website" />
         <meta property="og:title" content="Gustavo Domingueti - Portfolio" />
@@ -85,14 +90,16 @@ export default function RootLayout({
       <body
         className={`${nunito.variable} ${ptSans.variable} antialiased relative`}
       >
-        <ThemeProvider
-          attribute="class"
-          defaultTheme="light"
-          enableSystem
-          disableTransitionOnChange
-        >
-          <MainContent>{children}</MainContent>
-        </ThemeProvider>
+        <NextIntlClientProvider>
+          <ThemeProvider
+            attribute="class"
+            defaultTheme="light"
+            enableSystem
+            disableTransitionOnChange
+          >
+            <MainContent>{children}</MainContent>
+          </ThemeProvider>
+        </NextIntlClientProvider>
       </body>
     </html>
   );
