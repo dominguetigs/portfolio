@@ -54,7 +54,7 @@ export default function RootLayout({
           content="width=device-width, initial-scale=1.0, viewport-fit=cover, user-scalable=no"
         />
         <meta name="orientation" content="portrait" />
-        <style>
+        {/* <style>
           {`
             @media only screen and (max-width: 1024px) and (orientation: landscape) {
               body::before {
@@ -80,7 +80,7 @@ export default function RootLayout({
               }
             }
           `}
-        </style>
+        </style> */}
       </head>
       <body
         className={`${nunito.variable} ${ptSans.variable} antialiased relative`}

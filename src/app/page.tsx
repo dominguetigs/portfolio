@@ -1,6 +1,6 @@
 'use client';
 
-import { useRef, useState } from 'react';
+import { useRef, useState, useEffect } from 'react';
 import { ThemeToggle } from '@/components/theme-toggle';
 import { HeroSection } from '@/components/hero-section';
 import { NavMenu } from '@/components/nav-menu';
@@ -11,6 +11,7 @@ import { ExperienceItem } from '@/components/experience-item';
 import { EducationItem } from '@/components/education-item';
 import { LanguageItem } from '@/components/language-item';
 import { motion } from 'framer-motion';
+import { useInView } from 'react-intersection-observer';
 import {
   GraduationCap,
   Award,
@@ -48,6 +49,12 @@ const sections = [
 export default function Home() {
   const aboutRef = useRef<HTMLElement>(null);
   const [selectedSkillTab, setSelectedSkillTab] = useState('frontend');
+  const [hasAnimated, setHasAnimated] = useState(false);
+  const [refSkills, inViewSkills] = useInView({
+    triggerOnce: true,
+    threshold: 0.05,
+    rootMargin: '-20px 0px 0px 0px',
+  });
 
   const scrollToAbout = () => {
     aboutRef.current?.scrollIntoView({ behavior: 'smooth' });
@@ -56,6 +63,14 @@ export default function Home() {
   const handleTabChange = (value: string) => {
     setSelectedSkillTab(value);
   };
+
+  // Efeito para animar a troca de categoria quando a seção aparecer pela primeira vez
+  useEffect(() => {
+    if (inViewSkills && !hasAnimated) {
+      // Apenas marcar como animado para que os componentes TechSkillItem possam usar seus próprios efeitos de animação
+      setHasAnimated(true);
+    }
+  }, [inViewSkills, hasAnimated]);
 
   return (
     <div className="min-h-screen pb-20">
@@ -202,7 +217,12 @@ export default function Home() {
           </div>
         </MotionSection>
 
-        <MotionSection id="skills" className="py-16" delay={0.1}>
+        <MotionSection
+          id="skills"
+          className="py-16"
+          delay={0.1}
+          ref={refSkills}
+        >
           <SectionHeader title="Habilidades" />
           <motion.div
             initial={{ opacity: 0 }}

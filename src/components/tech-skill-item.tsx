@@ -2,6 +2,7 @@
 
 import { motion, AnimatePresence } from 'framer-motion';
 import { Card } from '@/components/ui/card';
+import { useInView } from 'react-intersection-observer';
 import {
   Code,
   CodeSquare,
@@ -192,6 +193,12 @@ interface TechSkillItemProps {
 }
 
 export function TechSkillItem({ label, items, delay = 0 }: TechSkillItemProps) {
+  const [ref, inView] = useInView({
+    triggerOnce: true,
+    threshold: 0.1,
+    rootMargin: '-20px 0px 0px 0px',
+  });
+
   // Função para ordenar os itens por nível de habilidade (do maior para o menor)
   const sortedItems = [...items].sort(
     (a, b) => (techSkillLevels[b] || 3) - (techSkillLevels[a] || 3),
@@ -199,15 +206,16 @@ export function TechSkillItem({ label, items, delay = 0 }: TechSkillItemProps) {
 
   return (
     <motion.div
+      ref={ref}
       initial={{ opacity: 0, y: 20 }}
-      animate={{ opacity: 1, y: 0 }}
+      animate={inView ? { opacity: 1, y: 0 } : { opacity: 0, y: 20 }}
       transition={{ duration: 0.5, delay }}
       className="mb-8"
     >
       <motion.div
         className="flex items-center gap-2 mb-4"
         initial={{ opacity: 0 }}
-        animate={{ opacity: 1 }}
+        animate={inView ? { opacity: 1 } : { opacity: 0 }}
         transition={{ duration: 0.5, delay: delay + 0.1 }}
       >
         {categoryIcons[label] && (
@@ -228,11 +236,13 @@ export function TechSkillItem({ label, items, delay = 0 }: TechSkillItemProps) {
             <motion.div
               key={item}
               initial={{ opacity: 0, scale: 0.9 }}
-              animate={{ opacity: 1, scale: 1 }}
+              animate={
+                inView ? { opacity: 1, scale: 1 } : { opacity: 0, scale: 0.9 }
+              }
               exit={{ opacity: 0, scale: 0.9 }}
               transition={{
                 duration: 0.3,
-                delay: delay + index * 0.05,
+                delay: inView ? delay + index * 0.08 : 0,
                 type: 'spring',
                 stiffness: 200,
               }}
@@ -278,12 +288,13 @@ export function TechSkillItem({ label, items, delay = 0 }: TechSkillItemProps) {
                         <motion.div
                           key={i}
                           initial={{ scale: 0, opacity: 0 }}
-                          animate={{
-                            scale: 1,
-                            opacity: 1,
-                          }}
+                          animate={
+                            inView
+                              ? { scale: 1, opacity: 1 }
+                              : { scale: 0, opacity: 0 }
+                          }
                           transition={{
-                            delay: delay + index * 0.05 + i * 0.05,
+                            delay: inView ? delay + index * 0.08 + i * 0.05 : 0,
                             duration: 0.3,
                           }}
                           className={`w-3 h-1.5 rounded-full ${
@@ -300,9 +311,9 @@ export function TechSkillItem({ label, items, delay = 0 }: TechSkillItemProps) {
                     <motion.div
                       className="absolute -top-2 -right-2 bg-primary text-primary-foreground rounded-full p-0.5 shadow-sm z-10"
                       initial={{ scale: 0 }}
-                      animate={{ scale: 1 }}
+                      animate={inView ? { scale: 1 } : { scale: 0 }}
                       transition={{
-                        delay: delay + index * 0.05 + 0.2,
+                        delay: inView ? delay + index * 0.08 + 0.2 : 0,
                         type: 'spring',
                         stiffness: 300,
                       }}
