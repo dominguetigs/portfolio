@@ -1,6 +1,5 @@
 import { motion } from 'framer-motion';
-import { SectionHeader } from '@/components/section-header';
-import { MotionSection } from '@/components/motion-section';
+import { SectionHeader, MotionSection } from '@/app/sections/ui';
 import { Badge } from '@/components/ui/badge';
 import { ExternalLink, Github, Rocket } from 'lucide-react';
 import Image from 'next/image';

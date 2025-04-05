@@ -1,7 +1,6 @@
 import { motion } from 'framer-motion';
-import { SectionHeader } from '@/components/section-header';
-import { MotionSection } from '@/components/motion-section';
-import { EducationItem } from '@/components/education-item';
+import { SectionHeader, MotionSection } from '@/app/sections/ui';
+import { EducationItem } from './components/education-item';
 import { GraduationCap, Award } from 'lucide-react';
 
 export function EducationSection() {

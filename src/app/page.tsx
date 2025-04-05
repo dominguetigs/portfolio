@@ -1,7 +1,7 @@
 'use client';
 
 import { useRef } from 'react';
-import { HeroSection } from '@/components/hero-section';
+import { HeroSection } from '@/app/sections/hero';
 import { NavMenu } from '@/components/nav-menu';
 import { Header } from '@/components/header';
 import { Footer } from '@/components/footer';

@@ -6,7 +6,7 @@ import { NextIntlClientProvider } from 'next-intl';
 import { getLocale } from 'next-intl/server';
 
 import './globals.css';
-import { ThemeProvider } from '@/components/theme-provider';
+import { ThemeProvider } from '@/hooks/theme-provider';
 import { MainContent } from '@/components/main-content';
 
 const nunito = Nunito({
