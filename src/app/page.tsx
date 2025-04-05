@@ -535,18 +535,26 @@ export default function Home() {
           <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
             {/* Task Management App */}
             <motion.div
-              className="group relative overflow-hidden rounded-xl border bg-card shadow-sm transition-all hover:shadow-md"
-              initial={{ opacity: 0, y: 30 }}
-              whileInView={{ opacity: 1, y: 0 }}
+              className="group relative overflow-hidden rounded-xl border bg-card shadow-sm transition-all hover:shadow-lg"
+              initial={{ opacity: 0, y: 50, scale: 0.95 }}
+              whileInView={{ opacity: 1, y: 0, scale: 1 }}
               viewport={{
                 once: true,
-                amount: 0.2,
+                amount: 0.1,
                 margin: '-20px 0px 0px 0px',
               }}
-              transition={{ duration: 0.4, delay: 0.1 }}
+              transition={{
+                duration: 0.5,
+                delay: 0.05,
+                type: 'spring',
+                stiffness: 100,
+                damping: 15,
+              }}
               whileHover={{
-                y: -5,
-                transition: { duration: 0.2 },
+                y: -8,
+                boxShadow:
+                  '0 10px 25px -5px rgba(0, 0, 0, 0.1), 0 8px 10px -6px rgba(0, 0, 0, 0.1)',
+                transition: { duration: 0.3 },
               }}
             >
               <div className="aspect-video w-full bg-muted/40 relative overflow-hidden">
@@ -616,18 +624,26 @@ export default function Home() {
 
             {/* Chat Bot Experiment */}
             <motion.div
-              className="group relative overflow-hidden rounded-xl border bg-card shadow-sm transition-all hover:shadow-md"
-              initial={{ opacity: 0, y: 30 }}
-              whileInView={{ opacity: 1, y: 0 }}
+              className="group relative overflow-hidden rounded-xl border bg-card shadow-sm transition-all hover:shadow-lg"
+              initial={{ opacity: 0, y: 50, scale: 0.95 }}
+              whileInView={{ opacity: 1, y: 0, scale: 1 }}
               viewport={{
                 once: true,
-                amount: 0.2,
+                amount: 0.1,
                 margin: '-20px 0px 0px 0px',
               }}
-              transition={{ duration: 0.4, delay: 0.2 }}
+              transition={{
+                duration: 0.5,
+                delay: 0.15,
+                type: 'spring',
+                stiffness: 100,
+                damping: 15,
+              }}
               whileHover={{
-                y: -5,
-                transition: { duration: 0.2 },
+                y: -8,
+                boxShadow:
+                  '0 10px 25px -5px rgba(0, 0, 0, 0.1), 0 8px 10px -6px rgba(0, 0, 0, 0.1)',
+                transition: { duration: 0.3 },
               }}
             >
               <div className="aspect-video w-full bg-muted/40 relative overflow-hidden">
@@ -697,18 +713,26 @@ export default function Home() {
 
             {/* JS Funcional */}
             <motion.div
-              className="group relative overflow-hidden rounded-xl border bg-card shadow-sm transition-all hover:shadow-md"
-              initial={{ opacity: 0, y: 30 }}
-              whileInView={{ opacity: 1, y: 0 }}
+              className="group relative overflow-hidden rounded-xl border bg-card shadow-sm transition-all hover:shadow-lg"
+              initial={{ opacity: 0, y: 50, scale: 0.95 }}
+              whileInView={{ opacity: 1, y: 0, scale: 1 }}
               viewport={{
                 once: true,
-                amount: 0.2,
+                amount: 0.1,
                 margin: '-20px 0px 0px 0px',
               }}
-              transition={{ duration: 0.4, delay: 0.3 }}
+              transition={{
+                duration: 0.5,
+                delay: 0.25,
+                type: 'spring',
+                stiffness: 100,
+                damping: 15,
+              }}
               whileHover={{
-                y: -5,
-                transition: { duration: 0.2 },
+                y: -8,
+                boxShadow:
+                  '0 10px 25px -5px rgba(0, 0, 0, 0.1), 0 8px 10px -6px rgba(0, 0, 0, 0.1)',
+                transition: { duration: 0.3 },
               }}
             >
               <div className="aspect-video w-full bg-muted/40 relative overflow-hidden">
@@ -775,18 +799,26 @@ export default function Home() {
 
             {/* PS Scheduler */}
             <motion.div
-              className="group relative overflow-hidden rounded-xl border bg-card shadow-sm transition-all hover:shadow-md"
-              initial={{ opacity: 0, y: 30 }}
-              whileInView={{ opacity: 1, y: 0 }}
+              className="group relative overflow-hidden rounded-xl border bg-card shadow-sm transition-all hover:shadow-lg"
+              initial={{ opacity: 0, y: 50, scale: 0.95 }}
+              whileInView={{ opacity: 1, y: 0, scale: 1 }}
               viewport={{
                 once: true,
-                amount: 0.2,
+                amount: 0.1,
                 margin: '-20px 0px 0px 0px',
               }}
-              transition={{ duration: 0.4, delay: 0.4 }}
+              transition={{
+                duration: 0.5,
+                delay: 0.35,
+                type: 'spring',
+                stiffness: 100,
+                damping: 15,
+              }}
               whileHover={{
-                y: -5,
-                transition: { duration: 0.2 },
+                y: -8,
+                boxShadow:
+                  '0 10px 25px -5px rgba(0, 0, 0, 0.1), 0 8px 10px -6px rgba(0, 0, 0, 0.1)',
+                transition: { duration: 0.3 },
               }}
             >
               <div className="aspect-video w-full bg-muted/40 relative overflow-hidden">
@@ -855,18 +887,26 @@ export default function Home() {
 
             {/* Snake Game */}
             <motion.div
-              className="group relative overflow-hidden rounded-xl border bg-card shadow-sm transition-all hover:shadow-md"
-              initial={{ opacity: 0, y: 30 }}
-              whileInView={{ opacity: 1, y: 0 }}
+              className="group relative overflow-hidden rounded-xl border bg-card shadow-sm transition-all hover:shadow-lg"
+              initial={{ opacity: 0, y: 50, scale: 0.95 }}
+              whileInView={{ opacity: 1, y: 0, scale: 1 }}
               viewport={{
                 once: true,
-                amount: 0.2,
+                amount: 0.1,
                 margin: '-20px 0px 0px 0px',
               }}
-              transition={{ duration: 0.4, delay: 0.5 }}
+              transition={{
+                duration: 0.5,
+                delay: 0.45,
+                type: 'spring',
+                stiffness: 100,
+                damping: 15,
+              }}
               whileHover={{
-                y: -5,
-                transition: { duration: 0.2 },
+                y: -8,
+                boxShadow:
+                  '0 10px 25px -5px rgba(0, 0, 0, 0.1), 0 8px 10px -6px rgba(0, 0, 0, 0.1)',
+                transition: { duration: 0.3 },
               }}
             >
               <div className="aspect-video w-full bg-muted/40 relative overflow-hidden">
@@ -935,18 +975,26 @@ export default function Home() {
 
             {/* Memory Game */}
             <motion.div
-              className="group relative overflow-hidden rounded-xl border bg-card shadow-sm transition-all hover:shadow-md"
-              initial={{ opacity: 0, y: 30 }}
-              whileInView={{ opacity: 1, y: 0 }}
+              className="group relative overflow-hidden rounded-xl border bg-card shadow-sm transition-all hover:shadow-lg"
+              initial={{ opacity: 0, y: 50, scale: 0.95 }}
+              whileInView={{ opacity: 1, y: 0, scale: 1 }}
               viewport={{
                 once: true,
-                amount: 0.2,
+                amount: 0.1,
                 margin: '-20px 0px 0px 0px',
               }}
-              transition={{ duration: 0.4, delay: 0.6 }}
+              transition={{
+                duration: 0.5,
+                delay: 0.55,
+                type: 'spring',
+                stiffness: 100,
+                damping: 15,
+              }}
               whileHover={{
-                y: -5,
-                transition: { duration: 0.2 },
+                y: -8,
+                boxShadow:
+                  '0 10px 25px -5px rgba(0, 0, 0, 0.1), 0 8px 10px -6px rgba(0, 0, 0, 0.1)',
+                transition: { duration: 0.3 },
               }}
             >
               <div className="aspect-video w-full bg-muted/40 relative overflow-hidden">
@@ -1015,17 +1063,17 @@ export default function Home() {
           </div>
 
           <motion.div
-            className="mt-8 text-center"
-            initial={{ opacity: 0, y: 20 }}
-            whileInView={{ opacity: 1, y: 0 }}
-            viewport={{ once: true }}
-            transition={{ duration: 0.4, delay: 0.7 }}
+            className="mt-12 text-center"
+            initial={{ opacity: 0, scale: 0.9 }}
+            whileInView={{ opacity: 1, scale: 1 }}
+            viewport={{ once: true, amount: 0.5 }}
+            transition={{ duration: 0.5, delay: 0.7, type: 'spring' }}
           >
             <a
               href="https://github.com/dominguetigs?tab=repositories"
               target="_blank"
               rel="noopener noreferrer"
-              className="inline-flex items-center gap-2 bg-primary/10 hover:bg-primary/20 text-primary px-4 py-2 rounded-full transition-colors font-medium"
+              className="inline-flex items-center gap-2 bg-primary/10 hover:bg-primary/20 text-primary px-5 py-2.5 rounded-full transition-all font-medium hover:scale-105 hover:shadow-md"
             >
               <Github className="h-4 w-4" />
               Ver mais projetos no GitHub
