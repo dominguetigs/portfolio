@@ -159,22 +159,63 @@ export function HeroSection({
   return (
     <>
       {/* Botão de scroll up fixo no rodapé alinhado à direita */}
-      {!isAtTop && (
-        <motion.div
-          initial={{ opacity: 0, y: 20 }}
-          animate={{ opacity: 1, y: 0 }}
-          exit={{ opacity: 0, y: 20 }}
-          className="fixed bottom-6 right-6 z-50"
-        >
-          <Button
-            size="icon"
-            onClick={scrollToTop}
-            className="rounded-full shadow-md animate-bounce-up"
+      <AnimatePresence mode="wait">
+        {!isAtTop && (
+          <motion.div
+            key="scroll-up-button"
+            initial={{
+              opacity: 0,
+              scale: 1.2,
+              y: 15,
+              filter: 'blur(3px)',
+              boxShadow: '0px 0px 0px rgba(0,0,0,0)',
+            }}
+            animate={{
+              opacity: 1,
+              scale: 1,
+              y: 0,
+              filter: 'blur(0px)',
+              boxShadow: '0px 4px 12px rgba(0,0,0,0.15)',
+              transition: {
+                duration: 0.6,
+                ease: [0.22, 1, 0.36, 1],
+              },
+            }}
+            exit={{
+              opacity: 0,
+              scale: 0.9,
+              y: 10,
+              filter: 'blur(2px)',
+              boxShadow: '0px 0px 0px rgba(0,0,0,0)',
+              transition: {
+                duration: 0.4,
+                ease: [0.22, 1, 0.36, 1],
+              },
+            }}
+            className="fixed bottom-6 right-6 z-50"
           >
-            <ArrowUp className="h-6 w-6" />
-          </Button>
-        </motion.div>
-      )}
+            <Button
+              size="icon"
+              onClick={scrollToTop}
+              className="rounded-full shadow-md animate-bounce-up"
+            >
+              <motion.div
+                initial={{ rotate: 0 }}
+                animate={{
+                  rotate: [0, -8, 0, 8, 0],
+                  transition: {
+                    delay: 0.15,
+                    duration: 0.5,
+                    ease: 'easeInOut',
+                  },
+                }}
+              >
+                <ArrowUp className="h-6 w-6" />
+              </motion.div>
+            </Button>
+          </motion.div>
+        )}
+      </AnimatePresence>
 
       <section className="min-h-screen flex flex-col items-center justify-center relative px-4 py-10">
         <div className="text-center max-w-3xl mx-auto flex flex-col items-center">
@@ -320,21 +361,63 @@ export function HeroSection({
           </motion.div>
 
           {/* Botão de scroll down apenas quando estiver na seção hero */}
-          {isAtTop && (
-            <motion.div
-              initial={{ opacity: 0, y: 20 }}
-              animate={{ opacity: 1, y: 0 }}
-              transition={{ duration: 0.6, delay: 0.8 }}
-            >
-              <Button
-                size="icon"
-                onClick={onScrollDown}
-                className="rounded-full animate-bounce shadow-md"
+          <AnimatePresence mode="wait">
+            {isAtTop && (
+              <motion.div
+                key="scroll-down-button"
+                initial={{
+                  opacity: 0,
+                  scale: 1.2,
+                  y: -15,
+                  filter: 'blur(3px)',
+                  boxShadow: '0px 0px 0px rgba(0,0,0,0)',
+                }}
+                animate={{
+                  opacity: 1,
+                  scale: 1,
+                  y: 0,
+                  filter: 'blur(0px)',
+                  boxShadow: '0px 4px 12px rgba(0,0,0,0.15)',
+                  transition: {
+                    duration: 0.6,
+                    delay: 0.2,
+                    ease: [0.22, 1, 0.36, 1],
+                  },
+                }}
+                exit={{
+                  opacity: 0,
+                  scale: 0.9,
+                  y: -10,
+                  filter: 'blur(2px)',
+                  boxShadow: '0px 0px 0px rgba(0,0,0,0)',
+                  transition: {
+                    duration: 0.4,
+                    ease: [0.22, 1, 0.36, 1],
+                  },
+                }}
               >
-                <ArrowDown className="h-6 w-6" />
-              </Button>
-            </motion.div>
-          )}
+                <Button
+                  size="icon"
+                  onClick={onScrollDown}
+                  className="rounded-full animate-bounce shadow-md"
+                >
+                  <motion.div
+                    initial={{ rotate: 0 }}
+                    animate={{
+                      rotate: [0, 8, 0, -8, 0],
+                      transition: {
+                        delay: 0.15,
+                        duration: 0.5,
+                        ease: 'easeInOut',
+                      },
+                    }}
+                  >
+                    <ArrowDown className="h-6 w-6" />
+                  </motion.div>
+                </Button>
+              </motion.div>
+            )}
+          </AnimatePresence>
         </div>
       </section>
     </>
