@@ -3,6 +3,7 @@
 import { motion } from 'framer-motion';
 import Image from 'next/image';
 import { BookOpen, Headphones, MessageSquare, Pencil } from 'lucide-react';
+import { useInView } from 'react-intersection-observer';
 
 interface LanguageItemProps {
   language: string;
@@ -16,13 +17,21 @@ interface LanguageItemProps {
 }
 
 const SkillBar = ({ level }: { level: number }) => {
+  const [ref, inView] = useInView({
+    triggerOnce: true,
+    threshold: 0.2,
+    rootMargin: '-50px 0px',
+  });
+
   return (
-    <div className="flex gap-[2px] w-full">
+    <div ref={ref} className="flex gap-[2px] w-full">
       {[1, 2, 3, 4, 5].map(i => (
         <motion.div
           key={i}
           initial={{ scaleX: 0, opacity: 0 }}
-          animate={{ scaleX: 1, opacity: 1 }}
+          animate={
+            inView ? { scaleX: 1, opacity: 1 } : { scaleX: 0, opacity: 0 }
+          }
           transition={{
             duration: 0.4,
             delay: 0.2 + i * 0.1,
@@ -49,6 +58,12 @@ export const LanguageItem = ({
   flag,
   delay = 0,
 }: LanguageItemProps) => {
+  const [ref, inView] = useInView({
+    triggerOnce: true,
+    threshold: 0.2,
+    rootMargin: '-50px 0px',
+  });
+
   const levels = [
     'Básico (A1)',
     'Elementar (A2)',
@@ -59,10 +74,17 @@ export const LanguageItem = ({
 
   return (
     <motion.div
+      ref={ref}
       className="bg-card border border-border rounded-lg p-5 shadow-sm hover:shadow-md transition-shadow"
       initial={{ opacity: 0, y: 20 }}
-      animate={{ opacity: 1, y: 0 }}
-      transition={{ duration: 0.5, delay }}
+      animate={inView ? { opacity: 1, y: 0 } : { opacity: 0, y: 20 }}
+      transition={{
+        duration: 0.5,
+        delay,
+        type: 'spring',
+        stiffness: 100,
+        damping: 12,
+      }}
       whileHover={{ scale: 1.01 }}
     >
       <div className="flex flex-col md:flex-row md:items-center md:gap-6">

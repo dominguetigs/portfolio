@@ -875,7 +875,7 @@ export default function Home() {
               delay={0.3}
             />
 
-            <LanguageItem
+            {/* <LanguageItem
               language="Espanhol"
               level="Básico (A2)"
               reading={2}
@@ -884,7 +884,7 @@ export default function Home() {
               listening={2}
               flag="/flags/spain.svg"
               delay={0.4}
-            />
+            /> */}
           </div>
         </MotionSection>
       </div>
