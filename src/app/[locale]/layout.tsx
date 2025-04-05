@@ -2,12 +2,13 @@ import type { Metadata } from 'next';
 import { Nunito } from 'next/font/google';
 import { PT_Sans } from 'next/font/google';
 
-import { NextIntlClientProvider } from 'next-intl';
-import { getLocale } from 'next-intl/server';
+import { hasLocale, NextIntlClientProvider } from 'next-intl';
 
 import './globals.css';
 import { ThemeProvider } from '@/hooks/theme-provider';
 import { MainContent } from '@/components/main-content';
+import { routing } from '@/i18n/routing';
+import { notFound } from 'next/navigation';
 
 const nunito = Nunito({
   variable: '--font-nunito',
@@ -35,10 +36,16 @@ export const metadata: Metadata = {
 
 export default async function RootLayout({
   children,
+  params,
 }: Readonly<{
   children: React.ReactNode;
+  params: Promise<{ locale: string }>;
 }>) {
-  const locale = await getLocale();
+  const { locale } = await params;
+  if (!hasLocale(routing.locales, locale)) {
+    notFound();
+  }
+
   return (
     <html lang={locale} suppressHydrationWarning>
       <head>
