@@ -26,11 +26,6 @@ export default function Home() {
       <Header />
 
       <HeroSection
-        name="Gustavo Domingueti"
-        title="Engenheiro Frontend"
-        location="São Paulo, SP - Brasil"
-        phone="+55 (11) 9 7158-1380"
-        email="gustavo.s.domingueti@icloud.com"
         linkedin="https://linkedin.com/in/dominguetigs"
         github="https://github.com/dominguetigs"
         twitter="https://twitter.com/@gustavo.domingueti"

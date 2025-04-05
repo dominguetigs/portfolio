@@ -5,16 +5,12 @@ import { Button } from '@/components/ui/button';
 import { ArrowDown, ArrowUp } from 'lucide-react';
 import Image from 'next/image';
 import { useState, useEffect, useRef } from 'react';
+import { useTranslations } from 'next-intl';
 
 interface HeroSectionProps {
-  name: string;
-  title: string; // Mantido para compatibilidade, mas agora será um dos textos da animação
-  location: string;
-  phone: string;
-  email: string;
   linkedin: string;
   github: string;
-  twitter: string;
+  twitter?: string;
   onScrollDown: () => void;
 }
 
@@ -26,29 +22,26 @@ interface AnimatedTitle {
 }
 
 export function HeroSection({
-  name,
-  title,
-  location,
-  phone,
-  email,
   linkedin,
   github,
   // twitter,
   onScrollDown,
 }: HeroSectionProps) {
+  const t = useTranslations('Index.Hero');
+
   // Array de textos relacionados à tecnologia, ciência, matemática e astronomia com cores temáticas
   // eslint-disable-next-line react-hooks/exhaustive-deps
   const titles: AnimatedTitle[] = [
-    { text: title, color: 'text-primary' }, // Usar o título fornecido como primeiro item
-    { text: 'Engenheiro de Software', color: 'text-primary' },
-    { text: 'Engenheiro Mecatrônico', color: 'text-primary' },
-    { text: 'Desenvolvedor Web', color: 'text-primary' },
-    { text: 'Entusiasta em Matemática', color: 'text-primary' },
-    { text: 'Pesquisador em Tecnologia', color: 'text-primary' },
-    { text: 'Explorador de Dados', color: 'text-primary' },
-    { text: 'Curioso em Astronomia', color: 'text-primary' },
-    { text: 'Analista de Algoritmos', color: 'text-primary' },
-    { text: 'Solucionador de Problemas', color: 'text-primary' },
+    { text: t('titles.main'), color: 'text-primary' }, // Usar o título fornecido como primeiro item
+    { text: t('titles.software'), color: 'text-primary' },
+    { text: t('titles.mechatronics'), color: 'text-primary' },
+    { text: t('titles.web'), color: 'text-primary' },
+    { text: t('titles.math'), color: 'text-primary' },
+    { text: t('titles.tech'), color: 'text-primary' },
+    { text: t('titles.data'), color: 'text-primary' },
+    { text: t('titles.astronomy'), color: 'text-primary' },
+    { text: t('titles.algorithms'), color: 'text-primary' },
+    { text: t('titles.problems'), color: 'text-primary' },
   ];
 
   const [currentTitleIndex, setCurrentTitleIndex] = useState(0);
@@ -233,7 +226,7 @@ export function HeroSection({
               <div className="w-48 h-48 mx-auto relative mb-6 overflow-hidden rounded-full border-4 border-primary/20 shadow-lg">
                 <Image
                   src="/hero-profile.png"
-                  alt="Profile"
+                  alt={t('alt.profile')}
                   fill
                   sizes="(max-width: 768px) 100vw, 192px"
                   className="object-cover"
@@ -248,7 +241,7 @@ export function HeroSection({
             </motion.div>
 
             <h1 className="text-4xl sm:text-5xl md:text-6xl font-bold mb-2">
-              {name}
+              {t('name')}
             </h1>
             <div className="h-9 md:h-10 flex justify-center items-center">
               <div className="text-xl md:text-2xl relative inline-flex min-h-10 items-center">
@@ -278,20 +271,20 @@ export function HeroSection({
             transition={{ duration: 0.6, delay: 0.2 }}
             className="space-y-4 mb-8"
           >
-            <p className="text-muted-foreground">{location}</p>
+            <p className="text-muted-foreground">{t('location')}</p>
             <div className="flex flex-wrap justify-center gap-4">
               <a
-                href={`mailto:${email}`}
+                href={`mailto:${t('contact.email')}`}
                 className="text-muted-foreground hover:text-foreground"
               >
-                {email}
+                {t('contact.email')}
               </a>
               <span className="hidden sm:inline text-muted-foreground">•</span>
               <a
-                href={`tel:${phone}`}
+                href={`tel:${t('contact.phone')}`}
                 className="text-muted-foreground hover:text-foreground"
               >
-                {phone}
+                {t('contact.phone')}
               </a>
             </div>
           </motion.div>
@@ -304,12 +297,12 @@ export function HeroSection({
           >
             <a href={linkedin} target="_blank" rel="noopener noreferrer">
               <Button variant="outline" size="sm">
-                LinkedIn
+                {t('social.linkedin')}
               </Button>
             </a>
             <a href={github} target="_blank" rel="noopener noreferrer">
               <Button variant="outline" size="sm">
-                GitHub
+                {t('social.github')}
               </Button>
             </a>
           </motion.div>
