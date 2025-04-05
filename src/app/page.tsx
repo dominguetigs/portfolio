@@ -14,15 +14,6 @@ import { ExperienceSection } from '@/app/sections/experience';
 import { EducationSection } from '@/app/sections/education';
 import { LanguagesSection } from '@/app/sections/languages';
 
-const sections = [
-  { id: 'about', label: 'Sobre' },
-  { id: 'skills', label: 'Habilidades' },
-  { id: 'projects', label: 'Projetos' },
-  { id: 'experience', label: 'Experiência Profissional' },
-  { id: 'education', label: 'Educação' },
-  { id: 'languages', label: 'Idiomas' },
-];
-
 export default function Home() {
   const aboutRef = useRef<HTMLElement | null>(null);
 
@@ -46,7 +37,7 @@ export default function Home() {
         onScrollDown={scrollToAbout}
       />
 
-      <NavMenu sections={sections} />
+      <NavMenu />
 
       <div className="container mx-auto px-4 max-w-5xl lg:pl-[180px]">
         <AboutSection aboutRef={aboutRef} />

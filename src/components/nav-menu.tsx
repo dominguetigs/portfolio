@@ -2,7 +2,6 @@
 
 import { useState, useEffect, useRef } from 'react';
 import { motion, AnimatePresence } from 'framer-motion';
-import { cn } from '@/lib/utils';
 import {
   User,
   Code,
@@ -12,9 +11,9 @@ import {
   Rocket,
 } from 'lucide-react';
 
-interface NavMenuProps {
-  sections: { id: string; label: string }[];
-}
+import { cn } from '@/lib/utils';
+
+import { throttle } from '@/utils/throttle';
 
 // Mapeamento de ícones para cada seção
 const sectionIcons: Record<string, React.ReactNode> = {
@@ -26,22 +25,16 @@ const sectionIcons: Record<string, React.ReactNode> = {
   languages: <Globe className="h-4 w-4" />,
 };
 
-// Função de throttle para limitar a frequência de chamadas de uma função
-function throttle<T extends (...args: unknown[]) => unknown>(
-  func: T,
-  delay: number,
-): (...args: Parameters<T>) => void {
-  let lastCall = 0;
-  return (...args: Parameters<T>) => {
-    const now = Date.now();
-    if (now - lastCall >= delay) {
-      lastCall = now;
-      func(...args);
-    }
-  };
-}
+const sections = [
+  { id: 'about', label: 'Sobre' },
+  { id: 'skills', label: 'Habilidades' },
+  { id: 'projects', label: 'Projetos' },
+  { id: 'experience', label: 'Experiência Profissional' },
+  { id: 'education', label: 'Educação' },
+  { id: 'languages', label: 'Idiomas' },
+];
 
-export function NavMenu({ sections }: NavMenuProps) {
+export function NavMenu() {
   const [activeSection, setActiveSection] = useState('');
   const [userClicked, setUserClicked] = useState(false);
   const [showMenu, setShowMenu] = useState(true);
@@ -134,7 +127,7 @@ export function NavMenu({ sections }: NavMenuProps) {
         observer.disconnect(),
       );
     };
-  }, [sections, mounted, userClicked]);
+  }, [mounted, userClicked]);
 
   // Função para determinar a visibilidade do menu com base na posição de scroll
   useEffect(() => {
