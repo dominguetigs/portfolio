@@ -3,7 +3,14 @@
 import { useState, useEffect, useRef } from 'react';
 import { motion, AnimatePresence } from 'framer-motion';
 import { cn } from '@/lib/utils';
-import { User, Code, Briefcase, GraduationCap, Globe } from 'lucide-react';
+import {
+  User,
+  Code,
+  Briefcase,
+  GraduationCap,
+  Globe,
+  Rocket,
+} from 'lucide-react';
 
 interface NavMenuProps {
   sections: { id: string; label: string }[];
@@ -14,6 +21,7 @@ interface NavMenuProps {
 const sectionIcons: Record<string, React.ReactNode> = {
   about: <User className="h-4 w-4" />,
   skills: <Code className="h-4 w-4" />,
+  projects: <Rocket className="h-4 w-4" />,
   experience: <Briefcase className="h-4 w-4" />,
   education: <GraduationCap className="h-4 w-4" />,
   languages: <Globe className="h-4 w-4" />,

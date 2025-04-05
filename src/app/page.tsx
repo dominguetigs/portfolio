@@ -27,6 +27,9 @@ import {
   Code2,
   GanttChart,
   Lightbulb,
+  Rocket,
+  ExternalLink,
+  Github,
 } from 'lucide-react';
 import { Tabs, TabsContent, TabsList, TabsTrigger } from '@/components/ui/tabs';
 import {
@@ -41,6 +44,7 @@ import Image from 'next/image';
 const sections = [
   { id: 'about', label: 'Sobre' },
   { id: 'skills', label: 'Habilidades' },
+  { id: 'projects', label: 'Projetos' },
   { id: 'experience', label: 'Experiência Profissional' },
   { id: 'education', label: 'Educação' },
   { id: 'languages', label: 'Idiomas' },
@@ -463,6 +467,529 @@ export default function Home() {
               />
             </TabsContent>
           </Tabs>
+        </MotionSection>
+
+        <MotionSection
+          id="projects"
+          className="py-16"
+          delay={0.1}
+          skipYAnimation={clickedSection === 'projects'}
+        >
+          <SectionHeader title="Projetos" />
+          <motion.div
+            initial={{ opacity: 0 }}
+            whileInView={{ opacity: 1 }}
+            viewport={{ once: true, amount: 0.03, margin: '-30px 0px 0px 0px' }}
+            transition={{ duration: 0.4, delay: 0.15 }}
+            className="mb-6"
+          >
+            <p className="text-muted-foreground">
+              Seleção de projetos pessoais que demonstram minhas habilidades
+              técnicas e criatividade. Clique nos links para acessar o
+              repositório ou a demonstração.
+            </p>
+          </motion.div>
+
+          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
+            {/* Task Management App */}
+            <motion.div
+              className="group relative overflow-hidden rounded-xl border bg-card shadow-sm transition-all hover:shadow-md"
+              initial={{ opacity: 0, y: 30 }}
+              whileInView={{ opacity: 1, y: 0 }}
+              viewport={{
+                once: true,
+                amount: 0.2,
+                margin: '-20px 0px 0px 0px',
+              }}
+              transition={{ duration: 0.4, delay: 0.1 }}
+              whileHover={{
+                y: -5,
+                transition: { duration: 0.2 },
+              }}
+            >
+              <div className="aspect-video w-full bg-muted/40 relative overflow-hidden">
+                <div className="absolute inset-0 bg-gradient-to-t from-black/70 to-black/0 z-10"></div>
+                <motion.div
+                  className="absolute inset-0 bg-primary/20"
+                  initial={{ opacity: 0 }}
+                  whileInView={{ opacity: 1 }}
+                  transition={{ duration: 0.5, delay: 0.2 }}
+                ></motion.div>
+                <motion.div
+                  className="w-full h-full flex items-center justify-center text-4xl font-bold text-primary/20"
+                  initial={{ scale: 0.8, opacity: 0 }}
+                  whileInView={{ scale: 1, opacity: 1 }}
+                  transition={{ duration: 0.5, delay: 0.3 }}
+                >
+                  <Rocket className="w-20 h-20 opacity-40" />
+                </motion.div>
+                <div className="absolute bottom-2 left-2 z-20">
+                  <span className="bg-primary/90 text-primary-foreground text-xs px-2 py-1 rounded">
+                    TypeScript
+                  </span>
+                </div>
+              </div>
+
+              <div className="p-4">
+                <div className="flex justify-between items-start mb-2">
+                  <h3 className="text-lg font-semibold">Task Management App</h3>
+                  <div className="flex gap-2">
+                    <a
+                      href="https://github.com/dominguetigs/task-management-app"
+                      target="_blank"
+                      rel="noopener noreferrer"
+                      className="text-muted-foreground hover:text-foreground transition-colors"
+                      aria-label="Ver código no GitHub"
+                    >
+                      <Github className="h-5 w-5" />
+                    </a>
+                  </div>
+                </div>
+                <p className="text-sm text-muted-foreground mb-4">
+                  Aplicativo de gerenciamento de tarefas construído com
+                  React/NextJS e TypeScript.
+                </p>
+                <div className="flex flex-wrap gap-1 mb-4">
+                  <span className="bg-primary/10 text-primary text-xs px-2 py-1 rounded">
+                    React
+                  </span>
+                  <span className="bg-primary/10 text-primary text-xs px-2 py-1 rounded">
+                    NextJS
+                  </span>
+                  <span className="bg-primary/10 text-primary text-xs px-2 py-1 rounded">
+                    TypeScript
+                  </span>
+                </div>
+                <a
+                  href="https://github.com/dominguetigs/task-management-app"
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  className="inline-flex items-center text-sm font-medium text-primary hover:text-primary/80 transition-colors"
+                >
+                  Ver repositório
+                  <ExternalLink className="ml-1 h-3 w-3" />
+                </a>
+              </div>
+            </motion.div>
+
+            {/* Chat Bot Experiment */}
+            <motion.div
+              className="group relative overflow-hidden rounded-xl border bg-card shadow-sm transition-all hover:shadow-md"
+              initial={{ opacity: 0, y: 30 }}
+              whileInView={{ opacity: 1, y: 0 }}
+              viewport={{
+                once: true,
+                amount: 0.2,
+                margin: '-20px 0px 0px 0px',
+              }}
+              transition={{ duration: 0.4, delay: 0.2 }}
+              whileHover={{
+                y: -5,
+                transition: { duration: 0.2 },
+              }}
+            >
+              <div className="aspect-video w-full bg-muted/40 relative overflow-hidden">
+                <div className="absolute inset-0 bg-gradient-to-t from-black/70 to-black/0 z-10"></div>
+                <motion.div
+                  className="absolute inset-0 bg-primary/20"
+                  initial={{ opacity: 0 }}
+                  whileInView={{ opacity: 1 }}
+                  transition={{ duration: 0.5, delay: 0.2 }}
+                ></motion.div>
+                <motion.div
+                  className="w-full h-full flex items-center justify-center text-4xl font-bold text-primary/20"
+                  initial={{ scale: 0.8, opacity: 0 }}
+                  whileInView={{ scale: 1, opacity: 1 }}
+                  transition={{ duration: 0.5, delay: 0.3 }}
+                >
+                  <Rocket className="w-20 h-20 opacity-40" />
+                </motion.div>
+                <div className="absolute bottom-2 left-2 z-20">
+                  <span className="bg-primary/90 text-primary-foreground text-xs px-2 py-1 rounded">
+                    TypeScript
+                  </span>
+                </div>
+              </div>
+
+              <div className="p-4">
+                <div className="flex justify-between items-start mb-2">
+                  <h3 className="text-lg font-semibold">Chat Bot Experiment</h3>
+                  <div className="flex gap-2">
+                    <a
+                      href="https://github.com/dominguetigs/chat-bot-experiment"
+                      target="_blank"
+                      rel="noopener noreferrer"
+                      className="text-muted-foreground hover:text-foreground transition-colors"
+                      aria-label="Ver código no GitHub"
+                    >
+                      <Github className="h-5 w-5" />
+                    </a>
+                  </div>
+                </div>
+                <p className="text-sm text-muted-foreground mb-4">
+                  Experimento de chatbot construído com React e Vite utilizando
+                  TypeScript.
+                </p>
+                <div className="flex flex-wrap gap-1 mb-4">
+                  <span className="bg-primary/10 text-primary text-xs px-2 py-1 rounded">
+                    React
+                  </span>
+                  <span className="bg-primary/10 text-primary text-xs px-2 py-1 rounded">
+                    Vite
+                  </span>
+                  <span className="bg-primary/10 text-primary text-xs px-2 py-1 rounded">
+                    TypeScript
+                  </span>
+                </div>
+                <a
+                  href="https://github.com/dominguetigs/chat-bot-experiment"
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  className="inline-flex items-center text-sm font-medium text-primary hover:text-primary/80 transition-colors"
+                >
+                  Ver repositório
+                  <ExternalLink className="ml-1 h-3 w-3" />
+                </a>
+              </div>
+            </motion.div>
+
+            {/* JS Funcional */}
+            <motion.div
+              className="group relative overflow-hidden rounded-xl border bg-card shadow-sm transition-all hover:shadow-md"
+              initial={{ opacity: 0, y: 30 }}
+              whileInView={{ opacity: 1, y: 0 }}
+              viewport={{
+                once: true,
+                amount: 0.2,
+                margin: '-20px 0px 0px 0px',
+              }}
+              transition={{ duration: 0.4, delay: 0.3 }}
+              whileHover={{
+                y: -5,
+                transition: { duration: 0.2 },
+              }}
+            >
+              <div className="aspect-video w-full bg-muted/40 relative overflow-hidden">
+                <div className="absolute inset-0 bg-gradient-to-t from-black/70 to-black/0 z-10"></div>
+                <motion.div
+                  className="absolute inset-0 bg-primary/20"
+                  initial={{ opacity: 0 }}
+                  whileInView={{ opacity: 1 }}
+                  transition={{ duration: 0.5, delay: 0.2 }}
+                ></motion.div>
+                <motion.div
+                  className="w-full h-full flex items-center justify-center text-4xl font-bold text-primary/20"
+                  initial={{ scale: 0.8, opacity: 0 }}
+                  whileInView={{ scale: 1, opacity: 1 }}
+                  transition={{ duration: 0.5, delay: 0.3 }}
+                >
+                  <Rocket className="w-20 h-20 opacity-40" />
+                </motion.div>
+                <div className="absolute bottom-2 left-2 z-20">
+                  <span className="bg-primary/90 text-primary-foreground text-xs px-2 py-1 rounded">
+                    JavaScript
+                  </span>
+                </div>
+              </div>
+
+              <div className="p-4">
+                <div className="flex justify-between items-start mb-2">
+                  <h3 className="text-lg font-semibold">JS Funcional</h3>
+                  <div className="flex gap-2">
+                    <a
+                      href="https://github.com/dominguetigs/js-funcional"
+                      target="_blank"
+                      rel="noopener noreferrer"
+                      className="text-muted-foreground hover:text-foreground transition-colors"
+                      aria-label="Ver código no GitHub"
+                    >
+                      <Github className="h-5 w-5" />
+                    </a>
+                  </div>
+                </div>
+                <p className="text-sm text-muted-foreground mb-4">
+                  Conceitos de programação funcional utilizando a linguagem
+                  Javascript.
+                </p>
+                <div className="flex flex-wrap gap-1 mb-4">
+                  <span className="bg-primary/10 text-primary text-xs px-2 py-1 rounded">
+                    JavaScript
+                  </span>
+                  <span className="bg-primary/10 text-primary text-xs px-2 py-1 rounded">
+                    Functional
+                  </span>
+                </div>
+                <a
+                  href="https://github.com/dominguetigs/js-funcional"
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  className="inline-flex items-center text-sm font-medium text-primary hover:text-primary/80 transition-colors"
+                >
+                  Ver repositório
+                  <ExternalLink className="ml-1 h-3 w-3" />
+                </a>
+              </div>
+            </motion.div>
+
+            {/* PS Scheduler */}
+            <motion.div
+              className="group relative overflow-hidden rounded-xl border bg-card shadow-sm transition-all hover:shadow-md"
+              initial={{ opacity: 0, y: 30 }}
+              whileInView={{ opacity: 1, y: 0 }}
+              viewport={{
+                once: true,
+                amount: 0.2,
+                margin: '-20px 0px 0px 0px',
+              }}
+              transition={{ duration: 0.4, delay: 0.4 }}
+              whileHover={{
+                y: -5,
+                transition: { duration: 0.2 },
+              }}
+            >
+              <div className="aspect-video w-full bg-muted/40 relative overflow-hidden">
+                <div className="absolute inset-0 bg-gradient-to-t from-black/70 to-black/0 z-10"></div>
+                <motion.div
+                  className="absolute inset-0 bg-primary/20"
+                  initial={{ opacity: 0 }}
+                  whileInView={{ opacity: 1 }}
+                  transition={{ duration: 0.5, delay: 0.2 }}
+                ></motion.div>
+                <motion.div
+                  className="w-full h-full flex items-center justify-center text-4xl font-bold text-primary/20"
+                  initial={{ scale: 0.8, opacity: 0 }}
+                  whileInView={{ scale: 1, opacity: 1 }}
+                  transition={{ duration: 0.5, delay: 0.3 }}
+                >
+                  <Rocket className="w-20 h-20 opacity-40" />
+                </motion.div>
+                <div className="absolute bottom-2 left-2 z-20">
+                  <span className="bg-primary/90 text-primary-foreground text-xs px-2 py-1 rounded">
+                    TypeScript
+                  </span>
+                </div>
+              </div>
+
+              <div className="p-4">
+                <div className="flex justify-between items-start mb-2">
+                  <h3 className="text-lg font-semibold">PS Scheduler</h3>
+                  <div className="flex gap-2">
+                    <a
+                      href="https://github.com/dominguetigs/ps-scheduler"
+                      target="_blank"
+                      rel="noopener noreferrer"
+                      className="text-muted-foreground hover:text-foreground transition-colors"
+                      aria-label="Ver código no GitHub"
+                    >
+                      <Github className="h-5 w-5" />
+                    </a>
+                  </div>
+                </div>
+                <p className="text-sm text-muted-foreground mb-4">
+                  Aplicação web e mobile para agendar mensagens para contatos.
+                </p>
+                <div className="flex flex-wrap gap-1 mb-4">
+                  <span className="bg-primary/10 text-primary text-xs px-2 py-1 rounded">
+                    TypeScript
+                  </span>
+                  <span className="bg-primary/10 text-primary text-xs px-2 py-1 rounded">
+                    Web
+                  </span>
+                  <span className="bg-primary/10 text-primary text-xs px-2 py-1 rounded">
+                    Mobile
+                  </span>
+                </div>
+                <a
+                  href="https://github.com/dominguetigs/ps-scheduler"
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  className="inline-flex items-center text-sm font-medium text-primary hover:text-primary/80 transition-colors"
+                >
+                  Ver repositório
+                  <ExternalLink className="ml-1 h-3 w-3" />
+                </a>
+              </div>
+            </motion.div>
+
+            {/* Snake Game */}
+            <motion.div
+              className="group relative overflow-hidden rounded-xl border bg-card shadow-sm transition-all hover:shadow-md"
+              initial={{ opacity: 0, y: 30 }}
+              whileInView={{ opacity: 1, y: 0 }}
+              viewport={{
+                once: true,
+                amount: 0.2,
+                margin: '-20px 0px 0px 0px',
+              }}
+              transition={{ duration: 0.4, delay: 0.5 }}
+              whileHover={{
+                y: -5,
+                transition: { duration: 0.2 },
+              }}
+            >
+              <div className="aspect-video w-full bg-muted/40 relative overflow-hidden">
+                <div className="absolute inset-0 bg-gradient-to-t from-black/70 to-black/0 z-10"></div>
+                <motion.div
+                  className="absolute inset-0 bg-primary/20"
+                  initial={{ opacity: 0 }}
+                  whileInView={{ opacity: 1 }}
+                  transition={{ duration: 0.5, delay: 0.2 }}
+                ></motion.div>
+                <motion.div
+                  className="w-full h-full flex items-center justify-center text-4xl font-bold text-primary/20"
+                  initial={{ scale: 0.8, opacity: 0 }}
+                  whileInView={{ scale: 1, opacity: 1 }}
+                  transition={{ duration: 0.5, delay: 0.3 }}
+                >
+                  <Rocket className="w-20 h-20 opacity-40" />
+                </motion.div>
+                <div className="absolute bottom-2 left-2 z-20">
+                  <span className="bg-primary/90 text-primary-foreground text-xs px-2 py-1 rounded">
+                    JavaScript
+                  </span>
+                </div>
+              </div>
+
+              <div className="p-4">
+                <div className="flex justify-between items-start mb-2">
+                  <h3 className="text-lg font-semibold">Snake Game</h3>
+                  <div className="flex gap-2">
+                    <a
+                      href="https://github.com/dominguetigs/snake-game"
+                      target="_blank"
+                      rel="noopener noreferrer"
+                      className="text-muted-foreground hover:text-foreground transition-colors"
+                      aria-label="Ver código no GitHub"
+                    >
+                      <Github className="h-5 w-5" />
+                    </a>
+                  </div>
+                </div>
+                <p className="text-sm text-muted-foreground mb-4">
+                  Jogo da cobrinha em JavaScript e Canvas.
+                </p>
+                <div className="flex flex-wrap gap-1 mb-4">
+                  <span className="bg-primary/10 text-primary text-xs px-2 py-1 rounded">
+                    JavaScript
+                  </span>
+                  <span className="bg-primary/10 text-primary text-xs px-2 py-1 rounded">
+                    Canvas
+                  </span>
+                  <span className="bg-primary/10 text-primary text-xs px-2 py-1 rounded">
+                    Game
+                  </span>
+                </div>
+                <a
+                  href="https://github.com/dominguetigs/snake-game"
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  className="inline-flex items-center text-sm font-medium text-primary hover:text-primary/80 transition-colors"
+                >
+                  Ver repositório
+                  <ExternalLink className="ml-1 h-3 w-3" />
+                </a>
+              </div>
+            </motion.div>
+
+            {/* Memory Game */}
+            <motion.div
+              className="group relative overflow-hidden rounded-xl border bg-card shadow-sm transition-all hover:shadow-md"
+              initial={{ opacity: 0, y: 30 }}
+              whileInView={{ opacity: 1, y: 0 }}
+              viewport={{
+                once: true,
+                amount: 0.2,
+                margin: '-20px 0px 0px 0px',
+              }}
+              transition={{ duration: 0.4, delay: 0.6 }}
+              whileHover={{
+                y: -5,
+                transition: { duration: 0.2 },
+              }}
+            >
+              <div className="aspect-video w-full bg-muted/40 relative overflow-hidden">
+                <div className="absolute inset-0 bg-gradient-to-t from-black/70 to-black/0 z-10"></div>
+                <motion.div
+                  className="absolute inset-0 bg-primary/20"
+                  initial={{ opacity: 0 }}
+                  whileInView={{ opacity: 1 }}
+                  transition={{ duration: 0.5, delay: 0.2 }}
+                ></motion.div>
+                <motion.div
+                  className="w-full h-full flex items-center justify-center text-4xl font-bold text-primary/20"
+                  initial={{ scale: 0.8, opacity: 0 }}
+                  whileInView={{ scale: 1, opacity: 1 }}
+                  transition={{ duration: 0.5, delay: 0.3 }}
+                >
+                  <Rocket className="w-20 h-20 opacity-40" />
+                </motion.div>
+                <div className="absolute bottom-2 left-2 z-20">
+                  <span className="bg-primary/90 text-primary-foreground text-xs px-2 py-1 rounded">
+                    JavaScript
+                  </span>
+                </div>
+              </div>
+
+              <div className="p-4">
+                <div className="flex justify-between items-start mb-2">
+                  <h3 className="text-lg font-semibold">Memory Game</h3>
+                  <div className="flex gap-2">
+                    <a
+                      href="https://github.com/dominguetigs/memory-game"
+                      target="_blank"
+                      rel="noopener noreferrer"
+                      className="text-muted-foreground hover:text-foreground transition-colors"
+                      aria-label="Ver código no GitHub"
+                    >
+                      <Github className="h-5 w-5" />
+                    </a>
+                  </div>
+                </div>
+                <p className="text-sm text-muted-foreground mb-4">
+                  Jogo da memória utilizando JS e WEBPACK.
+                </p>
+                <div className="flex flex-wrap gap-1 mb-4">
+                  <span className="bg-primary/10 text-primary text-xs px-2 py-1 rounded">
+                    JavaScript
+                  </span>
+                  <span className="bg-primary/10 text-primary text-xs px-2 py-1 rounded">
+                    Webpack
+                  </span>
+                  <span className="bg-primary/10 text-primary text-xs px-2 py-1 rounded">
+                    Game
+                  </span>
+                </div>
+                <a
+                  href="https://github.com/dominguetigs/memory-game"
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  className="inline-flex items-center text-sm font-medium text-primary hover:text-primary/80 transition-colors"
+                >
+                  Ver repositório
+                  <ExternalLink className="ml-1 h-3 w-3" />
+                </a>
+              </div>
+            </motion.div>
+          </div>
+
+          <motion.div
+            className="mt-8 text-center"
+            initial={{ opacity: 0, y: 20 }}
+            whileInView={{ opacity: 1, y: 0 }}
+            viewport={{ once: true }}
+            transition={{ duration: 0.4, delay: 0.7 }}
+          >
+            <a
+              href="https://github.com/dominguetigs?tab=repositories"
+              target="_blank"
+              rel="noopener noreferrer"
+              className="inline-flex items-center gap-2 bg-primary/10 hover:bg-primary/20 text-primary px-4 py-2 rounded-full transition-colors font-medium"
+            >
+              <Github className="h-4 w-4" />
+              Ver mais projetos no GitHub
+              <ExternalLink className="h-3 w-3" />
+            </a>
+          </motion.div>
         </MotionSection>
 
         <MotionSection
