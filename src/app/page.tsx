@@ -30,6 +30,9 @@ import {
   Rocket,
   ExternalLink,
   Github,
+  FileDown,
+  Download,
+  FileText,
 } from 'lucide-react';
 import { Tabs, TabsContent, TabsList, TabsTrigger } from '@/components/ui/tabs';
 import {
@@ -39,6 +42,12 @@ import {
   SelectTrigger,
   SelectValue,
 } from '@/components/ui/select';
+import {
+  Popover,
+  PopoverContent,
+  PopoverTrigger,
+} from '@/components/ui/popover';
+import { Button } from '@/components/ui/button';
 import Image from 'next/image';
 
 const sections = [
@@ -83,7 +92,40 @@ export default function Home() {
 
   return (
     <div className="min-h-screen pb-20">
-      <div className="absolute top-4 right-4 z-50">
+      <div className="absolute top-4 right-4 z-50 flex items-center gap-3">
+        <Popover>
+          <PopoverTrigger asChild>
+            <Button
+              variant="outline"
+              size="icon"
+              aria-label="Download currículo"
+            >
+              <FileText className="h-[1.2rem] w-[1.2rem]" />
+            </Button>
+          </PopoverTrigger>
+          <PopoverContent className="w-auto p-2" align="end">
+            <div className="flex flex-col gap-2">
+              <Button
+                variant="ghost"
+                size="sm"
+                className="flex items-center justify-start gap-2"
+                onClick={() => window.open('/cv/resume.pdf', '_blank')}
+              >
+                <Download className="h-4 w-4" />
+                <span>Currículo (Inglês)</span>
+              </Button>
+              <Button
+                variant="ghost"
+                size="sm"
+                className="flex items-center justify-start gap-2"
+                onClick={() => window.open('/cv/curriculum.pdf', '_blank')}
+              >
+                <FileDown className="h-4 w-4" />
+                <span>Currículo (Português)</span>
+              </Button>
+            </div>
+          </PopoverContent>
+        </Popover>
         <ThemeToggle />
       </div>
 

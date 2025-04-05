@@ -247,11 +247,6 @@ export function HeroSection({
               GitHub
             </Button>
           </a>
-          {/* <a href={twitter} target="_blank" rel="noopener noreferrer">
-            <Button variant="outline" size="sm">
-              Twitter
-            </Button>
-          </a> */}
         </motion.div>
 
         <motion.div
