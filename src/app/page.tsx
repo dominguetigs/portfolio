@@ -32,7 +32,6 @@ import {
   Github,
   FileDown,
   Download,
-  FileText,
 } from 'lucide-react';
 import { Tabs, TabsContent, TabsList, TabsTrigger } from '@/components/ui/tabs';
 import {
@@ -201,7 +200,7 @@ export default function Home() {
               size="icon"
               aria-label="Download currículo"
             >
-              <FileText className="h-[1.2rem] w-[1.2rem]" />
+              <FileDown className="h-[1.2rem] w-[1.2rem]" />
             </Button>
           </PopoverTrigger>
           <PopoverContent className="w-auto p-2" align="end">
@@ -210,7 +209,14 @@ export default function Home() {
                 variant="ghost"
                 size="sm"
                 className="flex items-center justify-start gap-2"
-                onClick={() => window.open('/cv/resume.pdf', '_blank')}
+                onClick={() => {
+                  const link = document.createElement('a');
+                  link.href = '/cv/resume.pdf';
+                  link.download = 'Gustavo_Domingueti_Resume_EN.pdf';
+                  document.body.appendChild(link);
+                  link.click();
+                  document.body.removeChild(link);
+                }}
               >
                 <Download className="h-4 w-4" />
                 <span>Currículo (Inglês)</span>
@@ -219,9 +225,16 @@ export default function Home() {
                 variant="ghost"
                 size="sm"
                 className="flex items-center justify-start gap-2"
-                onClick={() => window.open('/cv/curriculum.pdf', '_blank')}
+                onClick={() => {
+                  const link = document.createElement('a');
+                  link.href = '/cv/curriculum.pdf';
+                  link.download = 'Gustavo_Domingueti_Curriculo_PT.pdf';
+                  document.body.appendChild(link);
+                  link.click();
+                  document.body.removeChild(link);
+                }}
               >
-                <FileDown className="h-4 w-4" />
+                <Download className="h-4 w-4" />
                 <span>Currículo (Português)</span>
               </Button>
             </div>
