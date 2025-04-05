@@ -64,7 +64,7 @@ export function ExperienceSection() {
                           className="flex gap-2"
                         >
                           <Check className="h-5 w-5 text-primary flex-shrink-0 mt-0.5" />
-                          <span>{item}</span>
+                          <span className="text-foreground">{item}</span>
                         </motion.li>
                       ))}
                   </ul>
@@ -104,7 +104,7 @@ export function ExperienceSection() {
                           className="flex gap-2"
                         >
                           <Check className="h-5 w-5 text-primary flex-shrink-0 mt-0.5" />
-                          <span>{item}</span>
+                          <span className="text-foreground">{item}</span>
                         </motion.li>
                       ))}
                   </ul>

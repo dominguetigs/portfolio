@@ -14,7 +14,6 @@ interface HeroSectionProps {
   onScrollDown: () => void;
 }
 
-// Interface para os títulos com dados adicionais para animar
 interface AnimatedTitle {
   text: string;
   color?: string;
@@ -29,10 +28,9 @@ export function HeroSection({
 }: HeroSectionProps) {
   const t = useTranslations('Index.Hero');
 
-  // Array de textos relacionados à tecnologia, ciência, matemática e astronomia com cores temáticas
   // eslint-disable-next-line react-hooks/exhaustive-deps
   const titles: AnimatedTitle[] = [
-    { text: t('titles.main'), color: 'text-primary' }, // Usar o título fornecido como primeiro item
+    { text: t('titles.main'), color: 'text-primary' },
     { text: t('titles.software'), color: 'text-primary' },
     { text: t('titles.mechatronics'), color: 'text-primary' },
     { text: t('titles.web'), color: 'text-primary' },
