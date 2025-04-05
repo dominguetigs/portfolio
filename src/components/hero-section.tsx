@@ -252,13 +252,13 @@ export function HeroSection({
               {name}
             </h1>
             <div className="h-9 md:h-10 flex justify-center items-center">
-              <div className="text-xl md:text-2xl relative inline-flex min-h-10">
+              <div className="text-xl md:text-2xl relative inline-flex min-h-10 items-center">
                 <span
                   className={`${titles[currentTitleIndex].color} font-medium`}
                 >
                   {displayText}
                 </span>
-                <motion.span
+                <motion.div
                   animate={{
                     opacity: [1, 0],
                     transition: {
@@ -267,53 +267,8 @@ export function HeroSection({
                       repeatType: 'reverse',
                     },
                   }}
-                  className={`ml-1 h-full w-[3px] ${titles[currentTitleIndex].color} bg-current`}
-                ></motion.span>
-
-                {/* Partículas de texto - efeito decorativo */}
-                <AnimatePresence>
-                  {!isDeleting &&
-                    displayText.length ===
-                      titles[currentTitleIndex].text.length && (
-                      <motion.div
-                        className="absolute top-0 left-0 w-full"
-                        initial={{ opacity: 0 }}
-                        animate={{ opacity: 1 }}
-                        exit={{ opacity: 0 }}
-                        transition={{ duration: 0.3 }}
-                      >
-                        {Array.from({ length: 3 }).map((_, i) => (
-                          <motion.span
-                            key={i}
-                            className={`absolute text-xs ${titles[currentTitleIndex].color} opacity-50`}
-                            initial={{
-                              y: 0,
-                              x: Math.random() * 100 - 50,
-                              rotate: Math.random() * 360,
-                              scale: 0,
-                            }}
-                            animate={{
-                              y: -40 - Math.random() * 20,
-                              x: Math.random() * 200 - 100,
-                              rotate: Math.random() * 360,
-                              scale: [0, 1, 0],
-                              opacity: [0, 1, 0],
-                            }}
-                            transition={{
-                              duration: 1.5 + Math.random() * 0.5,
-                              ease: 'easeOut',
-                            }}
-                          >
-                            {
-                              ['✧', '✦', '★', '✴', '✺'][
-                                Math.floor(Math.random() * 5)
-                              ]
-                            }
-                          </motion.span>
-                        ))}
-                      </motion.div>
-                    )}
-                </AnimatePresence>
+                  className={`ml-1 h-[1.2em] w-[4px] ${titles[currentTitleIndex].color} bg-current inline-block`}
+                ></motion.div>
               </div>
             </div>
           </motion.div>
