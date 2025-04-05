@@ -136,6 +136,8 @@
     "Education": {
       "title": "Education",
       "description": "My academic background and complementary courses that contributed to my professional development and technical enhancement in the development field.",
+      "showMore": "Show more",
+      "showLess": "Show less",
       "sections": {
         "academic": {
           "title": "Academic Education",

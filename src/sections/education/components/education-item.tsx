@@ -1,7 +1,7 @@
 'use client';
 
 import { motion } from 'framer-motion';
-import { GraduationCap, Award, Calendar, MapPin, Building } from 'lucide-react';
+import { Calendar, MapPin, Building } from 'lucide-react';
 import React from 'react';
 import { Badge } from '@/components/ui/badge';
 import { useInView } from 'react-intersection-observer';
@@ -14,8 +14,6 @@ interface EducationItemProps {
   location?: string;
   description?: string;
   delay?: number;
-  isLast?: boolean;
-  showTimeline?: boolean;
 }
 
 export function EducationItem({
@@ -26,8 +24,6 @@ export function EducationItem({
   location,
   description,
   delay = 0,
-  isLast = false,
-  showTimeline = true,
 }: EducationItemProps) {
   const [ref, inView] = useInView({
     triggerOnce: true,
@@ -35,58 +31,14 @@ export function EducationItem({
     rootMargin: '-20px 0px 0px 0px',
   });
 
-  // Mapeamento de ícones por tipo de educação
-  const typeIcons: Record<string, React.ReactNode> = {
-    Bacharelado: <GraduationCap className="h-4 w-4" />,
-    Técnico: <Award className="h-4 w-4" />,
-    Curso: <Award className="h-4 w-4" />,
-    Certificação: <Award className="h-4 w-4" />,
-  };
-
-  const icon = typeIcons[type] || <Award className="h-4 w-4" />;
-
   return (
     <motion.div
       ref={ref}
       initial={{ opacity: 0, y: 20 }}
       animate={inView ? { opacity: 1, y: 0 } : { opacity: 0, y: 20 }}
       transition={{ duration: 0.4, delay: delay * 0.7 }}
-      className={`relative ${showTimeline ? 'pl-6 sm:pl-8' : ''} pb-6 mb-2`}
+      className="relative pb-6 mb-2"
     >
-      {/* Timeline vertical line - só mostra se tiver timeline habilitada e não for o último item */}
-      {showTimeline && !isLast && (
-        <motion.div
-          className="absolute left-0 top-3 bottom-0 w-px bg-primary/40"
-          initial={{ height: 0 }}
-          animate={inView ? { height: '100%' } : { height: 0 }}
-          transition={{ duration: 0.6, delay: delay * 0.7 + 0.15 }}
-        ></motion.div>
-      )}
-
-      {/* Timeline circle with icon - só mostra se tiver timeline habilitada */}
-      {showTimeline && (
-        <motion.div
-          className="absolute left-[-8px] sm:left-[-10px] top-2 h-5 w-5 rounded-full bg-card border-2 border-primary flex items-center justify-center"
-          initial={{ scale: 0, rotate: -90 }}
-          animate={inView ? { scale: 1, rotate: 0 } : { scale: 0, rotate: -90 }}
-          transition={{
-            type: 'spring',
-            stiffness: 300,
-            damping: 15,
-            delay: delay * 0.7 + 0.1,
-          }}
-          whileHover={{
-            scale: 1.2,
-            rotate: 5,
-            boxShadow: '0 0 8px rgba(var(--primary), 0.5)',
-          }}
-        >
-          <motion.span className="text-primary" whileHover={{ scale: 1.2 }}>
-            {icon}
-          </motion.span>
-        </motion.div>
-      )}
-
       {/* Content container */}
       <motion.div
         className="bg-card border rounded-lg p-4 shadow-sm hover:shadow-md transition-all"

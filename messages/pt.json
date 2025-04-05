@@ -136,6 +136,8 @@
     "Education": {
       "title": "Educação",
       "description": "Minha formação acadêmica e cursos complementares que contribuíram para o meu desenvolvimento profissional e aprimoramento técnico na área de desenvolvimento.",
+      "showMore": "Mostrar mais",
+      "showLess": "Mostrar menos",
       "sections": {
         "academic": {
           "title": "Formação Acadêmica",
