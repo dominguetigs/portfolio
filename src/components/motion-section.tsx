@@ -9,10 +9,14 @@ interface MotionSectionProps {
   className?: string;
   delay?: number;
   id?: string;
+  skipYAnimation?: boolean;
 }
 
 export const MotionSection = forwardRef<HTMLElement, MotionSectionProps>(
-  ({ children, className = '', delay = 0.2, id }, ref) => {
+  (
+    { children, className = '', delay = 0.2, id, skipYAnimation = false },
+    ref,
+  ) => {
     const [hasAnimated, setHasAnimated] = useState(false);
     const [internalRef, inView] = useInView({
       triggerOnce: true,
@@ -36,14 +40,25 @@ export const MotionSection = forwardRef<HTMLElement, MotionSectionProps>(
       internalRef(node);
     };
 
+    // Definir os valores iniciais e de animação com base no skipYAnimation
+    const initialAnimation = skipYAnimation
+      ? { opacity: 0 }
+      : { opacity: 0, y: 50 };
+
+    const targetAnimation = skipYAnimation
+      ? { opacity: 1 }
+      : { opacity: 1, y: 0 };
+
+    const idleAnimation = skipYAnimation
+      ? { opacity: 0 }
+      : { opacity: 0, y: 50 };
+
     return (
       <motion.section
         id={id}
         ref={combinedRef}
-        initial={{ opacity: 0, y: 50 }}
-        animate={
-          inView || hasAnimated ? { opacity: 1, y: 0 } : { opacity: 0, y: 50 }
-        }
+        initial={initialAnimation}
+        animate={inView || hasAnimated ? targetAnimation : idleAnimation}
         transition={{
           duration: 0.5,
           delay,

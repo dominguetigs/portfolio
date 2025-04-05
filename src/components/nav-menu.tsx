@@ -7,6 +7,7 @@ import { User, Code, Briefcase, GraduationCap, Globe } from 'lucide-react';
 
 interface NavMenuProps {
   sections: { id: string; label: string }[];
+  onSectionClick?: (sectionId: string) => void;
 }
 
 // Mapeamento de ícones para cada seção
@@ -33,7 +34,7 @@ function throttle<T extends (...args: unknown[]) => unknown>(
   };
 }
 
-export function NavMenu({ sections }: NavMenuProps) {
+export function NavMenu({ sections, onSectionClick }: NavMenuProps) {
   const [activeSection, setActiveSection] = useState('');
   const [userClicked, setUserClicked] = useState(false);
   const [showMenu, setShowMenu] = useState(true);
@@ -168,6 +169,11 @@ export function NavMenu({ sections }: NavMenuProps) {
       // Marcar que o usuário clicou e atualizar a seção ativa
       setUserClicked(true);
       setActiveSection(id);
+
+      // Notificar o componente pai sobre a seção clicada
+      if (onSectionClick) {
+        onSectionClick(id);
+      }
 
       // Obter o elemento da seção
       const sectionElement = document.getElementById(id);

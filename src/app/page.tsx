@@ -50,6 +50,7 @@ export default function Home() {
   const aboutRef = useRef<HTMLElement>(null);
   const [selectedSkillTab, setSelectedSkillTab] = useState('frontend');
   const [hasAnimated, setHasAnimated] = useState(false);
+  const [clickedSection, setClickedSection] = useState<string | null>(null);
   const [refSkills, inViewSkills] = useInView({
     triggerOnce: true,
     threshold: 0.05,
@@ -62,6 +63,10 @@ export default function Home() {
 
   const handleTabChange = (value: string) => {
     setSelectedSkillTab(value);
+  };
+
+  const handleSectionClick = (sectionId: string) => {
+    setClickedSection(sectionId);
   };
 
   // Efeito para animar a troca de categoria quando a seção aparecer pela primeira vez
@@ -90,10 +95,15 @@ export default function Home() {
         onScrollDown={scrollToAbout}
       />
 
-      <NavMenu sections={sections} />
+      <NavMenu sections={sections} onSectionClick={handleSectionClick} />
 
       <div className="container mx-auto px-4 max-w-5xl lg:pl-[180px]">
-        <MotionSection id="about" ref={aboutRef} className="py-16">
+        <MotionSection
+          id="about"
+          ref={aboutRef}
+          className="py-16"
+          skipYAnimation={clickedSection === 'about'}
+        >
           <SectionHeader title="Sobre" />
           <div className="grid grid-cols-1 md:grid-cols-3 gap-8">
             <motion.div
@@ -222,6 +232,7 @@ export default function Home() {
           className="py-16"
           delay={0.1}
           ref={refSkills}
+          skipYAnimation={clickedSection === 'skills'}
         >
           <SectionHeader title="Habilidades" />
           <motion.div
@@ -454,7 +465,12 @@ export default function Home() {
           </Tabs>
         </MotionSection>
 
-        <MotionSection id="experience" className="py-16" delay={0.1}>
+        <MotionSection
+          id="experience"
+          className="py-16"
+          delay={0.1}
+          skipYAnimation={clickedSection === 'experience'}
+        >
           <SectionHeader title="Experiência Profissional" />
           <motion.div
             initial={{ opacity: 0 }}
@@ -766,7 +782,12 @@ export default function Home() {
           </div>
         </MotionSection>
 
-        <MotionSection id="education" className="py-16" delay={0.1}>
+        <MotionSection
+          id="education"
+          className="py-16"
+          delay={0.1}
+          skipYAnimation={clickedSection === 'education'}
+        >
           <SectionHeader title="Educação" />
           <motion.div
             initial={{ opacity: 0 }}
@@ -897,7 +918,12 @@ export default function Home() {
           </div>
         </MotionSection>
 
-        <MotionSection id="languages" className="py-16" delay={0.1}>
+        <MotionSection
+          id="languages"
+          className="py-16"
+          delay={0.1}
+          skipYAnimation={clickedSection === 'languages'}
+        >
           <SectionHeader title="Idiomas" />
           <div className="space-y-8 md:space-y-8">
             <div className="mb-6">
