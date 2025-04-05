@@ -5,6 +5,7 @@ import { Building2, Calendar, MapPin, Check, Code } from 'lucide-react';
 import { ReactNode } from 'react';
 import { Badge } from '@/components/ui/badge';
 import { useInView } from 'react-intersection-observer';
+import { useTranslations } from 'next-intl';
 
 interface ExperienceItemProps {
   period: string;
@@ -29,6 +30,7 @@ export function ExperienceItem({
   delay = 0,
   className = '',
 }: ExperienceItemProps) {
+  const t = useTranslations('Index.Experience');
   const [ref, inView] = useInView({
     triggerOnce: true,
     threshold: 0.01,
@@ -82,7 +84,7 @@ export function ExperienceItem({
         {responsibilities.length > 0 && (
           <div className="mb-4">
             <h4 className="font-medium mb-2 text-sm uppercase tracking-wide text-primary/70">
-              Responsabilidades
+              {t('responsibilities')}
             </h4>
             <ul className="space-y-2">
               {responsibilities.map((responsibility, index) => (
@@ -111,7 +113,7 @@ export function ExperienceItem({
           <div>
             <h4 className="font-medium mb-2 text-sm uppercase tracking-wide text-primary/70 flex items-center gap-1">
               <Code className="h-4 w-4" />
-              Tecnologias
+              {t('technologies')}
             </h4>
             <div className="flex flex-wrap gap-2">
               {technologies.map((tech, index) => (
