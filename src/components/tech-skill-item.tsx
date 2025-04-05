@@ -126,27 +126,29 @@ const techSkillLevels: Record<string, number> = {
   Bootstrap: 4,
   Html5: 5,
   Css3: 5,
-  AngularJS: 5,
+  AngularJS: 3,
   Angular: 5,
-  'Angular Material': 5,
-  RxJS: 5,
+  'Angular Material': 3,
+  RxJS: 3,
   ReactJS: 5,
-  Next: 4,
+  'Next.js': 4,
   'Styled Components': 4,
-  'Css Modules': 4,
-  ChakraUI: 3,
+  'Css Modules': 5,
+  ChakraUI: 5,
   VueJS: 3,
   Tailwind: 5,
 
-  // Transpiladores
+  // Transpiladores/Linguagens
   Less: 4,
   Sass: 5,
-  Typescript: 5,
+  JavaScript: 5,
+  TypeScript: 5,
 
   // Backend
   NodeJS: 4,
   Python: 3,
   Elixir: 2,
+  Go: 1,
 
   // Websockets
   'Socket.Io': 4,
@@ -156,6 +158,7 @@ const techSkillLevels: Record<string, number> = {
   Karma: 4,
   Cypress: 4,
   Jest: 5,
+  'React Testing Library': 4,
 
   // Task Mng.
   Gulp: 4,
@@ -169,12 +172,13 @@ const techSkillLevels: Record<string, number> = {
 
   // Database
   MySQL: 4,
-  Postgres: 3,
+  Postgres: 2,
   MongoDB: 3,
   'Firebase:Realtime Database': 4,
 
   // Mobile
   Ionic: 2,
+  Swift: 1,
 
   // Infraestrutura
   AWS: 3,
@@ -184,7 +188,43 @@ const techSkillLevels: Record<string, number> = {
   // ALM
   VSTS: 4,
   Jira: 5,
+
+  // Controle de Versão e Gestão
+  Git: 5,
+  GitFlow: 5,
+  GitHub: 5,
+  Scrum: 5,
+  Kanban: 4,
+  GraphQL: 2,
 };
+
+// Lista de tecnologias favoritas (que terão estrela)
+const favoriteSkills = [
+  'ReactJS',
+  'Next.js',
+  'Tailwind',
+  'Sass',
+  'ChakraUI',
+  'JavaScript',
+  'TypeScript',
+  'Swift',
+  'NodeJS',
+  'MySQL',
+  'Vercel',
+  'Git',
+  'GitHub',
+  'Scrum',
+  'GraphQL',
+  'Html5',
+  'Css3',
+  'Vanilla JavaScript',
+  'Jest',
+  'Cypress',
+  'Webpack',
+  'Npm',
+  'Yarn',
+  'Jira',
+];
 
 interface TechSkillItemProps {
   label: string;
@@ -199,10 +239,19 @@ export function TechSkillItem({ label, items, delay = 0 }: TechSkillItemProps) {
     rootMargin: '-20px 0px 0px 0px',
   });
 
-  // Função para ordenar os itens por nível de habilidade (do maior para o menor)
-  const sortedItems = [...items].sort(
-    (a, b) => (techSkillLevels[b] || 3) - (techSkillLevels[a] || 3),
-  );
+  // Função para ordenar os itens colocando favoritos primeiro, e depois por nível de habilidade
+  const sortedItems = [...items].sort((a, b) => {
+    // Primeiro, verificar se os itens são favoritos
+    const aIsFavorite = favoriteSkills.includes(a);
+    const bIsFavorite = favoriteSkills.includes(b);
+
+    // Se um é favorito e o outro não, o favorito vem primeiro
+    if (aIsFavorite && !bIsFavorite) return -1;
+    if (!aIsFavorite && bIsFavorite) return 1;
+
+    // Se ambos são favoritos ou ambos não são, ordena por nível de habilidade
+    return (techSkillLevels[b] || 3) - (techSkillLevels[a] || 3);
+  });
 
   return (
     <motion.div
@@ -307,7 +356,7 @@ export function TechSkillItem({ label, items, delay = 0 }: TechSkillItemProps) {
                     </div>
                   </div>
 
-                  {(techSkillLevels[item] || 3) >= 5 && (
+                  {favoriteSkills.includes(item) && (
                     <motion.div
                       className="absolute -top-2 -right-2 bg-primary text-primary-foreground rounded-full p-0.5 shadow-sm z-10"
                       initial={{ scale: 0 }}

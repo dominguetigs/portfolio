@@ -177,20 +177,31 @@ export function SkillsSection() {
               'Sass',
               'Bootstrap',
               'Styled Components',
-              'Angular Material',
               'ChakraUI',
               'Css Modules',
               'Less',
+              'Angular Material',
             ]}
             delay={0.3}
           />
-          <TechSkillItem label="Mobile" items={['Ionic 4']} delay={0.4} />
+          <TechSkillItem
+            label="Mobile"
+            items={['Ionic 4', 'Swift']}
+            delay={0.4}
+          />
         </TabsContent>
 
         <TabsContent value="languages" className="space-y-8">
           <TechSkillItem
             label="Linguagens de Programação"
-            items={['JavaScript', 'TypeScript', 'Python', 'Elixir']}
+            items={[
+              'JavaScript',
+              'TypeScript',
+              'Python',
+              'Elixir',
+              'Go',
+              'Swift',
+            ]}
             delay={0.1}
           />
         </TabsContent>
@@ -198,7 +209,7 @@ export function SkillsSection() {
         <TabsContent value="backend" className="space-y-8">
           <TechSkillItem
             label="Tecnologias Backend"
-            items={['NodeJS', 'Python', 'Elixir']}
+            items={['NodeJS', 'Python', 'Elixir', 'Go']}
             delay={0.1}
           />
           <TechSkillItem
@@ -219,7 +230,13 @@ export function SkillsSection() {
         <TabsContent value="tools-infra" className="space-y-8">
           <TechSkillItem
             label="Testes"
-            items={['Jest', 'Cypress', 'Karma', 'Protractor']}
+            items={[
+              'Jest',
+              'Cypress',
+              'Karma',
+              'Protractor',
+              'React Testing Library',
+            ]}
             delay={0.1}
           />
           <TechSkillItem
