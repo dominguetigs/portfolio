@@ -91,6 +91,47 @@
         "devops": "DevOps & CI/CD",
         "projectManagement": "Project Management"
       }
+    },
+    "Projects": {
+      "title": "Projects",
+      "description": "Selection of personal projects that demonstrate my technical skills and creativity. Click on the cards to access the repository on GitHub.",
+      "viewMore": "View more projects on GitHub",
+      "projects": [
+        {
+          "id": "task-management-app",
+          "title": "Task Management App",
+          "description": "Task management application built with React/NextJS and TypeScript."
+        },
+        {
+          "id": "chat-bot-experiment",
+          "title": "Chat Bot Experiment",
+          "description": "Chatbot experiment built with React and Vite using TypeScript."
+        },
+        {
+          "id": "js-funcional",
+          "title": "JS Functional",
+          "description": "Functional programming concepts using the Javascript language."
+        },
+        {
+          "id": "ps-scheduler",
+          "title": "PS Scheduler",
+          "description": "Web and mobile application for scheduling messages to contacts."
+        },
+        {
+          "id": "snake-game",
+          "title": "Snake Game",
+          "description": "Snake game in JavaScript and Canvas."
+        },
+        {
+          "id": "memory-game",
+          "title": "Memory Game",
+          "description": "Memory game using JS and WEBPACK."
+        }
+      ]
+    },
+    "Footer": {
+      "madeWith": "Made with",
+      "by": "by"
     }
   }
 }
