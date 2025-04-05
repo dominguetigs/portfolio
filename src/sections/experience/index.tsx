@@ -1,11 +1,18 @@
 import { motion } from 'framer-motion';
 import { SectionHeader, MotionSection } from '@/sections/ui';
 import { ExperienceItem } from './components/experience-item';
-import { Check } from 'lucide-react';
+import { Check, ChevronDown } from 'lucide-react';
 import { useTranslations } from 'next-intl';
+import { useState } from 'react';
+import { Button } from '@/components/ui/button';
 
 export function ExperienceSection() {
   const t = useTranslations('Index.Experience');
+  const [showAllExperiences, setShowAllExperiences] = useState(false);
+
+  const toggleExperiences = () => {
+    setShowAllExperiences(!showAllExperiences);
+  };
 
   return (
     <MotionSection id="experience" className="py-16" delay={0.1}>
@@ -129,82 +136,111 @@ export function ExperienceSection() {
           delay={0.2}
         />
 
-        <ExperienceItem
-          period={t('positions.zup.period')}
-          title={t('positions.zup.title')}
-          company={t('positions.zup.company')}
-          location={t('positions.zup.location')}
-          description={t('positions.zup.description')}
-          responsibilities={t.raw('positions.zup.responsibilities')}
-          technologies={t.raw('positions.zup.technologies')}
-          delay={0.25}
-        />
+        {showAllExperiences && (
+          <>
+            <ExperienceItem
+              period={t('positions.zup.period')}
+              title={t('positions.zup.title')}
+              company={t('positions.zup.company')}
+              location={t('positions.zup.location')}
+              description={t('positions.zup.description')}
+              responsibilities={t.raw('positions.zup.responsibilities')}
+              technologies={t.raw('positions.zup.technologies')}
+              delay={0.25}
+            />
 
-        <ExperienceItem
-          period={t('positions.prevent.period')}
-          title={t('positions.prevent.title')}
-          company={t('positions.prevent.company')}
-          location={t('positions.prevent.location')}
-          description={t('positions.prevent.description')}
-          responsibilities={t.raw('positions.prevent.responsibilities')}
-          technologies={t.raw('positions.prevent.technologies')}
-          delay={0.3}
-        />
+            <ExperienceItem
+              period={t('positions.prevent.period')}
+              title={t('positions.prevent.title')}
+              company={t('positions.prevent.company')}
+              location={t('positions.prevent.location')}
+              description={t('positions.prevent.description')}
+              responsibilities={t.raw('positions.prevent.responsibilities')}
+              technologies={t.raw('positions.prevent.technologies')}
+              delay={0.3}
+            />
 
-        <ExperienceItem
-          period={t('positions.comexport.period')}
-          title={t('positions.comexport.title')}
-          company={t('positions.comexport.company')}
-          location={t('positions.comexport.location')}
-          description={t('positions.comexport.description')}
-          responsibilities={t.raw('positions.comexport.responsibilities')}
-          technologies={t.raw('positions.comexport.technologies')}
-          delay={0.35}
-        />
+            <ExperienceItem
+              period={t('positions.comexport.period')}
+              title={t('positions.comexport.title')}
+              company={t('positions.comexport.company')}
+              location={t('positions.comexport.location')}
+              description={t('positions.comexport.description')}
+              responsibilities={t.raw('positions.comexport.responsibilities')}
+              technologies={t.raw('positions.comexport.technologies')}
+              delay={0.35}
+            />
 
-        <ExperienceItem
-          period={t('positions.digesto.period')}
-          title={t('positions.digesto.title')}
-          company={t('positions.digesto.company')}
-          location={t('positions.digesto.location')}
-          description={t('positions.digesto.description')}
-          responsibilities={t.raw('positions.digesto.responsibilities')}
-          technologies={t.raw('positions.digesto.technologies')}
-          delay={0.4}
-        />
+            <ExperienceItem
+              period={t('positions.digesto.period')}
+              title={t('positions.digesto.title')}
+              company={t('positions.digesto.company')}
+              location={t('positions.digesto.location')}
+              description={t('positions.digesto.description')}
+              responsibilities={t.raw('positions.digesto.responsibilities')}
+              technologies={t.raw('positions.digesto.technologies')}
+              delay={0.4}
+            />
 
-        <ExperienceItem
-          period={t('positions.cedro.period')}
-          title={t('positions.cedro.title')}
-          company={t('positions.cedro.company')}
-          location={t('positions.cedro.location')}
-          description={t('positions.cedro.description')}
-          responsibilities={t.raw('positions.cedro.responsibilities')}
-          technologies={t.raw('positions.cedro.technologies')}
-          delay={0.7}
-        />
+            <ExperienceItem
+              period={t('positions.cedro.period')}
+              title={t('positions.cedro.title')}
+              company={t('positions.cedro.company')}
+              location={t('positions.cedro.location')}
+              description={t('positions.cedro.description')}
+              responsibilities={t.raw('positions.cedro.responsibilities')}
+              technologies={t.raw('positions.cedro.technologies')}
+              delay={0.7}
+            />
 
-        <ExperienceItem
-          period={t('positions.sym.period')}
-          title={t('positions.sym.title')}
-          company={t('positions.sym.company')}
-          location={t('positions.sym.location')}
-          description={t('positions.sym.description')}
-          responsibilities={t.raw('positions.sym.responsibilities')}
-          technologies={t.raw('positions.sym.technologies')}
-          delay={0.5}
-        />
+            <ExperienceItem
+              period={t('positions.sym.period')}
+              title={t('positions.sym.title')}
+              company={t('positions.sym.company')}
+              location={t('positions.sym.location')}
+              description={t('positions.sym.description')}
+              responsibilities={t.raw('positions.sym.responsibilities')}
+              technologies={t.raw('positions.sym.technologies')}
+              delay={0.5}
+            />
 
-        <ExperienceItem
-          period={t('positions.find.period')}
-          title={t('positions.find.title')}
-          company={t('positions.find.company')}
-          location={t('positions.find.location')}
-          description={t('positions.find.description')}
-          responsibilities={t.raw('positions.find.responsibilities')}
-          technologies={t.raw('positions.find.technologies')}
-          delay={0.55}
-        />
+            <ExperienceItem
+              period={t('positions.find.period')}
+              title={t('positions.find.title')}
+              company={t('positions.find.company')}
+              location={t('positions.find.location')}
+              description={t('positions.find.description')}
+              responsibilities={t.raw('positions.find.responsibilities')}
+              technologies={t.raw('positions.find.technologies')}
+              delay={0.55}
+            />
+          </>
+        )}
+
+        <motion.div
+          initial={{ opacity: 0 }}
+          whileInView={{ opacity: 1 }}
+          viewport={{ once: true }}
+          transition={{ duration: 0.3, delay: 0.4 }}
+          className="flex justify-center mt-8"
+        >
+          <Button
+            variant="ghost"
+            onClick={toggleExperiences}
+            className="group relative overflow-hidden rounded-full bg-background px-5 py-2.5 text-sm font-medium text-primary transition-all hover:bg-primary/10 border border-primary/30 hover:border-primary"
+          >
+            <span className="relative z-10 flex items-center gap-2">
+              {showAllExperiences ? t('showLess') : t('showMore')}
+              <motion.div
+                initial={false}
+                animate={{ rotate: showAllExperiences ? 180 : 0 }}
+                transition={{ duration: 0.3 }}
+              >
+                <ChevronDown className="h-4 w-4" />
+              </motion.div>
+            </span>
+          </Button>
+        </motion.div>
       </div>
     </MotionSection>
   );

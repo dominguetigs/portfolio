@@ -253,6 +253,8 @@
       "current": "Current",
       "responsibilities": "Responsibilities",
       "technologies": "Technologies",
+      "showMore": "Show more experiences",
+      "showLess": "Show less experiences",
       "positions": {
         "tagme": {
           "period": "2023 – Present",

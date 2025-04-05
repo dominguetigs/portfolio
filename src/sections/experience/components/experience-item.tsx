@@ -48,7 +48,7 @@ export function ExperienceItem({
         type: 'spring',
         stiffness: 110,
       }}
-      className="relative pl-8 sm:pl-10 pb-10 mb-2"
+      className="relative pl-8 sm:pl-10 pb-6 mb-0"
     >
       {/* Timeline vertical line */}
       <div className="absolute left-0 top-3 bottom-0 w-px bg-primary/40"></div>
