@@ -1,13 +1,14 @@
 'use client';
 
-import { motion } from 'framer-motion';
+import { motion, AnimatePresence } from 'framer-motion';
 import { Button } from '@/components/ui/button';
 import { ArrowDown } from 'lucide-react';
 import Image from 'next/image';
+import { useState, useEffect, useRef } from 'react';
 
 interface HeroSectionProps {
   name: string;
-  title: string;
+  title: string; // Mantido para compatibilidade, mas agora será um dos textos da animação
   location: string;
   phone: string;
   email: string;
@@ -15,6 +16,13 @@ interface HeroSectionProps {
   github: string;
   twitter: string;
   onScrollDown: () => void;
+}
+
+// Interface para os títulos com dados adicionais para animar
+interface AnimatedTitle {
+  text: string;
+  color?: string;
+  icon?: string;
 }
 
 export function HeroSection({
@@ -28,6 +36,76 @@ export function HeroSection({
   // twitter,
   onScrollDown,
 }: HeroSectionProps) {
+  // Array de textos relacionados à tecnologia, ciência, matemática e astronomia com cores temáticas
+  // eslint-disable-next-line react-hooks/exhaustive-deps
+  const titles: AnimatedTitle[] = [
+    { text: title, color: 'text-primary' }, // Usar o título fornecido como primeiro item
+    { text: 'Engenheiro de Software', color: 'text-primary' },
+    { text: 'Engenheiro Mecatrônico', color: 'text-primary' },
+    { text: 'Desenvolvedor Web', color: 'text-primary' },
+    { text: 'Entusiasta de Matemática', color: 'text-primary' },
+    { text: 'Arquiteto de Sistemas', color: 'text-primary' },
+    { text: 'Pesquisador em Tecnologia', color: 'text-primary' },
+    { text: 'Explorador de Dados', color: 'text-primary' },
+    { text: 'Curioso em Astronomia', color: 'text-primary' },
+    { text: 'Analista de Algoritmos', color: 'text-primary' },
+    { text: 'Solucionador de Problemas', color: 'text-primary' },
+  ];
+
+  const [currentTitleIndex, setCurrentTitleIndex] = useState(0);
+  const [displayText, setDisplayText] = useState('');
+  const [isDeleting, setIsDeleting] = useState(false);
+  const [typingSpeed, setTypingSpeed] = useState(100);
+
+  // Referência para controlar a animação de digitação
+  const typingRef = useRef<NodeJS.Timeout | null>(null);
+
+  // Função para gerenciar o efeito de digitação
+  useEffect(() => {
+    const currentTitle = titles[currentTitleIndex].text;
+
+    // Função para lidar com a animação de digitação/deleção
+    const handleTyping = () => {
+      if (!isDeleting) {
+        // Digitando: adiciona um caractere ao texto exibido
+        if (displayText.length < currentTitle.length) {
+          setDisplayText(currentTitle.substring(0, displayText.length + 1));
+          // Variação na velocidade de digitação para parecer mais natural
+          setTypingSpeed(100 + Math.random() * 80);
+        } else {
+          // Texto completo, pausa antes de começar a deletar
+          setTypingSpeed(2000); // Pausa mais longa ao término da digitação
+          setIsDeleting(true);
+        }
+      } else {
+        // Deletando: remove um caractere do texto exibido
+        if (displayText.length > 0) {
+          setDisplayText(currentTitle.substring(0, displayText.length - 1));
+          // Deleção mais rápida que digitação
+          setTypingSpeed(50 + Math.random() * 30);
+        } else {
+          // Texto deletado, avança para o próximo título
+          setIsDeleting(false);
+          setCurrentTitleIndex(prevIndex => (prevIndex + 1) % titles.length);
+          setTypingSpeed(500); // Pequena pausa antes de começar o próximo título
+        }
+      }
+    };
+
+    // Limpa o timeout anterior e inicia um novo
+    if (typingRef.current) {
+      clearTimeout(typingRef.current);
+    }
+    typingRef.current = setTimeout(handleTyping, typingSpeed);
+
+    // Limpa o timeout quando o componente for desmontado
+    return () => {
+      if (typingRef.current) {
+        clearTimeout(typingRef.current);
+      }
+    };
+  }, [displayText, isDeleting, currentTitleIndex, titles, typingSpeed]);
+
   return (
     <section className="min-h-screen flex flex-col justify-center items-center relative px-4">
       <div className="text-center max-w-3xl mx-auto">
@@ -63,7 +141,71 @@ export function HeroSection({
           <h1 className="text-4xl sm:text-5xl md:text-6xl font-bold mb-2">
             {name}
           </h1>
-          <p className="text-xl md:text-2xl text-muted-foreground">{title}</p>
+          <div className="h-9 md:h-10 flex justify-center items-center">
+            <div className="text-xl md:text-2xl relative inline-flex min-h-10">
+              <span
+                className={`${titles[currentTitleIndex].color} font-medium`}
+              >
+                {displayText}
+              </span>
+              <motion.span
+                animate={{
+                  opacity: [1, 0],
+                  transition: {
+                    repeat: Infinity,
+                    duration: 0.6,
+                    repeatType: 'reverse',
+                  },
+                }}
+                className={`ml-1 h-full w-[3px] ${titles[currentTitleIndex].color} bg-current`}
+              ></motion.span>
+
+              {/* Partículas de texto - efeito decorativo */}
+              <AnimatePresence>
+                {!isDeleting &&
+                  displayText.length ===
+                    titles[currentTitleIndex].text.length && (
+                    <motion.div
+                      className="absolute top-0 left-0 w-full"
+                      initial={{ opacity: 0 }}
+                      animate={{ opacity: 1 }}
+                      exit={{ opacity: 0 }}
+                      transition={{ duration: 0.3 }}
+                    >
+                      {Array.from({ length: 3 }).map((_, i) => (
+                        <motion.span
+                          key={i}
+                          className={`absolute text-xs ${titles[currentTitleIndex].color} opacity-50`}
+                          initial={{
+                            y: 0,
+                            x: Math.random() * 100 - 50,
+                            rotate: Math.random() * 360,
+                            scale: 0,
+                          }}
+                          animate={{
+                            y: -40 - Math.random() * 20,
+                            x: Math.random() * 200 - 100,
+                            rotate: Math.random() * 360,
+                            scale: [0, 1, 0],
+                            opacity: [0, 1, 0],
+                          }}
+                          transition={{
+                            duration: 1.5 + Math.random() * 0.5,
+                            ease: 'easeOut',
+                          }}
+                        >
+                          {
+                            ['✧', '✦', '★', '✴', '✺'][
+                              Math.floor(Math.random() * 5)
+                            ]
+                          }
+                        </motion.span>
+                      ))}
+                    </motion.div>
+                  )}
+              </AnimatePresence>
+            </div>
+          </div>
         </motion.div>
 
         <motion.div
