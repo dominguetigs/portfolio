@@ -1,21 +1,23 @@
+'use client';
+
 import { SectionHeader, MotionSection } from '@/sections/ui';
 import { LanguageItem } from './components/language-item';
+import { useTranslations } from 'next-intl';
 
 export function LanguagesSection() {
+  const t = useTranslations('Index.Languages');
+
   return (
     <MotionSection id="languages" className="py-16" delay={0.1}>
-      <SectionHeader title="Idiomas" />
+      <SectionHeader title={t('title')} />
       <div className="space-y-8 md:space-y-8">
         <div className="mb-6">
-          <p className="text-muted-foreground mb-4">
-            Avaliação de habilidades linguísticas baseada no Quadro Europeu
-            Comum de Referência para Línguas (QECR).
-          </p>
+          <p className="text-muted-foreground mb-4">{t('description')}</p>
         </div>
 
         <LanguageItem
-          language="Português"
-          level="Nativo (C2)"
+          language={t('languages.portuguese.name')}
+          level={t('languages.portuguese.level')}
           reading={5}
           writing={5}
           speaking={5}
@@ -25,8 +27,8 @@ export function LanguagesSection() {
         />
 
         <LanguageItem
-          language="Inglês"
-          level="Intermediário (B1/B2)"
+          language={t('languages.english.name')}
+          level={t('languages.english.level')}
           reading={4}
           writing={3}
           speaking={3}
@@ -36,8 +38,8 @@ export function LanguagesSection() {
         />
 
         <LanguageItem
-          language="Espanhol"
-          level="Básico (A2)"
+          language={t('languages.spanish.name')}
+          level={t('languages.spanish.level')}
           reading={2}
           writing={1}
           speaking={1}

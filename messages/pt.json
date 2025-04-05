@@ -214,6 +214,38 @@
           ]
         }
       }
+    },
+    "Languages": {
+      "title": "Idiomas",
+      "description": "Avaliação de habilidades linguísticas baseada no Quadro Europeu Comum de Referência para Línguas (QECR).",
+      "flagAlt": "Bandeira {language}",
+      "languages": {
+        "portuguese": {
+          "name": "Português",
+          "level": "Nativo (C2)"
+        },
+        "english": {
+          "name": "Inglês",
+          "level": "Intermediário (B1/B2)"
+        },
+        "spanish": {
+          "name": "Espanhol",
+          "level": "Básico (A2)"
+        }
+      },
+      "skills": {
+        "reading": "Leitura",
+        "writing": "Escrita",
+        "speaking": "Fala",
+        "listening": "Compreensão"
+      },
+      "levels": {
+        "a1": "Básico (A1)",
+        "a2": "Elementar (A2)",
+        "b1": "Intermediário (B1)",
+        "b2": "Independente (B2)",
+        "c1c2": "Avançado (C1/C2)"
+      }
     }
   }
 }

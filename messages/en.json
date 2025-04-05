@@ -214,6 +214,38 @@
           ]
         }
       }
+    },
+    "Languages": {
+      "title": "Languages",
+      "description": "Assessment of language skills based on the Common European Framework of Reference for Languages (CEFR).",
+      "flagAlt": "{language} Flag",
+      "languages": {
+        "portuguese": {
+          "name": "Portuguese",
+          "level": "Native (C2)"
+        },
+        "english": {
+          "name": "English",
+          "level": "Intermediate (B1/B2)"
+        },
+        "spanish": {
+          "name": "Spanish",
+          "level": "Basic (A2)"
+        }
+      },
+      "skills": {
+        "reading": "Reading",
+        "writing": "Writing",
+        "speaking": "Speaking",
+        "listening": "Listening"
+      },
+      "levels": {
+        "a1": "Basic (A1)",
+        "a2": "Elementary (A2)",
+        "b1": "Intermediate (B1)",
+        "b2": "Independent (B2)",
+        "c1c2": "Advanced (C1/C2)"
+      }
     }
   }
 }

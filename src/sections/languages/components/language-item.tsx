@@ -4,6 +4,7 @@ import { motion } from 'framer-motion';
 import Image from 'next/image';
 import { BookOpen, Headphones, MessageSquare, Pencil } from 'lucide-react';
 import { useInView } from 'react-intersection-observer';
+import { useTranslations } from 'next-intl';
 
 interface LanguageItemProps {
   language: string;
@@ -58,6 +59,7 @@ export const LanguageItem = ({
   flag,
   delay = 0,
 }: LanguageItemProps) => {
+  const t = useTranslations('Index.Languages');
   const [ref, inView] = useInView({
     triggerOnce: true,
     threshold: 0.2,
@@ -65,11 +67,11 @@ export const LanguageItem = ({
   });
 
   const levels = [
-    'Básico (A1)',
-    'Elementar (A2)',
-    'Intermediário (B1)',
-    'Independente (B2)',
-    'Avançado (C1/C2)',
+    t('levels.a1'),
+    t('levels.a2'),
+    t('levels.b1'),
+    t('levels.b2'),
+    t('levels.c1c2'),
   ];
 
   return (
@@ -94,7 +96,7 @@ export const LanguageItem = ({
             <div className="relative h-10 w-10 overflow-hidden rounded-full border border-border shadow-sm flex-shrink-0">
               <Image
                 src={flag}
-                alt={`Bandeira ${language}`}
+                alt={t('flagAlt', { language })}
                 fill
                 sizes="40px"
                 className="object-cover"
@@ -114,7 +116,7 @@ export const LanguageItem = ({
           <div className="space-y-1.5">
             <div className="flex items-center gap-1.5 mb-1">
               <BookOpen className="h-3.5 w-3.5 text-primary" />
-              <span className="text-xs font-medium">Leitura</span>
+              <span className="text-xs font-medium">{t('skills.reading')}</span>
             </div>
             <SkillBar level={reading} />
             <div className="text-[10px] text-muted-foreground">
@@ -126,7 +128,7 @@ export const LanguageItem = ({
           <div className="space-y-1.5">
             <div className="flex items-center gap-1.5 mb-1">
               <Pencil className="h-3.5 w-3.5 text-primary" />
-              <span className="text-xs font-medium">Escrita</span>
+              <span className="text-xs font-medium">{t('skills.writing')}</span>
             </div>
             <SkillBar level={writing} />
             <div className="text-[10px] text-muted-foreground">
@@ -138,7 +140,9 @@ export const LanguageItem = ({
           <div className="space-y-1.5">
             <div className="flex items-center gap-1.5 mb-1">
               <MessageSquare className="h-3.5 w-3.5 text-primary" />
-              <span className="text-xs font-medium">Fala</span>
+              <span className="text-xs font-medium">
+                {t('skills.speaking')}
+              </span>
             </div>
             <SkillBar level={speaking} />
             <div className="text-[10px] text-muted-foreground">
@@ -150,7 +154,9 @@ export const LanguageItem = ({
           <div className="space-y-1.5">
             <div className="flex items-center gap-1.5 mb-1">
               <Headphones className="h-3.5 w-3.5 text-primary" />
-              <span className="text-xs font-medium">Compreensão</span>
+              <span className="text-xs font-medium">
+                {t('skills.listening')}
+              </span>
             </div>
             <SkillBar level={listening} />
             <div className="text-[10px] text-muted-foreground">

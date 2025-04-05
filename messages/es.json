@@ -214,6 +214,38 @@
           ]
         }
       }
+    },
+    "Languages": {
+      "title": "Idiomas",
+      "description": "Evaluación de habilidades lingüísticas basada en el Marco Común Europeo de Referencia para las Lenguas (MCERL).",
+      "flagAlt": "Bandera de {language}",
+      "languages": {
+        "portuguese": {
+          "name": "Portugués",
+          "level": "Nativo (C2)"
+        },
+        "english": {
+          "name": "Inglés",
+          "level": "Intermedio (B1/B2)"
+        },
+        "spanish": {
+          "name": "Español",
+          "level": "Básico (A2)"
+        }
+      },
+      "skills": {
+        "reading": "Lectura",
+        "writing": "Escritura",
+        "speaking": "Habla",
+        "listening": "Comprensión"
+      },
+      "levels": {
+        "a1": "Básico (A1)",
+        "a2": "Elemental (A2)",
+        "b1": "Intermedio (B1)",
+        "b2": "Independiente (B2)",
+        "c1c2": "Avanzado (C1/C2)"
+      }
     }
   }
 }

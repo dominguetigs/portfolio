@@ -22,7 +22,7 @@ export default function Home() {
   };
 
   return (
-    <div className="min-h-screen pb-20 container max-w-7xl mx-auto px-4">
+    <div className="min-h-screen pb-20 container max-w-4xl mx-auto px-4">
       <Header />
 
       <HeroSection
