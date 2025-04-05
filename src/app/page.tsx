@@ -9,6 +9,7 @@ import { SectionHeader } from '@/components/section-header';
 import { TechSkillItem } from '@/components/tech-skill-item';
 import { ExperienceItem } from '@/components/experience-item';
 import { EducationItem } from '@/components/education-item';
+import { LanguageItem } from '@/components/language-item';
 import { motion } from 'framer-motion';
 import {
   GraduationCap,
@@ -842,105 +843,46 @@ export default function Home() {
 
         <MotionSection id="languages" className="py-16" delay={0.1}>
           <SectionHeader title="Idiomas" />
-          <div className="space-y-6">
-            <motion.div
-              className="flex items-center justify-between"
-              initial={{ opacity: 0, x: -20 }}
-              animate={{ opacity: 1, x: 0 }}
-              transition={{ duration: 0.5, delay: 0.2 }}
-              whileHover={{ scale: 1.02 }}
-            >
-              <div className="flex items-baseline gap-2">
-                <motion.span
-                  className="font-semibold"
-                  whileHover={{ color: 'var(--primary)' }}
-                >
-                  Português
-                </motion.span>
-                <span className="text-muted-foreground text-sm">(Nativo)</span>
-              </div>
-              <div className="flex gap-1">
-                {[1, 2, 3, 4, 5].map(i => (
-                  <motion.div
-                    key={i}
-                    initial={{ scaleX: 0 }}
-                    animate={{ scaleX: 1 }}
-                    transition={{
-                      duration: 0.4,
-                      delay: 0.3 + i * 0.1,
-                      type: 'spring',
-                      stiffness: 200,
-                    }}
-                    whileHover={{
-                      scaleY: 1.5,
-                      transition: { duration: 0.2 },
-                    }}
-                    className="w-5 h-2 bg-primary rounded-full"
-                    style={{ originX: 0 }}
-                  ></motion.div>
-                ))}
-              </div>
-            </motion.div>
+          <div className="space-y-8 md:space-y-8">
+            <div className="mb-6">
+              <p className="text-muted-foreground mb-4">
+                Avaliação de habilidades linguísticas baseada no Quadro Europeu
+                Comum de Referência para Línguas (QECR).
+              </p>
+            </div>
 
-            <motion.div
-              className="flex items-center justify-between"
-              initial={{ opacity: 0, x: -20 }}
-              animate={{ opacity: 1, x: 0 }}
-              transition={{ duration: 0.5, delay: 0.3 }}
-              whileHover={{ scale: 1.02 }}
-            >
-              <div className="flex items-baseline gap-2">
-                <motion.span
-                  className="font-semibold"
-                  whileHover={{ color: 'var(--primary)' }}
-                >
-                  Inglês
-                </motion.span>
-                <span className="text-muted-foreground text-sm">
-                  (Intermediário)
-                </span>
-              </div>
-              <div className="flex gap-1">
-                {[1, 2, 3].map(i => (
-                  <motion.div
-                    key={i}
-                    initial={{ scaleX: 0 }}
-                    animate={{ scaleX: 1 }}
-                    transition={{
-                      duration: 0.4,
-                      delay: 0.4 + i * 0.1,
-                      type: 'spring',
-                      stiffness: 200,
-                    }}
-                    whileHover={{
-                      scaleY: 1.5,
-                      transition: { duration: 0.2 },
-                    }}
-                    className="w-5 h-2 bg-primary rounded-full"
-                    style={{ originX: 0 }}
-                  ></motion.div>
-                ))}
-                {[4, 5].map(i => (
-                  <motion.div
-                    key={i}
-                    initial={{ scaleX: 0 }}
-                    animate={{ scaleX: 1 }}
-                    transition={{
-                      duration: 0.4,
-                      delay: 0.4 + i * 0.1,
-                      type: 'spring',
-                      stiffness: 200,
-                    }}
-                    whileHover={{
-                      scaleY: 1.5,
-                      transition: { duration: 0.2 },
-                    }}
-                    className="w-5 h-2 bg-muted rounded-full"
-                    style={{ originX: 0 }}
-                  ></motion.div>
-                ))}
-              </div>
-            </motion.div>
+            <LanguageItem
+              language="Português"
+              level="Nativo (C2)"
+              reading={5}
+              writing={5}
+              speaking={5}
+              listening={5}
+              flag="/flags/brazil.svg"
+              delay={0.2}
+            />
+
+            <LanguageItem
+              language="Inglês"
+              level="Intermediário (B1/B2)"
+              reading={4}
+              writing={3}
+              speaking={3}
+              listening={4}
+              flag="/flags/usa.svg"
+              delay={0.3}
+            />
+
+            <LanguageItem
+              language="Espanhol"
+              level="Básico (A2)"
+              reading={2}
+              writing={1}
+              speaking={1}
+              listening={2}
+              flag="/flags/spain.svg"
+              delay={0.4}
+            />
           </div>
         </MotionSection>
       </div>
