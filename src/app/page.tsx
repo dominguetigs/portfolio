@@ -629,7 +629,7 @@ export default function Home() {
             <p className="text-muted-foreground">
               Seleção de projetos pessoais que demonstram minhas habilidades
               técnicas e criatividade. Clique nos cards para acessar o
-              repositório no GitHub ou no botão para ver a demonstração.
+              repositório no GitHub.
             </p>
           </motion.div>
 
@@ -678,10 +678,10 @@ export default function Home() {
                   <h3 className="text-lg font-semibold mb-2">
                     {project.title}
                   </h3>
-                  <p className="text-sm text-muted-foreground mb-4">
+                  <p className="text-sm text-muted-foreground mb-2">
                     {project.description}
                   </p>
-                  <div className="flex flex-wrap gap-1 mb-4">
+                  <div className="flex flex-wrap gap-1">
                     {project.technologies.map(tech => (
                       <Badge
                         key={`${project.id}-${tech}`}
@@ -691,27 +691,6 @@ export default function Home() {
                         {tech}
                       </Badge>
                     ))}
-                  </div>
-                  <div className="flex justify-center items-center">
-                    {project.demo && (
-                      <Button
-                        variant="secondary"
-                        size="sm"
-                        asChild
-                        className="bg-primary/20 hover:bg-primary/30"
-                        onClick={e => e.stopPropagation()}
-                      >
-                        <a
-                          href={project.demo}
-                          target="_blank"
-                          rel="noopener noreferrer"
-                          className="inline-flex items-center"
-                        >
-                          <span>Ver demo</span>
-                          <ExternalLink className="ml-1.5 h-3.5 w-3.5" />
-                        </a>
-                      </Button>
-                    )}
                   </div>
                 </div>
               </motion.div>
