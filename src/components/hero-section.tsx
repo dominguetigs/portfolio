@@ -168,14 +168,13 @@ export function HeroSection({
               scale: 1.2,
               y: 15,
               filter: 'blur(3px)',
-              boxShadow: '0px 0px 0px rgba(0,0,0,0)',
             }}
             animate={{
               opacity: 1,
               scale: 1,
               y: 0,
               filter: 'blur(0px)',
-              boxShadow: '0px 4px 12px rgba(0,0,0,0.15)',
+
               transition: {
                 duration: 0.6,
                 ease: [0.22, 1, 0.36, 1],
@@ -186,7 +185,7 @@ export function HeroSection({
               scale: 0.9,
               y: 10,
               filter: 'blur(2px)',
-              boxShadow: '0px 0px 0px rgba(0,0,0,0)',
+
               transition: {
                 duration: 0.4,
                 ease: [0.22, 1, 0.36, 1],
@@ -325,14 +324,12 @@ export function HeroSection({
                   scale: 1.2,
                   y: -15,
                   filter: 'blur(3px)',
-                  boxShadow: '0px 0px 0px rgba(0,0,0,0)',
                 }}
                 animate={{
                   opacity: 1,
                   scale: 1,
                   y: 0,
                   filter: 'blur(0px)',
-                  boxShadow: '0px 4px 12px rgba(0,0,0,0.15)',
                   transition: {
                     duration: 0.6,
                     delay: 0.2,
@@ -344,7 +341,6 @@ export function HeroSection({
                   scale: 0.9,
                   y: -10,
                   filter: 'blur(2px)',
-                  boxShadow: '0px 0px 0px rgba(0,0,0,0)',
                   transition: {
                     duration: 0.4,
                     ease: [0.22, 1, 0.36, 1],
