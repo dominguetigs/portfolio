@@ -85,7 +85,11 @@ export default function Home() {
               className="col-span-1"
               initial={{ opacity: 0, x: -20 }}
               whileInView={{ opacity: 1, x: 0 }}
-              viewport={{ once: true, amount: 0.2 }}
+              viewport={{
+                once: true,
+                amount: 0.05,
+                margin: '-20px 0px 0px 0px',
+              }}
               transition={{ duration: 0.5, delay: 0.1 }}
             >
               <div className="relative w-full aspect-square max-w-[300px] mx-auto overflow-hidden rounded-lg shadow-lg">
@@ -104,7 +108,11 @@ export default function Home() {
               className="col-span-1 md:col-span-2 prose prose-lg dark:prose-invert"
               initial={{ opacity: 0, x: 20 }}
               whileInView={{ opacity: 1, x: 0 }}
-              viewport={{ once: true, amount: 0.2 }}
+              viewport={{
+                once: true,
+                amount: 0.05,
+                margin: '-20px 0px 0px 0px',
+              }}
               transition={{ duration: 0.5, delay: 0.2 }}
             >
               <h3 className="text-xl font-semibold flex items-center gap-2 mb-4">
@@ -149,7 +157,11 @@ export default function Home() {
               className="col-span-1 md:col-span-3 mt-8 grid grid-cols-1 sm:grid-cols-2 md:grid-cols-4 gap-4"
               initial={{ opacity: 0, y: 20 }}
               whileInView={{ opacity: 1, y: 0 }}
-              viewport={{ once: true, amount: 0.2 }}
+              viewport={{
+                once: true,
+                amount: 0.05,
+                margin: '-20px 0px 0px 0px',
+              }}
               transition={{ duration: 0.5, delay: 0.3 }}
             >
               <div className="bg-card hover:bg-card/80 transition-colors border rounded-lg p-4 shadow-sm flex flex-col items-center text-center">
@@ -195,7 +207,7 @@ export default function Home() {
           <motion.div
             initial={{ opacity: 0 }}
             whileInView={{ opacity: 1 }}
-            viewport={{ once: true, amount: 0.2 }}
+            viewport={{ once: true, amount: 0.05, margin: '-20px 0px 0px 0px' }}
             transition={{ duration: 0.5, delay: 0.2 }}
             className="mb-6"
           >
@@ -213,7 +225,11 @@ export default function Home() {
             <motion.div
               initial={{ opacity: 0, y: 10 }}
               whileInView={{ opacity: 1, y: 0 }}
-              viewport={{ once: true, amount: 0.2 }}
+              viewport={{
+                once: true,
+                amount: 0.05,
+                margin: '-20px 0px 0px 0px',
+              }}
               transition={{ duration: 0.5, delay: 0.3 }}
               className="mb-6"
             >
@@ -423,7 +439,7 @@ export default function Home() {
           <motion.div
             initial={{ opacity: 0 }}
             whileInView={{ opacity: 1 }}
-            viewport={{ once: true, amount: 0.2 }}
+            viewport={{ once: true, amount: 0.05, margin: '-20px 0px 0px 0px' }}
             transition={{ duration: 0.5, delay: 0.2 }}
             className="mb-8"
           >
@@ -467,7 +483,11 @@ export default function Home() {
                             key={`lead-${idx}`}
                             initial={{ opacity: 0, x: -10 }}
                             whileInView={{ opacity: 1, x: 0 }}
-                            viewport={{ once: true, amount: 0.2 }}
+                            viewport={{
+                              once: true,
+                              amount: 0.05,
+                              margin: '-20px 0px 0px 0px',
+                            }}
                             transition={{
                               duration: 0.3,
                               delay: 0.1 + idx * 0.05,
@@ -505,7 +525,11 @@ export default function Home() {
                             key={`eng-${idx}`}
                             initial={{ opacity: 0, x: -10 }}
                             whileInView={{ opacity: 1, x: 0 }}
-                            viewport={{ once: true, amount: 0.2 }}
+                            viewport={{
+                              once: true,
+                              amount: 0.05,
+                              margin: '-20px 0px 0px 0px',
+                            }}
                             transition={{
                               duration: 0.3,
                               delay: 0.1 + idx * 0.05,
@@ -726,7 +750,7 @@ export default function Home() {
           <motion.div
             initial={{ opacity: 0 }}
             whileInView={{ opacity: 1 }}
-            viewport={{ once: true, amount: 0.2 }}
+            viewport={{ once: true, amount: 0.05, margin: '-20px 0px 0px 0px' }}
             transition={{ duration: 0.5, delay: 0.2 }}
             className="mb-6"
           >

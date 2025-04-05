@@ -31,8 +31,8 @@ export function EducationItem({
 }: EducationItemProps) {
   const [ref, inView] = useInView({
     triggerOnce: true,
-    threshold: 0.2,
-    rootMargin: '-50px 0px',
+    threshold: 0.05,
+    rootMargin: '-20px 0px 0px 0px',
   });
 
   // Mapeamento de ícones por tipo de educação
