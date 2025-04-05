@@ -4,6 +4,7 @@ import { motion } from 'framer-motion';
 import { GraduationCap, Award, Calendar, MapPin, Building } from 'lucide-react';
 import React from 'react';
 import { Badge } from '@/components/ui/badge';
+import { useInView } from 'react-intersection-observer';
 
 interface EducationItemProps {
   period: string;
@@ -28,6 +29,12 @@ export function EducationItem({
   isLast = false,
   showTimeline = true,
 }: EducationItemProps) {
+  const [ref, inView] = useInView({
+    triggerOnce: true,
+    threshold: 0.2,
+    rootMargin: '-50px 0px',
+  });
+
   // Mapeamento de ícones por tipo de educação
   const typeIcons: Record<string, React.ReactNode> = {
     Bacharelado: <GraduationCap className="h-4 w-4" />,
@@ -40,8 +47,9 @@ export function EducationItem({
 
   return (
     <motion.div
+      ref={ref}
       initial={{ opacity: 0, y: 20 }}
-      animate={{ opacity: 1, y: 0 }}
+      animate={inView ? { opacity: 1, y: 0 } : { opacity: 0, y: 20 }}
       transition={{ duration: 0.5, delay }}
       className={`relative ${showTimeline ? 'pl-6 sm:pl-8' : ''} pb-6 mb-2`}
     >
@@ -50,7 +58,7 @@ export function EducationItem({
         <motion.div
           className="absolute left-0 top-3 bottom-0 w-px bg-primary/40"
           initial={{ height: 0 }}
-          animate={{ height: '100%' }}
+          animate={inView ? { height: '100%' } : { height: 0 }}
           transition={{ duration: 0.8, delay: delay + 0.2 }}
         ></motion.div>
       )}
@@ -60,7 +68,7 @@ export function EducationItem({
         <motion.div
           className="absolute left-[-8px] sm:left-[-10px] top-2 h-5 w-5 rounded-full bg-card border-2 border-primary flex items-center justify-center"
           initial={{ scale: 0, rotate: -90 }}
-          animate={{ scale: 1, rotate: 0 }}
+          animate={inView ? { scale: 1, rotate: 0 } : { scale: 0, rotate: -90 }}
           transition={{
             type: 'spring',
             stiffness: 300,
@@ -91,7 +99,7 @@ export function EducationItem({
           <motion.div
             className="flex items-center gap-1.5 text-primary font-medium"
             initial={{ opacity: 0 }}
-            animate={{ opacity: 1 }}
+            animate={inView ? { opacity: 1 } : { opacity: 0 }}
             transition={{ duration: 0.5, delay: delay + 0.3 }}
           >
             <Calendar className="h-3.5 w-3.5 sm:h-4 sm:w-4 flex-shrink-0" />
@@ -102,7 +110,7 @@ export function EducationItem({
             <motion.div
               className="flex items-center gap-1.5 text-muted-foreground"
               initial={{ opacity: 0 }}
-              animate={{ opacity: 1 }}
+              animate={inView ? { opacity: 1 } : { opacity: 0 }}
               transition={{ duration: 0.5, delay: delay + 0.3 }}
             >
               <MapPin className="h-3.5 w-3.5 sm:h-4 sm:w-4 flex-shrink-0" />
@@ -114,7 +122,7 @@ export function EducationItem({
         <motion.h3
           className="text-base sm:text-lg font-semibold mb-1"
           initial={{ opacity: 0, y: 5 }}
-          animate={{ opacity: 1, y: 0 }}
+          animate={inView ? { opacity: 1, y: 0 } : { opacity: 0, y: 5 }}
           transition={{ duration: 0.4, delay: delay + 0.4 }}
         >
           {course}
@@ -123,7 +131,7 @@ export function EducationItem({
         <motion.div
           className="flex items-center gap-1.5 mb-1"
           initial={{ opacity: 0, y: 5 }}
-          animate={{ opacity: 1, y: 0 }}
+          animate={inView ? { opacity: 1, y: 0 } : { opacity: 0, y: 5 }}
           transition={{ duration: 0.4, delay: delay + 0.5 }}
         >
           <Building className="h-3.5 w-3.5 sm:h-4 sm:w-4 flex-shrink-0 text-primary/80" />
@@ -134,7 +142,9 @@ export function EducationItem({
 
         <motion.div
           initial={{ opacity: 0, scale: 0.9 }}
-          animate={{ opacity: 1, scale: 1 }}
+          animate={
+            inView ? { opacity: 1, scale: 1 } : { opacity: 0, scale: 0.9 }
+          }
           transition={{
             duration: 0.3,
             delay: delay + 0.6,
@@ -157,7 +167,7 @@ export function EducationItem({
           <motion.p
             className="text-muted-foreground text-xs sm:text-sm mt-2"
             initial={{ opacity: 0 }}
-            animate={{ opacity: 1 }}
+            animate={inView ? { opacity: 1 } : { opacity: 0 }}
             transition={{ duration: 0.4, delay: delay + 0.7 }}
           >
             {description}

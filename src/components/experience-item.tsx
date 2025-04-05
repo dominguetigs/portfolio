@@ -4,6 +4,7 @@ import { motion } from 'framer-motion';
 import { Building2, Calendar, MapPin, Check, Code } from 'lucide-react';
 import { ReactNode } from 'react';
 import { Badge } from '@/components/ui/badge';
+import { useInView } from 'react-intersection-observer';
 
 interface ExperienceItemProps {
   period: string;
@@ -28,10 +29,17 @@ export function ExperienceItem({
   delay = 0,
   className = '',
 }: ExperienceItemProps) {
+  const [ref, inView] = useInView({
+    triggerOnce: true,
+    threshold: 0.2,
+    rootMargin: '-50px 0px',
+  });
+
   return (
     <motion.div
+      ref={ref}
       initial={{ opacity: 0, y: 20 }}
-      animate={{ opacity: 1, y: 0 }}
+      animate={inView ? { opacity: 1, y: 0 } : { opacity: 0, y: 20 }}
       transition={{ duration: 0.5, delay, type: 'spring', stiffness: 100 }}
       className="relative pl-8 sm:pl-10 pb-10 mb-2"
     >
@@ -76,7 +84,9 @@ export function ExperienceItem({
                 <motion.li
                   key={index}
                   initial={{ opacity: 0, x: -10 }}
-                  animate={{ opacity: 1, x: 0 }}
+                  animate={
+                    inView ? { opacity: 1, x: 0 } : { opacity: 0, x: -10 }
+                  }
                   transition={{
                     duration: 0.3,
                     delay: delay + 0.1 + index * 0.05,
@@ -103,7 +113,11 @@ export function ExperienceItem({
                 <motion.div
                   key={index}
                   initial={{ opacity: 0, scale: 0.8 }}
-                  animate={{ opacity: 1, scale: 1 }}
+                  animate={
+                    inView
+                      ? { opacity: 1, scale: 1 }
+                      : { opacity: 0, scale: 0.8 }
+                  }
                   transition={{
                     duration: 0.2,
                     delay: delay + 0.2 + index * 0.05,
