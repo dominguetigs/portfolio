@@ -43,8 +43,7 @@ export function HeroSection({
     { text: 'Engenheiro de Software', color: 'text-primary' },
     { text: 'Engenheiro Mecatrônico', color: 'text-primary' },
     { text: 'Desenvolvedor Web', color: 'text-primary' },
-    { text: 'Entusiasta de Matemática', color: 'text-primary' },
-    { text: 'Arquiteto de Sistemas', color: 'text-primary' },
+    { text: 'Entusiasta em Matemática', color: 'text-primary' },
     { text: 'Pesquisador em Tecnologia', color: 'text-primary' },
     { text: 'Explorador de Dados', color: 'text-primary' },
     { text: 'Curioso em Astronomia', color: 'text-primary' },
@@ -107,8 +106,8 @@ export function HeroSection({
   }, [displayText, isDeleting, currentTitleIndex, titles, typingSpeed]);
 
   return (
-    <section className="min-h-screen flex flex-col justify-center items-center relative px-4">
-      <div className="text-center max-w-3xl mx-auto">
+    <section className="min-h-screen flex flex-col items-center justify-center relative px-4 py-10">
+      <div className="text-center max-w-3xl mx-auto flex flex-col items-center">
         <motion.div
           initial={{ opacity: 0, y: -20 }}
           animate={{ opacity: 1, y: 0 }}
@@ -236,7 +235,7 @@ export function HeroSection({
           initial={{ opacity: 0, y: 20 }}
           animate={{ opacity: 1, y: 0 }}
           transition={{ duration: 0.6, delay: 0.4 }}
-          className="flex flex-wrap justify-center gap-4"
+          className="flex flex-wrap justify-center gap-4 mb-16"
         >
           <a href={linkedin} target="_blank" rel="noopener noreferrer">
             <Button variant="outline" size="sm">
@@ -254,22 +253,21 @@ export function HeroSection({
             </Button>
           </a> */}
         </motion.div>
-      </div>
 
-      <motion.div
-        initial={{ opacity: 0, y: 20 }}
-        animate={{ opacity: 1, y: 0 }}
-        transition={{ duration: 0.6, delay: 0.8 }}
-        className="mt-[100px] sm:mt-[200px]"
-      >
-        <Button
-          size="icon"
-          onClick={onScrollDown}
-          className="rounded-full animate-bounce"
+        <motion.div
+          initial={{ opacity: 0, y: 20 }}
+          animate={{ opacity: 1, y: 0 }}
+          transition={{ duration: 0.6, delay: 0.8 }}
         >
-          <ArrowDown className="h-6 w-6" />
-        </Button>
-      </motion.div>
+          <Button
+            size="icon"
+            onClick={onScrollDown}
+            className="rounded-full animate-bounce"
+          >
+            <ArrowDown className="h-6 w-6" />
+          </Button>
+        </motion.div>
+      </div>
     </section>
   );
 }
