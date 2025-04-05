@@ -535,44 +535,29 @@ export default function Home() {
           <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
             {/* Task Management App */}
             <motion.div
-              className="group relative overflow-hidden rounded-xl border bg-card shadow-sm transition-all hover:shadow-lg"
-              initial={{ opacity: 0, y: 50, scale: 0.95 }}
-              whileInView={{ opacity: 1, y: 0, scale: 1 }}
+              className="group relative overflow-hidden rounded-xl border bg-card hover:bg-card/80 transition-colors shadow-sm"
+              initial={{ opacity: 0, y: 20 }}
+              whileInView={{ opacity: 1, y: 0 }}
               viewport={{
                 once: true,
                 amount: 0.1,
                 margin: '-20px 0px 0px 0px',
               }}
               transition={{
-                duration: 0.5,
+                duration: 0.3,
                 delay: 0.05,
-                type: 'spring',
-                stiffness: 100,
-                damping: 15,
-              }}
-              whileHover={{
-                y: -8,
-                boxShadow:
-                  '0 10px 25px -5px rgba(0, 0, 0, 0.1), 0 8px 10px -6px rgba(0, 0, 0, 0.1)',
-                transition: { duration: 0.3 },
+                ease: 'easeOut',
               }}
             >
               <div className="aspect-video w-full bg-muted/40 relative overflow-hidden">
-                <div className="absolute inset-0 bg-gradient-to-t from-black/70 to-black/0 z-10"></div>
-                <motion.div
-                  className="absolute inset-0 bg-primary/20"
-                  initial={{ opacity: 0 }}
-                  whileInView={{ opacity: 1 }}
-                  transition={{ duration: 0.5, delay: 0.2 }}
-                ></motion.div>
-                <motion.div
-                  className="w-full h-full flex items-center justify-center text-4xl font-bold text-primary/20"
-                  initial={{ scale: 0.8, opacity: 0 }}
-                  whileInView={{ scale: 1, opacity: 1 }}
-                  transition={{ duration: 0.5, delay: 0.3 }}
-                >
-                  <Rocket className="w-20 h-20 opacity-40" />
-                </motion.div>
+                <div className="absolute inset-0 bg-gradient-to-t from-black/80 dark:from-black/70 to-black/10 dark:to-black/0 z-10"></div>
+                <Image
+                  src="/projects/task-management-app.png"
+                  alt="Task Management App"
+                  fill
+                  className="object-cover object-top"
+                  sizes="(max-width: 768px) 100vw, 400px"
+                />
                 <div className="absolute bottom-2 left-2 z-20">
                   <span className="bg-primary/90 text-primary-foreground text-xs px-2 py-1 rounded">
                     TypeScript
@@ -624,44 +609,29 @@ export default function Home() {
 
             {/* Chat Bot Experiment */}
             <motion.div
-              className="group relative overflow-hidden rounded-xl border bg-card shadow-sm transition-all hover:shadow-lg"
-              initial={{ opacity: 0, y: 50, scale: 0.95 }}
-              whileInView={{ opacity: 1, y: 0, scale: 1 }}
+              className="group relative overflow-hidden rounded-xl border bg-card hover:bg-card/80 transition-colors shadow-sm"
+              initial={{ opacity: 0, y: 20 }}
+              whileInView={{ opacity: 1, y: 0 }}
               viewport={{
                 once: true,
                 amount: 0.1,
                 margin: '-20px 0px 0px 0px',
               }}
               transition={{
-                duration: 0.5,
-                delay: 0.15,
-                type: 'spring',
-                stiffness: 100,
-                damping: 15,
-              }}
-              whileHover={{
-                y: -8,
-                boxShadow:
-                  '0 10px 25px -5px rgba(0, 0, 0, 0.1), 0 8px 10px -6px rgba(0, 0, 0, 0.1)',
-                transition: { duration: 0.3 },
+                duration: 0.3,
+                delay: 0.1,
+                ease: 'easeOut',
               }}
             >
               <div className="aspect-video w-full bg-muted/40 relative overflow-hidden">
-                <div className="absolute inset-0 bg-gradient-to-t from-black/70 to-black/0 z-10"></div>
-                <motion.div
-                  className="absolute inset-0 bg-primary/20"
-                  initial={{ opacity: 0 }}
-                  whileInView={{ opacity: 1 }}
-                  transition={{ duration: 0.5, delay: 0.2 }}
-                ></motion.div>
-                <motion.div
-                  className="w-full h-full flex items-center justify-center text-4xl font-bold text-primary/20"
-                  initial={{ scale: 0.8, opacity: 0 }}
-                  whileInView={{ scale: 1, opacity: 1 }}
-                  transition={{ duration: 0.5, delay: 0.3 }}
-                >
-                  <Rocket className="w-20 h-20 opacity-40" />
-                </motion.div>
+                <div className="absolute inset-0 bg-gradient-to-t from-black/80 dark:from-black/70 to-black/10 dark:to-black/0 z-10"></div>
+                <Image
+                  src="/projects/chat-bot-experiment.png"
+                  alt="Chat Bot Experiment"
+                  fill
+                  className="object-cover object-top"
+                  sizes="(max-width: 768px) 100vw, 400px"
+                />
                 <div className="absolute bottom-2 left-2 z-20">
                   <span className="bg-primary/90 text-primary-foreground text-xs px-2 py-1 rounded">
                     TypeScript
@@ -713,30 +683,22 @@ export default function Home() {
 
             {/* JS Funcional */}
             <motion.div
-              className="group relative overflow-hidden rounded-xl border bg-card shadow-sm transition-all hover:shadow-lg"
-              initial={{ opacity: 0, y: 50, scale: 0.95 }}
-              whileInView={{ opacity: 1, y: 0, scale: 1 }}
+              className="group relative overflow-hidden rounded-xl border bg-card hover:bg-card/80 transition-colors shadow-sm"
+              initial={{ opacity: 0, y: 20 }}
+              whileInView={{ opacity: 1, y: 0 }}
               viewport={{
                 once: true,
                 amount: 0.1,
                 margin: '-20px 0px 0px 0px',
               }}
               transition={{
-                duration: 0.5,
-                delay: 0.25,
-                type: 'spring',
-                stiffness: 100,
-                damping: 15,
-              }}
-              whileHover={{
-                y: -8,
-                boxShadow:
-                  '0 10px 25px -5px rgba(0, 0, 0, 0.1), 0 8px 10px -6px rgba(0, 0, 0, 0.1)',
-                transition: { duration: 0.3 },
+                duration: 0.3,
+                delay: 0.15,
+                ease: 'easeOut',
               }}
             >
               <div className="aspect-video w-full bg-muted/40 relative overflow-hidden">
-                <div className="absolute inset-0 bg-gradient-to-t from-black/70 to-black/0 z-10"></div>
+                <div className="absolute inset-0 bg-gradient-to-t from-black/80 dark:from-black/70 to-black/10 dark:to-black/0 z-10"></div>
                 <motion.div
                   className="absolute inset-0 bg-primary/20"
                   initial={{ opacity: 0 }}
@@ -744,12 +706,12 @@ export default function Home() {
                   transition={{ duration: 0.5, delay: 0.2 }}
                 ></motion.div>
                 <motion.div
-                  className="w-full h-full flex items-center justify-center text-4xl font-bold text-primary/20"
+                  className="w-full h-full flex items-center justify-center text-4xl font-bold"
                   initial={{ scale: 0.8, opacity: 0 }}
                   whileInView={{ scale: 1, opacity: 1 }}
                   transition={{ duration: 0.5, delay: 0.3 }}
                 >
-                  <Rocket className="w-20 h-20 opacity-40" />
+                  <Rocket className="w-20 h-20 text-primary/50 dark:text-primary/40" />
                 </motion.div>
                 <div className="absolute bottom-2 left-2 z-20">
                   <span className="bg-primary/90 text-primary-foreground text-xs px-2 py-1 rounded">
@@ -799,44 +761,29 @@ export default function Home() {
 
             {/* PS Scheduler */}
             <motion.div
-              className="group relative overflow-hidden rounded-xl border bg-card shadow-sm transition-all hover:shadow-lg"
-              initial={{ opacity: 0, y: 50, scale: 0.95 }}
-              whileInView={{ opacity: 1, y: 0, scale: 1 }}
+              className="group relative overflow-hidden rounded-xl border bg-card hover:bg-card/80 transition-colors shadow-sm"
+              initial={{ opacity: 0, y: 20 }}
+              whileInView={{ opacity: 1, y: 0 }}
               viewport={{
                 once: true,
                 amount: 0.1,
                 margin: '-20px 0px 0px 0px',
               }}
               transition={{
-                duration: 0.5,
-                delay: 0.35,
-                type: 'spring',
-                stiffness: 100,
-                damping: 15,
-              }}
-              whileHover={{
-                y: -8,
-                boxShadow:
-                  '0 10px 25px -5px rgba(0, 0, 0, 0.1), 0 8px 10px -6px rgba(0, 0, 0, 0.1)',
-                transition: { duration: 0.3 },
+                duration: 0.3,
+                delay: 0.2,
+                ease: 'easeOut',
               }}
             >
               <div className="aspect-video w-full bg-muted/40 relative overflow-hidden">
-                <div className="absolute inset-0 bg-gradient-to-t from-black/70 to-black/0 z-10"></div>
-                <motion.div
-                  className="absolute inset-0 bg-primary/20"
-                  initial={{ opacity: 0 }}
-                  whileInView={{ opacity: 1 }}
-                  transition={{ duration: 0.5, delay: 0.2 }}
-                ></motion.div>
-                <motion.div
-                  className="w-full h-full flex items-center justify-center text-4xl font-bold text-primary/20"
-                  initial={{ scale: 0.8, opacity: 0 }}
-                  whileInView={{ scale: 1, opacity: 1 }}
-                  transition={{ duration: 0.5, delay: 0.3 }}
-                >
-                  <Rocket className="w-20 h-20 opacity-40" />
-                </motion.div>
+                <div className="absolute inset-0 bg-gradient-to-t from-black/80 dark:from-black/70 to-black/10 dark:to-black/0 z-10"></div>
+                <Image
+                  src="/projects/ps-scheduler.png"
+                  alt="PS Scheduler"
+                  fill
+                  className="object-cover object-top"
+                  sizes="(max-width: 768px) 100vw, 400px"
+                />
                 <div className="absolute bottom-2 left-2 z-20">
                   <span className="bg-primary/90 text-primary-foreground text-xs px-2 py-1 rounded">
                     TypeScript
@@ -887,44 +834,29 @@ export default function Home() {
 
             {/* Snake Game */}
             <motion.div
-              className="group relative overflow-hidden rounded-xl border bg-card shadow-sm transition-all hover:shadow-lg"
-              initial={{ opacity: 0, y: 50, scale: 0.95 }}
-              whileInView={{ opacity: 1, y: 0, scale: 1 }}
+              className="group relative overflow-hidden rounded-xl border bg-card hover:bg-card/80 transition-colors shadow-sm"
+              initial={{ opacity: 0, y: 20 }}
+              whileInView={{ opacity: 1, y: 0 }}
               viewport={{
                 once: true,
                 amount: 0.1,
                 margin: '-20px 0px 0px 0px',
               }}
               transition={{
-                duration: 0.5,
-                delay: 0.45,
-                type: 'spring',
-                stiffness: 100,
-                damping: 15,
-              }}
-              whileHover={{
-                y: -8,
-                boxShadow:
-                  '0 10px 25px -5px rgba(0, 0, 0, 0.1), 0 8px 10px -6px rgba(0, 0, 0, 0.1)',
-                transition: { duration: 0.3 },
+                duration: 0.3,
+                delay: 0.25,
+                ease: 'easeOut',
               }}
             >
               <div className="aspect-video w-full bg-muted/40 relative overflow-hidden">
-                <div className="absolute inset-0 bg-gradient-to-t from-black/70 to-black/0 z-10"></div>
-                <motion.div
-                  className="absolute inset-0 bg-primary/20"
-                  initial={{ opacity: 0 }}
-                  whileInView={{ opacity: 1 }}
-                  transition={{ duration: 0.5, delay: 0.2 }}
-                ></motion.div>
-                <motion.div
-                  className="w-full h-full flex items-center justify-center text-4xl font-bold text-primary/20"
-                  initial={{ scale: 0.8, opacity: 0 }}
-                  whileInView={{ scale: 1, opacity: 1 }}
-                  transition={{ duration: 0.5, delay: 0.3 }}
-                >
-                  <Rocket className="w-20 h-20 opacity-40" />
-                </motion.div>
+                <div className="absolute inset-0 bg-gradient-to-t from-black/80 dark:from-black/70 to-black/10 dark:to-black/0 z-10"></div>
+                <Image
+                  src="/projects/snake-game.png"
+                  alt="Snake Game"
+                  fill
+                  className="object-cover object-top"
+                  sizes="(max-width: 768px) 100vw, 400px"
+                />
                 <div className="absolute bottom-2 left-2 z-20">
                   <span className="bg-primary/90 text-primary-foreground text-xs px-2 py-1 rounded">
                     JavaScript
@@ -975,44 +907,29 @@ export default function Home() {
 
             {/* Memory Game */}
             <motion.div
-              className="group relative overflow-hidden rounded-xl border bg-card shadow-sm transition-all hover:shadow-lg"
-              initial={{ opacity: 0, y: 50, scale: 0.95 }}
-              whileInView={{ opacity: 1, y: 0, scale: 1 }}
+              className="group relative overflow-hidden rounded-xl border bg-card hover:bg-card/80 transition-colors shadow-sm"
+              initial={{ opacity: 0, y: 20 }}
+              whileInView={{ opacity: 1, y: 0 }}
               viewport={{
                 once: true,
                 amount: 0.1,
                 margin: '-20px 0px 0px 0px',
               }}
               transition={{
-                duration: 0.5,
-                delay: 0.55,
-                type: 'spring',
-                stiffness: 100,
-                damping: 15,
-              }}
-              whileHover={{
-                y: -8,
-                boxShadow:
-                  '0 10px 25px -5px rgba(0, 0, 0, 0.1), 0 8px 10px -6px rgba(0, 0, 0, 0.1)',
-                transition: { duration: 0.3 },
+                duration: 0.3,
+                delay: 0.3,
+                ease: 'easeOut',
               }}
             >
               <div className="aspect-video w-full bg-muted/40 relative overflow-hidden">
-                <div className="absolute inset-0 bg-gradient-to-t from-black/70 to-black/0 z-10"></div>
-                <motion.div
-                  className="absolute inset-0 bg-primary/20"
-                  initial={{ opacity: 0 }}
-                  whileInView={{ opacity: 1 }}
-                  transition={{ duration: 0.5, delay: 0.2 }}
-                ></motion.div>
-                <motion.div
-                  className="w-full h-full flex items-center justify-center text-4xl font-bold text-primary/20"
-                  initial={{ scale: 0.8, opacity: 0 }}
-                  whileInView={{ scale: 1, opacity: 1 }}
-                  transition={{ duration: 0.5, delay: 0.3 }}
-                >
-                  <Rocket className="w-20 h-20 opacity-40" />
-                </motion.div>
+                <div className="absolute inset-0 bg-gradient-to-t from-black/80 dark:from-black/70 to-black/10 dark:to-black/0 z-10"></div>
+                <Image
+                  src="/projects/memory-game.webp"
+                  alt="Memory Game"
+                  fill
+                  className="object-cover object-top"
+                  sizes="(max-width: 768px) 100vw, 400px"
+                />
                 <div className="absolute bottom-2 left-2 z-20">
                   <span className="bg-primary/90 text-primary-foreground text-xs px-2 py-1 rounded">
                     JavaScript
@@ -1063,21 +980,21 @@ export default function Home() {
           </div>
 
           <motion.div
-            className="mt-12 text-center"
-            initial={{ opacity: 0, scale: 0.9 }}
-            whileInView={{ opacity: 1, scale: 1 }}
-            viewport={{ once: true, amount: 0.5 }}
-            transition={{ duration: 0.5, delay: 0.7, type: 'spring' }}
+            className="mt-10 text-center"
+            initial={{ opacity: 0, y: 10 }}
+            whileInView={{ opacity: 1, y: 0 }}
+            viewport={{ once: true, amount: 0.8 }}
+            transition={{ duration: 0.3, delay: 0.3 }}
           >
             <a
               href="https://github.com/dominguetigs?tab=repositories"
               target="_blank"
               rel="noopener noreferrer"
-              className="inline-flex items-center gap-2 bg-primary/10 hover:bg-primary/20 text-primary px-5 py-2.5 rounded-full transition-all font-medium hover:scale-105 hover:shadow-md"
+              className="inline-flex items-center gap-2 bg-primary hover:bg-primary/90 text-primary-foreground px-5 py-2.5 rounded-full transition-all font-medium w-auto max-w-full overflow-hidden text-ellipsis whitespace-nowrap mx-auto"
             >
-              <Github className="h-4 w-4" />
-              Ver mais projetos no GitHub
-              <ExternalLink className="h-3 w-3" />
+              <Github className="h-4 w-4 flex-shrink-0" />
+              <span>Ver mais projetos no GitHub</span>
+              <ExternalLink className="h-3 w-3 flex-shrink-0" />
             </a>
           </motion.div>
         </MotionSection>
