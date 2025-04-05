@@ -50,7 +50,7 @@ export function EducationItem({
       ref={ref}
       initial={{ opacity: 0, y: 20 }}
       animate={inView ? { opacity: 1, y: 0 } : { opacity: 0, y: 20 }}
-      transition={{ duration: 0.5, delay }}
+      transition={{ duration: 0.4, delay: delay * 0.7 }}
       className={`relative ${showTimeline ? 'pl-6 sm:pl-8' : ''} pb-6 mb-2`}
     >
       {/* Timeline vertical line - só mostra se tiver timeline habilitada e não for o último item */}
@@ -59,7 +59,7 @@ export function EducationItem({
           className="absolute left-0 top-3 bottom-0 w-px bg-primary/40"
           initial={{ height: 0 }}
           animate={inView ? { height: '100%' } : { height: 0 }}
-          transition={{ duration: 0.8, delay: delay + 0.2 }}
+          transition={{ duration: 0.6, delay: delay * 0.7 + 0.15 }}
         ></motion.div>
       )}
 
@@ -73,7 +73,7 @@ export function EducationItem({
             type: 'spring',
             stiffness: 300,
             damping: 15,
-            delay: delay + 0.1,
+            delay: delay * 0.7 + 0.1,
           }}
           whileHover={{
             scale: 1.2,
@@ -100,7 +100,7 @@ export function EducationItem({
             className="flex items-center gap-1.5 text-primary font-medium"
             initial={{ opacity: 0 }}
             animate={inView ? { opacity: 1 } : { opacity: 0 }}
-            transition={{ duration: 0.5, delay: delay + 0.3 }}
+            transition={{ duration: 0.3, delay: delay * 0.7 + 0.1 }}
           >
             <Calendar className="h-3.5 w-3.5 sm:h-4 sm:w-4 flex-shrink-0" />
             <span className="text-sm sm:text-base">{period}</span>
@@ -111,7 +111,7 @@ export function EducationItem({
               className="flex items-center gap-1.5 text-muted-foreground"
               initial={{ opacity: 0 }}
               animate={inView ? { opacity: 1 } : { opacity: 0 }}
-              transition={{ duration: 0.5, delay: delay + 0.3 }}
+              transition={{ duration: 0.3, delay: delay * 0.7 + 0.1 }}
             >
               <MapPin className="h-3.5 w-3.5 sm:h-4 sm:w-4 flex-shrink-0" />
               <span className="text-xs sm:text-sm">{location}</span>
@@ -123,7 +123,7 @@ export function EducationItem({
           className="text-base sm:text-lg font-semibold mb-1"
           initial={{ opacity: 0, y: 5 }}
           animate={inView ? { opacity: 1, y: 0 } : { opacity: 0, y: 5 }}
-          transition={{ duration: 0.4, delay: delay + 0.4 }}
+          transition={{ duration: 0.3, delay: delay * 0.7 + 0.15 }}
         >
           {course}
         </motion.h3>
@@ -132,7 +132,7 @@ export function EducationItem({
           className="flex items-center gap-1.5 mb-1"
           initial={{ opacity: 0, y: 5 }}
           animate={inView ? { opacity: 1, y: 0 } : { opacity: 0, y: 5 }}
-          transition={{ duration: 0.4, delay: delay + 0.5 }}
+          transition={{ duration: 0.3, delay: delay * 0.7 + 0.2 }}
         >
           <Building className="h-3.5 w-3.5 sm:h-4 sm:w-4 flex-shrink-0 text-primary/80" />
           <span className="text-sm sm:text-base font-medium">
@@ -147,7 +147,7 @@ export function EducationItem({
           }
           transition={{
             duration: 0.3,
-            delay: delay + 0.6,
+            delay: delay * 0.7 + 0.25,
             type: 'spring',
           }}
           className="inline-block"
@@ -168,7 +168,7 @@ export function EducationItem({
             className="text-muted-foreground text-xs sm:text-sm mt-2"
             initial={{ opacity: 0 }}
             animate={inView ? { opacity: 1 } : { opacity: 0 }}
-            transition={{ duration: 0.4, delay: delay + 0.7 }}
+            transition={{ duration: 0.3, delay: delay * 0.7 + 0.3 }}
           >
             {description}
           </motion.p>

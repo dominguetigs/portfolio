@@ -40,7 +40,12 @@ export function ExperienceItem({
       ref={ref}
       initial={{ opacity: 0, y: 20 }}
       animate={inView ? { opacity: 1, y: 0 } : { opacity: 0, y: 20 }}
-      transition={{ duration: 0.5, delay, type: 'spring', stiffness: 100 }}
+      transition={{
+        duration: 0.4,
+        delay: delay * 0.7,
+        type: 'spring',
+        stiffness: 110,
+      }}
       className="relative pl-8 sm:pl-10 pb-10 mb-2"
     >
       {/* Timeline vertical line */}
@@ -88,8 +93,8 @@ export function ExperienceItem({
                     inView ? { opacity: 1, x: 0 } : { opacity: 0, x: -10 }
                   }
                   transition={{
-                    duration: 0.3,
-                    delay: delay + 0.1 + index * 0.05,
+                    duration: 0.25,
+                    delay: delay * 0.7 + 0.07 + index * 0.03,
                     type: 'tween',
                   }}
                   className="flex gap-2"
@@ -119,8 +124,8 @@ export function ExperienceItem({
                       : { opacity: 0, scale: 0.8 }
                   }
                   transition={{
-                    duration: 0.2,
-                    delay: delay + 0.2 + index * 0.05,
+                    duration: 0.25,
+                    delay: delay * 0.7 + 0.07 + index * 0.03,
                     type: 'tween',
                   }}
                 >

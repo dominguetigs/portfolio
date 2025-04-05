@@ -102,10 +102,10 @@ export default function Home() {
               whileInView={{ opacity: 1, x: 0 }}
               viewport={{
                 once: true,
-                amount: 0.05,
-                margin: '-20px 0px 0px 0px',
+                amount: 0.03,
+                margin: '-30px 0px 0px 0px',
               }}
-              transition={{ duration: 0.5, delay: 0.1 }}
+              transition={{ duration: 0.4, delay: 0.15 }}
             >
               <div className="relative w-full aspect-square max-w-[300px] mx-auto overflow-hidden rounded-lg shadow-lg">
                 <Image
@@ -125,10 +125,10 @@ export default function Home() {
               whileInView={{ opacity: 1, x: 0 }}
               viewport={{
                 once: true,
-                amount: 0.05,
-                margin: '-20px 0px 0px 0px',
+                amount: 0.03,
+                margin: '-30px 0px 0px 0px',
               }}
-              transition={{ duration: 0.5, delay: 0.2 }}
+              transition={{ duration: 0.4, delay: 0.2 }}
             >
               <h3 className="text-xl font-semibold flex items-center gap-2 mb-4">
                 <User className="h-5 w-5 text-primary" />
@@ -174,10 +174,10 @@ export default function Home() {
               whileInView={{ opacity: 1, y: 0 }}
               viewport={{
                 once: true,
-                amount: 0.05,
-                margin: '-20px 0px 0px 0px',
+                amount: 0.03,
+                margin: '-30px 0px 0px 0px',
               }}
-              transition={{ duration: 0.5, delay: 0.3 }}
+              transition={{ duration: 0.4, delay: 0.25 }}
             >
               <div className="bg-card hover:bg-card/80 transition-colors border rounded-lg p-4 shadow-sm flex flex-col items-center text-center">
                 <Code2 className="h-8 w-8 text-primary mb-3" />
@@ -227,8 +227,8 @@ export default function Home() {
           <motion.div
             initial={{ opacity: 0 }}
             whileInView={{ opacity: 1 }}
-            viewport={{ once: true, amount: 0.05, margin: '-20px 0px 0px 0px' }}
-            transition={{ duration: 0.5, delay: 0.2 }}
+            viewport={{ once: true, amount: 0.03, margin: '-30px 0px 0px 0px' }}
+            transition={{ duration: 0.4, delay: 0.15 }}
             className="mb-6"
           >
             <p className="text-muted-foreground">
@@ -247,10 +247,10 @@ export default function Home() {
               whileInView={{ opacity: 1, y: 0 }}
               viewport={{
                 once: true,
-                amount: 0.05,
-                margin: '-20px 0px 0px 0px',
+                amount: 0.03,
+                margin: '-30px 0px 0px 0px',
               }}
-              transition={{ duration: 0.5, delay: 0.3 }}
+              transition={{ duration: 0.4, delay: 0.2 }}
               className="mb-6"
             >
               {/* Seletor para dispositivos móveis */}
@@ -459,8 +459,8 @@ export default function Home() {
           <motion.div
             initial={{ opacity: 0 }}
             whileInView={{ opacity: 1 }}
-            viewport={{ once: true, amount: 0.05, margin: '-20px 0px 0px 0px' }}
-            transition={{ duration: 0.5, delay: 0.2 }}
+            viewport={{ once: true, amount: 0.03, margin: '-30px 0px 0px 0px' }}
+            transition={{ duration: 0.4, delay: 0.15 }}
             className="mb-8"
           >
             <p className="text-muted-foreground">
@@ -577,7 +577,7 @@ export default function Home() {
                 'Microfrontends',
                 'Dynamic Federation',
               ]}
-              delay={0.1}
+              delay={0.09}
               className="border-l-4 border-primary/60 shadow-md"
             />
 
@@ -634,7 +634,7 @@ export default function Home() {
                 'AWS',
                 'GitFlow',
               ]}
-              delay={0.3}
+              delay={0.25}
             />
 
             <ExperienceItem
@@ -649,7 +649,7 @@ export default function Home() {
                 'Envolvimento em diversas frentes, incluindo Plantão, Credenciamento, Corporativo e Blindagem.',
               ]}
               technologies={['JSP', 'jQuery', 'Angular', 'JavaScript']}
-              delay={0.4}
+              delay={0.3}
             />
 
             <ExperienceItem
@@ -662,7 +662,7 @@ export default function Home() {
                 'Trabalho intensivo com Angular, começando com a versão 4 e migrando para a versão 10.',
               ]}
               technologies={['Angular', 'TypeScript', 'RxJS', 'SCSS']}
-              delay={0.5}
+              delay={0.35}
             />
 
             <ExperienceItem
@@ -697,7 +697,8 @@ export default function Home() {
                 'Git',
                 'Scrum',
               ]}
-              delay={0.6}
+              delay={0.4}
+              className="border-l-4 border-primary/60 shadow-md"
             />
 
             <ExperienceItem
@@ -731,7 +732,7 @@ export default function Home() {
                 'Customização e implementação de quebra de páginas no editor de texto, semelhante ao Microsoft Word, para melhorar a usabilidade e a experiência do usuário.',
               ]}
               technologies={['AngularJS', 'Sass', '.NET Core', 'SVN']}
-              delay={0.8}
+              delay={0.5}
             />
 
             <ExperienceItem
@@ -760,7 +761,7 @@ export default function Home() {
                 'Git',
                 'Google Analytics',
               ]}
-              delay={0.9}
+              delay={0.55}
             />
           </div>
         </MotionSection>
@@ -770,8 +771,8 @@ export default function Home() {
           <motion.div
             initial={{ opacity: 0 }}
             whileInView={{ opacity: 1 }}
-            viewport={{ once: true, amount: 0.05, margin: '-20px 0px 0px 0px' }}
-            transition={{ duration: 0.5, delay: 0.2 }}
+            viewport={{ once: true, amount: 0.03, margin: '-30px 0px 0px 0px' }}
+            transition={{ duration: 0.4, delay: 0.15 }}
             className="mb-6"
           >
             <p className="text-muted-foreground">
@@ -796,7 +797,7 @@ export default function Home() {
                   course="Engenharia de Controle e Automação"
                   location="Divinópolis"
                   description="Formação com foco em automação industrial, sistemas de controle, programação, eletrônica e gestão de projetos."
-                  delay={0.1}
+                  delay={0.15}
                   showTimeline={false}
                 />
                 <EducationItem
@@ -816,7 +817,7 @@ export default function Home() {
                   course="Informática"
                   location="Varginha"
                   description="Curso técnico em informática, com foco em manutenção de computadores e fundamentos de programação."
-                  delay={0.3}
+                  delay={0.25}
                   isLast={true}
                   showTimeline={false}
                 />
@@ -837,7 +838,7 @@ export default function Home() {
                     institution="Rocketseat"
                     course="Ignite - ReactJS"
                     description="Curso avançado de ReactJS, abordando conceitos como Context API, Hooks, React Query, e desenvolvimento de aplicações modernas."
-                    delay={0.4}
+                    delay={0.15}
                     showTimeline={false}
                   />
                   <EducationItem
@@ -846,7 +847,7 @@ export default function Home() {
                     institution="desenvolvedor.io"
                     course="Desenvolvimento Avançado em Angular"
                     description="Aprofundamento em Angular, incluindo arquitetura de componentes, gerenciamento de estado, performance e técnicas avançadas."
-                    delay={0.5}
+                    delay={0.2}
                     showTimeline={false}
                   />
                   <EducationItem
@@ -855,7 +856,7 @@ export default function Home() {
                     institution="Cod3r"
                     course="Javascript Funcional e Reativo"
                     description="Programação funcional e reativa com JavaScript, explorando paradigmas funcionais e uso de RxJS."
-                    delay={0.6}
+                    delay={0.25}
                     isLast={true}
                     showTimeline={false}
                   />
@@ -868,7 +869,7 @@ export default function Home() {
                     institution="Domestika"
                     course="Programação Criativa: produza peças visuais com Javascript"
                     description="Curso de programação criativa com JavaScript para criar visualizações e animações interativas."
-                    delay={0.7}
+                    delay={0.15}
                     showTimeline={false}
                   />
                   <EducationItem
@@ -877,7 +878,7 @@ export default function Home() {
                     institution="Udemy"
                     course="Protótipos rápidos e funcionais com Figma"
                     description="Criação de protótipos de alta fidelidade usando Figma, com foco em UX/UI Design e prototipagem interativa."
-                    delay={0.8}
+                    delay={0.2}
                     showTimeline={false}
                   />
                   <EducationItem
@@ -886,7 +887,7 @@ export default function Home() {
                     institution="Data Science Academy"
                     course="Inteligência Artificial Fundamentos"
                     description="Introdução aos conceitos fundamentais de inteligência artificial e aplicações práticas."
-                    delay={0.9}
+                    delay={0.25}
                     isLast={true}
                     showTimeline={false}
                   />
