@@ -26,6 +26,44 @@
       "alt": {
         "profile": "Profile"
       }
+    },
+    "About": {
+      "title": "Sobre",
+      "sections": {
+        "whoAmI": {
+          "title": "Quem sou",
+          "content": "Desenvolvedor Frontend com quase 10 anos de experiência no desenvolvimento de aplicações web, atuando em projetos complexos e de alto impacto. Forte expertise em JavaScript, TypeScript, HTML e CSS, com especialização em Angular, React e Next.js além das melhores práticas em arquitetura de software e performance."
+        },
+        "sectorExperience": {
+          "title": "Experiência Setorial",
+          "content": "Experiência nos setores de restaurantes, fintechs, educação e saúde, liderando o desenvolvimento de sistemas escaláveis e modernos. Habilidade em monorepos (Nx), testes automatizados (Jest, Cypress), microfrontends (Module Federation) e infraestrutura em nuvem (AWS, Firebase, Vercel). Conhecimento avançado em design system, acessibilidade e UI/UX."
+        },
+        "leadershipDevelopment": {
+          "title": "Liderança e Desenvolvimento",
+          "content": "Experiência comprovada na mentoria de desenvolvedores, liderança de times e facilitação da migração de sistemas legados para tecnologias modernas. Sempre atualizado com as melhores práticas do mercado, buscando constantemente aprender, inovar e otimizar processos de desenvolvimento."
+        }
+      },
+      "highlights": {
+        "frontendSpecialist": {
+          "title": "Frontend Especialista",
+          "description": "Domínio avançado das principais tecnologias e frameworks frontend modernos"
+        },
+        "softwareArchitecture": {
+          "title": "Arquitetura de Software",
+          "description": "Experiência em projetar sistemas escaláveis e de alta performance"
+        },
+        "technicalLeadership": {
+          "title": "Liderança Técnica",
+          "description": "Habilidade em guiar equipes e mentorear desenvolvedores"
+        },
+        "constantInnovation": {
+          "title": "Inovação Constante",
+          "description": "Sempre atualizado com as tecnologias e práticas mais recentes do mercado"
+        }
+      },
+      "alt": {
+        "profileImage": "Gustavo Domingueti"
+      }
     }
   }
 }

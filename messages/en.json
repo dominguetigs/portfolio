@@ -26,6 +26,44 @@
       "alt": {
         "profile": "Profile"
       }
+    },
+    "About": {
+      "title": "About",
+      "sections": {
+        "whoAmI": {
+          "title": "Who I Am",
+          "content": "Frontend Developer with almost 10 years of experience in web application development, working on complex and high-impact projects. Strong expertise in JavaScript, TypeScript, HTML, and CSS, specializing in Angular, React, and Next.js as well as best practices in software architecture and performance."
+        },
+        "sectorExperience": {
+          "title": "Sector Experience",
+          "content": "Experience in restaurant, fintech, education, and healthcare sectors, leading the development of scalable and modern systems. Skilled in monorepos (Nx), automated testing (Jest, Cypress), microfrontends (Module Federation), and cloud infrastructure (AWS, Firebase, Vercel). Advanced knowledge in design systems, accessibility, and UI/UX."
+        },
+        "leadershipDevelopment": {
+          "title": "Leadership & Development",
+          "content": "Proven experience in mentoring developers, team leadership, and facilitating the migration of legacy systems to modern technologies. Always up-to-date with market best practices, constantly seeking to learn, innovate, and optimize development processes."
+        }
+      },
+      "highlights": {
+        "frontendSpecialist": {
+          "title": "Frontend Specialist",
+          "description": "Advanced mastery of key modern frontend technologies and frameworks"
+        },
+        "softwareArchitecture": {
+          "title": "Software Architecture",
+          "description": "Experience in designing scalable, high-performance systems"
+        },
+        "technicalLeadership": {
+          "title": "Technical Leadership",
+          "description": "Skilled at guiding teams and mentoring developers"
+        },
+        "constantInnovation": {
+          "title": "Constant Innovation",
+          "description": "Always current with the latest market technologies and practices"
+        }
+      },
+      "alt": {
+        "profileImage": "Gustavo Domingueti"
+      }
     }
   }
 }
