@@ -132,6 +132,88 @@
     "Footer": {
       "madeWith": "Hecho con",
       "by": "por"
+    },
+    "Education": {
+      "title": "Educación",
+      "description": "Mi formación académica y cursos complementarios que contribuyeron a mi desarrollo profesional y mejora técnica en el campo del desarrollo.",
+      "sections": {
+        "academic": {
+          "title": "Formación Académica",
+          "items": [
+            {
+              "period": "2013-2017",
+              "type": "Licenciatura",
+              "institution": "Pitágoras",
+              "course": "Ingeniería de Control y Automatización",
+              "location": "Divinópolis",
+              "description": "Formación centrada en automatización industrial, sistemas de control, programación, electrónica y gestión de proyectos."
+            },
+            {
+              "period": "2010-2011",
+              "type": "Técnico",
+              "institution": "CECON",
+              "course": "Análisis Clínicos",
+              "location": "Divinópolis",
+              "description": "Curso técnico en análisis de laboratorio, desarrollando habilidades analíticas y metodológicas."
+            },
+            {
+              "period": "2003-2004",
+              "type": "Técnico",
+              "institution": "INFO",
+              "course": "Informática",
+              "location": "Varginha",
+              "description": "Curso técnico en informática, centrado en mantenimiento de computadoras y fundamentos de programación."
+            }
+          ]
+        },
+        "courses": {
+          "title": "Cursos y Certificaciones",
+          "items": [
+            {
+              "period": "2021–2023",
+              "type": "Curso",
+              "institution": "Rocketseat",
+              "course": "Ignite - ReactJS",
+              "description": "Curso avanzado de ReactJS, cubriendo conceptos como Context API, Hooks, React Query y desarrollo de aplicaciones modernas."
+            },
+            {
+              "period": "21 horas",
+              "type": "Curso",
+              "institution": "desenvolvedor.io",
+              "course": "Desarrollo Avanzado en Angular",
+              "description": "Estudio en profundidad de Angular, incluyendo arquitectura de componentes, gestión de estado, rendimiento y técnicas avanzadas."
+            },
+            {
+              "period": "30 horas",
+              "type": "Curso",
+              "institution": "Cod3r",
+              "course": "Javascript Funcional y Reactivo",
+              "description": "Programación funcional y reactiva con JavaScript, explorando paradigmas funcionales y el uso de RxJS."
+            },
+            {
+              "period": "4 horas",
+              "type": "Curso",
+              "institution": "Domestika",
+              "course": "Programación Creativa: crea piezas visuales con Javascript",
+              "description": "Curso de programación creativa con JavaScript para crear visualizaciones y animaciones interactivas."
+            },
+            {
+              "period": "39 lecciones",
+              "type": "Curso",
+              "institution": "Udemy",
+              "course": "Prototipos Rápidos y Funcionales con Figma",
+              "description": "Creación de prototipos de alta fidelidad utilizando Figma, centrándose en el diseño UX/UI y prototipado interactivo."
+            },
+            {
+              "period": "8 horas",
+              "type": "Curso",
+              "institution": "Data Science Academy",
+              "course": "Fundamentos de Inteligencia Artificial",
+              "description": "Introducción a los conceptos fundamentales de inteligencia artificial y aplicaciones prácticas."
+            }
+          ]
+        }
+      }
     }
   }
 }

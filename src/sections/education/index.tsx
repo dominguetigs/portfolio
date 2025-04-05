@@ -1,12 +1,17 @@
+'use client';
+
 import { motion } from 'framer-motion';
 import { SectionHeader, MotionSection } from '@/sections/ui';
 import { EducationItem } from './components/education-item';
 import { GraduationCap, Award } from 'lucide-react';
+import { useTranslations } from 'next-intl';
 
 export function EducationSection() {
+  const t = useTranslations('Index.Education');
+
   return (
     <MotionSection id="education" className="py-16" delay={0.1}>
-      <SectionHeader title="Educação" />
+      <SectionHeader title={t('title')} />
       <motion.div
         initial={{ opacity: 0 }}
         whileInView={{ opacity: 1 }}
@@ -14,48 +19,44 @@ export function EducationSection() {
         transition={{ duration: 0.4, delay: 0.15 }}
         className="mb-6"
       >
-        <p className="text-muted-foreground">
-          Minha formação acadêmica e cursos complementares que contribuíram para
-          o meu desenvolvimento profissional e aprimoramento técnico na área de
-          desenvolvimento.
-        </p>
+        <p className="text-muted-foreground">{t('description')}</p>
       </motion.div>
 
       <div className="space-y-10">
         <div>
           <h3 className="text-xl font-semibold mb-4 text-primary flex items-center gap-2">
             <GraduationCap className="h-5 w-5" />
-            <span>Formação Acadêmica</span>
+            <span>{t('sections.academic.title')}</span>
           </h3>
 
           <div className="mb-8">
             <EducationItem
-              period="2013-2017"
-              type="Bacharelado"
-              institution="Pitágoras"
-              course="Engenharia de Controle e Automação"
-              location="Divinópolis"
-              description="Formação com foco em automação industrial, sistemas de controle, programação, eletrônica e gestão de projetos."
+              period={t('sections.academic.items.0.period')}
+              type={t('sections.academic.items.0.type')}
+              institution={t('sections.academic.items.0.institution')}
+              course={t('sections.academic.items.0.course')}
+              location={t('sections.academic.items.0.location')}
+              description={t('sections.academic.items.0.description')}
               delay={0.15}
               showTimeline={false}
             />
             <EducationItem
-              period="2010-2011"
-              type="Técnico"
-              institution="CECON"
-              course="Análises clínicas"
-              location="Divinópolis"
-              description="Curso técnico em análises laboratoriais, desenvolvendo habilidades analíticas e metodológicas."
+              period={t('sections.academic.items.1.period')}
+              type={t('sections.academic.items.1.type')}
+              institution={t('sections.academic.items.1.institution')}
+              course={t('sections.academic.items.1.course')}
+              location={t('sections.academic.items.1.location')}
+              description={t('sections.academic.items.1.description')}
               delay={0.2}
               showTimeline={false}
             />
             <EducationItem
-              period="2003-2004"
-              type="Técnico"
-              institution="INFO"
-              course="Informática"
-              location="Varginha"
-              description="Curso técnico em informática, com foco em manutenção de computadores e fundamentos de programação."
+              period={t('sections.academic.items.2.period')}
+              type={t('sections.academic.items.2.type')}
+              institution={t('sections.academic.items.2.institution')}
+              course={t('sections.academic.items.2.course')}
+              location={t('sections.academic.items.2.location')}
+              description={t('sections.academic.items.2.description')}
               delay={0.25}
               isLast={true}
               showTimeline={false}
@@ -66,35 +67,35 @@ export function EducationSection() {
         <div>
           <h3 className="text-xl font-semibold mb-4 text-primary flex items-center gap-2">
             <Award className="h-5 w-5" />
-            <span>Cursos e Certificações</span>
+            <span>{t('sections.courses.title')}</span>
           </h3>
 
           <div className="grid grid-cols-1 lg:grid-cols-2 gap-x-6 gap-y-0 mt-0">
             <div>
               <EducationItem
-                period="2021–2023"
-                type="Curso"
-                institution="Rocketseat"
-                course="Ignite - ReactJS"
-                description="Curso avançado de ReactJS, abordando conceitos como Context API, Hooks, React Query, e desenvolvimento de aplicações modernas."
+                period={t('sections.courses.items.0.period')}
+                type={t('sections.courses.items.0.type')}
+                institution={t('sections.courses.items.0.institution')}
+                course={t('sections.courses.items.0.course')}
+                description={t('sections.courses.items.0.description')}
                 delay={0.15}
                 showTimeline={false}
               />
               <EducationItem
-                period="21 horas"
-                type="Curso"
-                institution="desenvolvedor.io"
-                course="Desenvolvimento Avançado em Angular"
-                description="Aprofundamento em Angular, incluindo arquitetura de componentes, gerenciamento de estado, performance e técnicas avançadas."
+                period={t('sections.courses.items.1.period')}
+                type={t('sections.courses.items.1.type')}
+                institution={t('sections.courses.items.1.institution')}
+                course={t('sections.courses.items.1.course')}
+                description={t('sections.courses.items.1.description')}
                 delay={0.2}
                 showTimeline={false}
               />
               <EducationItem
-                period="30 horas"
-                type="Curso"
-                institution="Cod3r"
-                course="Javascript Funcional e Reativo"
-                description="Programação funcional e reativa com JavaScript, explorando paradigmas funcionais e uso de RxJS."
+                period={t('sections.courses.items.2.period')}
+                type={t('sections.courses.items.2.type')}
+                institution={t('sections.courses.items.2.institution')}
+                course={t('sections.courses.items.2.course')}
+                description={t('sections.courses.items.2.description')}
                 delay={0.25}
                 isLast={true}
                 showTimeline={false}
@@ -103,29 +104,29 @@ export function EducationSection() {
 
             <div>
               <EducationItem
-                period="4 horas"
-                type="Curso"
-                institution="Domestika"
-                course="Programação Criativa: produza peças visuais com Javascript"
-                description="Curso de programação criativa com JavaScript para criar visualizações e animações interativas."
+                period={t('sections.courses.items.3.period')}
+                type={t('sections.courses.items.3.type')}
+                institution={t('sections.courses.items.3.institution')}
+                course={t('sections.courses.items.3.course')}
+                description={t('sections.courses.items.3.description')}
                 delay={0.15}
                 showTimeline={false}
               />
               <EducationItem
-                period="39 aulas"
-                type="Curso"
-                institution="Udemy"
-                course="Protótipos rápidos e funcionais com Figma"
-                description="Criação de protótipos de alta fidelidade usando Figma, com foco em UX/UI Design e prototipagem interativa."
+                period={t('sections.courses.items.4.period')}
+                type={t('sections.courses.items.4.type')}
+                institution={t('sections.courses.items.4.institution')}
+                course={t('sections.courses.items.4.course')}
+                description={t('sections.courses.items.4.description')}
                 delay={0.2}
                 showTimeline={false}
               />
               <EducationItem
-                period="8 horas"
-                type="Curso"
-                institution="Data Science Academy"
-                course="Inteligência Artificial Fundamentos"
-                description="Introdução aos conceitos fundamentais de inteligência artificial e aplicações práticas."
+                period={t('sections.courses.items.5.period')}
+                type={t('sections.courses.items.5.type')}
+                institution={t('sections.courses.items.5.institution')}
+                course={t('sections.courses.items.5.course')}
+                description={t('sections.courses.items.5.description')}
                 delay={0.25}
                 isLast={true}
                 showTimeline={false}
