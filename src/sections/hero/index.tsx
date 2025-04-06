@@ -138,6 +138,17 @@ export function HeroSection({
       .animate-bounce-up {
         animation: bounce-up 1s infinite;
       }
+      
+      /* Posicionar o botão de scroll no topo em telas pequenas */
+      @media (max-width: 550px) {
+        .scroll-top-button-mobile {
+          bottom: auto !important;
+          right: auto !important;
+          top: 1rem !important;
+          left: 50% !important;
+          transform: translateX(-50%) !important;
+        }
+      }
     `;
     document.head.appendChild(style);
 
@@ -149,11 +160,12 @@ export function HeroSection({
 
   return (
     <>
-      {/* Botão de scroll up fixo no rodapé alinhado à direita */}
+      {/* AnimatePresence para controlar a animação de entrada/saída dos botões */}
       <AnimatePresence mode="wait">
+        {/* Botão de scroll top para desktop (centralizado verticalmente à direita) */}
         {!isAtTop && (
           <motion.div
-            key="scroll-up-button"
+            key="scroll-top-button-desktop"
             initial={{
               opacity: 0,
               scale: 1.2,
@@ -165,9 +177,9 @@ export function HeroSection({
               scale: 1,
               y: 0,
               filter: 'blur(0px)',
-
               transition: {
                 duration: 0.6,
+                delay: 0.2,
                 ease: [0.22, 1, 0.36, 1],
               },
             }}
@@ -176,13 +188,70 @@ export function HeroSection({
               scale: 0.9,
               y: 10,
               filter: 'blur(2px)',
-
               transition: {
                 duration: 0.4,
                 ease: [0.22, 1, 0.36, 1],
               },
             }}
-            className="fixed bottom-6 right-6 z-50"
+            className="fixed right-8 top-1/2 -translate-y-1/2 z-50 hidden lg:block"
+          >
+            <Button
+              size="icon"
+              onClick={scrollToTop}
+              className="rounded-full shadow-md hover:bg-primary/90 hover:text-primary-foreground animate-bounce-up"
+            >
+              <motion.div
+                initial={{ rotate: 0 }}
+                animate={{
+                  rotate: [0, -8, 0, 8, 0],
+                  transition: {
+                    delay: 0.15,
+                    duration: 0.5,
+                    ease: 'easeInOut',
+                    repeat: Infinity,
+                    repeatDelay: 3,
+                  },
+                }}
+              >
+                <ArrowUp className="h-5 w-5" />
+              </motion.div>
+            </Button>
+          </motion.div>
+        )}
+
+        {/* Botão de scroll top para dispositivos móveis (canto inferior direito) */}
+        {!isAtTop && (
+          <motion.div
+            key="scroll-top-button-mobile"
+            initial={{
+              opacity: 0,
+              scale: 1.2,
+              y: 15,
+              filter: 'blur(3px)',
+            }}
+            animate={{
+              opacity: 1,
+              scale: 1,
+              y: 0,
+              filter: 'blur(0px)',
+              transition: {
+                duration: 0.6,
+                delay: 0.2,
+                ease: [0.22, 1, 0.36, 1],
+              },
+            }}
+            exit={{
+              opacity: 0,
+              scale: 0.9,
+              y: 10,
+              filter: 'blur(2px)',
+              transition: {
+                duration: 0.4,
+                ease: [0.22, 1, 0.36, 1],
+              },
+            }}
+            className="fixed z-50 lg:hidden scroll-top-button-mobile
+              bottom-6 right-6"
           >
             <Button
               size="icon"
@@ -197,6 +266,8 @@ export function HeroSection({
                     delay: 0.15,
                     duration: 0.5,
                     ease: 'easeInOut',
+                    repeat: Infinity,
+                    repeatDelay: 3,
                   },
                 }}
               >
@@ -351,6 +422,8 @@ export function HeroSection({
                         delay: 0.15,
                         duration: 0.5,
                         ease: 'easeInOut',
+                        repeat: Infinity,
+                        repeatDelay: 3,
                       },
                     }}
                   >
