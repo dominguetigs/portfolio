@@ -12,6 +12,7 @@ import {
 import { MotionSection, SectionHeader } from '@/sections/ui';
 import Image from 'next/image';
 import { useTranslations } from 'next-intl';
+import { Card, CardContent } from '@/components/ui/card';
 
 interface AboutSectionProps {
   aboutRef: React.RefObject<HTMLElement | null>;
@@ -94,45 +95,55 @@ export function AboutSection({ aboutRef }: AboutSectionProps) {
           }}
           transition={{ duration: 0.4, delay: 0.25 }}
         >
-          <div className="bg-card hover:bg-card/80 transition-colors border rounded-lg p-4 shadow-sm flex flex-col items-center text-center">
-            <Code2 className="h-8 w-8 text-primary mb-3" />
-            <h4 className="font-medium mb-2">
-              {t('highlights.frontendSpecialist.title')}
-            </h4>
-            <p className="text-sm text-muted-foreground">
-              {t('highlights.frontendSpecialist.description')}
-            </p>
-          </div>
-
-          <div className="bg-card hover:bg-card/80 transition-colors border rounded-lg p-4 shadow-sm flex flex-col items-center text-center">
-            <GanttChart className="h-8 w-8 text-primary mb-3" />
-            <h4 className="font-medium mb-2">
-              {t('highlights.softwareArchitecture.title')}
-            </h4>
-            <p className="text-sm text-muted-foreground">
-              {t('highlights.softwareArchitecture.description')}
-            </p>
-          </div>
-
-          <div className="bg-card hover:bg-card/80 transition-colors border rounded-lg p-4 shadow-sm flex flex-col items-center text-center">
-            <Users className="h-8 w-8 text-primary mb-3" />
-            <h4 className="font-medium mb-2">
-              {t('highlights.technicalLeadership.title')}
-            </h4>
-            <p className="text-sm text-muted-foreground">
-              {t('highlights.technicalLeadership.description')}
-            </p>
-          </div>
-
-          <div className="bg-card hover:bg-card/80 transition-colors border rounded-lg p-4 shadow-sm flex flex-col items-center text-center">
-            <Lightbulb className="h-8 w-8 text-primary mb-3" />
-            <h4 className="font-medium mb-2">
-              {t('highlights.constantInnovation.title')}
-            </h4>
-            <p className="text-sm text-muted-foreground">
-              {t('highlights.constantInnovation.description')}
-            </p>
-          </div>
+          {[
+            {
+              icon: <Code2 className="h-8 w-8 text-primary mb-3" />,
+              title: t('highlights.frontendSpecialist.title'),
+              description: t('highlights.frontendSpecialist.description'),
+            },
+            {
+              icon: <GanttChart className="h-8 w-8 text-primary mb-3" />,
+              title: t('highlights.softwareArchitecture.title'),
+              description: t('highlights.softwareArchitecture.description'),
+            },
+            {
+              icon: <Users className="h-8 w-8 text-primary mb-3" />,
+              title: t('highlights.technicalLeadership.title'),
+              description: t('highlights.technicalLeadership.description'),
+            },
+            {
+              icon: <Lightbulb className="h-8 w-8 text-primary mb-3" />,
+              title: t('highlights.constantInnovation.title'),
+              description: t('highlights.constantInnovation.description'),
+            },
+          ].map((card, index) => (
+            <motion.div
+              key={index}
+              initial={{ opacity: 0, rotateY: 90 }}
+              whileInView={{ opacity: 1, rotateY: 0 }}
+              viewport={{
+                once: true,
+                amount: 0.3,
+              }}
+              transition={{
+                duration: 0.6,
+                delay: 0.3 + index * 0.15,
+                type: 'spring',
+                stiffness: 80,
+              }}
+              className="h-full"
+            >
+              <Card className="hover:bg-card/80 transition-colors p-4 flex flex-col items-center text-center h-full">
+                <CardContent className="p-0 flex flex-col items-center h-full">
+                  {card.icon}
+                  <h4 className="font-medium mb-2">{card.title}</h4>
+                  <p className="text-sm text-muted-foreground">
+                    {card.description}
+                  </p>
+                </CardContent>
+              </Card>
+            </motion.div>
+          ))}
         </motion.div>
       </div>
     </MotionSection>
