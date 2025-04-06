@@ -138,17 +138,6 @@ export function HeroSection({
       .animate-bounce-up {
         animation: bounce-up 1s infinite;
       }
-      
-      /* Posicionar o botão de scroll no topo em telas pequenas */
-      @media (max-width: 550px) {
-        .scroll-top-button-mobile {
-          bottom: auto !important;
-          right: auto !important;
-          top: 1rem !important;
-          left: 50% !important;
-          transform: translateX(-50%) !important;
-        }
-      }
     `;
     document.head.appendChild(style);
 
@@ -250,8 +239,7 @@ export function HeroSection({
                 ease: [0.22, 1, 0.36, 1],
               },
             }}
-            className="fixed z-50 lg:hidden scroll-top-button-mobile
-              bottom-6 right-6"
+            className="fixed z-50 lg:hidden bottom-6 right-6"
           >
             <Button
               size="icon"
