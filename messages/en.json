@@ -486,6 +486,15 @@
       "messageSent": "Message sent successfully! I'll get back to you soon.",
       "messageError": "An error occurred while sending the message. Please try again.",
       "formError": "Please fill in all form fields."
+    },
+    "Navigation": {
+      "about": "About",
+      "skills": "Skills",
+      "projects": "Projects",
+      "experience": "Professional Experience",
+      "education": "Education",
+      "languages": "Languages",
+      "contact": "Contact"
     }
   }
 }

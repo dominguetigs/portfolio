@@ -486,6 +486,15 @@
       "messageSent": "Mensagem enviada com sucesso! Entrarei em contato em breve.",
       "messageError": "Ocorreu um erro ao enviar a mensagem. Por favor, tente novamente.",
       "formError": "Por favor, preencha todos os campos do formulário."
+    },
+    "Navigation": {
+      "about": "Sobre",
+      "skills": "Habilidades",
+      "projects": "Projetos",
+      "experience": "Experiência Profissional",
+      "education": "Educação",
+      "languages": "Idiomas",
+      "contact": "Contato"
     }
   }
 }

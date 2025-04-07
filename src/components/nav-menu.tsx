@@ -2,6 +2,7 @@
 
 import { useState, useEffect, useRef } from 'react';
 import { motion, AnimatePresence } from 'framer-motion';
+import { useTranslations } from 'next-intl';
 import {
   User,
   Code,
@@ -27,17 +28,19 @@ const sectionIcons: Record<string, React.ReactNode> = {
   contact: <MessageSquare className="h-4 w-4" />,
 };
 
-const sections = [
-  { id: 'about', label: 'Sobre' },
-  { id: 'skills', label: 'Habilidades' },
-  { id: 'projects', label: 'Projetos' },
-  { id: 'experience', label: 'Experiência Profissional' },
-  { id: 'education', label: 'Educação' },
-  { id: 'languages', label: 'Idiomas' },
-  { id: 'contact', label: 'Contato' },
+// Define section IDs
+const sectionIds = [
+  'about',
+  'skills',
+  'projects',
+  'experience',
+  'education',
+  'languages',
+  'contact',
 ];
 
 export function NavMenu() {
+  const t = useTranslations('Index.Navigation');
   const [activeSection, setActiveSection] = useState('');
   const [userClicked, setUserClicked] = useState(false);
   const [showMenu, setShowMenu] = useState(true);
@@ -47,6 +50,12 @@ export function NavMenu() {
   const observersRef = useRef<Record<string, IntersectionObserver>>({});
   const activeSectionRef = useRef(activeSection);
   const userClickedRef = useRef(userClicked);
+
+  // Get translated sections
+  const sections = sectionIds.map(id => ({
+    id,
+    label: t(id),
+  }));
 
   // Verificar se o componente está montado (cliente)
   useEffect(() => {
@@ -178,10 +187,7 @@ export function NavMenu() {
 
       if (sectionElement) {
         // Procurar pelo título da seção com ID específico
-        const titleId = `title-${sections
-          .find(s => s.id === id)
-          ?.label.toLowerCase()
-          .replace(/\s+/g, '-')}`;
+        const titleId = `title-${id}`;
         const titleElement =
           document.getElementById(titleId) ||
           sectionElement.querySelector('h2') ||
