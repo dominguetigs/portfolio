@@ -414,7 +414,7 @@ export function NavMenu() {
                               ease: [0.22, 1, 0.36, 1],
                             },
                           }}
-                          className="ml-4"
+                          className="ml-2"
                         >
                           <Button
                             size="icon"
