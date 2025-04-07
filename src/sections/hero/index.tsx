@@ -56,7 +56,11 @@ export function HeroSection({
   useEffect(() => {
     const handleScroll = () => {
       // Check if we're at the top of the page (with a small threshold)
-      setIsAtTop(window.scrollY < 200);
+      const scrollY = window.scrollY || document.documentElement.scrollTop;
+      const viewportHeight = window.innerHeight;
+      const isAtHeroSection = scrollY < viewportHeight * 0.9;
+
+      setIsAtTop(isAtHeroSection);
     };
 
     // Initial check
