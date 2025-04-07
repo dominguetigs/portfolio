@@ -461,6 +461,31 @@
           ]
         }
       }
+    },
+    "Contact": {
+      "title": "Contact",
+      "description": "I'm available for new projects, job opportunities, or just to exchange ideas about technology. Get in touch through the channels below or fill out the form.",
+      "email": "Email",
+      "phone": "Phone",
+      "location": "Location",
+      "copy": "Copy",
+      "copied": "Copied!",
+      "copyEmail": "Copy email",
+      "copyPhone": "Copy phone",
+      "emailCopiedMessage": "Email copied to clipboard!",
+      "phoneCopiedMessage": "Phone number copied to clipboard!",
+      "sendMessage": "Send a message",
+      "name": "Name",
+      "emailLabel": "Email",
+      "message": "Message",
+      "namePlaceholder": "Your name",
+      "emailPlaceholder": "your.email@example.com",
+      "messagePlaceholder": "Write your message here...",
+      "send": "Send message",
+      "sending": "Sending...",
+      "messageSent": "Message sent successfully! I'll get back to you soon.",
+      "messageError": "An error occurred while sending the message. Please try again.",
+      "formError": "Please fill in all form fields."
     }
   }
 }

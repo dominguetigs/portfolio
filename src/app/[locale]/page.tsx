@@ -13,6 +13,7 @@ import { ProjectsSection } from '@/sections/projects';
 import { ExperienceSection } from '@/sections/experience';
 import { EducationSection } from '@/sections/education';
 import { LanguagesSection } from '@/sections/languages';
+import { ContactSection } from '@/sections/contact';
 
 export default function Home() {
   const aboutRef = useRef<HTMLElement | null>(null);
@@ -40,10 +41,7 @@ export default function Home() {
       <ExperienceSection />
       <EducationSection />
       <LanguagesSection />
-
-      {/* <div className="container mx-auto px-4 max-w-5xl lg:pl-[180px]">
-        
-      </div> */}
+      <ContactSection />
 
       <Footer />
     </div>

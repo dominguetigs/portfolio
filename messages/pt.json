@@ -462,5 +462,30 @@
         }
       }
     }
+  },
+  "Contact": {
+    "title": "Contato",
+    "description": "Estou disponível para novos projetos, oportunidades de trabalho ou simplesmente para trocar ideias sobre tecnologia. Entre em contato comigo pelos canais abaixo ou preencha o formulário.",
+    "email": "E-mail",
+    "phone": "Telefone",
+    "location": "Localização",
+    "copy": "Copiar",
+    "copied": "Copiado!",
+    "copyEmail": "Copiar e-mail",
+    "copyPhone": "Copiar telefone",
+    "emailCopiedMessage": "E-mail copiado para a área de transferência!",
+    "phoneCopiedMessage": "Telefone copiado para a área de transferência!",
+    "sendMessage": "Envie uma mensagem",
+    "name": "Nome",
+    "emailLabel": "E-mail",
+    "message": "Mensagem",
+    "namePlaceholder": "Seu nome",
+    "emailPlaceholder": "seu.email@exemplo.com",
+    "messagePlaceholder": "Escreva sua mensagem aqui...",
+    "send": "Enviar mensagem",
+    "sending": "Enviando...",
+    "messageSent": "Mensagem enviada com sucesso! Entrarei em contato em breve.",
+    "messageError": "Ocorreu um erro ao enviar a mensagem. Por favor, tente novamente.",
+    "formError": "Por favor, preencha todos os campos do formulário."
   }
 }

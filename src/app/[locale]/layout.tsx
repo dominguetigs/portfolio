@@ -4,6 +4,8 @@ import { PT_Sans } from 'next/font/google';
 
 import { hasLocale, NextIntlClientProvider } from 'next-intl';
 
+import { Analytics } from '@vercel/analytics/react';
+
 import '../globals.css';
 import { ThemeProvider } from '@/hooks/theme-provider';
 import { MainContent } from '@/components/main-content';
@@ -107,6 +109,7 @@ export default async function RootLayout({
             <MainContent>{children}</MainContent>
           </ThemeProvider>
         </NextIntlClientProvider>
+        <Analytics />
       </body>
     </html>
   );

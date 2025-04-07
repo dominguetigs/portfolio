@@ -7,7 +7,7 @@ export function Footer() {
   const t = useTranslations('Index.Footer');
 
   return (
-    <footer className="mt-16 pb-8 text-center text-sm text-muted-foreground">
+    <footer className="mt-20 text-center text-sm text-muted-foreground">
       <p className="flex items-center justify-center gap-1.5">
         {t('madeWith')}{' '}
         <motion.span

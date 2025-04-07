@@ -9,6 +9,7 @@ import {
   GraduationCap,
   Globe,
   Rocket,
+  MessageSquare,
 } from 'lucide-react';
 
 import { cn } from '@/lib/utils';
@@ -23,6 +24,7 @@ const sectionIcons: Record<string, React.ReactNode> = {
   experience: <Briefcase className="h-4 w-4" />,
   education: <GraduationCap className="h-4 w-4" />,
   languages: <Globe className="h-4 w-4" />,
+  contact: <MessageSquare className="h-4 w-4" />,
 };
 
 const sections = [
@@ -32,6 +34,7 @@ const sections = [
   { id: 'experience', label: 'Experiência Profissional' },
   { id: 'education', label: 'Educação' },
   { id: 'languages', label: 'Idiomas' },
+  { id: 'contact', label: 'Contato' },
 ];
 
 export function NavMenu() {
