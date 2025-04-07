@@ -145,13 +145,34 @@ export function NavMenu() {
   useEffect(() => {
     if (!mounted) return;
 
+    // Referência para o timeout de debounce
+    let debounceTimeout: NodeJS.Timeout | null = null;
+
     const checkScrollPosition = throttle(() => {
       const scrollY = window.scrollY || document.documentElement.scrollTop;
       const viewportHeight = window.innerHeight;
       const isAtHeroSection = scrollY < viewportHeight * 0.9;
 
+      // Aplicar a mudança imediatamente
       setShowMenu(!isAtHeroSection);
-    }, 100);
+
+      // Se tiver acontecido um scroll para o topo (ou próximo dele), fazer
+      // uma verificação adicional após um pequeno intervalo
+      if (scrollY < 100) {
+        // Limpar qualquer timeout existente
+        if (debounceTimeout) {
+          clearTimeout(debounceTimeout);
+        }
+
+        // Verificar novamente após um curto período para confirmar
+        debounceTimeout = setTimeout(() => {
+          const currentScrollY =
+            window.scrollY || document.documentElement.scrollTop;
+          const currentIsAtHeroSection = currentScrollY < viewportHeight * 0.9;
+          setShowMenu(!currentIsAtHeroSection);
+        }, 50);
+      }
+    }, 50); // Throttle mais rápido para resposta mais ágil
 
     // Verificar a posição inicial do scroll
     checkScrollPosition();
@@ -162,6 +183,9 @@ export function NavMenu() {
     // Limpar
     return () => {
       window.removeEventListener('scroll', checkScrollPosition);
+      if (debounceTimeout) {
+        clearTimeout(debounceTimeout);
+      }
     };
   }, [mounted]);
 

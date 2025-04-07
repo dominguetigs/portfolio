@@ -50,7 +50,7 @@ export default async function RootLayout({
   }
 
   return (
-    <html lang={locale} suppressHydrationWarning>
+    <html lang={locale} suppressHydrationWarning className="overflow-x-hidden">
       <head>
         <meta property="og:type" content="website" />
         <meta property="og:title" content="Gustavo Domingueti - Portfolio" />
@@ -98,7 +98,7 @@ export default async function RootLayout({
         </style> */}
       </head>
       <body
-        className={`${nunito.variable} ${ptSans.variable} antialiased relative`}
+        className={`${nunito.variable} ${ptSans.variable} antialiased relative overflow-x-hidden`}
       >
         <NextIntlClientProvider>
           <ThemeProvider

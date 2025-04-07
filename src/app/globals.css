@@ -141,6 +141,14 @@
     scrollbar-width: thin;
     scrollbar-color: var(--secondary) transparent;
   }
+
+  html,
+  body {
+    overflow-x: hidden;
+    position: relative;
+    width: 100%;
+  }
+
   body {
     @apply bg-background text-foreground;
     font-weight: var(--font-weight-bold);
