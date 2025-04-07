@@ -281,18 +281,51 @@ export function HeroSection({
               className="mb-6 relative"
             >
               <div className="w-48 h-48 mx-auto relative mb-6 overflow-hidden rounded-full border-4 border-primary/20 shadow-lg">
-                <Image
-                  src="/hero-profile.png"
-                  alt={t('alt.profile')}
-                  fill
-                  sizes="(max-width: 768px) 100vw, 192px"
-                  className="object-cover"
-                  style={{
-                    filter: 'contrast(1.05) saturate(1.1)',
+                {/* Cortinas de reveal */}
+                <motion.div
+                  className="absolute inset-0 bg-primary z-10"
+                  initial={{ x: '0%' }}
+                  animate={{ x: '100%' }}
+                  transition={{
+                    duration: 0.8,
+                    delay: 0.4,
+                    ease: [0.645, 0.045, 0.355, 1.0], // cubic-bezier easing
                   }}
-                  priority
                 />
-                <div className="absolute inset-0 bg-gradient-to-b from-primary/5 to-transparent mix-blend-overlay"></div>
+                <motion.div
+                  className="absolute inset-0 bg-background z-10"
+                  initial={{ x: '0%' }}
+                  animate={{ x: '100%' }}
+                  transition={{
+                    duration: 0.8,
+                    delay: 0.6,
+                    ease: [0.645, 0.045, 0.355, 1.0], // cubic-bezier easing
+                  }}
+                />
+                <motion.div
+                  className="absolute inset-0 bg-primary/40 z-10"
+                  initial={{ x: '0%' }}
+                  animate={{ x: '-100%' }}
+                  transition={{
+                    duration: 0.8,
+                    delay: 0.8,
+                    ease: [0.645, 0.045, 0.355, 1.0], // cubic-bezier easing
+                  }}
+                />
+
+                <div className="relative w-full h-full">
+                  <Image
+                    src="/hero-profile.png"
+                    alt={t('alt.profile')}
+                    fill
+                    sizes="(max-width: 768px) 100vw, 192px"
+                    className="object-cover"
+                    style={{
+                      filter: 'contrast(1.05) saturate(1.1)',
+                    }}
+                    priority
+                  />
+                </div>
               </div>
               <div className="absolute -z-10 w-64 h-64 rounded-full blur-3xl bg-primary/10 opacity-60 top-1/2 left-1/2 transform -translate-x-1/2 -translate-y-1/2"></div>
             </motion.div>
