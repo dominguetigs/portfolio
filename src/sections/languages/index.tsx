@@ -30,8 +30,8 @@ export function LanguagesSection() {
           language={t('languages.english.name')}
           level={t('languages.english.level')}
           reading={4}
-          writing={3}
-          speaking={3}
+          writing={4}
+          speaking={4}
           listening={4}
           flag="/flags/usa.svg"
           delay={0.3}
