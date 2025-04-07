@@ -51,7 +51,6 @@ export function HeroSection({
   const typingRef = useRef<NodeJS.Timeout | null>(null);
 
   const [isAtTop, setIsAtTop] = useState(true);
-  const [isSmallScreen, setIsSmallScreen] = useState(false);
 
   // Function to handle scroll events
   useEffect(() => {
@@ -72,23 +71,6 @@ export function HeroSection({
 
     // Clean up
     return () => window.removeEventListener('scroll', handleScroll);
-  }, []);
-
-  // Function to detect small screens
-  useEffect(() => {
-    const checkScreenSize = () => {
-      // Check if screen is very small (adjust the value as needed)
-      setIsSmallScreen(window.innerWidth <= 580);
-    };
-
-    // Initial check
-    checkScreenSize();
-
-    // Add resize event listener
-    window.addEventListener('resize', checkScreenSize);
-
-    // Clean up
-    return () => window.removeEventListener('resize', checkScreenSize);
   }, []);
 
   // Function to scroll to top
@@ -176,30 +158,58 @@ export function HeroSection({
         <>
           {/* Botão para desktop */}
           <div className="fixed right-8 top-1/2 -translate-y-1/2 z-50 hidden lg:block">
-            <Button
-              size="icon"
-              onClick={scrollToTop}
-              className="rounded-full shadow-md hover:bg-primary/90 hover:text-primary-foreground animate-bounce-up"
+            <motion.div
+              key="scroll-top-button"
+              initial={{
+                opacity: 0,
+                scale: 1.2,
+                y: -15,
+                filter: 'blur(3px)',
+              }}
+              animate={{
+                opacity: 1,
+                scale: 1,
+                y: 0,
+                filter: 'blur(0px)',
+                transition: {
+                  duration: 0.6,
+                  delay: 0.2,
+                  ease: [0.22, 1, 0.36, 1],
+                },
+              }}
+              exit={{
+                opacity: 0,
+                scale: 0.9,
+                y: -10,
+                filter: 'blur(2px)',
+                transition: {
+                  duration: 0.4,
+                  ease: [0.22, 1, 0.36, 1],
+                },
+              }}
             >
-              <ArrowUp className="h-5 w-5" />
-            </Button>
-          </div>
-
-          {/* Botão para mobile */}
-          <div
-            className={`fixed z-50 lg:hidden ${
-              isSmallScreen
-                ? 'top-4 left-1/2 -translate-x-1/2'
-                : 'bottom-6 right-6'
-            }`}
-          >
-            <Button
-              size="icon"
-              onClick={scrollToTop}
-              className="rounded-full shadow-md animate-bounce-up"
-            >
-              <ArrowUp className="h-6 w-6" />
-            </Button>
+              <Button
+                size="icon"
+                onClick={scrollToTop}
+                className="rounded-full animate-bounce shadow-md hover:bg-primary/90 hover:text-primary-foreground"
+              >
+                <motion.div
+                  initial={{ rotate: 0 }}
+                  animate={{
+                    rotate: [0, 8, 0, -8, 0],
+                    transition: {
+                      delay: 0.15,
+                      duration: 0.5,
+                      ease: 'easeInOut',
+                      repeat: Infinity,
+                      repeatDelay: 3,
+                    },
+                  }}
+                >
+                  <ArrowUp className="h-5 w-5" />
+                </motion.div>
+              </Button>
+            </motion.div>
           </div>
         </>
       )}

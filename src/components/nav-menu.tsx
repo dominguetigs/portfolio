@@ -11,9 +11,11 @@ import {
   Globe,
   Rocket,
   MessageSquare,
+  ArrowUp,
 } from 'lucide-react';
 
 import { cn } from '@/lib/utils';
+import { Button } from '@/components/ui/button';
 
 import { throttle } from '@/utils/throttle';
 
@@ -44,6 +46,7 @@ export function NavMenu() {
   const [activeSection, setActiveSection] = useState('');
   const [userClicked, setUserClicked] = useState(false);
   const [showMenu, setShowMenu] = useState(true);
+  const [showScrollTopButton, setShowScrollTopButton] = useState(false);
   const [mounted, setMounted] = useState(false);
   const timeoutRef = useRef<NodeJS.Timeout | null>(null);
   const clickTimeoutRef = useRef<NodeJS.Timeout | null>(null);
@@ -141,7 +144,15 @@ export function NavMenu() {
     };
   }, [mounted, userClicked]);
 
-  // Função para determinar a visibilidade do menu com base na posição de scroll
+  // Function to scroll to top
+  const scrollToTop = () => {
+    window.scrollTo({
+      top: 0,
+      behavior: 'smooth',
+    });
+  };
+
+  // Função para determinar a visibilidade do menu e botão de scroll to top com base na posição de scroll
   useEffect(() => {
     if (!mounted) return;
 
@@ -152,9 +163,11 @@ export function NavMenu() {
       const scrollY = window.scrollY || document.documentElement.scrollTop;
       const viewportHeight = window.innerHeight;
       const isAtHeroSection = scrollY < viewportHeight * 0.9;
+      const shouldShowScrollButton = scrollY > 300;
 
       // Aplicar a mudança imediatamente
       setShowMenu(!isAtHeroSection);
+      setShowScrollTopButton(shouldShowScrollButton);
 
       // Se tiver acontecido um scroll para o topo (ou próximo dele), fazer
       // uma verificação adicional após um pequeno intervalo
@@ -170,6 +183,7 @@ export function NavMenu() {
             window.scrollY || document.documentElement.scrollTop;
           const currentIsAtHeroSection = currentScrollY < viewportHeight * 0.9;
           setShowMenu(!currentIsAtHeroSection);
+          setShowScrollTopButton(currentScrollY > 300);
         }, 50);
       }
     }, 50); // Throttle mais rápido para resposta mais ágil
@@ -320,51 +334,115 @@ export function NavMenu() {
               </motion.nav>
             </div>
 
-            {/* Menu mobile (inferior com ícones) */}
+            {/* Container para navegação mobile e botão de scroll */}
             <div className="lg:hidden">
-              <motion.nav
-                className="fixed bottom-4 left-1/2 -translate-x-1/2 z-50"
-                initial={{ opacity: 0, y: 20 }}
-                animate={{ opacity: 1, y: 0 }}
-                exit={{ opacity: 0, y: 20 }}
-                transition={{
-                  duration: 0.5,
-                  ease: 'easeInOut',
-                }}
-              >
-                <div className="bg-card/80 backdrop-blur-sm border rounded-full shadow-sm px-3 py-2 flex items-center gap-2">
-                  {sections.map(section => (
-                    <motion.button
-                      key={section.id}
-                      onClick={() => scrollToSection(section.id)}
-                      whileHover={{ scale: 1.1 }}
-                      whileTap={{ scale: 0.9 }}
-                      className={cn(
-                        'relative rounded-full p-2 transition-colors',
-                        activeSection === section.id
-                          ? 'text-primary-foreground'
-                          : 'text-muted-foreground hover:text-foreground',
-                      )}
-                    >
-                      {activeSection === section.id && (
+              <div className="fixed bottom-4 left-0 right-0 z-50 flex justify-center">
+                <motion.div
+                  className="relative mx-auto"
+                  initial={{ opacity: 0, y: 20 }}
+                  animate={{ opacity: 1, y: 0 }}
+                  exit={{ opacity: 0, y: 20 }}
+                  transition={{
+                    duration: 0.5,
+                    ease: 'easeInOut',
+                  }}
+                >
+                  {/* Wrapper para centralizar o conjunto menu+botão */}
+                  <div className="flex items-center">
+                    {/* Menu de navegação mobile */}
+                    <div className="bg-card/80 backdrop-blur-sm border rounded-full shadow-sm px-3 py-2 flex items-center gap-2">
+                      {sections.map(section => (
+                        <motion.button
+                          key={section.id}
+                          onClick={() => scrollToSection(section.id)}
+                          whileHover={{ scale: 1.1 }}
+                          whileTap={{ scale: 0.9 }}
+                          className={cn(
+                            'relative rounded-full p-2 transition-colors',
+                            activeSection === section.id
+                              ? 'text-primary-foreground'
+                              : 'text-muted-foreground hover:text-foreground',
+                          )}
+                        >
+                          {activeSection === section.id && (
+                            <motion.div
+                              layoutId="mobileNavIndicator"
+                              className="absolute inset-0 rounded-full bg-primary"
+                              transition={{
+                                type: 'spring',
+                                stiffness: 500,
+                                damping: 30,
+                              }}
+                            />
+                          )}
+                          <span className="relative z-10">
+                            {sectionIcons[section.id] ||
+                              section.id.charAt(0).toUpperCase()}
+                          </span>
+                        </motion.button>
+                      ))}
+                    </div>
+
+                    {/* Botão de scroll to top (à direita) */}
+                    <AnimatePresence>
+                      {showScrollTopButton && (
                         <motion.div
-                          layoutId="mobileNavIndicator"
-                          className="absolute inset-0 rounded-full bg-primary"
-                          transition={{
-                            type: 'spring',
-                            stiffness: 500,
-                            damping: 30,
+                          initial={{
+                            opacity: 0,
+                            scale: 1.2,
+                            y: -15,
+                            filter: 'blur(3px)',
                           }}
-                        />
+                          animate={{
+                            opacity: 1,
+                            scale: 1,
+                            y: 0,
+                            filter: 'blur(0px)',
+                            transition: {
+                              duration: 0.6,
+                              delay: 0.2,
+                              ease: [0.22, 1, 0.36, 1],
+                            },
+                          }}
+                          exit={{
+                            opacity: 0,
+                            scale: 0.9,
+                            y: -10,
+                            filter: 'blur(2px)',
+                            transition: {
+                              duration: 0.4,
+                              ease: [0.22, 1, 0.36, 1],
+                            },
+                          }}
+                          className="ml-4"
+                        >
+                          <Button
+                            size="icon"
+                            onClick={scrollToTop}
+                            className="rounded-full animate-bounce shadow-md"
+                          >
+                            <motion.div
+                              initial={{ rotate: 0 }}
+                              animate={{
+                                rotate: [0, 8, 0, -8, 0],
+                                transition: {
+                                  delay: 0.15,
+                                  duration: 0.5,
+                                  ease: 'easeInOut',
+                                  repeat: Infinity,
+                                  repeatDelay: 3,
+                                },
+                              }}
+                            >
+                              <ArrowUp className="h-6 w-6" />
+                            </motion.div>
+                          </Button>
+                        </motion.div>
                       )}
-                      <span className="relative z-10">
-                        {sectionIcons[section.id] ||
-                          section.id.charAt(0).toUpperCase()}
-                      </span>
-                    </motion.button>
-                  ))}
-                </div>
-              </motion.nav>
+                    </AnimatePresence>
+                  </div>
+                </motion.div>
+              </div>
             </div>
           </>
         )}
