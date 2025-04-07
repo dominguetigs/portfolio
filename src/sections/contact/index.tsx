@@ -156,7 +156,15 @@ export function ContactSection() {
 
   const fadeInUpVariants = {
     hidden: { opacity: 0, y: 20 },
-    visible: { opacity: 1, y: 0 },
+    visible: {
+      opacity: 1,
+      y: 0,
+      transition: {
+        type: 'spring',
+        stiffness: 120,
+        damping: 14,
+      },
+    },
   };
 
   // Animações para a seção
@@ -166,8 +174,9 @@ export function ContactSection() {
       opacity: 1,
       transition: {
         when: 'beforeChildren',
-        staggerChildren: 0.2,
-        duration: 0.6,
+        staggerChildren: 0.1,
+        duration: 0.5,
+        delayChildren: 0.1,
       },
     },
   };
@@ -221,7 +230,6 @@ export function ContactSection() {
         type: 'spring',
         stiffness: 100,
         damping: 15,
-        delay: 0.3,
       },
     },
   };
@@ -232,7 +240,7 @@ export function ContactSection() {
       id="contact"
       initial="hidden"
       whileInView="visible"
-      viewport={{ once: true, margin: '-100px' }}
+      viewport={{ once: true, margin: '-200px', amount: 0.25 }}
       variants={sectionVariants}
     >
       <Toaster />
