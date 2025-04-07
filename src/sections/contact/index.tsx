@@ -416,7 +416,7 @@ export function ContactSection() {
                   value={formData.message}
                   onChange={handleInputChange}
                   rows={4}
-                  className="resize-none"
+                  className="resize-none max-h-24"
                   placeholder={t('messagePlaceholder')}
                   required
                 />
