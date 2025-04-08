@@ -288,7 +288,10 @@ export function NavMenu() {
             {/* Menu desktop (lateral) */}
             <div className="hidden lg:block">
               <motion.nav
-                className="fixed left-8 top-1/2 -translate-y-1/2 z-50"
+                className="fixed top-1/2 -translate-y-1/2 z-50"
+                style={{
+                  left: `max(2rem, min(calc((100vw - min(64rem, 95vw)) / 2 / 2), 300px))`,
+                }}
                 initial={{ opacity: 0, x: -20 }}
                 animate={{ opacity: 1, x: 0 }}
                 exit={{ opacity: 0, x: -20 }}

@@ -157,7 +157,12 @@ export function HeroSection({
       {!isAtTop && (
         <>
           {/* Botão para desktop */}
-          <div className="fixed right-8 top-1/2 -translate-y-1/2 z-50 hidden lg:block">
+          <div
+            className="fixed top-1/2 -translate-y-1/2 z-50 hidden lg:block"
+            style={{
+              right: `max(2rem, min(calc((100vw - min(64rem, 95vw)) / 2 / 2), 300px))`,
+            }}
+          >
             <motion.div
               key="scroll-top-button"
               initial={{
