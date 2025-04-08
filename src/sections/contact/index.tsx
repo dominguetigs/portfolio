@@ -171,14 +171,14 @@ export function ContactSection() {
   };
 
   const fadeInUpVariants = {
-    hidden: { opacity: 0, y: 10 },
+    hidden: { opacity: 0, y: 5 },
     visible: {
       opacity: 1,
       y: 0,
       transition: {
         type: 'spring',
-        stiffness: 90,
-        damping: 18,
+        stiffness: 100,
+        damping: 15,
       },
     },
   };
@@ -190,62 +190,62 @@ export function ContactSection() {
       opacity: 1,
       transition: {
         when: 'beforeChildren',
-        staggerChildren: 0.15,
-        duration: 0.8,
-        delayChildren: 0.2,
+        staggerChildren: 0.08,
+        duration: 0.5,
+        delayChildren: 0.1,
       },
     },
   };
 
   const titleVariants = {
-    hidden: { opacity: 0, y: -15 },
+    hidden: { opacity: 0, y: -10 },
     visible: {
       opacity: 1,
       y: 0,
       transition: {
-        duration: 0.8,
+        duration: 0.4,
         ease: 'easeOut',
       },
     },
   };
 
   const descriptionVariants = {
-    hidden: { opacity: 0, scale: 0.98 },
+    hidden: { opacity: 0, scale: 0.99 },
     visible: {
       opacity: 1,
       scale: 1,
       transition: {
-        duration: 0.7,
-        delay: 0.3,
+        duration: 0.4,
+        delay: 0.1,
         ease: 'easeOut',
       },
     },
   };
 
   const leftColVariants = {
-    hidden: { opacity: 0, x: -30 },
+    hidden: { opacity: 0, x: -15 },
     visible: {
       opacity: 1,
       x: 0,
       transition: {
         type: 'spring',
-        stiffness: 80,
-        damping: 20,
+        stiffness: 100,
+        damping: 16,
         when: 'beforeChildren',
-        staggerChildren: 0.15,
+        staggerChildren: 0.08,
       },
     },
   };
 
   const rightColVariants = {
-    hidden: { opacity: 0, x: 30 },
+    hidden: { opacity: 0, x: 15 },
     visible: {
       opacity: 1,
       x: 0,
       transition: {
         type: 'spring',
-        stiffness: 80,
-        damping: 20,
+        stiffness: 100,
+        damping: 16,
       },
     },
   };
@@ -304,7 +304,7 @@ export function ContactSection() {
       id="contact"
       initial="hidden"
       whileInView="visible"
-      viewport={{ once: true, amount: 0.05 }}
+      viewport={{ once: true, amount: 0.02 }}
       variants={sectionVariants}
     >
       <Toaster />
@@ -340,7 +340,7 @@ export function ContactSection() {
               </motion.div>
             </DialogHeader>
 
-            <DialogFooter className="mt-6 sm:justify-center">
+            <DialogFooter className="mt-6 flex justify-center">
               <motion.div variants={itemVariants}>
                 <Button
                   onClick={() => setShowThankYouMessage(false)}
