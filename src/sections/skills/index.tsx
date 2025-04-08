@@ -190,7 +190,7 @@ export function SkillsSection() {
             delay={0.4}
           />
           <TechSkillItem
-            label={t('sections.ecommerce')}
+            label={t('sections.ecommerceCms')}
             items={['Shopify']}
             delay={0.5}
           />
