@@ -510,7 +510,14 @@
       "formError": "Por favor, rellena todos los campos del formulario.",
       "thankYouTitle": "¡Gracias!",
       "thankYouMessage": "Tu mensaje ha sido enviado con éxito. Me pondré en contacto contigo lo antes posible.",
-      "close": "Cerrar"
+      "close": "Cerrar",
+      "validation": {
+        "nameRequired": "El nombre es obligatorio",
+        "emailRequired": "El correo electrónico es obligatorio",
+        "emailInvalid": "Por favor, introduce un correo electrónico válido",
+        "messageRequired": "El mensaje es obligatorio",
+        "messageTooShort": "El mensaje debe tener al menos 10 caracteres"
+      }
     },
     "Navigation": {
       "about": "Sobre mí",

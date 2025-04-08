@@ -28,6 +28,154 @@ import {
 } from '@/components/ui/dialog';
 import { useState, FormEvent, useEffect } from 'react';
 
+// Interface para os erros de formulário
+interface FormErrors {
+  name?: string;
+  email?: string;
+  message?: string;
+}
+
+// Interface para compatibilidade com prefixos de navegador
+interface WindowWithAudioContext extends Window {
+  webkitAudioContext?: typeof AudioContext;
+}
+
+// Função para tocar um som suave de agradecimento
+const playThankYouSound = () => {
+  try {
+    // Criação segura do contexto de áudio para navegadores modernos
+    const AudioContextClass =
+      window.AudioContext ||
+      ((window as WindowWithAudioContext)
+        .webkitAudioContext as typeof AudioContext);
+
+    if (!AudioContextClass) {
+      console.warn('Web Audio API não suportada neste navegador');
+      return;
+    }
+
+    const audioCtx = new AudioContextClass();
+
+    // Volume principal para fácil ajuste
+    const masterVolume = 0.12;
+
+    // Melodia tipo "Sino" - Uma melodia mais suave e calorosa
+    // Simula um "carrilhão" ou sinos de agradecimento/gratidão
+    const notes = [
+      { freq: 392.0, duration: 0.15, when: 0.0 }, // G4 - Primeira nota
+      { freq: 523.25, duration: 0.25, when: 0.15 }, // C5 - Segunda nota
+      { freq: 659.25, duration: 0.3, when: 0.3 }, // E5 - Terceira nota
+      { freq: 783.99, duration: 0.5, when: 0.45 }, // G5 - Nota final sustentada
+    ];
+
+    // Reproduzir as notas principais com timing mais preciso
+    notes.forEach(note => {
+      // Criar oscilador principal
+      const oscillator = audioCtx.createOscillator();
+      // Usando 'triangle' para um som mais caloroso como de sino
+      oscillator.type = 'triangle';
+      oscillator.frequency.value = note.freq;
+
+      // Usar dois ganhos para controle fino de envelope
+      const attackGain = audioCtx.createGain();
+      const mainGain = audioCtx.createGain();
+
+      // Conectar os nós de áudio
+      oscillator.connect(attackGain);
+      attackGain.connect(mainGain);
+      mainGain.connect(audioCtx.destination);
+
+      // Timing absoluto para maior precisão
+      const startTime = audioCtx.currentTime + note.when;
+      const releaseTime = startTime + note.duration;
+
+      // Criar envelope ADSR suave
+      mainGain.gain.value = 0;
+
+      // Attack
+      mainGain.gain.setValueAtTime(0, startTime);
+      mainGain.gain.linearRampToValueAtTime(masterVolume, startTime + 0.04);
+
+      // Decay & Sustain
+      mainGain.gain.linearRampToValueAtTime(
+        masterVolume * 0.8,
+        startTime + 0.12,
+      );
+
+      // Release
+      mainGain.gain.setValueAtTime(masterVolume * 0.8, releaseTime - 0.1);
+      mainGain.gain.linearRampToValueAtTime(0, releaseTime);
+
+      // Adicionar um leve vibrato para dar vida ao som
+      const vibrato = audioCtx.createOscillator();
+      vibrato.frequency.value = 5 + Math.random() * 2; // 5-7 Hz vibrato
+
+      const vibratoGain = audioCtx.createGain();
+      vibratoGain.gain.value = 3; // Sutileza do vibrato
+
+      vibrato.connect(vibratoGain);
+      vibratoGain.connect(oscillator.frequency);
+
+      // Iniciar os osciladores
+      oscillator.start(startTime);
+      oscillator.stop(releaseTime + 0.1);
+
+      vibrato.start(startTime);
+      vibrato.stop(releaseTime + 0.1);
+
+      // Adicionar harmônicos para um som mais rico
+      if (note.when >= 0.3) {
+        // Apenas para as últimas notas
+        const harmonic = audioCtx.createOscillator();
+        harmonic.type = 'sine';
+        harmonic.frequency.value = note.freq * 1.5; // Harmônico uma quinta acima
+
+        const harmonicGain = audioCtx.createGain();
+        harmonicGain.gain.value = 0;
+
+        harmonic.connect(harmonicGain);
+        harmonicGain.connect(audioCtx.destination);
+
+        harmonicGain.gain.setValueAtTime(0, startTime);
+        harmonicGain.gain.linearRampToValueAtTime(
+          masterVolume * 0.3,
+          startTime + 0.05,
+        );
+        harmonicGain.gain.linearRampToValueAtTime(0, releaseTime);
+
+        harmonic.start(startTime);
+        harmonic.stop(releaseTime + 0.1);
+      }
+    });
+
+    // Adicionar um brilho final com reverberação simulada
+    setTimeout(() => {
+      const shimmer = audioCtx.createOscillator();
+      shimmer.type = 'sine';
+      shimmer.frequency.value = 1046.5; // C6 - Nota aguda de "brilho"
+
+      const shimmerGain = audioCtx.createGain();
+      shimmerGain.gain.value = 0;
+
+      shimmer.connect(shimmerGain);
+      shimmerGain.connect(audioCtx.destination);
+
+      const shimmerStart = audioCtx.currentTime;
+      shimmerGain.gain.setValueAtTime(0, shimmerStart);
+      shimmerGain.gain.linearRampToValueAtTime(
+        masterVolume * 0.2,
+        shimmerStart + 0.1,
+      );
+      shimmerGain.gain.exponentialRampToValueAtTime(0.001, shimmerStart + 1.2);
+
+      shimmer.start(shimmerStart);
+      shimmer.stop(shimmerStart + 1.3);
+    }, 700);
+  } catch (error) {
+    console.warn('Não foi possível reproduzir som:', error);
+  }
+};
+
 export function ContactSection() {
   const t = useTranslations('Index.Contact');
   const [isSubmitting, setIsSubmitting] = useState(false);
@@ -38,6 +186,15 @@ export function ContactSection() {
     email: '',
     message: '',
   });
+  const [errors, setErrors] = useState<FormErrors>({});
+  const [touched, setTouched] = useState({
+    name: false,
+    email: false,
+    message: false,
+  });
+
+  // Referência para controlar quando o som deve ser reproduzido
+  const [shouldPlaySound, setShouldPlaySound] = useState(false);
 
   const contactInfo = {
     email: 'gustavo.s.domingueti@icloud.com',
@@ -53,16 +210,101 @@ export function ContactSection() {
       ...prev,
       [name]: value,
     }));
+
+    // Marcar campo como tocado
+    setTouched(prev => ({
+      ...prev,
+      [name]: true,
+    }));
+
+    // Validar o campo quando o usuário digita
+    validateField(name, value);
+  };
+
+  // Função para validar um campo específico
+  const validateField = (name: string, value: string) => {
+    const fieldErrors: FormErrors = { ...errors };
+
+    switch (name) {
+      case 'name':
+        if (!value.trim()) {
+          fieldErrors.name = t('validation.nameRequired');
+        } else {
+          delete fieldErrors.name;
+        }
+        break;
+
+      case 'email':
+        if (!value.trim()) {
+          fieldErrors.email = t('validation.emailRequired');
+        } else if (!/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(value)) {
+          fieldErrors.email = t('validation.emailInvalid');
+        } else {
+          delete fieldErrors.email;
+        }
+        break;
+
+      case 'message':
+        if (!value.trim()) {
+          fieldErrors.message = t('validation.messageRequired');
+        } else if (value.trim().length < 10) {
+          fieldErrors.message = t('validation.messageTooShort');
+        } else {
+          delete fieldErrors.message;
+        }
+        break;
+    }
+
+    setErrors(fieldErrors);
+    return Object.keys(fieldErrors).length === 0;
+  };
+
+  // Função para validar todo o formulário
+  const validateForm = () => {
+    const fieldErrors: FormErrors = {};
+
+    if (!formData.name.trim()) {
+      fieldErrors.name = t('validation.nameRequired');
+    }
+
+    if (!formData.email.trim()) {
+      fieldErrors.email = t('validation.emailRequired');
+    } else if (!/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(formData.email)) {
+      fieldErrors.email = t('validation.emailInvalid');
+    }
+
+    if (!formData.message.trim()) {
+      fieldErrors.message = t('validation.messageRequired');
+    } else if (formData.message.trim().length < 10) {
+      fieldErrors.message = t('validation.messageTooShort');
+    }
+
+    setErrors(fieldErrors);
+    return Object.keys(fieldErrors).length === 0;
+  };
+
+  // Função para tratar o blur dos inputs
+  const handleBlur = (field: string) => {
+    setTouched(prev => ({
+      ...prev,
+      [field]: true,
+    }));
+
+    validateField(field, formData[field as keyof typeof formData]);
   };
 
   const handleSubmit = async (e: FormEvent) => {
     e.preventDefault();
 
-    if (!formData.name || !formData.email || !formData.message) {
-      toast.error(t('formError'), {
-        position: 'bottom-center',
-        duration: 3000,
-      });
+    // Marcar todos os campos como tocados
+    setTouched({
+      name: true,
+      email: true,
+      message: true,
+    });
+
+    // Validar o formulário antes de enviar
+    if (!validateForm()) {
       return;
     }
 
@@ -82,6 +324,9 @@ export function ContactSection() {
         throw new Error(errorData.error || 'Failed to send message');
       }
 
+      // Permitir a reprodução do som
+      setShouldPlaySound(true);
+
       // Show thank you message instead of toast
       setShowThankYouMessage(true);
 
@@ -90,6 +335,14 @@ export function ContactSection() {
         name: '',
         email: '',
         message: '',
+      });
+
+      // Resetar erros e estados de toque
+      setErrors({});
+      setTouched({
+        name: false,
+        email: false,
+        message: false,
       });
     } catch (error) {
       console.error('Erro ao enviar mensagem:', error);
@@ -322,14 +575,24 @@ export function ContactSection() {
   // Array para gerar vários corações
   const heartsArray = Array.from({ length: 24 }, (_, i) => i);
 
-  // Iniciar a animação quando o diálogo é aberto
+  // Iniciar a animação e tocar som quando o diálogo é aberto
   useEffect(() => {
     if (showThankYouMessage) {
       setShowConfetti(true);
+
+      // Tocar som de agradecimento se o formulário foi enviado com sucesso
+      if (shouldPlaySound) {
+        playThankYouSound();
+      }
     } else {
       setShowConfetti(false);
+
+      // Resetar o flag de som quando o diálogo for fechado
+      if (shouldPlaySound) {
+        setShouldPlaySound(false);
+      }
     }
-  }, [showThankYouMessage]);
+  }, [showThankYouMessage, shouldPlaySound]);
 
   return (
     <motion.section
@@ -356,7 +619,9 @@ export function ContactSection() {
                 variants={heartAnimation}
                 animate={showThankYouMessage ? ['visible', 'pulse'] : 'hidden'}
               >
-                <HeartHandshake className="h-12 w-12 text-primary" />
+                <div className="bg-primary/30 p-4 rounded-full">
+                  <HeartHandshake className="h-12 w-12 text-primary" />
+                </div>
 
                 {/* Confetti de corações */}
                 <AnimatePresence>
@@ -428,13 +693,8 @@ export function ContactSection() {
       <div className="grid grid-cols-1 md:grid-cols-2 gap-8 max-w-4xl mx-auto">
         <motion.div className="flex flex-col gap-6" variants={leftColVariants}>
           <motion.div
-            className="bg-card rounded-lg p-6 shadow-md hover:shadow-lg transition-shadow border border-border"
+            className="bg-card rounded-lg p-4 shadow-md transition-shadow border border-border"
             variants={fadeInUpVariants}
-            whileHover={{
-              y: -3,
-              boxShadow:
-                '0 8px 20px -5px rgba(0,0,0,0.08), 0 6px 8px -6px rgba(0,0,0,0.08)',
-            }}
             transition={{ duration: 0.3 }}
           >
             <div className="flex items-start gap-4">
@@ -461,13 +721,8 @@ export function ContactSection() {
           </motion.div>
 
           <motion.div
-            className="bg-card rounded-lg p-6 shadow-md hover:shadow-lg transition-shadow border border-border"
+            className="bg-card rounded-lg p-4 shadow-md transition-shadow border border-border"
             variants={fadeInUpVariants}
-            whileHover={{
-              y: -3,
-              boxShadow:
-                '0 8px 20px -5px rgba(0,0,0,0.08), 0 6px 8px -6px rgba(0,0,0,0.08)',
-            }}
             transition={{ duration: 0.3 }}
           >
             <div className="flex items-start gap-4">
@@ -494,13 +749,8 @@ export function ContactSection() {
           </motion.div>
 
           <motion.div
-            className="bg-card rounded-lg p-6 shadow-md hover:shadow-lg transition-shadow border border-border"
+            className="bg-card rounded-lg p-4 shadow-md transition-shadow border border-border"
             variants={fadeInUpVariants}
-            whileHover={{
-              y: -3,
-              boxShadow:
-                '0 8px 20px -5px rgba(0,0,0,0.08), 0 6px 8px -6px rgba(0,0,0,0.08)',
-            }}
             transition={{ duration: 0.3 }}
           >
             <div className="flex items-start gap-4">
@@ -518,18 +768,14 @@ export function ContactSection() {
         </motion.div>
 
         <motion.div
-          className="bg-card rounded-lg p-6 shadow-md border border-border"
+          className="bg-card rounded-lg p-4 shadow-md border border-border flex flex-col"
           variants={rightColVariants}
-          whileHover={{
-            boxShadow:
-              '0 8px 20px -5px rgba(0,0,0,0.08), 0 6px 8px -6px rgba(0,0,0,0.08)',
-          }}
           transition={{ duration: 0.3 }}
         >
           <h3 className="font-semibold text-lg mb-4 text-foreground">
             {t('sendMessage')}
           </h3>
-          <form onSubmit={handleSubmit} className="flex flex-col gap-4">
+          <form onSubmit={handleSubmit} className="flex flex-col gap-4 flex-1">
             <div>
               <label
                 htmlFor="name"
@@ -546,9 +792,19 @@ export function ContactSection() {
                   name="name"
                   value={formData.name}
                   onChange={handleInputChange}
+                  onBlur={() => handleBlur('name')}
                   placeholder={t('namePlaceholder')}
-                  required
+                  className={
+                    errors.name && touched.name ? 'border-red-500' : ''
+                  }
+                  aria-invalid={Boolean(errors.name && touched.name)}
+                  aria-describedby="name-error"
                 />
+                {errors.name && touched.name && (
+                  <p id="name-error" className="text-red-500 text-sm mt-1">
+                    {errors.name}
+                  </p>
+                )}
               </motion.div>
             </div>
             <div>
@@ -568,9 +824,19 @@ export function ContactSection() {
                   name="email"
                   value={formData.email}
                   onChange={handleInputChange}
+                  onBlur={() => handleBlur('email')}
                   placeholder={t('emailPlaceholder')}
-                  required
+                  className={
+                    errors.email && touched.email ? 'border-red-500' : ''
+                  }
+                  aria-invalid={Boolean(errors.email && touched.email)}
+                  aria-describedby="email-error"
                 />
+                {errors.email && touched.email && (
+                  <p id="email-error" className="text-red-500 text-sm mt-1">
+                    {errors.email}
+                  </p>
+                )}
               </motion.div>
             </div>
             <div>
@@ -589,17 +855,24 @@ export function ContactSection() {
                   name="message"
                   value={formData.message}
                   onChange={handleInputChange}
+                  onBlur={() => handleBlur('message')}
                   rows={4}
-                  className="resize-none max-h-24"
+                  className={`resize-none max-h-24 ${errors.message && touched.message ? 'border-red-500' : ''}`}
                   placeholder={t('messagePlaceholder')}
-                  required
+                  aria-invalid={Boolean(errors.message && touched.message)}
+                  aria-describedby="message-error"
                 />
+                {errors.message && touched.message && (
+                  <p id="message-error" className="text-red-500 text-sm mt-1">
+                    {errors.message}
+                  </p>
+                )}
               </motion.div>
             </div>
             <motion.div
               whileHover={{ scale: isSubmitting ? 1 : 1.02 }}
               whileTap={{ scale: isSubmitting ? 1 : 0.98 }}
-              className="mt-2"
+              className="mt-auto"
             >
               <Button type="submit" className="w-full" disabled={isSubmitting}>
                 {isSubmitting ? (

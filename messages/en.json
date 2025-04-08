@@ -510,7 +510,14 @@
       "formError": "Please fill in all form fields.",
       "thankYouTitle": "Thank you!",
       "thankYouMessage": "Your message has been sent successfully. I will get back to you as soon as possible.",
-      "close": "Close"
+      "close": "Close",
+      "validation": {
+        "nameRequired": "Name is required",
+        "emailRequired": "Email is required",
+        "emailInvalid": "Please enter a valid email address",
+        "messageRequired": "Message is required",
+        "messageTooShort": "Message should be at least 10 characters"
+      }
     },
     "Navigation": {
       "about": "About",
