@@ -94,8 +94,12 @@
     },
     "Projects": {
       "title": "Proyectos",
-      "description": "Selección de proyectos personales que demuestran mis habilidades técnicas y creatividad. Haga clic en las tarjetas para acceder al repositorio en GitHub.",
+      "description": "Selección de proyectos que demuestran mis habilidades técnicas y experiencias profesionales. Explore las pestañas para ver proyectos de trabajo y personales.",
       "viewMore": "Ver más proyectos en GitHub",
+      "workTab": "Proyectos de Trabajo",
+      "personalTab": "Proyectos Personales",
+      "visit": "Visitar",
+      "demo": "Demo",
       "projects": [
         {
           "id": "task-management-app",
@@ -126,6 +130,23 @@
           "id": "memory-game",
           "title": "Memory Game",
           "description": "Juego de memoria utilizando JS y WEBPACK."
+        }
+      ],
+      "workProjects": [
+        {
+          "id": "livemenu",
+          "title": "Live Menu",
+          "description": "Sistema digital de menús para restaurantes, con opciones de personalización y código QR."
+        },
+        {
+          "id": "skeelo",
+          "title": "Tienda Skeelo",
+          "description": "Comercio electrónico de libros, audiolibros y minilibros con interfaz responsiva y sistema de compras."
+        },
+        {
+          "id": "stf-jurisprudencia",
+          "title": "STF Jurisprudencia",
+          "description": "Sistema avanzado de búsqueda de jurisprudencia del Tribunal Supremo Federal de Brasil."
         }
       ]
     },

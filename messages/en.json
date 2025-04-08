@@ -94,8 +94,12 @@
     },
     "Projects": {
       "title": "Projects",
-      "description": "Selection of personal projects that demonstrate my technical skills and creativity. Click on the cards to access the repository on GitHub.",
+      "description": "Selection of projects that demonstrate my technical skills and professional experiences. Explore the tabs to see work and personal projects.",
       "viewMore": "View more projects on GitHub",
+      "workTab": "Work Projects",
+      "personalTab": "Personal Projects",
+      "visit": "Visit",
+      "demo": "Demo",
       "projects": [
         {
           "id": "task-management-app",
@@ -110,12 +114,12 @@
         {
           "id": "js-funcional",
           "title": "JS Functional",
-          "description": "Functional programming concepts using the Javascript language."
+          "description": "Functional programming concepts using Javascript language."
         },
         {
           "id": "ps-scheduler",
           "title": "PS Scheduler",
-          "description": "Web and mobile application for scheduling messages to contacts."
+          "description": "Web and mobile application to schedule messages for contacts."
         },
         {
           "id": "snake-game",
@@ -126,6 +130,23 @@
           "id": "memory-game",
           "title": "Memory Game",
           "description": "Memory game using JS and WEBPACK."
+        }
+      ],
+      "workProjects": [
+        {
+          "id": "livemenu",
+          "title": "Live Menu",
+          "description": "Digital menu system for restaurants, with customization options and QR Code."
+        },
+        {
+          "id": "skeelo",
+          "title": "Skeelo Store",
+          "description": "E-commerce for books, audiobooks and minibooks with responsive interface and purchase system."
+        },
+        {
+          "id": "stf-jurisprudencia",
+          "title": "STF Jurisprudence",
+          "description": "Advanced jurisprudence search system of the Brazilian Supreme Federal Court."
         }
       ]
     },
