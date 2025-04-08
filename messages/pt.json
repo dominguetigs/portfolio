@@ -517,6 +517,16 @@
       "education": "Educação",
       "languages": "Idiomas",
       "contact": "Contato"
+    },
+    "SplashScreen": {
+      "loading": "Carregando...",
+      "loaded": "Carregado!"
+    },
+    "Header": {
+      "downloadResume": "Download currículo",
+      "changeLanguage": "Mudar idioma",
+      "resumeEnglish": "Currículo (Inglês)",
+      "resumePortuguese": "Currículo (Português)"
     }
   }
 }

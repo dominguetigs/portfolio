@@ -517,6 +517,16 @@
       "education": "Education",
       "languages": "Languages",
       "contact": "Contact"
+    },
+    "SplashScreen": {
+      "loading": "Loading...",
+      "loaded": "Loaded!"
+    },
+    "Header": {
+      "downloadResume": "Download resume",
+      "changeLanguage": "Change language",
+      "resumeEnglish": "Resume (English)",
+      "resumePortuguese": "Resume (Portuguese)"
     }
   }
 }

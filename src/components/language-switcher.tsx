@@ -1,7 +1,7 @@
 'use client';
 
 import Image from 'next/image';
-import { useLocale } from 'next-intl';
+import { useLocale, useTranslations } from 'next-intl';
 import { useRouter, usePathname } from '@/i18n/navigation';
 import { useTransition } from 'react';
 import {
@@ -49,6 +49,7 @@ export function LanguageSwitcher({ ...props }) {
   const router = useRouter();
   const pathname = usePathname();
   const [isPending, startTransition] = useTransition();
+  const t = useTranslations('Index.Header');
 
   const currentLanguage =
     languages.find(lang => lang.code === locale) || languages[0];
@@ -77,7 +78,7 @@ export function LanguageSwitcher({ ...props }) {
           variant="outline"
           size="icon"
           disabled={isPending}
-          aria-label="Mudar idioma"
+          aria-label={t('changeLanguage')}
           className="relative p-1 flex items-center justify-center group overflow-hidden"
           {...props}
         >

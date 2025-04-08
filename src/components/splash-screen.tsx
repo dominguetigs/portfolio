@@ -2,8 +2,21 @@
 
 import { useEffect, useState, useRef } from 'react';
 import { motion, AnimatePresence } from 'framer-motion';
+import { useTranslations, useLocale } from 'next-intl';
 
-const loadingCode = `const loadPortfolio = () => {
+const loadingCodePT = `const carregarPortfolio = () => {
+  return 'Pronto!';
+};
+
+carregarPortfolio();`;
+
+const loadingCodeES = `const cargarPortfolio = () => {
+  return '¡Listo!';
+};
+
+cargarPortfolio();`;
+
+const loadingCodeEN = `const loadPortfolio = () => {
   return 'Ready!';
 };
 
@@ -14,6 +27,8 @@ interface SplashScreenProps {
 }
 
 export function SplashScreen({ onComplete }: SplashScreenProps) {
+  const t = useTranslations('Index.SplashScreen');
+  const locale = useLocale();
   const [isVisible, setIsVisible] = useState(true);
   const [displayedCode, setDisplayedCode] = useState('');
   const [currentIndex, setCurrentIndex] = useState(0);
@@ -23,6 +38,21 @@ export function SplashScreen({ onComplete }: SplashScreenProps) {
     left: 0,
   });
   const [progressWidth, setProgressWidth] = useState(0);
+
+  // Definir o código com base no idioma selecionado
+  const getLoadingCode = () => {
+    if (locale === 'pt') {
+      return loadingCodePT;
+    } else if (locale === 'es') {
+      return loadingCodeES;
+    } else if (locale === 'en') {
+      return loadingCodeEN;
+    } else {
+      return loadingCodeEN;
+    }
+  };
+
+  const loadingCode = getLoadingCode();
 
   useEffect(() => {
     const timer = setTimeout(() => {
@@ -89,7 +119,7 @@ export function SplashScreen({ onComplete }: SplashScreenProps) {
         }, 1000);
       }, 100); // Pequena pausa após a digitação
     }
-  }, [currentIndex, displayedCode]);
+  }, [currentIndex, displayedCode, loadingCode]);
 
   useEffect(() => {
     // Atualiza a largura da barra de progresso para corresponder ao container do código
@@ -137,7 +167,7 @@ export function SplashScreen({ onComplete }: SplashScreenProps) {
                   {/* Bloco do código com posicionamento relativo para o cursor */}
                   <div
                     id="code-container"
-                    className="relative bg-gray-900/80 p-4 rounded-md border border-gray-700/50 shadow-xl w-[340px] sm:w-[380px] md:w-[420px]"
+                    className="relative bg-gray-900/80 p-4 rounded-md border border-gray-700/50 shadow-xl w-[360px] sm:w-[400px] md:w-[440px]"
                   >
                     <div className="flex items-center space-x-1.5 mb-3">
                       <div className="w-3 h-3 rounded-full bg-red-500/80"></div>
@@ -191,8 +221,8 @@ export function SplashScreen({ onComplete }: SplashScreenProps) {
 
             {/* Barra de Carregamento */}
             <div
-              className="absolute -bottom-12 left-1/2 transform -translate-x-1/2 w-[340px] sm:w-[380px] md:w-[420px]"
-              style={{ width: 'var(--container-width, 340px)' }}
+              className="absolute -bottom-12 left-1/2 transform -translate-x-1/2 w-[360px] sm:w-[400px] md:w-[440px]"
+              style={{ width: 'var(--container-width, 360px)' }}
             >
               <div className="w-full h-2 bg-primary/20 rounded-full">
                 <motion.div
@@ -204,7 +234,7 @@ export function SplashScreen({ onComplete }: SplashScreenProps) {
                 />
               </div>
               <div className="mt-2 text-xs text-center text-primary/90 font-mono">
-                {progressWidth < 100 ? 'Carregando...' : 'Carregado!'}
+                {progressWidth < 100 ? t('loading') : t('loaded')}
               </div>
             </div>
           </div>

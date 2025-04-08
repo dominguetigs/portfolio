@@ -8,6 +8,7 @@ import { Button } from '@/components/ui/button';
 import { ThemeToggle } from '@/components/theme-toggle';
 import { LanguageSwitcher } from '@/components/language-switcher';
 import { motion } from 'framer-motion';
+import { useTranslations } from 'next-intl';
 
 // Animação de mola para os ícones
 const springAnimation = {
@@ -27,6 +28,7 @@ const springAnimation = {
 };
 
 export function Header() {
+  const t = useTranslations('Index.Header');
   const headerVariants = {
     hidden: { opacity: 0, y: -50 },
     visible: {
@@ -82,7 +84,7 @@ export function Header() {
                 <Button
                   variant="outline"
                   size="icon"
-                  aria-label="Download currículo"
+                  aria-label={t('downloadResume')}
                   className="group relative overflow-hidden"
                 >
                   <motion.div
@@ -118,7 +120,7 @@ export function Header() {
                     >
                       <Download className="h-4 w-4" />
                     </motion.div>
-                    <span>Currículo (Inglês)</span>
+                    <span>{t('resumeEnglish')}</span>
                   </Button>
                   <Button
                     variant="ghost"
@@ -141,7 +143,7 @@ export function Header() {
                     >
                       <Download className="h-4 w-4" />
                     </motion.div>
-                    <span>Currículo (Português)</span>
+                    <span>{t('resumePortuguese')}</span>
                   </Button>
                 </div>
               </PopoverContent>
