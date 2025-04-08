@@ -48,6 +48,7 @@ const categoryIcons: Record<string, React.ReactNode> = {
   Core: <Code className="h-5 w-5" />,
   'Linguagens de Programação': <CodeSquare className="h-5 w-5" />,
   Ferramentas: <Wrench className="h-5 w-5" />,
+  'E-commerce/CMS': <Layout className="h-5 w-5" />,
 };
 
 // Mapeamento de tecnologias para seus respectivos ícones
@@ -69,6 +70,7 @@ const techIcons: Record<string, React.ReactNode> = {
   ChakraUI: <Layout className="h-5 w-5" />,
   VueJS: <CodeSquare className="h-5 w-5" />,
   Tailwind: <PenTool className="h-5 w-5" />,
+  Shopify: <Layout className="h-5 w-5" />,
 
   // Transpiladores
   Less: <CodeSquare className="h-5 w-5" />,
@@ -137,6 +139,7 @@ const techSkillLevels: Record<string, number> = {
   ChakraUI: 5,
   VueJS: 3,
   Tailwind: 5,
+  Shopify: 3,
 
   // Transpiladores/Linguagens
   Less: 4,

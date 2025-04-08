@@ -189,6 +189,11 @@ export function SkillsSection() {
             items={['Ionic 4', 'Swift']}
             delay={0.4}
           />
+          <TechSkillItem
+            label={t('sections.ecommerce')}
+            items={['Shopify']}
+            delay={0.5}
+          />
         </TabsContent>
 
         <TabsContent value="languages" className="space-y-8">
