@@ -340,7 +340,7 @@ export function ContactSection() {
               </motion.div>
             </DialogHeader>
 
-            <DialogFooter className="mt-6 flex justify-center">
+            <DialogFooter className="mt-6 flex flex-row justify-center sm:justify-center">
               <motion.div variants={itemVariants}>
                 <Button
                   onClick={() => setShowThankYouMessage(false)}
