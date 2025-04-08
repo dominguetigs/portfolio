@@ -225,9 +225,9 @@ export function ExperienceSection() {
           className="flex justify-center mt-8"
         >
           <Button
-            variant="ghost"
+            variant="outline"
             onClick={toggleExperiences}
-            className="group relative overflow-hidden rounded-full bg-background px-5 py-2.5 text-sm font-medium text-primary transition-all hover:bg-primary/10 border border-primary/30 hover:border-primary"
+            className="group relative overflow-hidden rounded-full px-5 py-2.5 text-sm font-medium text-foreground transition-all hover:bg-primary hover:text-primary-foreground border border-muted-foreground/40 hover:border-primary"
           >
             <span className="relative z-10 flex items-center gap-2">
               {showAllExperiences ? t('showLess') : t('showMore')}

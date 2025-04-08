@@ -43,9 +43,9 @@ export function EducationSection() {
             </h3>
 
             <Button
-              variant="ghost"
+              variant="outline"
               onClick={toggleAcademic}
-              className="group relative overflow-hidden rounded-full bg-background px-4 py-2 text-xs md:text-sm font-medium text-primary transition-all hover:bg-primary/10 border border-primary/30 hover:border-primary"
+              className="group relative overflow-hidden rounded-full px-4 py-2 text-xs md:text-sm font-medium text-foreground transition-all hover:bg-primary hover:text-primary-foreground border border-muted-foreground/40 hover:border-primary"
             >
               <span className="relative z-10 flex items-center gap-1">
                 {showAllAcademic ? t('showLess') : t('showMore')}
@@ -103,9 +103,9 @@ export function EducationSection() {
             </h3>
 
             <Button
-              variant="ghost"
+              variant="outline"
               onClick={toggleCourses}
-              className="group relative overflow-hidden rounded-full bg-background px-4 py-2 text-xs md:text-sm font-medium text-primary transition-all hover:bg-primary/10 border border-primary/30 hover:border-primary"
+              className="group relative overflow-hidden rounded-full px-4 py-2 text-xs md:text-sm font-medium text-foreground transition-all hover:bg-primary hover:text-primary-foreground border border-muted-foreground/40 hover:border-primary"
             >
               <span className="relative z-10 flex items-center gap-1">
                 {showAllCourses ? t('showLess') : t('showMore')}
