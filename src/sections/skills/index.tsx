@@ -73,7 +73,7 @@ export function SkillsSection() {
               {t('mobileSelectLabel')}
             </label>
             <Select value={selectedSkillTab} onValueChange={handleTabChange}>
-              <SelectTrigger className="w-full max-w-xs bg-card">
+              <SelectTrigger className="w-full max-w-1/2 md:max-w-[calc(1/3*100%-0.5rem)] bg-card">
                 <SelectValue placeholder={t('mobileSelectLabel')} />
               </SelectTrigger>
               <SelectContent>
