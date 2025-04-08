@@ -3,6 +3,7 @@
 import { useState } from 'react';
 import { motion } from 'framer-motion';
 import { SplashScreen } from './splash-screen';
+import { GhibliBackground } from './ghibli-background';
 
 interface MainContentProps {
   children: React.ReactNode;
@@ -26,6 +27,7 @@ export function MainContent({ children }: MainContentProps) {
           animate={{ opacity: 1 }}
           transition={{ duration: 0.6, ease: 'easeInOut' }}
         >
+          <GhibliBackground />
           <div className="texture" />
           {children}
         </motion.div>
