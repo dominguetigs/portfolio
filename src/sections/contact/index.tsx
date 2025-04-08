@@ -155,14 +155,14 @@ export function ContactSection() {
   };
 
   const fadeInUpVariants = {
-    hidden: { opacity: 0, y: 20 },
+    hidden: { opacity: 0, y: 10 },
     visible: {
       opacity: 1,
       y: 0,
       transition: {
         type: 'spring',
-        stiffness: 120,
-        damping: 14,
+        stiffness: 90,
+        damping: 18,
       },
     },
   };
@@ -174,62 +174,62 @@ export function ContactSection() {
       opacity: 1,
       transition: {
         when: 'beforeChildren',
-        staggerChildren: 0.1,
-        duration: 0.5,
-        delayChildren: 0.1,
+        staggerChildren: 0.15,
+        duration: 0.8,
+        delayChildren: 0.2,
       },
     },
   };
 
   const titleVariants = {
-    hidden: { opacity: 0, y: -20 },
+    hidden: { opacity: 0, y: -15 },
     visible: {
       opacity: 1,
       y: 0,
       transition: {
-        duration: 0.6,
+        duration: 0.8,
         ease: 'easeOut',
       },
     },
   };
 
   const descriptionVariants = {
-    hidden: { opacity: 0, scale: 0.95 },
+    hidden: { opacity: 0, scale: 0.98 },
     visible: {
       opacity: 1,
       scale: 1,
       transition: {
-        duration: 0.5,
-        delay: 0.2,
+        duration: 0.7,
+        delay: 0.3,
         ease: 'easeOut',
       },
     },
   };
 
   const leftColVariants = {
-    hidden: { opacity: 0, x: -50 },
+    hidden: { opacity: 0, x: -30 },
     visible: {
       opacity: 1,
       x: 0,
       transition: {
         type: 'spring',
-        stiffness: 100,
-        damping: 15,
+        stiffness: 80,
+        damping: 20,
         when: 'beforeChildren',
-        staggerChildren: 0.1,
+        staggerChildren: 0.15,
       },
     },
   };
 
   const rightColVariants = {
-    hidden: { opacity: 0, x: 50 },
+    hidden: { opacity: 0, x: 30 },
     visible: {
       opacity: 1,
       x: 0,
       transition: {
         type: 'spring',
-        stiffness: 100,
-        damping: 15,
+        stiffness: 80,
+        damping: 20,
       },
     },
   };
@@ -240,7 +240,7 @@ export function ContactSection() {
       id="contact"
       initial="hidden"
       whileInView="visible"
-      viewport={{ once: true, margin: '-200px', amount: 0.25 }}
+      viewport={{ once: true, amount: 0.05 }}
       variants={sectionVariants}
     >
       <Toaster />
@@ -265,11 +265,11 @@ export function ContactSection() {
             className="bg-card rounded-lg p-6 shadow-md hover:shadow-lg transition-shadow border border-border"
             variants={fadeInUpVariants}
             whileHover={{
-              y: -5,
+              y: -3,
               boxShadow:
-                '0 10px 25px -5px rgba(0,0,0,0.1), 0 8px 10px -6px rgba(0,0,0,0.1)',
+                '0 8px 20px -5px rgba(0,0,0,0.08), 0 6px 8px -6px rgba(0,0,0,0.08)',
             }}
-            transition={{ duration: 0.2 }}
+            transition={{ duration: 0.3 }}
           >
             <div className="flex items-start gap-4">
               <div className="bg-primary/10 p-3 rounded-full">
@@ -298,11 +298,11 @@ export function ContactSection() {
             className="bg-card rounded-lg p-6 shadow-md hover:shadow-lg transition-shadow border border-border"
             variants={fadeInUpVariants}
             whileHover={{
-              y: -5,
+              y: -3,
               boxShadow:
-                '0 10px 25px -5px rgba(0,0,0,0.1), 0 8px 10px -6px rgba(0,0,0,0.1)',
+                '0 8px 20px -5px rgba(0,0,0,0.08), 0 6px 8px -6px rgba(0,0,0,0.08)',
             }}
-            transition={{ duration: 0.2 }}
+            transition={{ duration: 0.3 }}
           >
             <div className="flex items-start gap-4">
               <div className="bg-primary/10 p-3 rounded-full">
@@ -331,11 +331,11 @@ export function ContactSection() {
             className="bg-card rounded-lg p-6 shadow-md hover:shadow-lg transition-shadow border border-border"
             variants={fadeInUpVariants}
             whileHover={{
-              y: -5,
+              y: -3,
               boxShadow:
-                '0 10px 25px -5px rgba(0,0,0,0.1), 0 8px 10px -6px rgba(0,0,0,0.1)',
+                '0 8px 20px -5px rgba(0,0,0,0.08), 0 6px 8px -6px rgba(0,0,0,0.08)',
             }}
-            transition={{ duration: 0.2 }}
+            transition={{ duration: 0.3 }}
           >
             <div className="flex items-start gap-4">
               <div className="bg-primary/10 p-3 rounded-full">
@@ -356,9 +356,9 @@ export function ContactSection() {
           variants={rightColVariants}
           whileHover={{
             boxShadow:
-              '0 10px 25px -5px rgba(0,0,0,0.1), 0 8px 10px -6px rgba(0,0,0,0.1)',
+              '0 8px 20px -5px rgba(0,0,0,0.08), 0 6px 8px -6px rgba(0,0,0,0.08)',
           }}
-          transition={{ duration: 0.2 }}
+          transition={{ duration: 0.3 }}
         >
           <h3 className="font-semibold text-lg mb-4 text-foreground">
             {t('sendMessage')}
@@ -431,8 +431,8 @@ export function ContactSection() {
               </motion.div>
             </div>
             <motion.div
-              whileHover={{ scale: isSubmitting ? 1 : 1.03 }}
-              whileTap={{ scale: isSubmitting ? 1 : 0.97 }}
+              whileHover={{ scale: isSubmitting ? 1 : 1.02 }}
+              whileTap={{ scale: isSubmitting ? 1 : 0.98 }}
               className="mt-2"
             >
               <Button type="submit" className="w-full" disabled={isSubmitting}>
