@@ -6,7 +6,6 @@ import { useInView } from 'react-intersection-observer';
 import {
   Code,
   CodeSquare,
-  FileCode,
   Layout,
   Server,
   Database,
@@ -18,106 +17,178 @@ import {
   GitBranch,
   Globe,
   Terminal,
-  BoxIcon,
   Star,
   Wrench,
 } from 'lucide-react';
+import {
+  SiHtml5,
+  SiCss3,
+  SiJavascript,
+  SiNextdotjs,
+  SiAngular,
+  SiVuedotjs,
+  SiTailwindcss,
+  SiBootstrap,
+  SiSass,
+  SiLess,
+  SiChakraui,
+  SiStyledcomponents,
+  SiTypescript,
+  SiElixir,
+  SiGo,
+  SiSocketdotio,
+  SiJest,
+  SiCypress,
+  SiWebpack,
+  SiGulp,
+  SiGrunt,
+  SiMysql,
+  SiPostgresql,
+  SiMongodb,
+  SiFirebase,
+  SiIonic,
+  SiSwift,
+  SiAmazon,
+  SiVercel,
+  SiJquery,
+  SiGit,
+  SiGithub,
+  SiNpm,
+  SiYarn,
+  SiJira,
+  SiGraphql,
+  SiShopify,
+  SiReact,
+  SiNodedotjs,
+} from 'react-icons/si';
+import { cn } from '@/lib/utils';
 
-// Mapeamento de ícones para cada categoria
-const categoryIcons: Record<string, React.ReactNode> = {
-  Frontend: <Layout className="h-5 w-5" />,
-  Transpiladores: <CodeSquare className="h-5 w-5" />,
-  Backend: <Server className="h-5 w-5" />,
-  Websockets: <Globe className="h-5 w-5" />,
-  Testes: <CheckSquare className="h-5 w-5" />,
-  'Task Mng.': <Terminal className="h-5 w-5" />,
-  'Pkg Mng.': <Package className="h-5 w-5" />,
-  Database: <Database className="h-5 w-5" />,
-  Mobile: <Smartphone className="h-5 w-5" />,
-  Infraestrutura: <Cloud className="h-5 w-5" />,
-  ALM: <GitBranch className="h-5 w-5" />,
-  'Build & Bundlers': <Terminal className="h-5 w-5" />,
-  'Gerenciadores de Pacotes': <Package className="h-5 w-5" />,
-  'DevOps & CI/CD': <Cloud className="h-5 w-5" />,
-  'Gestão de Projetos': <CheckSquare className="h-5 w-5" />,
-  'Tecnologias Backend': <Server className="h-5 w-5" />,
-  Comunicação: <Globe className="h-5 w-5" />,
-  'Bancos de Dados': <Database className="h-5 w-5" />,
-  'UI & Estilização': <PenTool className="h-5 w-5" />,
-  'Frameworks & Bibliotecas': <Layout className="h-5 w-5" />,
-  Core: <Code className="h-5 w-5" />,
-  'Linguagens de Programação': <CodeSquare className="h-5 w-5" />,
-  Ferramentas: <Wrench className="h-5 w-5" />,
-  'E-commerce/CMS': <Layout className="h-5 w-5" />,
-};
+// Componente personalizado para o ícone do Python com as cores originais
+const PythonIcon = ({ className }: { className?: string }) => (
+  <svg
+    xmlns="http://www.w3.org/2000/svg"
+    viewBox="0 0 128 128"
+    className={className}
+  >
+    <linearGradient
+      id="python-original-a"
+      gradientUnits="userSpaceOnUse"
+      x1="70.252"
+      y1="1237.476"
+      x2="170.659"
+      y2="1151.089"
+      gradientTransform="matrix(.563 0 0 -.568 -29.215 707.817)"
+    >
+      <stop offset="0" stopColor="#5A9FD4" />
+      <stop offset="1" stopColor="#306998" />
+    </linearGradient>
+    <linearGradient
+      id="python-original-b"
+      gradientUnits="userSpaceOnUse"
+      x1="209.474"
+      y1="1098.811"
+      x2="173.62"
+      y2="1149.537"
+      gradientTransform="matrix(.563 0 0 -.568 -29.215 707.817)"
+    >
+      <stop offset="0" stopColor="#FFD43B" />
+      <stop offset="1" stopColor="#FFE873" />
+    </linearGradient>
+    <path
+      fill="url(#python-original-a)"
+      d="M63.391 1.988c-4.222.02-8.252.379-11.8 1.007-10.45 1.846-12.346 5.71-12.346 12.837v9.411h24.693v3.137H29.977c-7.176 0-13.46 4.313-15.426 12.521-2.268 9.405-2.368 15.275 0 25.096 1.755 7.311 5.947 12.519 13.124 12.519h8.491V67.234c0-8.151 7.051-15.34 15.426-15.34h24.665c6.866 0 12.346-5.654 12.346-12.548V15.833c0-6.693-5.646-11.72-12.346-12.837-4.244-.706-8.645-1.027-12.866-1.008zM50.037 9.557c2.55 0 4.634 2.117 4.634 4.721 0 2.593-2.083 4.69-4.634 4.69-2.56 0-4.633-2.097-4.633-4.69-.001-2.604 2.073-4.721 4.633-4.721z"
+      transform="translate(0 10.26)"
+    />
+    <path
+      fill="url(#python-original-b)"
+      d="M91.682 28.38v10.966c0 8.5-7.208 15.655-15.426 15.655H51.591c-6.756 0-12.346 5.783-12.346 12.549v23.515c0 6.691 5.818 10.628 12.346 12.547 7.816 2.297 15.312 2.713 24.665 0 6.216-1.801 12.346-5.423 12.346-12.547v-9.412H63.938v-3.138h37.012c7.176 0 9.852-5.005 12.348-12.519 2.578-7.735 2.467-15.174 0-25.096-1.774-7.145-5.161-12.521-12.348-12.521h-9.268zM77.809 87.927c2.561 0 4.634 2.097 4.634 4.692 0 2.602-2.074 4.719-4.634 4.719-2.55 0-4.633-2.117-4.633-4.719 0-2.595 2.083-4.692 4.633-4.692z"
+      transform="translate(0 10.26)"
+    />
+    <path
+      opacity=".444"
+      fill="url(#python-original-a)"
+      d="M63.391 1.988c-4.222.02-8.252.379-11.8 1.007-10.45 1.846-12.346 5.71-12.346 12.837v9.411h24.693v3.137H29.977c-7.176 0-13.46 4.313-15.426 12.521-2.268 9.405-2.368 15.275 0 25.096 1.755 7.311 5.947 12.519 13.124 12.519h8.491V67.234c0-8.151 7.051-15.34 15.426-15.34h24.665c6.866 0 12.346-5.654 12.346-12.548V15.833c0-6.693-5.646-11.72-12.346-12.837-4.244-.706-8.645-1.027-12.866-1.008zM50.037 9.557c2.55 0 4.634 2.117 4.634 4.721 0 2.593-2.083 4.69-4.634 4.69-2.56 0-4.633-2.097-4.633-4.69-.001-2.604 2.073-4.721 4.633-4.721z"
+      transform="translate(0 10.26)"
+    />
+  </svg>
+);
 
 // Mapeamento de tecnologias para seus respectivos ícones
 const techIcons: Record<string, React.ReactNode> = {
   // Frontend
-  'Vanilla JavaScript': <FileCode className="h-5 w-5" />,
-  JQuery: <Code className="h-5 w-5" />,
-  Bootstrap: <Layout className="h-5 w-5" />,
-  Html5: <FileCode className="h-5 w-5" />,
-  Css3: <PenTool className="h-5 w-5" />,
-  AngularJS: <Code className="h-5 w-5" />,
-  Angular: <Code className="h-5 w-5" />,
-  'Angular Material': <Layout className="h-5 w-5" />,
-  RxJS: <CodeSquare className="h-5 w-5" />,
-  ReactJS: <CodeSquare className="h-5 w-5" />,
-  Next: <Layout className="h-5 w-5" />,
-  'Styled Components': <PenTool className="h-5 w-5" />,
-  'Css Modules': <PenTool className="h-5 w-5" />,
-  ChakraUI: <Layout className="h-5 w-5" />,
-  VueJS: <CodeSquare className="h-5 w-5" />,
-  Tailwind: <PenTool className="h-5 w-5" />,
-  Shopify: <Layout className="h-5 w-5" />,
+  'Vanilla JavaScript': <SiJavascript className="h-5 w-5" />,
+  JQuery: <SiJquery className="h-5 w-5" />,
+  Bootstrap: <SiBootstrap className="h-5 w-5" />,
+  Html5: <SiHtml5 className="h-5 w-5" />,
+  Css3: <SiCss3 className="h-5 w-5" />,
+  AngularJS: <SiAngular className="h-5 w-5" />,
+  Angular: <SiAngular className="h-5 w-5" />,
+  'Angular Material': <SiAngular className="h-5 w-5" />,
+  RxJS: <Code className="h-5 w-5" />,
+  ReactJS: <SiReact className="h-5 w-5" />,
+  'Next.js': <SiNextdotjs className="h-5 w-5" />,
+  'Styled Components': <SiStyledcomponents className="h-5 w-5" />,
+  'Css Modules': <SiCss3 className="h-5 w-5" />,
+  ChakraUI: <SiChakraui className="h-5 w-5" />,
+  VueJS: <SiVuedotjs className="h-5 w-5" />,
+  Tailwind: <SiTailwindcss className="h-5 w-5" />,
+  Shopify: <SiShopify className="h-5 w-5" />,
 
-  // Transpiladores
-  Less: <CodeSquare className="h-5 w-5" />,
-  Sass: <CodeSquare className="h-5 w-5" />,
-  Typescript: <CodeSquare className="h-5 w-5" />,
+  // Transpiladores/Linguagens
+  Less: <SiLess className="h-5 w-5" />,
+  Sass: <SiSass className="h-5 w-5" />,
+  JavaScript: <SiJavascript className="h-5 w-5" />,
+  TypeScript: <SiTypescript className="h-5 w-5" />,
 
   // Backend
-  NodeJS: <Server className="h-5 w-5" />,
-  Python: <FileCode className="h-5 w-5" />,
-  Elixir: <FileCode className="h-5 w-5" />,
+  NodeJS: <SiNodedotjs className="h-5 w-5" />,
+  Python: <PythonIcon className="h-5 w-5" />,
+  Elixir: <SiElixir className="h-5 w-5" />,
+  Go: <SiGo className="h-5 w-5" />,
 
   // Websockets
-  'Socket.Io': <Globe className="h-5 w-5" />,
+  'Socket.Io': <SiSocketdotio className="h-5 w-5" />,
 
   // Testes
-  Protractor: <CheckSquare className="h-5 w-5" />,
+  Jest: <SiJest className="h-5 w-5" />,
+  Cypress: <SiCypress className="h-5 w-5" />,
   Karma: <CheckSquare className="h-5 w-5" />,
-  Cypress: <CheckSquare className="h-5 w-5" />,
-  Jest: <CheckSquare className="h-5 w-5" />,
+  Protractor: <CheckSquare className="h-5 w-5" />,
+  'React Testing Library': <SiReact className="h-5 w-5" />,
 
   // Task Mng.
-  Gulp: <Terminal className="h-5 w-5" />,
-  Grunt: <Terminal className="h-5 w-5" />,
-  Webpack: <BoxIcon className="h-5 w-5" />,
+  Gulp: <SiGulp className="h-5 w-5" />,
+  Grunt: <SiGrunt className="h-5 w-5" />,
+  Webpack: <SiWebpack className="h-5 w-5" />,
 
   // Pkg Mng.
+  Npm: <SiNpm className="h-5 w-5" />,
+  Yarn: <SiYarn className="h-5 w-5" />,
   Bower: <Package className="h-5 w-5" />,
-  Npm: <Package className="h-5 w-5" />,
-  Yarn: <Package className="h-5 w-5" />,
 
   // Database
-  MySQL: <Database className="h-5 w-5" />,
-  Postgres: <Database className="h-5 w-5" />,
-  MongoDB: <Database className="h-5 w-5" />,
-  'Firebase:Realtime Database': <Database className="h-5 w-5" />,
+  MySQL: <SiMysql className="h-5 w-5" />,
+  Postgres: <SiPostgresql className="h-5 w-5" />,
+  MongoDB: <SiMongodb className="h-5 w-5" />,
+  'Firebase Realtime DB': <SiFirebase className="h-5 w-5" />,
 
   // Mobile
-  'Ionic 4': <Smartphone className="h-5 w-5" />,
+  'Ionic 4': <SiIonic className="h-5 w-5" />,
+  Swift: <SiSwift className="h-5 w-5" />,
 
   // Infraestrutura
-  AWS: <Cloud className="h-5 w-5" />,
-  Firebase: <Cloud className="h-5 w-5" />,
-  Vercel: <Cloud className="h-5 w-5" />,
+  AWS: <SiAmazon className="h-5 w-5" />,
+  Firebase: <SiFirebase className="h-5 w-5" />,
+  Vercel: <SiVercel className="h-5 w-5" />,
 
   // ALM
+  Git: <SiGit className="h-5 w-5" />,
+  GitHub: <SiGithub className="h-5 w-5" />,
   VSTS: <GitBranch className="h-5 w-5" />,
-  Jira: <CheckSquare className="h-5 w-5" />,
+  Jira: <SiJira className="h-5 w-5" />,
+
+  // Outros
+  GraphQL: <SiGraphql className="h-5 w-5" />,
 };
 
 // Nível de habilidade para cada tecnologia (1-5)
@@ -229,6 +300,94 @@ const favoriteSkills = [
   'Jira',
 ];
 
+// Mapeamento de cores para tecnologias
+const techColors: Record<string, string> = {
+  // Frontend
+  Html5: 'text-orange-500',
+  Css3: 'text-blue-500',
+  'Vanilla JavaScript': 'text-yellow-500',
+  JavaScript: 'text-yellow-500',
+  TypeScript: 'text-blue-600',
+  ReactJS: 'text-cyan-500',
+  'Next.js': 'text-gray-800 dark:text-gray-200',
+  VueJS: 'text-green-500',
+  Angular: 'text-red-600',
+  AngularJS: 'text-red-600',
+  'Angular Material': 'text-red-600',
+  RxJS: 'text-pink-500',
+
+  // Estilização
+  Tailwind: 'text-cyan-400',
+  Bootstrap: 'text-purple-600',
+  Sass: 'text-pink-500',
+  Less: 'text-blue-400',
+  'Styled Components': 'text-pink-500',
+  ChakraUI: 'text-teal-500',
+
+  // Backend
+  NodeJS: 'text-green-600',
+  Python: 'text-yellow-600',
+  Elixir: 'text-purple-500',
+  Go: 'text-blue-500',
+
+  // Databases
+  MySQL: 'text-blue-900',
+  Postgres: 'text-blue-600',
+  MongoDB: 'text-green-700',
+  'Firebase Realtime DB': 'text-yellow-600',
+
+  // Ferramentas
+  Git: 'text-orange-600',
+  GitHub: 'text-black dark:text-white',
+  Webpack: 'text-blue-500',
+  'Socket.Io': 'text-black dark:text-white',
+  Jest: 'text-red-600',
+  Cypress: 'text-green-600',
+  Gulp: 'text-red-500',
+  Grunt: 'text-orange-500',
+  Npm: 'text-red-500',
+  Yarn: 'text-blue-500',
+  Jira: 'text-blue-500',
+
+  // Infraestrutura
+  AWS: 'text-orange-500',
+  Firebase: 'text-yellow-600',
+  Vercel: 'text-black dark:text-white',
+
+  // Outros
+  Shopify: 'text-green-600',
+  GraphQL: 'text-pink-600',
+  JQuery: 'text-blue-700',
+};
+
+// Mapeamento de ícones para cada categoria
+const categoryIcons: Record<string, React.ReactNode> = {
+  Frontend: <Layout className="h-5 w-5" />,
+  Transpiladores: <CodeSquare className="h-5 w-5" />,
+  Backend: <Server className="h-5 w-5" />,
+  Websockets: <Globe className="h-5 w-5" />,
+  Testes: <CheckSquare className="h-5 w-5" />,
+  'Task Mng.': <Terminal className="h-5 w-5" />,
+  'Pkg Mng.': <Package className="h-5 w-5" />,
+  Database: <Database className="h-5 w-5" />,
+  Mobile: <Smartphone className="h-5 w-5" />,
+  Infraestrutura: <Cloud className="h-5 w-5" />,
+  ALM: <GitBranch className="h-5 w-5" />,
+  'Build & Bundlers': <Terminal className="h-5 w-5" />,
+  'Gerenciadores de Pacotes': <Package className="h-5 w-5" />,
+  'DevOps & CI/CD': <Cloud className="h-5 w-5" />,
+  'Gestão de Projetos': <CheckSquare className="h-5 w-5" />,
+  'Tecnologias Backend': <Server className="h-5 w-5" />,
+  Comunicação: <Globe className="h-5 w-5" />,
+  'Bancos de Dados': <Database className="h-5 w-5" />,
+  'UI & Estilização': <PenTool className="h-5 w-5" />,
+  'Frameworks & Bibliotecas': <Layout className="h-5 w-5" />,
+  Core: <Code className="h-5 w-5" />,
+  'Linguagens de Programação': <CodeSquare className="h-5 w-5" />,
+  Ferramentas: <Wrench className="h-5 w-5" />,
+  'E-commerce/CMS': <Layout className="h-5 w-5" />,
+};
+
 interface TechSkillItemProps {
   label: string;
   items: string[];
@@ -301,7 +460,6 @@ export function TechSkillItem({ label, items, delay = 0 }: TechSkillItemProps) {
               whileHover={{
                 scale: 1.03,
                 y: -5,
-                boxShadow: '0px 10px 20px rgba(0, 0, 0, 0.1)',
                 transition: {
                   type: 'spring',
                   stiffness: 300,
@@ -328,7 +486,14 @@ export function TechSkillItem({ label, items, delay = 0 }: TechSkillItemProps) {
                     }}
                     whileTap={{ scale: 0.9 }}
                   >
-                    {techIcons[item] || <Code className="h-5 w-5" />}
+                    <div
+                      className={cn(
+                        'fill-current',
+                        techColors[item] || 'text-primary',
+                      )}
+                    >
+                      {techIcons[item] || <Code className="h-5 w-5" />}
+                    </div>
                   </motion.div>
 
                   <div className="flex-1 min-w-0">
