@@ -214,7 +214,7 @@ export function HeroSection({
         </>
       )}
 
-      <section className="min-h-[calc(100vh-56px)] flex flex-col items-center justify-center relative px-4 py-10 mt-[-24px] max-w-full">
+      <section className="min-h-[calc(100vh-70px)] flex flex-col items-center justify-center relative px-4 py-10 mt-[-24px] max-w-full">
         <div className="text-center max-w-3xl mx-auto flex flex-col items-center">
           <motion.div
             initial={{ opacity: 0, y: -20 }}
