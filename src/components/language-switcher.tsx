@@ -12,6 +12,7 @@ import {
 } from '@/components/ui/dropdown-menu';
 import { Button } from '@/components/ui/button';
 import { cn } from '@/lib/utils';
+import { motion } from 'framer-motion';
 
 const languages = [
   {
@@ -31,7 +32,19 @@ const languages = [
   },
 ];
 
-export function LanguageSwitcher() {
+// Animação de mola para a bandeira
+const springAnimation = {
+  hover: {
+    scale: 1.1,
+    transition: { type: 'spring', stiffness: 400, damping: 10 },
+  },
+  initial: {
+    scale: 1,
+    transition: { type: 'spring', stiffness: 300, damping: 8 },
+  },
+};
+
+export function LanguageSwitcher({ ...props }) {
   const locale = useLocale();
   const router = useRouter();
   const pathname = usePathname();
@@ -65,9 +78,16 @@ export function LanguageSwitcher() {
           size="icon"
           disabled={isPending}
           aria-label="Mudar idioma"
-          className="relative p-1 flex items-center justify-center"
+          className="relative p-1 flex items-center justify-center group overflow-hidden"
+          {...props}
         >
-          <div className="relative w-6 h-6 rounded-full overflow-hidden">
+          <motion.div
+            className="relative w-6 h-6 rounded-full overflow-hidden"
+            initial="initial"
+            whileHover="hover"
+            animate="initial"
+            variants={springAnimation}
+          >
             <Image
               src={currentLanguage.flag}
               alt={currentLanguage.name}
@@ -75,7 +95,7 @@ export function LanguageSwitcher() {
               className="object-cover"
               priority
             />
-          </div>
+          </motion.div>
         </Button>
       </DropdownMenuTrigger>
       <DropdownMenuContent align="end">

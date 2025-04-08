@@ -9,6 +9,23 @@ import { ThemeToggle } from '@/components/theme-toggle';
 import { LanguageSwitcher } from '@/components/language-switcher';
 import { motion } from 'framer-motion';
 
+// Animação de mola para os ícones
+const springAnimation = {
+  hover: {
+    y: 3,
+    transition: { type: 'spring', stiffness: 400, damping: 10 },
+  },
+  initial: {
+    y: 0,
+    transition: {
+      type: 'spring',
+      stiffness: 300,
+      damping: 5, // Amortecimento menor para maior efeito de mola
+      velocity: 10, // Adiciona velocidade inicial ao retornar
+    },
+  },
+};
+
 export function Header() {
   const headerVariants = {
     hidden: { opacity: 0, y: -50 },
@@ -66,8 +83,16 @@ export function Header() {
                   variant="outline"
                   size="icon"
                   aria-label="Download currículo"
+                  className="group relative overflow-hidden"
                 >
-                  <FileDown className="h-[1.2rem] w-[1.2rem]" />
+                  <motion.div
+                    initial="initial"
+                    whileHover="hover"
+                    animate="initial"
+                    variants={springAnimation}
+                  >
+                    <FileDown className="h-[1.2rem] w-[1.2rem]" />
+                  </motion.div>
                 </Button>
               </PopoverTrigger>
               <PopoverContent className="w-auto p-2" align="end">
@@ -75,7 +100,7 @@ export function Header() {
                   <Button
                     variant="ghost"
                     size="sm"
-                    className="flex items-center justify-start gap-2"
+                    className="flex items-center justify-start gap-2 group relative overflow-hidden"
                     onClick={() => {
                       const link = document.createElement('a');
                       link.href = '/cv/resume.pdf';
@@ -85,13 +110,20 @@ export function Header() {
                       document.body.removeChild(link);
                     }}
                   >
-                    <Download className="h-4 w-4" />
+                    <motion.div
+                      initial="initial"
+                      whileHover="hover"
+                      animate="initial"
+                      variants={springAnimation}
+                    >
+                      <Download className="h-4 w-4" />
+                    </motion.div>
                     <span>Currículo (Inglês)</span>
                   </Button>
                   <Button
                     variant="ghost"
                     size="sm"
-                    className="flex items-center justify-start gap-2"
+                    className="flex items-center justify-start gap-2 group relative overflow-hidden"
                     onClick={() => {
                       const link = document.createElement('a');
                       link.href = '/cv/curriculum.pdf';
@@ -101,7 +133,14 @@ export function Header() {
                       document.body.removeChild(link);
                     }}
                   >
-                    <Download className="h-4 w-4" />
+                    <motion.div
+                      initial="initial"
+                      whileHover="hover"
+                      animate="initial"
+                      variants={springAnimation}
+                    >
+                      <Download className="h-4 w-4" />
+                    </motion.div>
                     <span>Currículo (Português)</span>
                   </Button>
                 </div>
