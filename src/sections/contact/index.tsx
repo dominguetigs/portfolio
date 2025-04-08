@@ -1,18 +1,36 @@
 'use client';
 
 import { useTranslations } from 'next-intl';
-import { motion } from 'framer-motion';
-import { Copy, Check, Mail, Phone, MapPin, Send, Loader2 } from 'lucide-react';
+import { motion, Variants } from 'framer-motion';
+import {
+  Copy,
+  Check,
+  Mail,
+  Phone,
+  MapPin,
+  Send,
+  Loader2,
+  HeartHandshake,
+} from 'lucide-react';
 import { toast } from 'sonner';
 import { Toaster } from '@/components/ui/sonner';
 import { Button } from '@/components/ui/button';
 import { Input } from '@/components/ui/input';
 import { Textarea } from '@/components/ui/textarea';
+import {
+  Dialog,
+  DialogContent,
+  DialogHeader,
+  DialogFooter,
+  DialogTitle,
+  DialogDescription,
+} from '@/components/ui/dialog';
 import { useState, FormEvent } from 'react';
 
 export function ContactSection() {
   const t = useTranslations('Index.Contact');
   const [isSubmitting, setIsSubmitting] = useState(false);
+  const [showThankYouMessage, setShowThankYouMessage] = useState(false);
   const [formData, setFormData] = useState({
     name: '',
     email: '',
@@ -62,10 +80,8 @@ export function ContactSection() {
         throw new Error(errorData.error || 'Failed to send message');
       }
 
-      toast.success(t('messageSent'), {
-        position: 'bottom-center',
-        duration: 3000,
-      });
+      // Show thank you message instead of toast
+      setShowThankYouMessage(true);
 
       // Limpar o formulário
       setFormData({
@@ -234,6 +250,54 @@ export function ContactSection() {
     },
   };
 
+  // Animation variants for thank you dialog content
+  const dialogContentVariants: Variants = {
+    hidden: { opacity: 0 },
+    visible: {
+      opacity: 1,
+      transition: {
+        when: 'beforeChildren',
+        staggerChildren: 0.2,
+        duration: 0.3,
+      },
+    },
+  };
+
+  // Animation for staggered text elements
+  const itemVariants: Variants = {
+    hidden: { opacity: 0, y: 20 },
+    visible: {
+      opacity: 1,
+      y: 0,
+      transition: {
+        type: 'spring',
+        damping: 12,
+        stiffness: 100,
+      },
+    },
+  };
+
+  // Heart icon animation
+  const heartAnimation: Variants = {
+    hidden: { scale: 0, opacity: 0 },
+    visible: {
+      scale: [0, 1.2, 1],
+      opacity: 1,
+      transition: {
+        duration: 0.6,
+        ease: 'easeOut',
+      },
+    },
+    pulse: {
+      scale: [1, 1.2, 1],
+      transition: {
+        duration: 1.2,
+        repeat: Infinity,
+        repeatType: 'reverse',
+      },
+    },
+  };
+
   return (
     <motion.section
       className="mt-20 pt-4"
@@ -244,6 +308,51 @@ export function ContactSection() {
       variants={sectionVariants}
     >
       <Toaster />
+
+      {/* Thank you message dialog */}
+      <Dialog open={showThankYouMessage} onOpenChange={setShowThankYouMessage}>
+        <DialogContent className="sm:max-w-md">
+          <motion.div
+            variants={dialogContentVariants}
+            initial="hidden"
+            animate="visible"
+          >
+            <DialogHeader className="gap-2">
+              <motion.div
+                className="flex justify-center mb-4 text-primary"
+                variants={heartAnimation}
+                animate={showThankYouMessage ? ['visible', 'pulse'] : 'hidden'}
+              >
+                <HeartHandshake className="h-12 w-12 text-primary" />
+              </motion.div>
+
+              <motion.div variants={itemVariants}>
+                <DialogTitle className="text-center text-2xl">
+                  {t('thankYouTitle') || 'Thank you!'}
+                </DialogTitle>
+              </motion.div>
+
+              <motion.div variants={itemVariants}>
+                <DialogDescription className="text-center">
+                  {t('thankYouMessage') ||
+                    'Your message has been sent successfully. I will get back to you as soon as possible.'}
+                </DialogDescription>
+              </motion.div>
+            </DialogHeader>
+
+            <DialogFooter className="mt-6 sm:justify-center">
+              <motion.div variants={itemVariants}>
+                <Button
+                  onClick={() => setShowThankYouMessage(false)}
+                  className="min-w-[120px]"
+                >
+                  {t('close') || 'Close'}
+                </Button>
+              </motion.div>
+            </DialogFooter>
+          </motion.div>
+        </DialogContent>
+      </Dialog>
 
       <motion.h2
         className="text-3xl font-bold mb-6 text-center"

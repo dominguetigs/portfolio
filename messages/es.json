@@ -507,7 +507,10 @@
       "sending": "Enviando...",
       "messageSent": "¡Mensaje enviado con éxito! Me pondré en contacto pronto.",
       "messageError": "Se produjo un error al enviar el mensaje. Por favor, inténtalo de nuevo.",
-      "formError": "Por favor, completa todos los campos del formulario."
+      "formError": "Por favor, rellena todos los campos del formulario.",
+      "thankYouTitle": "¡Gracias!",
+      "thankYouMessage": "Tu mensaje ha sido enviado con éxito. Me pondré en contacto contigo lo antes posible.",
+      "close": "Cerrar"
     },
     "Navigation": {
       "about": "Sobre mí",

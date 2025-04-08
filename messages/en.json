@@ -507,7 +507,10 @@
       "sending": "Sending...",
       "messageSent": "Message sent successfully! I'll get back to you soon.",
       "messageError": "An error occurred while sending the message. Please try again.",
-      "formError": "Please fill in all form fields."
+      "formError": "Please fill in all form fields.",
+      "thankYouTitle": "Thank you!",
+      "thankYouMessage": "Your message has been sent successfully. I will get back to you as soon as possible.",
+      "close": "Close"
     },
     "Navigation": {
       "about": "About",
