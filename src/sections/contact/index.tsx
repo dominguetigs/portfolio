@@ -1,7 +1,7 @@
 'use client';
 
 import { useTranslations } from 'next-intl';
-import { motion, Variants } from 'framer-motion';
+import { motion, Variants, AnimatePresence } from 'framer-motion';
 import {
   Copy,
   Check,
@@ -11,6 +11,7 @@ import {
   Send,
   Loader2,
   HeartHandshake,
+  Heart,
 } from 'lucide-react';
 import { toast } from 'sonner';
 import { Toaster } from '@/components/ui/sonner';
@@ -25,12 +26,13 @@ import {
   DialogTitle,
   DialogDescription,
 } from '@/components/ui/dialog';
-import { useState, FormEvent } from 'react';
+import { useState, FormEvent, useEffect } from 'react';
 
 export function ContactSection() {
   const t = useTranslations('Index.Contact');
   const [isSubmitting, setIsSubmitting] = useState(false);
   const [showThankYouMessage, setShowThankYouMessage] = useState(false);
+  const [showConfetti, setShowConfetti] = useState(false);
   const [formData, setFormData] = useState({
     name: '',
     email: '',
@@ -298,6 +300,37 @@ export function ContactSection() {
     },
   };
 
+  // Confetti hearts animation
+  const confettiVariants: Variants = {
+    hidden: {
+      scale: 0,
+      opacity: 0,
+    },
+    visible: i => ({
+      scale: [0, 1, 0.8],
+      opacity: [0, 1, 0],
+      x: [0, (i % 2 === 0 ? 1 : -1) * (Math.random() * 80 + 30)],
+      y: [0, -(Math.random() * 100 + 50)],
+      rotate: [0, Math.random() * 360],
+      transition: {
+        duration: 1.5 + Math.random() * 0.8,
+        ease: 'easeOut',
+      },
+    }),
+  };
+
+  // Array para gerar vários corações
+  const heartsArray = Array.from({ length: 24 }, (_, i) => i);
+
+  // Iniciar a animação quando o diálogo é aberto
+  useEffect(() => {
+    if (showThankYouMessage) {
+      setShowConfetti(true);
+    } else {
+      setShowConfetti(false);
+    }
+  }, [showThankYouMessage]);
+
   return (
     <motion.section
       className="mt-20 pt-4"
@@ -319,11 +352,35 @@ export function ContactSection() {
           >
             <DialogHeader className="gap-2">
               <motion.div
-                className="flex justify-center mb-4 text-primary"
+                className="flex justify-center mb-4 text-primary relative"
                 variants={heartAnimation}
                 animate={showThankYouMessage ? ['visible', 'pulse'] : 'hidden'}
               >
                 <HeartHandshake className="h-12 w-12 text-primary" />
+
+                {/* Confetti de corações */}
+                <AnimatePresence>
+                  {showConfetti && (
+                    <>
+                      {heartsArray.map(i => (
+                        <motion.div
+                          key={i}
+                          custom={i}
+                          variants={confettiVariants}
+                          initial="hidden"
+                          animate="visible"
+                          exit="hidden"
+                          className="absolute left-1/2 top-1/2 -translate-x-1/2 -translate-y-1/2 pointer-events-none"
+                        >
+                          <Heart
+                            className={`text-primary ${i % 4 === 0 ? 'h-2 w-2' : i % 4 === 1 ? 'h-3 w-3' : i % 4 === 2 ? 'h-4 w-4' : 'h-2.5 w-2.5'}`}
+                            fill="currentColor"
+                          />
+                        </motion.div>
+                      ))}
+                    </>
+                  )}
+                </AnimatePresence>
               </motion.div>
 
               <motion.div variants={itemVariants}>
