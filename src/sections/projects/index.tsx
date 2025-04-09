@@ -122,6 +122,7 @@ export function ProjectsSection() {
       title: 'Live Menu',
       description: t('workProjects.0.description'),
       url: 'https://beta.livemenu.app/pt/menu/5f7f5b92959b14b72ffc06bd',
+      image: '/projects/work/livemenu.png',
       technologies: ['React', 'NextJS', 'TypeScript', 'Tailwind CSS'],
       year: '2023-2024',
     },

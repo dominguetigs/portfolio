@@ -81,6 +81,7 @@ import {
   SiApple,
   SiNewrelic,
   SiSvelte,
+  SiCsswizardry,
 } from 'react-icons/si';
 import { cn } from '@/lib/utils';
 
@@ -251,6 +252,59 @@ const ZustandIcon = ({ className }: { className?: string }) => (
   </svg>
 );
 
+// Componente personalizado para o ícone do Scrum com as cores originais
+const ScrumIcon = ({ className }: { className?: string }) => (
+  <svg
+    xmlns="http://www.w3.org/2000/svg"
+    viewBox="0 0 24 24"
+    className={className}
+    fill="none"
+    stroke="currentColor"
+    strokeWidth="1.5"
+    strokeLinecap="round"
+    strokeLinejoin="round"
+  >
+    {/* Quadro similar ao Kanban */}
+    <rect x="2" y="2" width="20" height="20" rx="2" />
+    <line x1="8" y1="2" x2="8" y2="22" />
+    <line x1="16" y1="2" x2="16" y2="22" />
+
+    {/* Cartões nas colunas */}
+    {/* Coluna To Do */}
+    <rect x="3.5" y="5" width="3" height="2" rx="0.5" />
+    <rect x="3.5" y="9" width="3" height="2" rx="0.5" />
+    <rect x="3.5" y="13" width="3" height="2" rx="0.5" />
+    <rect x="3.5" y="17" width="3" height="2" rx="0.5" />
+
+    {/* Coluna In Progress */}
+    <rect x="10" y="5" width="4" height="2" rx="0.5" />
+    <rect x="10" y="9" width="4" height="2" rx="0.5" />
+    <rect x="10" y="13" width="4" height="2" rx="0.5" />
+
+    {/* Coluna Done */}
+    <rect x="17.5" y="5" width="3" height="2" rx="0.5" />
+    <rect x="17.5" y="9" width="3" height="2" rx="0.5" />
+  </svg>
+);
+
+// Componente personalizado para o ícone do Kanban com as cores originais
+const KanbanIcon = ({ className }: { className?: string }) => (
+  <svg
+    xmlns="http://www.w3.org/2000/svg"
+    viewBox="0 0 24 24"
+    className={className}
+    fill="none"
+    stroke="currentColor"
+    strokeWidth="2"
+    strokeLinecap="round"
+    strokeLinejoin="round"
+  >
+    <rect x="3" y="3" width="18" height="18" rx="2" />
+    <path d="M9 3v18" />
+    <path d="M15 3v18" />
+  </svg>
+);
+
 // Mapeamento de tecnologias para seus respectivos ícones
 const techIcons: Record<string, React.ReactNode> = {
   // Frontend
@@ -266,7 +320,7 @@ const techIcons: Record<string, React.ReactNode> = {
   ReactJS: <SiReact className="h-5 w-5" />,
   'Next.js': <SiNextdotjs className="h-5 w-5" />,
   'Styled Components': <SiStyledcomponents className="h-5 w-5" />,
-  'Css Modules': <SiCss3 className="h-5 w-5" />,
+  'Css Modules': <SiCsswizardry className="h-5 w-5" />,
   ChakraUI: <SiChakraui className="h-5 w-5" />,
   VueJS: <SiVuedotjs className="h-5 w-5" />,
   Svelte: <SiSvelte className="h-5 w-5" />,
@@ -349,6 +403,10 @@ const techIcons: Record<string, React.ReactNode> = {
   GitFlow: <GitBranch className="h-5 w-5" />,
   Jira: <SiJira className="h-5 w-5" />,
   Trello: <SiTrello className="h-5 w-5" />,
+
+  // Metodologias Ágeis
+  Scrum: <ScrumIcon className="h-5 w-5" />,
+  Kanban: <KanbanIcon className="h-5 w-5" />,
 
   // Outros
   GraphQL: <SiGraphql className="h-5 w-5" />,
@@ -583,8 +641,12 @@ const techColors: Record<string, string> = {
 
   Swift: 'text-swift',
   Ionic: 'text-ionic',
-  'CSS Modules': 'text-css-modules',
+  'Css Modules': 'text-css-modules',
   GitFlow: 'text-git',
+
+  // Metodologias Ágeis
+  Scrum: 'text-blue-500 dark:text-blue-400',
+  Kanban: 'text-purple-500 dark:text-purple-400',
 
   // Outros
   Shopify: 'text-shopify',
