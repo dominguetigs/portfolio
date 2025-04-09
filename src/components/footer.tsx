@@ -39,7 +39,7 @@ export function Footer() {
         </motion.span>{' '}
         {t('by')}{' '}
         <a
-          href="https://linkedin.com/in/dominguetigs"
+          href="https://linkedin.com/in/gustavo-domingueti"
           target="_blank"
           rel="noopener noreferrer"
           className="text-primary font-semibold hover:underline hover:brightness-110 transition-all cursor-pointer"
