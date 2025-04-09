@@ -67,7 +67,7 @@ export function GhibliBackground() {
                 alt="Night landscape background"
                 fill
                 priority
-                className="object-cover opacity-55 transition-transform duration-[3500ms] will-change-transform hover:scale-[1.02]"
+                className="object-cover opacity-60 transition-transform duration-[3500ms] will-change-transform hover:scale-[1.02]"
                 style={{ objectPosition: '30% 20%' }}
                 sizes="(max-width: 768px) 100vw, (max-width: 1200px) 100vw, 100vw"
                 quality={100}
