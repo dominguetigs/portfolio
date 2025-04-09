@@ -256,7 +256,7 @@ const techSkillLevels: Record<string, number> = {
   'Css Modules': 5,
   ChakraUI: 5,
   VueJS: 3,
-  Svelte: 3,
+  Svelte: 2,
   Tailwind: 5,
   Shopify: 3,
   Redux: 4,
