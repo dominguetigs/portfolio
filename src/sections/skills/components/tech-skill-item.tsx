@@ -397,7 +397,7 @@ const techColors: Record<string, string> = {
   Tailwind: 'text-tailwind',
   Bootstrap: 'text-bootstrap',
   Sass: 'text-sass',
-  Less: 'text-less',
+  Less: 'text-less dark:text-less-light',
   'Styled Components': 'text-styled-components',
   ChakraUI: 'text-chakraui',
 
