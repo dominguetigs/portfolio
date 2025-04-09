@@ -279,9 +279,12 @@ export function SkillsSection() {
             items={[
               'Git',
               'GitHub',
+              'Bitbucket',
               'GitFlow',
               'Docker',
               'AWS',
+              'Google Cloud',
+              'Azure DevOps',
               'Vercel',
               'Firebase',
             ]}

@@ -68,6 +68,8 @@ import {
   SiTrello,
   SiSqlite,
   SiPnpm,
+  SiGooglecloud,
+  SiBitbucket,
 } from 'react-icons/si';
 import { cn } from '@/lib/utils';
 
@@ -194,6 +196,8 @@ const techIcons: Record<string, React.ReactNode> = {
   Firebase: <SiFirebase className="h-5 w-5" />,
   Vercel: <SiVercel className="h-5 w-5" />,
   Docker: <SiDocker className="h-5 w-5" />,
+  'Google Cloud': <SiGooglecloud className="h-5 w-5" />,
+  Bitbucket: <SiBitbucket className="h-5 w-5" />,
 
   // ALM
   Git: <SiGit className="h-5 w-5" />,
@@ -278,6 +282,9 @@ const techSkillLevels: Record<string, number> = {
   Firebase: 4,
   Vercel: 4,
   Docker: 3,
+  'Azure DevOps': 3,
+  'Google Cloud': 2,
+  Bitbucket: 4,
 
   // ALM
   Jira: 5,
@@ -388,6 +395,9 @@ const techColors: Record<string, string> = {
   Karma: 'text-karma',
   Protractor: 'text-protractor',
   Docker: 'text-docker',
+  'Azure DevOps': 'text-azure',
+  'Google Cloud': 'text-googlecloud',
+  Bitbucket: 'text-bitbucket',
 
   Swift: 'text-swift',
   Ionic: 'text-ionic',
