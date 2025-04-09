@@ -81,6 +81,7 @@ import {
   SiNgrx,
   SiApple,
   SiNewrelic,
+  SiSvelte,
 } from 'react-icons/si';
 import { cn } from '@/lib/utils';
 
@@ -152,6 +153,7 @@ const techIcons: Record<string, React.ReactNode> = {
   'Css Modules': <SiCss3 className="h-5 w-5" />,
   ChakraUI: <SiChakraui className="h-5 w-5" />,
   VueJS: <SiVuedotjs className="h-5 w-5" />,
+  Svelte: <SiSvelte className="h-5 w-5" />,
   Tailwind: <SiTailwindcss className="h-5 w-5" />,
   Shopify: <SiShopify className="h-5 w-5" />,
   Redux: <SiRedux className="h-5 w-5" />,
@@ -254,6 +256,7 @@ const techSkillLevels: Record<string, number> = {
   'Css Modules': 5,
   ChakraUI: 5,
   VueJS: 3,
+  Svelte: 3,
   Tailwind: 5,
   Shopify: 3,
   Redux: 4,
@@ -386,8 +389,9 @@ const techColors: Record<string, string> = {
   JavaScript: 'text-javascript',
   TypeScript: 'text-typescript',
   ReactJS: 'text-reactjs',
-  'Next.js': 'text-nextjs',
+  'Next.js': 'text-nextjs dark:text-nextjs-light',
   VueJS: 'text-vuejs',
+  Svelte: 'text-svelte',
   Angular: 'text-angular',
   AngularJS: 'text-angularjs',
   'Angular Material': 'text-angular-material',

@@ -166,6 +166,7 @@ export function SkillsSection() {
               'ReactJS',
               'Next.js',
               'VueJS',
+              'Svelte',
               'AngularJS',
               'RxJS',
               'JQuery',

@@ -11,6 +11,7 @@
   --color-typescript: #3178c6;
   --color-reactjs: #61dbfb;
   --color-nextjs: #000000;
+  --color-nextjs-light: #f0f6fc;
   --color-vuejs: #42b883;
   --color-angular: #c3002f;
   --color-angularjs: #b52e31;
@@ -26,6 +27,7 @@
   --color-angular-material: #265bb5;
   --color-swift: #f05138;
   --color-ionic: #3880ff;
+  --color-svelte: #ff3e00;
 
   --color-protractor: #e23237;
   --color-babel: #f9dc3e;
