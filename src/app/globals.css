@@ -4,6 +4,64 @@
 @custom-variant dark (&:is(.dark *));
 
 @theme inline {
+  /* Tech icons  */
+  --color-html5: #e34f26;
+  --color-css3: #2965f1;
+  --color-javascript: #f0db4f;
+  --color-typescript: #3178c6;
+  --color-reactjs: #61dbfb;
+  --color-nextjs: #000000;
+  --color-vuejs: #42b883;
+  --color-angular: #c3002f;
+  --color-angularjs: #b52e31;
+  --color-rxjs: #b7178c;
+  --color-tailwind: #06b6d4;
+  --color-bootstrap: #563d7c;
+  --color-sass: #cc6699;
+  --color-less: #1d365d;
+  --color-styled-components: #db7093;
+  --color-chakraui: #319795;
+  --color-css-modules: #21759b;
+  --color-angular-material: 009688;
+  --color-swift: #f05138;
+  --color-ionic: #3880ff;
+
+  --color-protractor: #e23237;
+  --color-babel: #f9dc3e;
+  --color-react-testing-library: #e33332;
+  --color-karma: #d04a37;
+
+  --color-nodejs: #339933;
+  --color-python: #3776ab;
+  --color-elixir: #6e4a7e;
+  --color-go: #00add8;
+
+  --color-mysql: #4479a1;
+  --color-postgres: #336791;
+  --color-mongodb: #47a248;
+  --color-firebase: #ffca28;
+  --color-docker: #2496ed;
+  --color-vite: #646cff;
+
+  --color-git: #f05032;
+  --color-github: #181717;
+  --color-github-light: #f0f6fc;
+  --color-webpack: #8dd6f9;
+  --color-bower: #ef5734;
+  --color-socketio: #010101;
+  --color-jest: #c21325;
+  --color-cypress: #17202c;
+  --color-gulp: #da4648;
+  --color-grunt: #fba919;
+  --color-npm: #cb3837;
+  --color-yarn: #2c8ebb;
+  --color-jira: #0052cc;
+  --color-aws: #ff9900;
+  --color-vercel: #000000;
+  --color-shopify: #96bf48;
+  --color-graphql: #e10098;
+  --color-jquery: #0769ad;
+
   --color-background: var(--background);
   --color-foreground: var(--foreground);
   --font-sans: Nunito, sans-serif;

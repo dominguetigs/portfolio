@@ -60,6 +60,12 @@ import {
   SiShopify,
   SiReact,
   SiNodedotjs,
+  SiBower,
+  SiVscodium,
+  SiProtractor,
+  SiBabel,
+  SiDocker,
+  SiVite,
 } from 'react-icons/si';
 import { cn } from '@/lib/utils';
 
@@ -153,18 +159,20 @@ const techIcons: Record<string, React.ReactNode> = {
   Jest: <SiJest className="h-5 w-5" />,
   Cypress: <SiCypress className="h-5 w-5" />,
   Karma: <CheckSquare className="h-5 w-5" />,
-  Protractor: <CheckSquare className="h-5 w-5" />,
+  Protractor: <SiProtractor className="h-5 w-5" />,
   'React Testing Library': <SiReact className="h-5 w-5" />,
 
   // Task Mng.
+  Babel: <SiBabel className="h-5 w-5" />,
   Gulp: <SiGulp className="h-5 w-5" />,
   Grunt: <SiGrunt className="h-5 w-5" />,
   Webpack: <SiWebpack className="h-5 w-5" />,
+  Vite: <SiVite className="h-5 w-5" />,
 
   // Pkg Mng.
   Npm: <SiNpm className="h-5 w-5" />,
   Yarn: <SiYarn className="h-5 w-5" />,
-  Bower: <Package className="h-5 w-5" />,
+  Bower: <SiBower className="h-5 w-5" />,
 
   // Database
   MySQL: <SiMysql className="h-5 w-5" />,
@@ -173,18 +181,19 @@ const techIcons: Record<string, React.ReactNode> = {
   'Firebase Realtime DB': <SiFirebase className="h-5 w-5" />,
 
   // Mobile
-  'Ionic 4': <SiIonic className="h-5 w-5" />,
+  Ionic: <SiIonic className="h-5 w-5" />,
   Swift: <SiSwift className="h-5 w-5" />,
 
   // Infraestrutura
   AWS: <SiAmazon className="h-5 w-5" />,
   Firebase: <SiFirebase className="h-5 w-5" />,
   Vercel: <SiVercel className="h-5 w-5" />,
+  Docker: <SiDocker className="h-5 w-5" />,
 
   // ALM
   Git: <SiGit className="h-5 w-5" />,
   GitHub: <SiGithub className="h-5 w-5" />,
-  VSTS: <GitBranch className="h-5 w-5" />,
+  VSTS: <SiVscodium className="h-5 w-5" />,
   Jira: <SiJira className="h-5 w-5" />,
 
   // Outros
@@ -199,9 +208,9 @@ const techSkillLevels: Record<string, number> = {
   Bootstrap: 4,
   Html5: 5,
   Css3: 5,
-  AngularJS: 3,
+  AngularJS: 4,
   Angular: 5,
-  'Angular Material': 3,
+  'Angular Material': 4,
   RxJS: 3,
   ReactJS: 5,
   'Next.js': 4,
@@ -235,9 +244,11 @@ const techSkillLevels: Record<string, number> = {
   'React Testing Library': 4,
 
   // Task Mng.
+  Babel: 5,
   Gulp: 4,
   Grunt: 3,
   Webpack: 5,
+  Vite: 4,
 
   // Pkg Mng.
   Bower: 4,
@@ -258,6 +269,7 @@ const techSkillLevels: Record<string, number> = {
   AWS: 3,
   Firebase: 4,
   Vercel: 4,
+  Docker: 3,
 
   // ALM
   VSTS: 4,
@@ -294,70 +306,85 @@ const favoriteSkills = [
   'Vanilla JavaScript',
   'Jest',
   'Cypress',
+  'Babel',
   'Webpack',
   'Npm',
   'Yarn',
   'Jira',
+  'Docker',
+  'Vite',
 ];
 
 // Mapeamento de cores para tecnologias
 const techColors: Record<string, string> = {
   // Frontend
-  Html5: 'text-orange-500',
-  Css3: 'text-blue-500',
-  'Vanilla JavaScript': 'text-yellow-500',
-  JavaScript: 'text-yellow-500',
-  TypeScript: 'text-blue-600',
-  ReactJS: 'text-cyan-500',
-  'Next.js': 'text-gray-800 dark:text-gray-200',
-  VueJS: 'text-green-500',
-  Angular: 'text-red-600',
-  AngularJS: 'text-red-600',
-  'Angular Material': 'text-red-600',
-  RxJS: 'text-pink-500',
+  Html5: 'text-html5',
+  Css3: 'text-css3',
+  'Vanilla JavaScript': 'text-javascript',
+  JavaScript: 'text-javascript',
+  TypeScript: 'text-typescript',
+  ReactJS: 'text-reactjs',
+  'Next.js': 'text-nextjs',
+  VueJS: 'text-vuejs',
+  Angular: 'text-angular',
+  AngularJS: 'text-angularjs',
+  'Angular Material': 'text-angular-material',
+  RxJS: 'text-rxjs',
 
   // Estilização
-  Tailwind: 'text-cyan-400',
-  Bootstrap: 'text-purple-600',
-  Sass: 'text-pink-500',
-  Less: 'text-blue-400',
-  'Styled Components': 'text-pink-500',
-  ChakraUI: 'text-teal-500',
+  Tailwind: 'text-tailwind',
+  Bootstrap: 'text-bootstrap',
+  Sass: 'text-sass',
+  Less: 'text-less',
+  'Styled Components': 'text-styled-components',
+  ChakraUI: 'text-chakraui',
 
   // Backend
-  NodeJS: 'text-green-600',
-  Python: 'text-yellow-600',
-  Elixir: 'text-purple-500',
-  Go: 'text-blue-500',
+  NodeJS: 'text-nodejs',
+  Python: 'text-python',
+  Elixir: 'text-elixir',
+  Go: 'text-go',
 
   // Databases
-  MySQL: 'text-blue-900',
-  Postgres: 'text-blue-600',
-  MongoDB: 'text-green-700',
-  'Firebase Realtime DB': 'text-yellow-600',
+  MySQL: 'text-mysql',
+  Postgres: 'text-postgres',
+  MongoDB: 'text-mongodb',
+  'Firebase Realtime DB': 'text-firebase',
 
   // Ferramentas
-  Git: 'text-orange-600',
-  GitHub: 'text-black dark:text-white',
-  Webpack: 'text-blue-500',
-  'Socket.Io': 'text-black dark:text-white',
-  Jest: 'text-red-600',
-  Cypress: 'text-green-600',
-  Gulp: 'text-red-500',
-  Grunt: 'text-orange-500',
-  Npm: 'text-red-500',
-  Yarn: 'text-blue-500',
-  Jira: 'text-blue-500',
+  Git: 'text-git',
+  GitHub: 'text-github dark:text-github-light',
+  Webpack: 'text-webpack',
+  'Socket.Io': 'text-socketio',
+  Babel: 'text-babel',
+  Bower: 'text-bower',
+  Jest: 'text-jest',
+  Cypress: 'text-cypress',
+  Gulp: 'text-gulp',
+  Grunt: 'text-grunt',
+  Npm: 'text-npm',
+  Yarn: 'text-yarn',
+  Jira: 'text-jira',
+  Vite: 'text-vite',
 
   // Infraestrutura
-  AWS: 'text-orange-500',
-  Firebase: 'text-yellow-600',
-  Vercel: 'text-black dark:text-white',
+  AWS: 'text-aws',
+  Firebase: 'text-firebase',
+  Vercel: 'text-vercel',
+  'React Testing Library': 'text-react-testing-library',
+  Karma: 'text-karma',
+  Protractor: 'text-protractor',
+  Docker: 'text-docker',
+
+  Swift: 'text-swift',
+  Ionic: 'text-ionic',
+  'CSS Modules': 'text-css-modules',
+  GitFlow: 'text-git',
 
   // Outros
-  Shopify: 'text-green-600',
-  GraphQL: 'text-pink-600',
-  JQuery: 'text-blue-700',
+  Shopify: 'text-shopify',
+  GraphQL: 'text-graphql',
+  JQuery: 'text-jquery',
 };
 
 // Mapeamento de ícones para cada categoria

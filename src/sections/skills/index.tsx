@@ -186,7 +186,7 @@ export function SkillsSection() {
           />
           <TechSkillItem
             label={t('sections.mobile')}
-            items={['Ionic 4', 'Swift']}
+            items={['Ionic', 'Swift']}
             delay={0.4}
           />
           <TechSkillItem
@@ -246,7 +246,7 @@ export function SkillsSection() {
           />
           <TechSkillItem
             label={t('sections.build')}
-            items={['Webpack', 'Gulp', 'Grunt']}
+            items={['Babel', 'Webpack', 'Vite', 'Gulp', 'Grunt']}
             delay={0.2}
           />
           <TechSkillItem
@@ -256,7 +256,15 @@ export function SkillsSection() {
           />
           <TechSkillItem
             label={t('sections.devops')}
-            items={['Git', 'GitHub', 'GitFlow', 'AWS', 'Vercel', 'Firebase']}
+            items={[
+              'Git',
+              'GitHub',
+              'GitFlow',
+              'Docker',
+              'AWS',
+              'Vercel',
+              'Firebase',
+            ]}
             delay={0.4}
           />
           <TechSkillItem
