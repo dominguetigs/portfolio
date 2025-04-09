@@ -90,7 +90,8 @@
         "build": "Build & Bundlers",
         "packageManagers": "Package Managers",
         "devops": "DevOps & CI/CD",
-        "projectManagement": "Project Management"
+        "projectManagement": "Project Management",
+        "agileMethodologies": "Agile Methodologies"
       }
     },
     "Projects": {

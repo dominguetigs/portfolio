@@ -154,11 +154,13 @@ export function SkillsSection() {
         <TabsContent value="frontend" className="space-y-8">
           <TechSkillItem
             label={t('sections.core')}
+            category="core"
             items={['Html5', 'Css3', 'Vanilla JavaScript']}
             delay={0.1}
           />
           <TechSkillItem
             label={t('sections.frameworks')}
+            category="frameworks"
             items={[
               'Angular',
               'ReactJS',
@@ -172,6 +174,7 @@ export function SkillsSection() {
           />
           <TechSkillItem
             label={t('sections.ui')}
+            category="ui"
             items={[
               'Tailwind',
               'Sass',
@@ -186,11 +189,13 @@ export function SkillsSection() {
           />
           <TechSkillItem
             label={t('sections.mobile')}
+            category="mobile"
             items={['Ionic', 'Swift']}
             delay={0.4}
           />
           <TechSkillItem
             label={t('sections.ecommerceCms')}
+            category="ecommerceCms"
             items={['Shopify']}
             delay={0.5}
           />
@@ -199,6 +204,7 @@ export function SkillsSection() {
         <TabsContent value="languages" className="space-y-8">
           <TechSkillItem
             label={t('sections.programmingLanguages')}
+            category="programmingLanguages"
             items={[
               'JavaScript',
               'TypeScript',
@@ -206,6 +212,7 @@ export function SkillsSection() {
               'Elixir',
               'Go',
               'Swift',
+              'ShellScript',
             ]}
             delay={0.1}
           />
@@ -214,11 +221,13 @@ export function SkillsSection() {
         <TabsContent value="backend" className="space-y-8">
           <TechSkillItem
             label={t('sections.backendTechnologies')}
+            category="backendTechnologies"
             items={['NodeJS', 'Python', 'Elixir', 'Go']}
             delay={0.1}
           />
           <TechSkillItem
             label={t('sections.communication')}
+            category="communication"
             items={['Socket.Io', 'REST API', 'GraphQL']}
             delay={0.2}
           />
@@ -227,7 +236,14 @@ export function SkillsSection() {
         <TabsContent value="data" className="space-y-8">
           <TechSkillItem
             label={t('sections.databases')}
-            items={['MySQL', 'Postgres', 'MongoDB', 'Firebase Realtime DB']}
+            category="databases"
+            items={[
+              'MySQL',
+              'Postgres',
+              'MongoDB',
+              'Firebase Realtime DB',
+              'SQLite',
+            ]}
             delay={0.1}
           />
         </TabsContent>
@@ -235,6 +251,7 @@ export function SkillsSection() {
         <TabsContent value="tools-infra" className="space-y-8">
           <TechSkillItem
             label={t('sections.testing')}
+            category="testing"
             items={[
               'Jest',
               'Cypress',
@@ -246,16 +263,19 @@ export function SkillsSection() {
           />
           <TechSkillItem
             label={t('sections.build')}
+            category="build"
             items={['Babel', 'Webpack', 'Vite', 'Gulp', 'Grunt']}
             delay={0.2}
           />
           <TechSkillItem
             label={t('sections.packageManagers')}
-            items={['Npm', 'Yarn', 'Bower']}
+            category="packageManagers"
+            items={['Npm', 'Yarn', 'Bower', 'Pnpm']}
             delay={0.3}
           />
           <TechSkillItem
             label={t('sections.devops')}
+            category="devops"
             items={[
               'Git',
               'GitHub',
@@ -269,8 +289,15 @@ export function SkillsSection() {
           />
           <TechSkillItem
             label={t('sections.projectManagement')}
-            items={['Jira', 'VSTS', 'Scrum', 'Kanban']}
+            category="projectManagement"
+            items={['Jira', 'Trello']}
             delay={0.5}
+          />
+          <TechSkillItem
+            label={t('sections.agileMethodologies')}
+            category="agileMethodologies"
+            items={['Scrum', 'Kanban']}
+            delay={0.6}
           />
         </TabsContent>
       </Tabs>

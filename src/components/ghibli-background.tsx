@@ -33,7 +33,7 @@ export function GhibliBackground() {
               alt="Night landscape background"
               fill
               priority
-              className="object-cover md:object-bottom opacity-40"
+              className="object-cover md:object-bottom opacity-60"
               sizes="(max-width: 768px) 100vw, (max-width: 1200px) 100vw, 100vw"
               quality={100}
             />
@@ -43,7 +43,7 @@ export function GhibliBackground() {
               alt="Day landscape background"
               fill
               priority
-              className="object-cover md:object-bottom opacity-20"
+              className="object-cover md:object-bottom opacity-40"
               sizes="(max-width: 768px) 100vw, (max-width: 1200px) 100vw, 100vw"
               quality={100}
             />

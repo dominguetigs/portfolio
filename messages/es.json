@@ -78,8 +78,8 @@
       },
       "sections": {
         "core": "Core",
-        "frameworks": "Frameworks y Bibliotecas",
-        "ui": "UI y Estilización",
+        "frameworks": "Frameworks & Bibliotecas",
+        "ui": "UI & Estilización",
         "mobile": "Móvil",
         "ecommerceCms": "E-commerce/CMS",
         "programmingLanguages": "Lenguajes de Programación",
@@ -87,10 +87,11 @@
         "communication": "Comunicación",
         "databases": "Bases de Datos",
         "testing": "Pruebas",
-        "build": "Build y Bundlers",
+        "build": "Build & Bundlers",
         "packageManagers": "Gestores de Paquetes",
-        "devops": "DevOps y CI/CD",
-        "projectManagement": "Gestión de Proyectos"
+        "devops": "DevOps & CI/CD",
+        "projectManagement": "Gestión de Proyectos",
+        "agileMethodologies": "Metodologías Ágiles"
       }
     },
     "Projects": {

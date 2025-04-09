@@ -14,11 +14,11 @@ import {
   Cloud,
   CheckSquare,
   Package,
-  GitBranch,
   Globe,
   Terminal,
   Star,
-  Wrench,
+  GitBranch,
+  ListChecks,
 } from 'lucide-react';
 import {
   SiHtml5,
@@ -61,11 +61,13 @@ import {
   SiReact,
   SiNodedotjs,
   SiBower,
-  SiVscodium,
   SiProtractor,
   SiBabel,
   SiDocker,
   SiVite,
+  SiTrello,
+  SiSqlite,
+  SiPnpm,
 } from 'react-icons/si';
 import { cn } from '@/lib/utils';
 
@@ -145,6 +147,7 @@ const techIcons: Record<string, React.ReactNode> = {
   Sass: <SiSass className="h-5 w-5" />,
   JavaScript: <SiJavascript className="h-5 w-5" />,
   TypeScript: <SiTypescript className="h-5 w-5" />,
+  ShellScript: <Terminal className="h-5 w-5" />,
 
   // Backend
   NodeJS: <SiNodedotjs className="h-5 w-5" />,
@@ -170,6 +173,7 @@ const techIcons: Record<string, React.ReactNode> = {
   Vite: <SiVite className="h-5 w-5" />,
 
   // Pkg Mng.
+  Pnpm: <SiPnpm className="h-5 w-5" />,
   Npm: <SiNpm className="h-5 w-5" />,
   Yarn: <SiYarn className="h-5 w-5" />,
   Bower: <SiBower className="h-5 w-5" />,
@@ -179,6 +183,7 @@ const techIcons: Record<string, React.ReactNode> = {
   Postgres: <SiPostgresql className="h-5 w-5" />,
   MongoDB: <SiMongodb className="h-5 w-5" />,
   'Firebase Realtime DB': <SiFirebase className="h-5 w-5" />,
+  SQLite: <SiSqlite className="h-5 w-5" />,
 
   // Mobile
   Ionic: <SiIonic className="h-5 w-5" />,
@@ -193,8 +198,9 @@ const techIcons: Record<string, React.ReactNode> = {
   // ALM
   Git: <SiGit className="h-5 w-5" />,
   GitHub: <SiGithub className="h-5 w-5" />,
-  VSTS: <SiVscodium className="h-5 w-5" />,
+  GitFlow: <GitBranch className="h-5 w-5" />,
   Jira: <SiJira className="h-5 w-5" />,
+  Trello: <SiTrello className="h-5 w-5" />,
 
   // Outros
   GraphQL: <SiGraphql className="h-5 w-5" />,
@@ -226,6 +232,7 @@ const techSkillLevels: Record<string, number> = {
   Sass: 5,
   JavaScript: 5,
   TypeScript: 5,
+  ShellScript: 3,
 
   // Backend
   NodeJS: 4,
@@ -254,12 +261,13 @@ const techSkillLevels: Record<string, number> = {
   Bower: 4,
   Npm: 5,
   Yarn: 5,
-
+  Pnpm: 5,
   // Database
   MySQL: 4,
   Postgres: 2,
   MongoDB: 3,
   'Firebase:Realtime Database': 4,
+  SQLite: 5,
 
   // Mobile
   Ionic: 2,
@@ -272,8 +280,8 @@ const techSkillLevels: Record<string, number> = {
   Docker: 3,
 
   // ALM
-  VSTS: 4,
   Jira: 5,
+  Trello: 4,
 
   // Controle de Versão e Gestão
   Git: 5,
@@ -313,6 +321,8 @@ const favoriteSkills = [
   'Jira',
   'Docker',
   'Vite',
+  'SQLite',
+  'Pnpm',
 ];
 
 // Mapeamento de cores para tecnologias
@@ -344,33 +354,36 @@ const techColors: Record<string, string> = {
   Python: 'text-python',
   Elixir: 'text-elixir',
   Go: 'text-go',
+  ShellScript: 'text-shellscript dark:text-shellscript-light',
 
   // Databases
   MySQL: 'text-mysql',
   Postgres: 'text-postgres',
   MongoDB: 'text-mongodb',
   'Firebase Realtime DB': 'text-firebase',
-
+  SQLite: 'text-sqlite',
   // Ferramentas
   Git: 'text-git',
   GitHub: 'text-github dark:text-github-light',
   Webpack: 'text-webpack',
-  'Socket.Io': 'text-socketio',
+  'Socket.Io': 'text-socketio dark:text-socketio-light',
   Babel: 'text-babel',
   Bower: 'text-bower',
   Jest: 'text-jest',
-  Cypress: 'text-cypress',
+  Cypress: 'text-cypress dark:text-cypress-light',
   Gulp: 'text-gulp',
   Grunt: 'text-grunt',
+  Pnpm: 'text-pnpm',
   Npm: 'text-npm',
   Yarn: 'text-yarn',
   Jira: 'text-jira',
+  Trello: 'text-trello',
   Vite: 'text-vite',
 
   // Infraestrutura
   AWS: 'text-aws',
   Firebase: 'text-firebase',
-  Vercel: 'text-vercel',
+  Vercel: 'text-vercel dark:text-vercel-light',
   'React Testing Library': 'text-react-testing-library',
   Karma: 'text-karma',
   Protractor: 'text-protractor',
@@ -389,39 +402,40 @@ const techColors: Record<string, string> = {
 
 // Mapeamento de ícones para cada categoria
 const categoryIcons: Record<string, React.ReactNode> = {
-  Frontend: <Layout className="h-5 w-5" />,
-  Transpiladores: <CodeSquare className="h-5 w-5" />,
-  Backend: <Server className="h-5 w-5" />,
-  Websockets: <Globe className="h-5 w-5" />,
-  Testes: <CheckSquare className="h-5 w-5" />,
-  'Task Mng.': <Terminal className="h-5 w-5" />,
-  'Pkg Mng.': <Package className="h-5 w-5" />,
-  Database: <Database className="h-5 w-5" />,
-  Mobile: <Smartphone className="h-5 w-5" />,
-  Infraestrutura: <Cloud className="h-5 w-5" />,
-  ALM: <GitBranch className="h-5 w-5" />,
-  'Build & Bundlers': <Terminal className="h-5 w-5" />,
-  'Gerenciadores de Pacotes': <Package className="h-5 w-5" />,
-  'DevOps & CI/CD': <Cloud className="h-5 w-5" />,
-  'Gestão de Projetos': <CheckSquare className="h-5 w-5" />,
-  'Tecnologias Backend': <Server className="h-5 w-5" />,
-  Comunicação: <Globe className="h-5 w-5" />,
-  'Bancos de Dados': <Database className="h-5 w-5" />,
-  'UI & Estilização': <PenTool className="h-5 w-5" />,
-  'Frameworks & Bibliotecas': <Layout className="h-5 w-5" />,
-  Core: <Code className="h-5 w-5" />,
-  'Linguagens de Programação': <CodeSquare className="h-5 w-5" />,
-  Ferramentas: <Wrench className="h-5 w-5" />,
-  'E-commerce/CMS': <Layout className="h-5 w-5" />,
+  core: <Code className="h-5 w-5" />,
+  frameworks: <Layout className="h-5 w-5" />,
+  ui: <PenTool className="h-5 w-5" />,
+  mobile: <Smartphone className="h-5 w-5" />,
+  ecommerceCms: <Layout className="h-5 w-5" />,
+
+  programmingLanguages: <CodeSquare className="h-5 w-5" />,
+
+  backendTechnologies: <Server className="h-5 w-5" />,
+  communication: <Globe className="h-5 w-5" />,
+
+  databases: <Database className="h-5 w-5" />,
+
+  testing: <CheckSquare className="h-5 w-5" />,
+  build: <Terminal className="h-5 w-5" />,
+  packageManagers: <Package className="h-5 w-5" />,
+  devops: <Cloud className="h-5 w-5" />,
+  projectManagement: <CheckSquare className="h-5 w-5" />,
+  agileMethodologies: <ListChecks className="h-5 w-5" />,
 };
 
 interface TechSkillItemProps {
   label: string;
+  category: string;
   items: string[];
   delay?: number;
 }
 
-export function TechSkillItem({ label, items, delay = 0 }: TechSkillItemProps) {
+export function TechSkillItem({
+  label,
+  category,
+  items,
+  delay = 0,
+}: TechSkillItemProps) {
   const [ref, inView] = useInView({
     triggerOnce: true,
     threshold: 0.1,
@@ -456,13 +470,13 @@ export function TechSkillItem({ label, items, delay = 0 }: TechSkillItemProps) {
         animate={inView ? { opacity: 1 } : { opacity: 0 }}
         transition={{ duration: 0.5, delay: delay + 0.1 }}
       >
-        {categoryIcons[label] && (
+        {categoryIcons[category] && (
           <motion.span
             className="text-primary"
             whileHover={{ scale: 1.2, rotate: 5 }}
             transition={{ type: 'spring', stiffness: 400, damping: 10 }}
           >
-            {categoryIcons[label]}
+            {categoryIcons[category]}
           </motion.span>
         )}
         <h3 className="text-lg font-semibold">{label}</h3>
