@@ -29,12 +29,21 @@ export function GhibliBackground() {
 
   // Configurações para uma animação mais suave e sem atrasos
   const animationConfig = {
-    initial: { opacity: 0, scale: 1.015 },
-    animate: { opacity: 1, scale: 1 },
-    exit: { opacity: 0, scale: 0.985 },
+    initial: { opacity: 0, scale: 1.02, y: 20 },
+    animate: {
+      opacity: 1,
+      scale: 1,
+      y: 0,
+      transition: {
+        duration: 3.5,
+        ease: [0.25, 0.4, 0.3, 1],
+      },
+    },
+    exit: { opacity: 0, scale: 0.98, y: -20 },
     transition: {
       opacity: { duration: 2.5, ease: [0.25, 0.4, 0.3, 1] },
       scale: { duration: 3.0, ease: [0.25, 0.4, 0.3, 1] },
+      y: { duration: 3.0, ease: [0.25, 0.4, 0.3, 1] },
     },
   };
 
@@ -54,21 +63,21 @@ export function GhibliBackground() {
           >
             {theme === 'dark' ? (
               <Image
-                src="/bg-dark-3.png"
+                src="/bg-dark.png"
                 alt="Night landscape background"
                 fill
                 priority
-                className="object-cover object-center md:object-center opacity-60 transition-transform duration-[3500ms] will-change-transform"
+                className="object-cover object-center md:object-center opacity-60 transition-transform duration-[3500ms] will-change-transform hover:scale-[1.02]"
                 sizes="(max-width: 768px) 100vw, (max-width: 1200px) 100vw, 100vw"
                 quality={100}
               />
             ) : (
               <Image
-                src="/bg-light-2.png"
+                src="/bg-light.png"
                 alt="Day landscape background"
                 fill
                 priority
-                className="object-cover object-center md:object-center opacity-40 transition-transform duration-[3500ms] will-change-transform"
+                className="object-cover object-center md:object-center opacity-40 transition-transform duration-[3500ms] will-change-transform hover:scale-[1.02]"
                 sizes="(max-width: 768px) 100vw, (max-width: 1200px) 100vw, 100vw"
                 quality={100}
               />
