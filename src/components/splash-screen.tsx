@@ -3,6 +3,7 @@
 import { useEffect, useState, useRef } from 'react';
 import { motion, AnimatePresence } from 'framer-motion';
 import { useTranslations, useLocale } from 'next-intl';
+import { GhibliBackground } from './ghibli-background';
 
 const loadingCodePT = `const carregarPortfolio = () => {
   return 'Pronto!';
@@ -121,28 +122,6 @@ export function SplashScreen({ onComplete }: SplashScreenProps) {
     }
   }, [currentIndex, displayedCode, loadingCode]);
 
-  useEffect(() => {
-    // Atualiza a largura da barra de progresso para corresponder ao container do código
-    const updateProgressBarWidth = () => {
-      const codeContainer = document.getElementById('code-container');
-      if (codeContainer) {
-        const width = codeContainer.offsetWidth;
-        document.documentElement.style.setProperty(
-          '--container-width',
-          `${width}px`,
-        );
-      }
-    };
-
-    // Atualiza inicialmente e sempre que a janela for redimensionada
-    updateProgressBarWidth();
-    window.addEventListener('resize', updateProgressBarWidth);
-
-    return () => {
-      window.removeEventListener('resize', updateProgressBarWidth);
-    };
-  }, []);
-
   return (
     <AnimatePresence mode="wait">
       {isVisible && (
@@ -159,82 +138,83 @@ export function SplashScreen({ onComplete }: SplashScreenProps) {
         >
           {/* Add texture background */}
           <div className="texture" />
-          <div className="relative w-[500px] h-[300px]">
-            {/* Container do código */}
-            <div className="absolute inset-0 flex items-center justify-center">
-              <div className="relative w-full max-w-[400px] bg-background/50 backdrop-blur-sm rounded-lg p-4">
-                <div className="relative flex items-center justify-center">
-                  {/* Bloco do código com posicionamento relativo para o cursor */}
-                  <div
-                    id="code-container"
-                    className="relative bg-gray-900/80 p-4 rounded-md border border-gray-700/50 shadow-xl w-[360px] sm:w-[400px] md:w-[440px]"
-                  >
-                    <div className="flex items-center space-x-1.5 mb-3">
-                      <div className="w-3 h-3 rounded-full bg-red-500/80"></div>
-                      <div className="w-3 h-3 rounded-full bg-yellow-500/80"></div>
-                      <div className="w-3 h-3 rounded-full bg-green-500/80"></div>
+
+          {/* Add Ghibli background with reduced opacity */}
+          <div className="opacity-45">
+            <GhibliBackground />
+          </div>
+
+          <div className="flex items-center justify-center h-full w-full">
+            {/* Container do código com tamanho fixo */}
+            <div className="relative w-[440px]">
+              <div className="relative flex items-center justify-center">
+                {/* Bloco do código com tamanho fixo */}
+                <div
+                  id="code-container"
+                  className="relative bg-gray-900/80 p-4 rounded-md border border-gray-700/50 shadow-xl w-[400px]"
+                >
+                  <div className="flex items-center space-x-1.5 mb-3">
+                    <div className="w-3 h-3 rounded-full bg-red-500/80"></div>
+                    <div className="w-3 h-3 rounded-full bg-yellow-500/80"></div>
+                    <div className="w-3 h-3 rounded-full bg-green-500/80"></div>
+                  </div>
+                  <div className="flex">
+                    {/* Numeração de linhas */}
+                    <div
+                      className="mr-4 text-gray-500 font-mono text-xs text-right pr-2 select-none"
+                      style={{ minWidth: '1.5rem' }}
+                    >
+                      {displayedCode.split('\n').map((_, i) => (
+                        <div key={i} className="leading-6">
+                          {i + 1}
+                        </div>
+                      ))}
                     </div>
-                    <div className="flex">
-                      {/* Numeração de linhas */}
-                      <div
-                        className="mr-4 text-gray-500 font-mono text-xs text-right pr-2 select-none"
-                        style={{ minWidth: '1.5rem' }}
+
+                    {/* Código digitado */}
+                    <div className="relative flex-1 pl-3 overflow-hidden">
+                      <pre
+                        ref={codeRef}
+                        className="font-mono text-sm text-primary/90 leading-6 whitespace-pre"
                       >
-                        {displayedCode.split('\n').map((_, i) => (
-                          <div key={i} className="leading-6">
-                            {i + 1}
-                          </div>
-                        ))}
-                      </div>
+                        <code>{displayedCode}</code>
+                      </pre>
 
-                      {/* Código digitado */}
-                      <div className="relative flex-1 pl-3 overflow-hidden">
-                        <pre
-                          ref={codeRef}
-                          className="font-mono text-sm text-primary/90 leading-6 whitespace-pre"
-                        >
-                          <code>{displayedCode}</code>
-                        </pre>
-
-                        {/* Cursor de digitação */}
-                        <motion.div
-                          className="absolute inline-block w-[2px] h-[1.1rem] bg-primary"
-                          animate={{
-                            opacity: [1, 0, 1],
-                          }}
-                          transition={{
-                            duration: 0.8,
-                            repeat: Infinity,
-                          }}
-                          style={{
-                            top: `${cursorPosition.top}rem`,
-                            left: `${cursorPosition.left}rem`,
-                            marginTop: '0.2rem',
-                          }}
-                        />
-                      </div>
+                      {/* Cursor de digitação */}
+                      <motion.div
+                        className="absolute inline-block w-[2px] h-[1.1rem] bg-primary"
+                        animate={{
+                          opacity: [1, 0, 1],
+                        }}
+                        transition={{
+                          duration: 0.8,
+                          repeat: Infinity,
+                        }}
+                        style={{
+                          top: `${cursorPosition.top}rem`,
+                          left: `${cursorPosition.left}rem`,
+                          marginTop: '0.2rem',
+                        }}
+                      />
                     </div>
                   </div>
                 </div>
               </div>
-            </div>
 
-            {/* Barra de Carregamento */}
-            <div
-              className="absolute -bottom-12 left-1/2 transform -translate-x-1/2 w-[360px] sm:w-[400px] md:w-[440px]"
-              style={{ width: 'var(--container-width, 360px)' }}
-            >
-              <div className="w-full h-2 bg-primary/20 rounded-full">
-                <motion.div
-                  className="h-full bg-primary rounded-full"
-                  style={{ width: `${progressWidth}%` }}
-                  initial={{ width: '0%' }}
-                  animate={{ width: `${progressWidth}%` }}
-                  transition={{ duration: 0.1 }}
-                />
-              </div>
-              <div className="mt-2 text-xs text-center text-primary/90 font-mono">
-                {progressWidth < 100 ? t('loading') : t('loaded')}
+              {/* Barra de Carregamento */}
+              <div className="absolute -bottom-12 left-1/2 transform -translate-x-1/2 w-[400px]">
+                <div className="w-full h-2 bg-primary/20 rounded-full">
+                  <motion.div
+                    className="h-full bg-primary rounded-full"
+                    style={{ width: `${progressWidth}%` }}
+                    initial={{ width: '0%' }}
+                    animate={{ width: `${progressWidth}%` }}
+                    transition={{ duration: 0.1 }}
+                  />
+                </div>
+                <div className="mt-2 text-xs text-center text-primary/90 font-mono">
+                  {progressWidth < 100 ? t('loading') : t('loaded')}
+                </div>
               </div>
             </div>
           </div>
