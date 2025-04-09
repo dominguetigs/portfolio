@@ -146,12 +146,12 @@ export function SplashScreen({ onComplete }: SplashScreenProps) {
 
           <div className="flex items-center justify-center h-full w-full">
             {/* Container do código com tamanho fixo */}
-            <div className="relative w-[440px]">
+            <div className="relative w-[440px] px-4 mx-auto">
               <div className="relative flex items-center justify-center">
                 {/* Bloco do código com tamanho fixo */}
                 <div
                   id="code-container"
-                  className="relative bg-gray-900/80 p-4 rounded-md border border-gray-700/50 shadow-xl w-[400px]"
+                  className="relative bg-gray-900/80 p-4 rounded-md border border-gray-700/50 shadow-xl w-full max-w-[400px]"
                 >
                   <div className="flex items-center space-x-1.5 mb-3">
                     <div className="w-3 h-3 rounded-full bg-red-500/80"></div>
@@ -202,7 +202,7 @@ export function SplashScreen({ onComplete }: SplashScreenProps) {
               </div>
 
               {/* Barra de Carregamento */}
-              <div className="absolute -bottom-12 left-1/2 transform -translate-x-1/2 w-[400px]">
+              <div className="absolute -bottom-12 left-1/2 transform -translate-x-1/2 w-full max-w-[400px] px-4">
                 <div className="w-full h-2 bg-primary/20 rounded-full">
                   <motion.div
                     className="h-full bg-primary rounded-full"
