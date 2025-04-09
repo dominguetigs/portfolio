@@ -76,8 +76,12 @@ export function SplashScreen({ onComplete }: SplashScreenProps) {
     const top = currentLineIndex * 1.5;
 
     // Calcula a posição horizontal baseada no comprimento da linha atual
-    // Ajustado para a fonte monoespaçada
-    const left = currentLineContent.length * 0.6;
+    // Com offset bem maior para garantir que nunca sobreponha
+    const isMobileWidth =
+      typeof window !== 'undefined' && window.innerWidth < 640;
+    const charWidth = isMobileWidth ? 0.45 : 0.55;
+    // +1 para garantir que fique sempre após o último caractere
+    const left = (currentLineContent.length + 1) * charWidth;
 
     return { top, left };
   };
@@ -101,6 +105,23 @@ export function SplashScreen({ onComplete }: SplashScreenProps) {
 
       return () => clearTimeout(timer);
     } else if (currentIndex === loadingCode.length) {
+      // Posiciona o cursor na função de chamada (última linha)
+      const lines = loadingCode.split('\n');
+      const lastLineIndex = lines.length - 1;
+      const lastLine = lines[lastLineIndex];
+
+      // Ajuste específico para telas menores
+      const isMobileWidth =
+        typeof window !== 'undefined' && window.innerWidth < 640;
+      const charWidth = isMobileWidth ? 0.45 : 0.55;
+      // +1 para garantir que fique sempre após o último caractere
+      const leftPosition = (lastLine.length + 1) * charWidth;
+
+      setCursorPosition({
+        top: lastLineIndex * 1.5,
+        left: leftPosition,
+      });
+
       // Completa o restante da barra (de 80% para 100%) em 1 segundo
       setTimeout(() => {
         // Incrementa gradualmente até 100%
@@ -146,23 +167,23 @@ export function SplashScreen({ onComplete }: SplashScreenProps) {
 
           <div className="flex items-center justify-center h-full w-full">
             {/* Container do código com tamanho fixo */}
-            <div className="relative w-[440px] px-4 mx-auto">
+            <div className="relative w-full max-w-[440px] px-4 mx-auto">
               <div className="relative flex items-center justify-center">
                 {/* Bloco do código com tamanho fixo */}
                 <div
                   id="code-container"
-                  className="relative bg-gray-900/80 p-4 rounded-md border border-gray-700/50 shadow-xl w-full max-w-[400px]"
+                  className="relative bg-gray-900/80 p-4 rounded-md border border-gray-700/50 shadow-xl w-full"
                 >
                   <div className="flex items-center space-x-1.5 mb-3">
                     <div className="w-3 h-3 rounded-full bg-red-500/80"></div>
                     <div className="w-3 h-3 rounded-full bg-yellow-500/80"></div>
                     <div className="w-3 h-3 rounded-full bg-green-500/80"></div>
                   </div>
-                  <div className="flex">
+                  <div className="flex h-32 overflow-hidden">
                     {/* Numeração de linhas */}
                     <div
-                      className="mr-4 text-gray-500 font-mono text-xs text-right pr-2 select-none"
-                      style={{ minWidth: '1.5rem' }}
+                      className="mr-2 text-gray-500 font-mono text-xs sm:text-xs text-right pr-1 sm:pr-2 select-none"
+                      style={{ minWidth: '1.2rem' }}
                     >
                       {displayedCode.split('\n').map((_, i) => (
                         <div key={i} className="leading-6">
@@ -172,17 +193,17 @@ export function SplashScreen({ onComplete }: SplashScreenProps) {
                     </div>
 
                     {/* Código digitado */}
-                    <div className="relative flex-1 pl-3 overflow-hidden">
+                    <div className="relative flex-1 pl-1 sm:pl-3 overflow-hidden">
                       <pre
                         ref={codeRef}
-                        className="font-mono text-sm text-primary/90 leading-6 whitespace-pre"
+                        className="font-mono text-xs sm:text-sm text-primary/90 leading-6 whitespace-pre"
                       >
                         <code>{displayedCode}</code>
                       </pre>
 
                       {/* Cursor de digitação */}
                       <motion.div
-                        className="absolute inline-block w-[2px] h-[1.1rem] bg-primary"
+                        className="absolute inline-block w-[1.5px] h-[1.1rem] bg-primary"
                         animate={{
                           opacity: [1, 0, 1],
                         }}
@@ -202,7 +223,7 @@ export function SplashScreen({ onComplete }: SplashScreenProps) {
               </div>
 
               {/* Barra de Carregamento */}
-              <div className="absolute -bottom-12 left-1/2 transform -translate-x-1/2 w-full max-w-[400px] px-4">
+              <div className="absolute -bottom-12 left-1/2 transform -translate-x-1/2 w-full px-4">
                 <div className="w-full h-2 bg-primary/20 rounded-full">
                   <motion.div
                     className="h-full bg-primary rounded-full"
