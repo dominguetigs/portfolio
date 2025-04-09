@@ -223,6 +223,9 @@
     @apply border-border outline-ring/50;
     scrollbar-width: thin;
     scrollbar-color: var(--secondary) transparent;
+    transition-property: background-color, border-color, color, fill, stroke;
+    transition-duration: 400ms;
+    transition-timing-function: cubic-bezier(0.4, 0, 0.2, 1);
   }
 
   html,
@@ -236,6 +239,7 @@
     @apply bg-background text-foreground;
     font-weight: var(--font-weight-bold);
     background-blend-mode: soft-light;
+    transition: background-color 700ms cubic-bezier(0.22, 1, 0.36, 1);
   }
   .border {
     border-width: 2px !important;
@@ -307,6 +311,10 @@
     width: 100vw;
     height: 100dvh;
     pointer-events: none;
+    transition:
+      opacity 800ms cubic-bezier(0.22, 1, 0.36, 1),
+      filter 800ms cubic-bezier(0.22, 1, 0.36, 1),
+      mix-blend-mode 800ms cubic-bezier(0.22, 1, 0.36, 1);
   }
 
   .dark .texture {

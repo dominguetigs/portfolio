@@ -79,7 +79,7 @@ export function LanguageSwitcher({ ...props }) {
           size="icon"
           disabled={isPending}
           aria-label={t('changeLanguage')}
-          className="relative p-1 flex items-center justify-center group overflow-hidden"
+          className="relative p-1 flex items-center justify-center group overflow-hidden hover:shadow-[0_0_15px_rgba(255,255,255,0.2)]"
           {...props}
         >
           <motion.div

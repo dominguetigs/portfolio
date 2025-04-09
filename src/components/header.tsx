@@ -85,7 +85,7 @@ export function Header() {
                   variant="outline"
                   size="icon"
                   aria-label={t('downloadResume')}
-                  className="group relative overflow-hidden"
+                  className="group relative overflow-hidden hover:shadow-[0_0_15px_rgba(255,255,255,0.2)]"
                 >
                   <motion.div
                     initial="initial"
@@ -102,7 +102,7 @@ export function Header() {
                   <Button
                     variant="ghost"
                     size="sm"
-                    className="flex items-center justify-start gap-2 group relative overflow-hidden"
+                    className="flex items-center justify-start gap-2 group relative overflow-hidden hover:shadow-[0_0_15px_rgba(255,255,255,0.2)]"
                     onClick={() => {
                       const link = document.createElement('a');
                       link.href = '/cv/resume.pdf';
@@ -125,7 +125,7 @@ export function Header() {
                   <Button
                     variant="ghost"
                     size="sm"
-                    className="flex items-center justify-start gap-2 group relative overflow-hidden"
+                    className="flex items-center justify-start gap-2 group relative overflow-hidden hover:shadow-[0_0_15px_rgba(255,255,255,0.2)]"
                     onClick={() => {
                       const link = document.createElement('a');
                       link.href = '/cv/curriculum.pdf';

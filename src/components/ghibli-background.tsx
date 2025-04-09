@@ -8,51 +8,81 @@ import { motion, AnimatePresence } from 'framer-motion';
 export function GhibliBackground() {
   const { theme } = useTheme();
   const [mounted, setMounted] = useState(false);
+  const [previousTheme, setPreviousTheme] = useState<string | null>(null);
 
   // Only render the component client-side to avoid hydration mismatch
   useEffect(() => {
     setMounted(true);
   }, []);
 
+  // Rastrear o tema anterior para ajudar na transição
+  useEffect(() => {
+    if (mounted && theme) {
+      // Guardar o tema anterior apenas quando já tivermos um tema e o componente estiver montado
+      if (previousTheme !== theme) {
+        setPreviousTheme(theme);
+      }
+    }
+  }, [theme, mounted, previousTheme]);
+
   if (!mounted) return null;
+
+  // Configurações para uma animação mais suave e sem atrasos
+  const animationConfig = {
+    initial: { opacity: 0, scale: 1.015 },
+    animate: { opacity: 1, scale: 1 },
+    exit: { opacity: 0, scale: 0.985 },
+    transition: {
+      opacity: { duration: 2.5, ease: [0.25, 0.4, 0.3, 1] },
+      scale: { duration: 3.0, ease: [0.25, 0.4, 0.3, 1] },
+    },
+  };
 
   return (
     <div className="fixed inset-0 w-full h-full -z-10 pointer-events-none overflow-hidden">
-      <AnimatePresence mode="wait">
-        <motion.div
-          key={theme}
-          initial={{ opacity: 0 }}
-          animate={{ opacity: 1 }}
-          exit={{ opacity: 0 }}
-          transition={{ duration: 0.6 }}
-          className="w-full h-full"
-        >
-          {theme === 'dark' ? (
-            <Image
-              src="/bg-dark.png"
-              alt="Night landscape background"
-              fill
-              priority
-              className="object-cover md:object-bottom opacity-60"
-              sizes="(max-width: 768px) 100vw, (max-width: 1200px) 100vw, 100vw"
-              quality={100}
-            />
-          ) : (
-            <Image
-              src="/bg-light.png"
-              alt="Day landscape background"
-              fill
-              priority
-              className="object-cover md:object-bottom opacity-40"
-              sizes="(max-width: 768px) 100vw, (max-width: 1200px) 100vw, 100vw"
-              quality={100}
-            />
-          )}
-        </motion.div>
-      </AnimatePresence>
+      {/* Container principal para ambos os backgrounds */}
+      <div className="relative w-full h-full">
+        {/* Layer para o tema atual */}
+        <AnimatePresence mode="sync" initial={false}>
+          <motion.div
+            key={theme}
+            initial={animationConfig.initial}
+            animate={animationConfig.animate}
+            exit={animationConfig.exit}
+            transition={animationConfig.transition}
+            className="absolute inset-0 w-full h-full"
+          >
+            {theme === 'dark' ? (
+              <Image
+                src="/bg-dark.png"
+                alt="Night landscape background"
+                fill
+                priority
+                className="object-cover object-center md:object-center opacity-60 transition-transform duration-[3500ms] will-change-transform"
+                sizes="(max-width: 768px) 100vw, (max-width: 1200px) 100vw, 100vw"
+                quality={100}
+              />
+            ) : (
+              <Image
+                src="/bg-light.png"
+                alt="Day landscape background"
+                fill
+                priority
+                className="object-cover object-center md:object-center opacity-40 transition-transform duration-[3500ms] will-change-transform"
+                sizes="(max-width: 768px) 100vw, (max-width: 1200px) 100vw, 100vw"
+                quality={100}
+              />
+            )}
+          </motion.div>
+        </AnimatePresence>
+      </div>
 
-      {/* Gradient overlay to ensure content readability */}
-      <div
+      {/* Gradient overlay com transição suave */}
+      <motion.div
+        key={`overlay-${theme}`}
+        initial={{ opacity: 0.7 }}
+        animate={{ opacity: 1 }}
+        transition={{ duration: 2.0 }}
         className={`absolute inset-0 w-full h-full pointer-events-none ${
           theme === 'dark'
             ? 'bg-gradient-to-t from-background/90 via-background/40 to-transparent'

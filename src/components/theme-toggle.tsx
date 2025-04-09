@@ -6,44 +6,60 @@ import { motion } from 'framer-motion';
 
 import { Button } from '@/components/ui/button';
 
-// Animação de mola para os ícones sem deslocamento vertical
-const springAnimation = {
-  hover: {
-    scale: 1.05,
-    transition: { type: 'spring', stiffness: 400, damping: 10 },
-  },
-  initial: {
-    scale: 1,
-    transition: {
-      type: 'spring',
-      stiffness: 300,
-      damping: 5,
-      velocity: 10,
+// Animação para os ícones
+const iconVariants = {
+  rotate: {
+    dark: {
+      rotate: 45,
+      scale: 1.1,
+      transition: { type: 'spring', stiffness: 400, damping: 10 },
+    },
+    light: {
+      rotate: 45,
+      scale: 1.1,
+      transition: { type: 'spring', stiffness: 400, damping: 10 },
+    },
+    initial: {
+      rotate: 0,
+      scale: 1,
+      transition: { type: 'spring', stiffness: 300, damping: 15 },
     },
   },
 };
 
 export function ThemeToggle({ ...props }) {
   const { theme, setTheme } = useTheme();
+  const isDark = theme === 'dark';
 
   return (
     <Button
       variant="outline"
       size="icon"
-      onClick={() => setTheme(theme === 'light' ? 'dark' : 'light')}
-      className="group relative overflow-hidden"
+      onClick={() => setTheme(isDark ? 'light' : 'dark')}
+      className="group relative overflow-hidden hover:shadow-[0_0_15px_rgba(255,255,255,0.2)]"
       {...props}
     >
-      <motion.div
-        initial="initial"
-        whileHover="hover"
-        animate="initial"
-        variants={springAnimation}
-        className="flex items-center justify-center w-full h-full"
-      >
-        <Sun className="h-[1.2rem] w-[1.2rem] rotate-0 scale-100 transition-all dark:-rotate-180 dark:scale-0 group-hover:rotate-45" />
-        <Moon className="absolute h-[1.2rem] w-[1.2rem] rotate-180 scale-0 transition-all dark:rotate-0 dark:scale-100 dark:group-hover:rotate-45" />
-      </motion.div>
+      <div className="relative">
+        {isDark ? (
+          <motion.div
+            initial="initial"
+            whileHover="dark"
+            animate="initial"
+            variants={iconVariants.rotate}
+          >
+            <Moon className="h-[1.2rem] w-[1.2rem]" />
+          </motion.div>
+        ) : (
+          <motion.div
+            initial="initial"
+            whileHover="light"
+            animate="initial"
+            variants={iconVariants.rotate}
+          >
+            <Sun className="h-[1.2rem] w-[1.2rem]" />
+          </motion.div>
+        )}
+      </div>
       <span className="sr-only">Toggle theme</span>
     </Button>
   );
