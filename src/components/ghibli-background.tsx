@@ -54,7 +54,7 @@ export function GhibliBackground() {
           >
             {theme === 'dark' ? (
               <Image
-                src="/bg-dark.png"
+                src="/bg-dark-3.png"
                 alt="Night landscape background"
                 fill
                 priority
@@ -64,7 +64,7 @@ export function GhibliBackground() {
               />
             ) : (
               <Image
-                src="/bg-light.png"
+                src="/bg-light-2.png"
                 alt="Day landscape background"
                 fill
                 priority
