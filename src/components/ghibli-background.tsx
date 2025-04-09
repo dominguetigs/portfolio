@@ -68,7 +68,7 @@ export function GhibliBackground() {
                 fill
                 priority
                 className="object-cover opacity-60 transition-transform duration-[3500ms] will-change-transform hover:scale-[1.02]"
-                style={{ objectPosition: '30% 20%' }}
+                style={{ objectPosition: '40% 20%' }}
                 sizes="(max-width: 768px) 100vw, (max-width: 1200px) 100vw, 100vw"
                 quality={100}
               />
@@ -79,7 +79,7 @@ export function GhibliBackground() {
                 fill
                 priority
                 className="object-cover opacity-35 transition-transform duration-[3500ms] will-change-transform hover:scale-[1.02]"
-                style={{ objectPosition: '30% 20%' }}
+                style={{ objectPosition: '40% 20%' }}
                 sizes="(max-width: 768px) 100vw, (max-width: 1200px) 100vw, 100vw"
                 quality={100}
               />

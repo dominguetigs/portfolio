@@ -249,7 +249,7 @@ const techSkillLevels: Record<string, number> = {
   AngularJS: 4,
   Angular: 5,
   'Angular Material': 4,
-  RxJS: 3,
+  RxJS: 4,
   ReactJS: 5,
   'Next.js': 4,
   'Styled Components': 4,
