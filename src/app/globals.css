@@ -38,6 +38,20 @@
   --color-shellscript: #000000;
   --color-shellscript-light: #f0f6fc;
 
+  --color-zustand: #000000;
+  --color-zustand-light: #f0f6fc;
+  --color-redux: #764abc;
+  --color-ngrx: #591f7e;
+
+  --color-linux: #000000;
+  --color-linux-light: #f0f6fc;
+  --color-windows: #00a4ef;
+  --color-mac: #a2aaad;
+
+  --color-sentry: #362d59;
+  --color-new-relic: #008c99;
+  --color-datadog: #632ca6;
+
   --color-mysql: #4479a1;
   --color-postgres: #336791;
   --color-mongodb: #47a248;

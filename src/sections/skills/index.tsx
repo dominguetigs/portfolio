@@ -173,6 +173,12 @@ export function SkillsSection() {
             delay={0.2}
           />
           <TechSkillItem
+            label={t('sections.stateManagement')}
+            category="stateManagement"
+            items={['Redux', 'Zustand', 'Ngrx']}
+            delay={0.25}
+          />
+          <TechSkillItem
             label={t('sections.ui')}
             category="ui"
             items={[
@@ -243,6 +249,7 @@ export function SkillsSection() {
               'MongoDB',
               'Firebase Realtime DB',
               'SQLite',
+              'ElasticSearch',
             ]}
             delay={0.1}
           />
@@ -260,6 +267,18 @@ export function SkillsSection() {
               'React Testing Library',
             ]}
             delay={0.1}
+          />
+          <TechSkillItem
+            label={t('sections.monitoring')}
+            category="monitoring"
+            items={['Sentry', 'New Relic', 'Datadog']}
+            delay={0.15}
+          />
+          <TechSkillItem
+            label={t('sections.operatingSystems')}
+            category="operatingSystems"
+            items={['Linux', 'Windows', 'Mac']}
+            delay={0.18}
           />
           <TechSkillItem
             label={t('sections.build')}

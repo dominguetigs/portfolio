@@ -19,6 +19,9 @@ import {
   Star,
   GitBranch,
   ListChecks,
+  Monitor,
+  Activity,
+  Store,
 } from 'lucide-react';
 import {
   SiHtml5,
@@ -70,6 +73,14 @@ import {
   SiPnpm,
   SiGooglecloud,
   SiBitbucket,
+  SiRedux,
+  SiLinux,
+  SiSentry,
+  SiDatadog,
+  SiElasticsearch,
+  SiNgrx,
+  SiApple,
+  SiNewrelic,
 } from 'react-icons/si';
 import { cn } from '@/lib/utils';
 
@@ -143,6 +154,9 @@ const techIcons: Record<string, React.ReactNode> = {
   VueJS: <SiVuedotjs className="h-5 w-5" />,
   Tailwind: <SiTailwindcss className="h-5 w-5" />,
   Shopify: <SiShopify className="h-5 w-5" />,
+  Redux: <SiRedux className="h-5 w-5" />,
+  Zustand: <Store className="h-5 w-5" />,
+  Ngrx: <SiNgrx className="h-5 w-5" />,
 
   // Transpiladores/Linguagens
   Less: <SiLess className="h-5 w-5" />,
@@ -150,6 +164,11 @@ const techIcons: Record<string, React.ReactNode> = {
   JavaScript: <SiJavascript className="h-5 w-5" />,
   TypeScript: <SiTypescript className="h-5 w-5" />,
   ShellScript: <Terminal className="h-5 w-5" />,
+
+  // Sistemas Operacionais
+  Linux: <SiLinux className="h-5 w-5" />,
+  Windows: <Monitor className="h-5 w-5" />,
+  Mac: <SiApple className="h-5 w-5" />,
 
   // Backend
   NodeJS: <SiNodedotjs className="h-5 w-5" />,
@@ -166,6 +185,11 @@ const techIcons: Record<string, React.ReactNode> = {
   Karma: <CheckSquare className="h-5 w-5" />,
   Protractor: <SiProtractor className="h-5 w-5" />,
   'React Testing Library': <SiReact className="h-5 w-5" />,
+
+  // Monitoramento
+  Sentry: <SiSentry className="h-5 w-5" />,
+  'New Relic': <SiNewrelic className="h-5 w-5" />,
+  Datadog: <SiDatadog className="h-5 w-5" />,
 
   // Task Mng.
   Babel: <SiBabel className="h-5 w-5" />,
@@ -186,6 +210,7 @@ const techIcons: Record<string, React.ReactNode> = {
   MongoDB: <SiMongodb className="h-5 w-5" />,
   'Firebase Realtime DB': <SiFirebase className="h-5 w-5" />,
   SQLite: <SiSqlite className="h-5 w-5" />,
+  ElasticSearch: <SiElasticsearch className="h-5 w-5" />,
 
   // Mobile
   Ionic: <SiIonic className="h-5 w-5" />,
@@ -198,6 +223,7 @@ const techIcons: Record<string, React.ReactNode> = {
   Docker: <SiDocker className="h-5 w-5" />,
   'Google Cloud': <SiGooglecloud className="h-5 w-5" />,
   Bitbucket: <SiBitbucket className="h-5 w-5" />,
+  'Azure DevOps': <Cloud className="h-5 w-5" />,
 
   // ALM
   Git: <SiGit className="h-5 w-5" />,
@@ -230,6 +256,9 @@ const techSkillLevels: Record<string, number> = {
   VueJS: 3,
   Tailwind: 5,
   Shopify: 3,
+  Redux: 4,
+  Zustand: 4,
+  Ngrx: 3,
 
   // Transpiladores/Linguagens
   Less: 4,
@@ -237,6 +266,11 @@ const techSkillLevels: Record<string, number> = {
   JavaScript: 5,
   TypeScript: 5,
   ShellScript: 3,
+
+  // Sistemas Operacionais
+  Linux: 5,
+  Windows: 4,
+  Mac: 5,
 
   // Backend
   NodeJS: 4,
@@ -254,6 +288,11 @@ const techSkillLevels: Record<string, number> = {
   Jest: 5,
   'React Testing Library': 4,
 
+  // Monitoramento
+  Sentry: 4,
+  'New Relic': 2,
+  Datadog: 2,
+
   // Task Mng.
   Babel: 5,
   Gulp: 4,
@@ -266,12 +305,14 @@ const techSkillLevels: Record<string, number> = {
   Npm: 5,
   Yarn: 5,
   Pnpm: 5,
+
   // Database
   MySQL: 4,
   Postgres: 2,
   MongoDB: 3,
   'Firebase:Realtime Database': 4,
   SQLite: 5,
+  ElasticSearch: 3,
 
   // Mobile
   Ionic: 2,
@@ -282,7 +323,7 @@ const techSkillLevels: Record<string, number> = {
   Firebase: 4,
   Vercel: 4,
   Docker: 3,
-  'Azure DevOps': 3,
+  'Azure DevOps': 2,
   'Google Cloud': 2,
   Bitbucket: 4,
 
@@ -330,6 +371,10 @@ const favoriteSkills = [
   'Vite',
   'SQLite',
   'Pnpm',
+  'Zustand',
+  'Sentry',
+  'Mac',
+  'Linux',
 ];
 
 // Mapeamento de cores para tecnologias
@@ -356,6 +401,11 @@ const techColors: Record<string, string> = {
   'Styled Components': 'text-styled-components',
   ChakraUI: 'text-chakraui',
 
+  // Sistemas Operacionais
+  Linux: 'text-linux dark:text-linux-light',
+  Windows: 'text-windows',
+  Mac: 'text-mac',
+
   // Backend
   NodeJS: 'text-nodejs',
   Python: 'text-python',
@@ -363,12 +413,19 @@ const techColors: Record<string, string> = {
   Go: 'text-go',
   ShellScript: 'text-shellscript dark:text-shellscript-light',
 
+  // Monitoramento
+  Sentry: 'text-sentry',
+  'New Relic': 'text-new-relic',
+  Datadog: 'text-datadog',
+
   // Databases
   MySQL: 'text-mysql',
   Postgres: 'text-postgres',
   MongoDB: 'text-mongodb',
   'Firebase Realtime DB': 'text-firebase',
   SQLite: 'text-sqlite',
+  ElasticSearch: 'text-destructive',
+
   // Ferramentas
   Git: 'text-git',
   GitHub: 'text-github dark:text-github-light',
@@ -386,6 +443,11 @@ const techColors: Record<string, string> = {
   Jira: 'text-jira',
   Trello: 'text-trello',
   Vite: 'text-vite',
+
+  // State Management
+  Redux: 'text-redux',
+  Ngrx: 'text-ngrx',
+  Zustand: 'text-zustand dark:text-zustand-light',
 
   // Infraestrutura
   AWS: 'text-aws',
@@ -417,6 +479,9 @@ const categoryIcons: Record<string, React.ReactNode> = {
   ui: <PenTool className="h-5 w-5" />,
   mobile: <Smartphone className="h-5 w-5" />,
   ecommerceCms: <Layout className="h-5 w-5" />,
+  stateManagement: <Activity className="h-5 w-5" />,
+  operatingSystems: <Monitor className="h-5 w-5" />,
+  monitoring: <Activity className="h-5 w-5" />,
 
   programmingLanguages: <CodeSquare className="h-5 w-5" />,
 
