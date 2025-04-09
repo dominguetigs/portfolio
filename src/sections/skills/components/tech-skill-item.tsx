@@ -418,7 +418,7 @@ const techColors: Record<string, string> = {
   ShellScript: 'text-shellscript dark:text-shellscript-light',
 
   // Monitoramento
-  Sentry: 'text-sentry',
+  Sentry: 'text-sentry dark:text-sentry-light',
   'New Relic': 'text-new-relic',
   Datadog: 'text-datadog',
 
