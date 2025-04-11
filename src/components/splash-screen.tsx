@@ -167,7 +167,7 @@ export function SplashScreen({ onComplete }: SplashScreenProps) {
 
           <div className="flex items-center justify-center h-full w-full">
             {/* Container do código com tamanho fixo */}
-            <div className="relative w-full max-w-[440px] px-4 mx-auto">
+            <div className="relative w-full max-w-[440px] sm:max-w-[480px] px-4 mx-auto">
               <div className="relative flex items-center justify-center">
                 {/* Bloco do código com tamanho fixo */}
                 <div
