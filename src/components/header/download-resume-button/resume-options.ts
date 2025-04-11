@@ -1,4 +1,4 @@
-type TranslationFunction = (key: string) => string;
+import { TranslationFunction } from '@/types';
 
 export const RESUME_OPTIONS = (t: TranslationFunction) => [
   {
