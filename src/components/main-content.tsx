@@ -1,9 +1,11 @@
 'use client';
 
 import { useState } from 'react';
+
 import { motion } from 'framer-motion';
-import { SplashScreen } from './splash-screen';
+
 import { GhibliBackground } from './ghibli-background';
+import { SplashScreen } from './splash-screen';
 
 interface MainContentProps {
   children: React.ReactNode;
@@ -20,7 +22,6 @@ export function MainContent({ children }: MainContentProps) {
     <>
       <SplashScreen onComplete={handleSplashComplete} />
 
-      {/* Conteúdo principal - só é animado após o splash screen */}
       {splashComplete && (
         <motion.div
           initial={{ opacity: 0 }}
