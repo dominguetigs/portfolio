@@ -29,30 +29,30 @@ export const metadata: Metadata = {
   description: 'Portfolio pessoal de Gustavo Domingueti, Engenheiro Frontend',
   icons: {
     icon: [
-      { url: '/pi-g-favicon.svg', type: 'image/svg+xml' },
+      { url: '/favicon/pi-g-favicon.svg', type: 'image/svg+xml' },
       {
-        url: '/pi-g-favicon-dark.svg',
+        url: '/favicon/pi-g-favicon-dark.svg',
         type: 'image/svg+xml',
         media: '(prefers-color-scheme: dark)',
       },
-      { url: '/favicon-16x16.png', sizes: '16x16', type: 'image/png' },
+      { url: '/favicon/favicon-16x16.png', sizes: '16x16', type: 'image/png' },
       {
-        url: '/favicon-16x16-dark.png',
+        url: '/favicon/favicon-16x16-dark.png',
         sizes: '16x16',
         type: 'image/png',
         media: '(prefers-color-scheme: dark)',
       },
-      { url: '/favicon-32x32.png', sizes: '32x32', type: 'image/png' },
+      { url: '/favicon/favicon-32x32.png', sizes: '32x32', type: 'image/png' },
       {
-        url: '/favicon-32x32-dark.png',
+        url: '/favicon/favicon-32x32-dark.png',
         sizes: '32x32',
         type: 'image/png',
         media: '(prefers-color-scheme: dark)',
       },
     ],
-    shortcut: '/pi-g-favicon.svg',
+    shortcut: '/favicon/pi-g-favicon.svg',
     apple: {
-      url: '/apple-touch-icon.png',
+      url: '/favicon/apple-touch-icon.png',
       sizes: '180x180',
       type: 'image/png',
     },
@@ -99,33 +99,6 @@ export default async function RootLayout({
           content="width=device-width, initial-scale=1.0, viewport-fit=cover, user-scalable=no"
         />
         <meta name="orientation" content="portrait" />
-        {/* <style>
-          {`
-            @media only screen and (max-width: 1024px) and (orientation: landscape) {
-              body::before {
-                content: "Por favor, gire o dispositivo para o modo retrato";
-                position: fixed;
-                top: 0;
-                left: 0;
-                width: 100%;
-                height: 100%;
-                background-color: var(--background);
-                color: var(--foreground);
-                display: flex;
-                align-items: center;
-                justify-content: center;
-                font-size: 1.5rem;
-                font-family: var(--font-nunito);
-                text-align: center;
-                padding: 2rem;
-                z-index: 9999;
-              }
-              body > div {
-                display: none;
-              }
-            }
-          `}
-        </style> */}
       </head>
       <body
         className={`${nunito.variable} ${ptSans.variable} antialiased relative overflow-x-hidden`}

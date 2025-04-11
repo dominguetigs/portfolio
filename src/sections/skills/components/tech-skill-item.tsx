@@ -84,6 +84,7 @@ import {
   SiCsswizardry,
 } from 'react-icons/si';
 import { cn } from '@/lib/utils';
+import { ZustandIcon } from '@/components/icons';
 
 // Componente personalizado para o ícone do Python com as cores originais
 const PythonIcon = ({ className }: { className?: string }) => (
@@ -238,17 +239,6 @@ const KarmaIcon = ({ className }: { className?: string }) => (
         fill="#56C5A8"
       />
     </g>
-  </svg>
-);
-
-// Componente personalizado para o ícone do Zustand com as cores originais
-const ZustandIcon = ({ className }: { className?: string }) => (
-  <svg
-    xmlns="http://www.w3.org/2000/svg"
-    viewBox="0 0 512 512"
-    className={className}
-  >
-    <image href="/zustand.svg" width="512" height="512" />
   </svg>
 );
 
