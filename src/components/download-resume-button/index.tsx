@@ -11,9 +11,9 @@ import {
   PopoverTrigger,
 } from '@/components/ui/popover';
 
-import { springAnimation } from '../animations';
+import { springAnimation } from './animations';
+import { RESUME_OPTIONS } from './constants';
 import { ResumeOption } from './resume-option';
-import { RESUME_OPTIONS } from './resume-options';
 
 export function DownloadResumeButton() {
   const t = useTranslations('Index.Header');

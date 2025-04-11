@@ -1,9 +1,10 @@
 import { motion } from 'framer-motion';
-import { ThemeToggle } from '@/components/theme-toggle';
+
+import { DownloadResumeButton } from '@/components/download-resume-button';
 import { LanguageSwitcher } from '@/components/language-switcher';
+import { ThemeToggle } from '@/components/theme-toggle';
 
 import { containerVariants, itemVariants } from './animations';
-import { DownloadResumeButton } from './download-resume-button';
 
 const HEADER_ACTIONS = [
   {
