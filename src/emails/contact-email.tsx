@@ -63,7 +63,6 @@ export const ContactFormEmail = ({
   );
 };
 
-// Estilos
 const main = {
   backgroundColor: '#f6f9fc',
   fontFamily:
