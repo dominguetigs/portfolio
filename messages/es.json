@@ -246,19 +246,21 @@
     "Languages": {
       "title": "Idiomas",
       "description": "Evaluación de habilidades lingüísticas basada en el Marco Común Europeo de Referencia para las Lenguas (MCERL).",
-      "flagAlt": "Bandera de {language}",
       "languages": {
         "portuguese": {
           "name": "Portugués",
-          "level": "Nativo (C2)"
+          "level": "Nativo (C2)",
+          "flagAlt": "Bandera de Portugués"
         },
         "english": {
           "name": "Inglés",
-          "level": "Independiente (B2)"
+          "level": "Independiente (B2)",
+          "flagAlt": "Bandera de Inglés"
         },
         "spanish": {
           "name": "Español",
-          "level": "Básico (A2)"
+          "level": "Básico (A2)",
+          "flagAlt": "Bandera de Español"
         }
       },
       "skills": {

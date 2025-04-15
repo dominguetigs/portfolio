@@ -1,6 +1,7 @@
 'use client';
 
 import { motion } from 'framer-motion';
+
 import { useInView } from 'react-intersection-observer';
 
 interface SectionHeaderProps {
@@ -14,7 +15,6 @@ export function SectionHeader({ title }: SectionHeaderProps) {
     rootMargin: '-10px 0px -10px 0px',
   });
 
-  // ID para o título, usando o título em lowercase e removendo espaços
   const titleId = `title-${title.toLowerCase().replace(/\s+/g, '-')}`;
 
   return (

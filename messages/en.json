@@ -246,19 +246,21 @@
     "Languages": {
       "title": "Languages",
       "description": "Assessment of language skills based on the Common European Framework of Reference for Languages (CEFR).",
-      "flagAlt": "{language} Flag",
       "languages": {
         "portuguese": {
           "name": "Portuguese",
-          "level": "Native (C2)"
+          "level": "Native (C2)",
+          "flagAlt": "Portuguese Flag"
         },
         "english": {
           "name": "English",
-          "level": "Independent (B2)"
+          "level": "Independent (B2)",
+          "flagAlt": "English Flag"
         },
         "spanish": {
           "name": "Spanish",
-          "level": "Basic (A2)"
+          "level": "Basic (A2)",
+          "flagAlt": "Spanish Flag"
         }
       },
       "skills": {
