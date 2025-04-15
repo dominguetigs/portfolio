@@ -8,6 +8,7 @@ import { motion } from 'framer-motion';
 
 import { Toaster } from '@/components/ui/sonner';
 
+import { playThankYouSound } from './audio';
 import {
   sectionVariants,
   titleVariants,
@@ -17,7 +18,6 @@ import {
 import { ContactForm } from './contact-form';
 import { ContactInfoContainer } from './contact-info-container';
 import { ThankYouDialog } from './thank-you-dialog';
-import { playThankYouSound } from './utils/audio';
 
 export function ContactSection() {
   const t = useTranslations('Index.Contact');
