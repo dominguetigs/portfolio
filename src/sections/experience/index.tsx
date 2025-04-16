@@ -1,6 +1,6 @@
 import { motion } from 'framer-motion';
 import { SectionHeader, MotionSection } from '@/sections/ui';
-import { ExperienceItem } from './components/experience-item';
+import { ExperienceItem } from './experience-item';
 import { Check, ChevronDown } from 'lucide-react';
 import { useTranslations } from 'next-intl';
 import { useState } from 'react';

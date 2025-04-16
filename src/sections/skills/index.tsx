@@ -5,7 +5,7 @@ import { motion } from 'framer-motion';
 import { useInView } from 'react-intersection-observer';
 import { Layout, CodeSquare, Server, Database, Wrench } from 'lucide-react';
 import { SectionHeader, MotionSection } from '@/sections/ui';
-import { TechSkillItem } from './components/tech-skill-item';
+import { TechSkillItem } from './tech-skill-item';
 import { Tabs, TabsContent, TabsList, TabsTrigger } from '@/components/ui/tabs';
 import {
   Select,
