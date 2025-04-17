@@ -8,6 +8,8 @@ import { Check, Mail, MapPin, Phone } from 'lucide-react';
 
 import { toast } from 'sonner';
 
+import { CONTACT_INFO } from '@/constants';
+
 import { copyTextToClipboard } from '@/utils';
 
 import { ContactInfoCard } from './contact-info-card';
@@ -16,13 +18,9 @@ import { leftColVariants } from './animations';
 export function ContactInfoContainer() {
   const t = useTranslations('Index.Contact');
 
-  const contactInfo = {
-    email: 'gustavo.s.domingueti@icloud.com',
-    phone: '+55 (11) 9 7158-1380',
-    location: 'São Paulo, SP - Brasil',
-  };
+  const handleCopy = async (type: 'email' | 'phone') => {
+    const text = CONTACT_INFO[type];
 
-  const handleCopy = async (text: string, type: string) => {
     const success = await copyTextToClipboard(text);
 
     if (success) {
@@ -30,9 +28,13 @@ export function ContactInfoContainer() {
     }
   };
 
-  const showCopiedToast = (type: string) => {
-    const message =
-      type === 'email' ? t('emailCopiedMessage') : t('phoneCopiedMessage');
+  const showCopiedToast = (type: 'email' | 'phone') => {
+    const messages = {
+      email: t('emailCopiedMessage'),
+      phone: t('phoneCopiedMessage'),
+    };
+
+    const message = messages[type];
 
     toast.success(message, {
       position: 'bottom-center',
@@ -46,23 +48,23 @@ export function ContactInfoContainer() {
       <ContactInfoCard
         icon={<Mail className="h-6 w-6 text-primary" />}
         title={t('email')}
-        content={contactInfo.email}
+        content={CONTACT_INFO.email}
         showCopyButton
-        onCopy={() => handleCopy(contactInfo.email, 'email')}
+        onCopy={() => handleCopy('email')}
       />
 
       <ContactInfoCard
         icon={<Phone className="h-6 w-6 text-primary" />}
         title={t('phone')}
-        content={contactInfo.phone}
+        content={CONTACT_INFO.phone}
         showCopyButton
-        onCopy={() => handleCopy(contactInfo.phone, 'phone')}
+        onCopy={() => handleCopy('phone')}
       />
 
       <ContactInfoCard
         icon={<MapPin className="h-6 w-6 text-primary" />}
         title={t('location')}
-        content={contactInfo.location}
+        content={CONTACT_INFO.location}
       />
     </motion.div>
   );
