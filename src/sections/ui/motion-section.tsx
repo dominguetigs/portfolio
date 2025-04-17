@@ -20,20 +20,19 @@ export const MotionSection = forwardRef<HTMLElement, MotionSectionProps>(
       rootMargin: '-10px 0px -10px 0px',
     });
 
-    // Uma vez que a seção entra na viewport e é animada, marcamos como true permanentemente
     useEffect(() => {
       if (inView && !hasAnimated) {
         setHasAnimated(true);
       }
     }, [inView, hasAnimated]);
 
-    // Combine refs
     const combinedRef = (node: HTMLElement) => {
       if (typeof ref === 'function') {
         ref(node);
       } else if (ref) {
         ref.current = node;
       }
+
       internalRef(node);
     };
 
