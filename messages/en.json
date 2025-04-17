@@ -1,27 +1,20 @@
 {
   "Index": {
     "Hero": {
-      "name": "Gustavo Domingueti",
       "titles": {
         "main": "Frontend Engineer",
         "software": "Software Engineer",
         "mechatronics": "Mechatronics Engineer",
         "web": "Web Developer",
-        "math": "Mathematics Enthusiast",
         "tech": "Technology Researcher",
-        "data": "Data Explorer",
-        "astronomy": "Astronomy Curious",
         "algorithms": "Algorithm Analyst",
-        "problems": "Problem Solver"
-      },
-      "location": "São Paulo, SP - Brazil",
-      "contact": {
-        "phone": "+55 (11) 9 7158-1380",
-        "email": "gustavo.s.domingueti@icloud.com"
-      },
-      "social": {
-        "linkedin": "LinkedIn",
-        "github": "GitHub"
+        "problems": "Problem Solver",
+        "data": "Data Explorer",
+        "math": "Mathematics Enthusiast",
+        "physics": "Physics Enthusiast",
+        "science": "Science Enthusiast",
+        "astronomy": "Astronomy Curious",
+        "chess": "Chess Player"
       },
       "alt": {
         "profile": "Profile"

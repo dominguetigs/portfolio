@@ -18,20 +18,11 @@ import { ContactSection } from '@/sections/contact';
 export default function Home() {
   const aboutRef = useRef<HTMLElement | null>(null);
 
-  const scrollToAbout = () => {
-    aboutRef.current?.scrollIntoView({ behavior: 'smooth' });
-  };
-
   return (
     <div className="min-h-screen pb-20 container max-w-4xl mx-auto px-4">
       <Header />
 
-      <HeroSection
-        linkedin="https://linkedin.com/in/dominguetigs"
-        github="https://github.com/dominguetigs"
-        twitter="https://twitter.com/@gustavo.domingueti"
-        onScrollDown={scrollToAbout}
-      />
+      <HeroSection aboutRef={aboutRef} />
 
       <NavMenu />
 
