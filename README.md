@@ -2,10 +2,10 @@
 
 <p align="center">
   <a href="https://nodejs.org/en/" target="_blank">
-    <img alt="Node.js version" src="https://img.shields.io/badge/node-v20-74AB63?style=for-the-badge&logo=node.js&logoColor=74AB63">
+    <img alt="Node.js version" src="https://img.shields.io/badge/node-v20.18.1-74AB63?style=for-the-badge&logo=node.js&logoColor=74AB63">
   </a>
   <a href="https://www.npmjs.com/" target="_blank">
-    <img alt="NPM version" src="https://img.shields.io/badge/npm-v10-C53730?style=for-the-badge&logo=npm&logoColor=C53730">
+    <img alt="NPM version" src="https://img.shields.io/badge/npm-v10.8.2-C53730?style=for-the-badge&logo=npm&logoColor=C53730">
   </a>
   <a href="https://react.dev/" target="_blank">
     <img alt="ReactJS version" src="https://img.shields.io/badge/React-v19.0.0-20232A?style=for-the-badge&logo=react&logoColor=61DAFB">
