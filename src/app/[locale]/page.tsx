@@ -6,7 +6,6 @@ import { NavMenu } from '@/components/nav-menu';
 import { Header } from '@/components/header';
 import { Footer } from '@/components/footer';
 
-// Import sections
 import { AboutSection } from '@/sections/about';
 import { SkillsSection } from '@/sections/skills';
 import { ProjectsSection } from '@/sections/projects';

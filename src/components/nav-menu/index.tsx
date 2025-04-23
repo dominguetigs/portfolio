@@ -19,7 +19,6 @@ import { Button } from '@/components/ui/button';
 
 import { throttle } from '@/utils/throttle';
 
-// Mapeamento de ícones para cada seção
 const sectionIcons: Record<string, React.ReactNode> = {
   about: <User className="h-4 w-4" />,
   skills: <Code className="h-4 w-4" />,
@@ -30,7 +29,6 @@ const sectionIcons: Record<string, React.ReactNode> = {
   contact: <MessageSquare className="h-4 w-4" />,
 };
 
-// Define section IDs
 const sectionIds = [
   'about',
   'skills',
@@ -54,25 +52,22 @@ export function NavMenu() {
   const activeSectionRef = useRef(activeSection);
   const userClickedRef = useRef(userClicked);
 
-  // Get translated sections
   const sections = sectionIds.map(id => ({
     id,
     label: t(id),
   }));
 
-  // Verificar se o componente está montado (cliente)
   useEffect(() => {
     setMounted(true);
     return () => {
       setMounted(false);
-      // Limpar todos os observers quando o componente for desmontado
+
       Object.values(observersRef.current).forEach(observer =>
         observer.disconnect(),
       );
     };
   }, []);
 
-  // Atualizar as refs quando os estados mudarem
   useEffect(() => {
     activeSectionRef.current = activeSection;
   }, [activeSection]);
@@ -81,29 +76,23 @@ export function NavMenu() {
     userClickedRef.current = userClicked;
   }, [userClicked]);
 
-  // Configurar os observadores de interseção para cada seção
   useEffect(() => {
     if (!mounted) return;
 
-    // Limpar observers existentes
     Object.values(observersRef.current).forEach(observer =>
       observer.disconnect(),
     );
     observersRef.current = {};
 
-    // Criar novo conjunto de observers
     const sectionObservers: Record<string, IntersectionObserver> = {};
     const observerOptions = {
-      rootMargin: '-10% 0px -80% 0px', // Dá destaque para elementos próximos ao topo da tela
-      threshold: [0, 0.1, 0.2, 0.3, 0.4, 0.5], // Vários thresholds para detecção mais suave
+      rootMargin: '-10% 0px -80% 0px',
+      threshold: [0, 0.1, 0.2, 0.3, 0.4, 0.5],
     };
 
-    // Callback para quando a interseção muda
     const handleIntersection = (entries: IntersectionObserverEntry[]) => {
-      // Se o usuário acabou de clicar, não modifique a seção ativa com base no scroll
       if (userClickedRef.current) return;
 
-      // Encontrar a entrada com maior proporção de interseção
       let maxRatio = -1;
       let maxSectionId = '';
 
@@ -115,13 +104,11 @@ export function NavMenu() {
         }
       });
 
-      // Se encontramos uma seção com interseção, ative-a
       if (maxSectionId && maxSectionId !== activeSectionRef.current) {
         setActiveSection(maxSectionId);
       }
     };
 
-    // Criar um observer para cada seção
     sections.forEach(section => {
       const element = document.getElementById(section.id);
       if (element) {
@@ -137,14 +124,12 @@ export function NavMenu() {
     observersRef.current = sectionObservers;
 
     return () => {
-      // Limpar observers quando as seções mudarem
       Object.values(sectionObservers).forEach(observer =>
         observer.disconnect(),
       );
     };
   }, [mounted, userClicked]);
 
-  // Function to scroll to top
   const scrollToTop = () => {
     window.scrollTo({
       top: 0,
@@ -152,11 +137,9 @@ export function NavMenu() {
     });
   };
 
-  // Função para determinar a visibilidade do menu e botão de scroll to top com base na posição de scroll
   useEffect(() => {
     if (!mounted) return;
 
-    // Referência para o timeout de debounce
     let debounceTimeout: NodeJS.Timeout | null = null;
 
     const checkScrollPosition = throttle(() => {
@@ -165,19 +148,14 @@ export function NavMenu() {
       const isAtHeroSection = scrollY < viewportHeight * 0.9;
       const shouldShowScrollButton = scrollY > 300;
 
-      // Aplicar a mudança imediatamente
       setShowMenu(!isAtHeroSection);
       setShowScrollTopButton(shouldShowScrollButton);
 
-      // Se tiver acontecido um scroll para o topo (ou próximo dele), fazer
-      // uma verificação adicional após um pequeno intervalo
       if (scrollY < 100) {
-        // Limpar qualquer timeout existente
         if (debounceTimeout) {
           clearTimeout(debounceTimeout);
         }
 
-        // Verificar novamente após um curto período para confirmar
         debounceTimeout = setTimeout(() => {
           const currentScrollY =
             window.scrollY || document.documentElement.scrollTop;
@@ -186,15 +164,12 @@ export function NavMenu() {
           setShowScrollTopButton(currentScrollY > 300);
         }, 50);
       }
-    }, 50); // Throttle mais rápido para resposta mais ágil
+    }, 50);
 
-    // Verificar a posição inicial do scroll
     checkScrollPosition();
 
-    // Registrar o event listener
     window.addEventListener('scroll', checkScrollPosition);
 
-    // Limpar
     return () => {
       window.removeEventListener('scroll', checkScrollPosition);
       if (debounceTimeout) {
@@ -207,7 +182,6 @@ export function NavMenu() {
     if (!mounted) return;
 
     try {
-      // Limpar qualquer timeout existente
       if (timeoutRef.current) {
         clearTimeout(timeoutRef.current);
       }
@@ -216,15 +190,12 @@ export function NavMenu() {
         clearTimeout(clickTimeoutRef.current);
       }
 
-      // Marcar que o usuário clicou e atualizar a seção ativa
       setUserClicked(true);
       setActiveSection(id);
 
-      // Obter o elemento da seção
       const sectionElement = document.getElementById(id);
 
       if (sectionElement) {
-        // Procurar pelo título da seção com ID específico
         const titleId = `title-${id}`;
         const titleElement =
           document.getElementById(titleId) ||
@@ -233,51 +204,41 @@ export function NavMenu() {
 
         const targetElement = titleElement || sectionElement;
 
-        // Posição desejada do título na tela (em px a partir do topo)
         const desiredTopPosition = 50;
 
-        // Calcular a posição de scroll para posicionar o elemento na posição desejada
         const rect = targetElement.getBoundingClientRect();
         const currentTopPosition = rect.top;
         const currentScrollPosition = window.scrollY;
 
-        // Quanto precisamos rolar para que o elemento esteja na posição desejada
         const offsetPosition =
           currentScrollPosition + (currentTopPosition - desiredTopPosition);
 
-        // Realizar o scroll
         window.scrollTo({
-          top: Math.max(0, offsetPosition), // Evitar valores negativos
+          top: Math.max(0, offsetPosition),
           behavior: 'smooth',
         });
 
-        // Reativar a detecção de scroll após um período suficiente para a animação completar
-        // e garantir que o usuário possa ver o resultado do clique
         timeoutRef.current = setTimeout(() => {
-          // Verificar se o título está visível após o scroll e ajustar se necessário
           const newRect = targetElement.getBoundingClientRect();
           if (Math.abs(newRect.top - desiredTopPosition) > 20) {
-            // Se a posição ainda estiver muito distante do desejado, fazer um ajuste final
             window.scrollBy({
               top: newRect.top - desiredTopPosition,
               behavior: 'smooth',
             });
           }
 
-          // Usar um segundo timeout para desativar o userClicked após as animações
           clickTimeoutRef.current = setTimeout(() => {
             setUserClicked(false);
-          }, 500); // Tempo extra após a animação de scroll
-        }, 800); // Aguardar a animação de scroll
+          }, 500);
+        }, 800);
       }
     } catch (error) {
       console.error('Erro ao rolar para seção:', error);
-      // Em caso de erro, garantir que o usuário não fique preso no estado de clique
+
       setUserClicked(false);
     }
   };
 
-  // Se não estiver montado (renderização no servidor), não renderizar nada
   if (!mounted) return null;
 
   return (
@@ -285,7 +246,6 @@ export function NavMenu() {
       <AnimatePresence>
         {showMenu && (
           <>
-            {/* Menu desktop (lateral) */}
             <div className="hidden lg:block">
               <motion.nav
                 className="fixed top-1/2 -translate-y-1/2 z-50"
@@ -337,7 +297,6 @@ export function NavMenu() {
               </motion.nav>
             </div>
 
-            {/* Container para navegação mobile e botão de scroll */}
             <div className="lg:hidden">
               <div className="fixed bottom-4 left-0 right-0 z-50 flex justify-center">
                 <motion.div
@@ -350,9 +309,7 @@ export function NavMenu() {
                     ease: 'easeInOut',
                   }}
                 >
-                  {/* Wrapper para centralizar o conjunto menu+botão */}
                   <div className="flex items-center">
-                    {/* Menu de navegação mobile */}
                     <div className="bg-card/80 backdrop-blur-sm border rounded-full shadow-sm px-3 py-2 flex items-center gap-2">
                       {sections.map(section => (
                         <motion.button
@@ -386,7 +343,6 @@ export function NavMenu() {
                       ))}
                     </div>
 
-                    {/* Botão de scroll to top (à direita) */}
                     <AnimatePresence>
                       {showScrollTopButton && (
                         <motion.div
