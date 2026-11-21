@@ -19,6 +19,7 @@ npm run dev          # http://localhost:3000
 npm run lint
 npx tsc --noEmit     # typecheck
 npm run build
+node scripts/cv/build.mjs   # the résumés in public/cv, from the same data as the site (Google Chrome, headless)
 ```
 
 No test runner: a change is checked with lint, typecheck, build and a browser pass at 390px and 1440px, in light and dark, in at least two locales. The splash shows once per browser session: test it in a fresh context, and test everything else with `sessionStorage['splash-seen'] = '1'`.

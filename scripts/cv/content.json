@@ -1,0 +1,131 @@
+{
+  "contact": {
+    "phone": "+55 (11) 9 7158-1380",
+    "email": "gustavo.s.domingueti@icloud.com",
+    "linkedin": "linkedin.com/in/gustavo-domingueti",
+    "github": "github.com/dominguetigs",
+    "site": "gustavodomingueti.com.br"
+  },
+  "en": {
+    "location": "São Paulo, SP - Brazil",
+    "headline": "Lead Frontend Engineer · React.js specialist · TypeScript, Next.js, Angular, NX, microfrontends",
+    "labels": {
+      "summary": "Summary",
+      "achievements": "Key achievements",
+      "experience": "Experience",
+      "project": "Featured project",
+      "skills": "Skills",
+      "education": "Education",
+      "courses": "Courses and certifications",
+      "languages": "Languages",
+      "awards": "Awards",
+      "present": "Present",
+      "stack": "Stack"
+    },
+    "summary": [
+      "Frontend engineer with almost 12 years of experience, now leading frontend at Fintalk. I specialize in React.js, have deep expertise in Next.js and Angular, and use TypeScript as my primary language to build scalable, high-quality frontend applications. I also bring experience with Vue.js, NX monorepos, microfrontend architectures and the tools that keep systems fast, modular and maintainable over time.",
+      "Beyond the code, I am recognized for clear communication, mentoring teammates, facilitating technical discussions and helping teams evolve their frontend practices."
+    ],
+    "achievements": [
+      "Migrated multi-portal frontend environments into a unified NX monorepo: shared libraries, faster builds, and CI/CD with GitHub Actions and Azure Static Web Apps.",
+      "Designed communication layers and shared domains for microfrontends with Module Federation, reducing duplicated logic across teams.",
+      "Built advanced navigation and UI flows — multi-drawer patterns, catalog and menu systems, multi-step experiences — with Angular signals, reactive patterns and router state.",
+      "Created reliable authentication and SSO flows with Keycloak: guards, interceptors, token refresh and reusable auth libraries."
+    ],
+    "project": {
+      "title": "Ladôme Ateliê",
+      "period": "2026",
+      "url": "ladomeatelie.com.br",
+      "subtitle": "Website and back office for a crochet bag atelier",
+      "points": [
+        "A catalogue that feels handmade: the cover is the brand's real knit, animated by a GLSL shader; a 3D yarn (React Three Fiber) runs down the page; testimonials sit on a WebGL globe; the cart becomes a written WhatsApp order.",
+        "The atelier's panel runs the day: pieces and versions, materials, pricing, production and stock, orders, customers, coupons and the site's copy with a live preview, on Supabase with the business rules in SQL."
+      ],
+      "stack": "React 19, TypeScript, three.js, React Three Fiber, GLSL, Vite, TanStack Router, Tailwind CSS, Supabase"
+    },
+    "skills": [
+      [
+        "Frontend",
+        "React, Next.js, TypeScript, JavaScript, Angular, Vue.js, HTML5, CSS3, Sass, Tailwind CSS"
+      ],
+      ["3D and motion", "three.js, React Three Fiber, GLSL shaders, Motion"],
+      [
+        "Architecture",
+        "NX monorepos, microfrontends (Module Federation), design systems, accessibility"
+      ],
+      [
+        "State and data",
+        "TanStack Query, TanStack Router, Zustand, Redux, NgRx, RxJS"
+      ],
+      [
+        "Backend and cloud",
+        "Node.js, Python, AWS, Terraform, Kubernetes, Kafka, DynamoDB, PostgreSQL, MongoDB, Supabase, Vercel"
+      ],
+      ["Testing", "Jest, Testing Library, Cypress"],
+      ["Tools", "Git, GitHub Actions, Figma, Scrum"]
+    ],
+    "extraCourses": ["Go Fundamentals", "Desktop Apps with Electron"],
+    "awards": ["1st place – Programming Marathon (2013, 2014 and 2016)"]
+  },
+  "pt": {
+    "location": "São Paulo, SP - Brasil",
+    "headline": "Líder Técnico Frontend · Especialista em React.js · TypeScript, Next.js, Angular, NX, microfrontends",
+    "labels": {
+      "summary": "Resumo",
+      "achievements": "Principais conquistas",
+      "experience": "Experiência",
+      "project": "Projeto em destaque",
+      "skills": "Conhecimentos",
+      "education": "Formação",
+      "courses": "Cursos e certificações",
+      "languages": "Idiomas",
+      "awards": "Prêmios",
+      "present": "Atual",
+      "stack": "Stack"
+    },
+    "summary": [
+      "Engenheiro frontend com quase 12 anos de experiência, hoje liderando o frontend da Fintalk. Sou especialista em React.js, tenho experiência profunda em Next.js e Angular e uso TypeScript como linguagem principal para construir aplicações frontend escaláveis e de alta qualidade. Também trago experiência com Vue.js, monorepos NX, arquiteturas de microfrontends e as ferramentas que mantêm os sistemas rápidos, modulares e sustentáveis ao longo do tempo.",
+      "Além do código, sou reconhecido pela comunicação clara, pela mentoria, pela condução de discussões técnicas e por ajudar os times a evoluir suas práticas de frontend."
+    ],
+    "achievements": [
+      "Migração de ambientes frontend de vários portais para um monorepo NX unificado: bibliotecas compartilhadas, builds mais rápidos e CI/CD com GitHub Actions e Azure Static Web Apps.",
+      "Desenho de camadas de comunicação e domínios compartilhados para microfrontends com Module Federation, reduzindo lógica duplicada entre os times.",
+      "Fluxos de navegação e interface avançados — gavetas múltiplas, sistemas de catálogo e cardápio, experiências em várias etapas — com signals, padrões reativos e estado de rota do Angular.",
+      "Fluxos de autenticação e SSO confiáveis com Keycloak: guards, interceptors, renovação de token e bibliotecas de autenticação reutilizáveis."
+    ],
+    "project": {
+      "title": "Ladôme Ateliê",
+      "period": "2026",
+      "url": "ladomeatelie.com.br",
+      "subtitle": "Site e painel de um ateliê de bolsas de crochê",
+      "points": [
+        "Um catálogo que parece feito à mão: a capa é o tricô real da marca, animado por um shader GLSL; um fio em 3D (React Three Fiber) desce pela página; as recomendações ficam num globo em WebGL; o carrinho vira um pedido escrito no WhatsApp.",
+        "O painel do ateliê cuida do dia a dia: peças e versões, materiais, precificação, produção e estoque, pedidos, clientes, cupons e os textos do site com prévia ao vivo, em Supabase com a regra de negócio em SQL."
+      ],
+      "stack": "React 19, TypeScript, three.js, React Three Fiber, GLSL, Vite, TanStack Router, Tailwind CSS, Supabase"
+    },
+    "skills": [
+      [
+        "Frontend",
+        "React, Next.js, TypeScript, JavaScript, Angular, Vue.js, HTML5, CSS3, Sass, Tailwind CSS"
+      ],
+      ["3D e animação", "three.js, React Three Fiber, shaders GLSL, Motion"],
+      [
+        "Arquitetura",
+        "monorepos NX, microfrontends (Module Federation), design systems, acessibilidade"
+      ],
+      [
+        "Estado e dados",
+        "TanStack Query, TanStack Router, Zustand, Redux, NgRx, RxJS"
+      ],
+      [
+        "Backend e nuvem",
+        "Node.js, Python, AWS, Terraform, Kubernetes, Kafka, DynamoDB, PostgreSQL, MongoDB, Supabase, Vercel"
+      ],
+      ["Testes", "Jest, Testing Library, Cypress"],
+      ["Ferramentas", "Git, GitHub Actions, Figma, Scrum"]
+    ],
+    "extraCourses": ["Fundamentos de Go", "Apps Desktop com Electron"],
+    "awards": ["1º lugar – Maratona de Programação (2013, 2014 e 2016)"]
+  }
+}

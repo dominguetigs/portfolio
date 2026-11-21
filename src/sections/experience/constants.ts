@@ -1,3 +1,5 @@
+import positionsData from './positions.json';
+
 /** A month as `YYYY-MM`. */
 type YearMonth = `${number}-${number}`;
 
@@ -19,138 +21,11 @@ export type Position = {
 };
 
 /**
- * Work history, newest first, as on LinkedIn (2026-11). The words live in
- * messages/*.json (Index.Experience.positions); dates, places and stacks here.
+ * Work history, newest first, as on LinkedIn (2026-11). Dates, places and
+ * stacks live in positions.json (scripts/cv reads it too, for the résumés);
+ * the words in messages/*.json (Index.Experience.positions).
  */
-export const POSITIONS: Position[] = [
-  {
-    id: 'fintalk',
-    location: 'São Paulo, SP',
-    roles: [
-      { id: 'lead', start: '2026-10' },
-      { id: 'senior', start: '2025-04', end: '2026-10' },
-    ],
-    technologies: [
-      'React',
-      'Next.js',
-      'Node.js',
-      'TypeScript',
-      'JavaScript',
-      'AWS',
-      'Terraform',
-      'DynamoDB',
-      'Kubernetes',
-      'Kafka',
-    ],
-  },
-  {
-    id: 'tagme',
-    location: 'Rio de Janeiro, RJ',
-    roles: [
-      { id: 'lead', start: '2024-04', end: '2025-04' },
-      { id: 'senior', start: '2023-11', end: '2024-04' },
-    ],
-    technologies: [
-      'Angular',
-      'React',
-      'Next.js',
-      'Tailwind CSS',
-      'TypeScript',
-      'NX',
-      'Microfrontends',
-      'Dynamic Federation',
-    ],
-  },
-  {
-    id: 'skeelo',
-    location: 'São Paulo, SP',
-    roles: [{ id: 'senior', start: '2022-01', end: '2023-10' }],
-    technologies: [
-      'Vue.js',
-      'Angular',
-      'Next.js',
-      'React',
-      'Shopify',
-      'Sass',
-      'JavaScript',
-    ],
-  },
-  {
-    id: 'zup',
-    location: 'São Paulo, SP',
-    roles: [{ id: 'senior', start: '2021-07', end: '2021-12' }],
-    technologies: [
-      'Angular',
-      'React',
-      'Web Components',
-      'Jest',
-      'Nx',
-      'AWS',
-      'GitFlow',
-    ],
-  },
-  {
-    id: 'prevent',
-    location: 'São Paulo, SP',
-    roles: [{ id: 'senior', start: '2021-04', end: '2021-07' }],
-    technologies: ['JSP', 'jQuery', 'Angular', 'JavaScript'],
-  },
-  {
-    id: 'comexport',
-    location: 'São Paulo, SP',
-    roles: [{ id: 'senior', start: '2020-11', end: '2021-04' }],
-    technologies: ['Angular', 'TypeScript', 'RxJS', 'SCSS'],
-  },
-  {
-    id: 'digesto',
-    location: 'São Paulo, SP',
-    roles: [
-      { id: 'senior', start: '2019-06', end: '2020-08' },
-      { id: 'engineer', start: '2019-01', end: '2019-05' },
-    ],
-    technologies: [
-      'Angular',
-      'Angular Material',
-      'Sass',
-      'HTML5',
-      'Cypress',
-      'Python',
-      'Flask',
-      'MySQL',
-      'PostgreSQL',
-      'Git',
-      'Scrum',
-    ],
-  },
-  {
-    id: 'cedro',
-    location: 'São Paulo, SP',
-    roles: [{ id: 'frontend', start: '2018-09', end: '2019-01' }],
-    technologies: ['Angular 6', 'Sass', '.NET Core', 'MySQL', 'Git'],
-  },
-  {
-    id: 'sym',
-    location: 'Divinópolis, MG',
-    roles: [{ id: 'fullStack', start: '2018-04', end: '2018-09' }],
-    technologies: ['AngularJS', 'Sass', '.NET Core', 'SVN'],
-  },
-  {
-    id: 'find',
-    location: 'Divinópolis, MG',
-    roles: [{ id: 'fullStack', start: '2015-01', end: '2018-03' }],
-    technologies: [
-      'AngularJS',
-      'Node.js',
-      'MongoDB',
-      'Firebase',
-      'Socket.IO',
-      'LESS',
-      'Gulp',
-      'Git',
-      'Google Analytics',
-    ],
-  },
-];
+export const POSITIONS = positionsData as Position[];
 
 /** Shown before "show more". */
 export const VISIBLE_POSITIONS = 2;

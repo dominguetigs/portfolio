@@ -34,6 +34,7 @@ Order: 0 → 1 + 2 → 4 → 3 → 5 (D-006). Each phase is one batch the user t
 - [x] The new React Compiler lint rules pass (setState in effects, refs read during render).
 - [x] Content: "almost 12 years" of experience; Ladôme Ateliê as the featured project above the tabs, the site first and its panel after (D-007).
 - [x] The theme icon no longer depends on the stored theme while rendering (it caused a hydration mismatch once the header was server-rendered); the "more projects on GitHub" link pointed at `undefined`.
+- [x] The résumés (`public/cv`, pt and en) rebuilt from the site's own data by `scripts/cv/build.mjs`: experience, education, courses and languages from the messages and `positions.json`; headline, summary, achievements, skills and awards in `scripts/cv/content.json`. Four pages each.
 - [x] Experience from the user's LinkedIn (2026-11-20): Fintalk (current) to Find, one or more roles per company; data-driven (`src/sections/experience/constants.ts` for dates, places and stacks; words in the messages, English from LinkedIn, Portuguese and Spanish translated).
 
 ### 1 + 2 · The living sky and the sunset — done, awaiting the user's test
@@ -75,4 +76,3 @@ See `docs/scene.md` and `.claude/rules/scene.md`. From the Ladôme scene, still 
 ## Open questions
 
 - "Almost 12 years" (LinkedIn starts in January 2015), "for now", the user said on 2026-11-21.
-- The résumé PDFs in `public/cv` stop at Tagme.
