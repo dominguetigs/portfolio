@@ -127,12 +127,8 @@
         "cmsNote": "Restricted to the atelier",
         "visitSite": "Visit the site",
         "visitCms": "Open the panel",
-        "showImage": "Show image",
         "images": {
           "cover": "The site’s cover: the logo over the animated wine knit",
-          "thread": "The 3D yarn running down the page to the ball",
-          "globe": "The testimonials globe, with the thread tying the cities",
-          "atelier": "The 3D crochet hook and ball of yarn on the atelier page",
           "phone": "The site’s cover on a phone",
           "cms": "The atelier panel’s sign-in"
         }

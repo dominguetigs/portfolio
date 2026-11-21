@@ -127,12 +127,8 @@
         "cmsNote": "Acceso restringido al taller",
         "visitSite": "Visitar el sitio",
         "visitCms": "Abrir el panel",
-        "showImage": "Mostrar imagen",
         "images": {
           "cover": "La portada del sitio: el logotipo sobre el tejido vino animado",
-          "thread": "El hilo 3D bajando por la página hasta el ovillo",
-          "globe": "El globo de las recomendaciones, con el hilo uniendo las ciudades",
-          "atelier": "La aguja de crochet y el ovillo en 3D, en la página del taller",
           "phone": "La portada del sitio en el móvil",
           "cms": "La entrada al panel del taller"
         }

@@ -127,12 +127,8 @@
         "cmsNote": "Acesso restrito ao ateliê",
         "visitSite": "Visitar o site",
         "visitCms": "Abrir o painel",
-        "showImage": "Mostrar imagem",
         "images": {
           "cover": "A capa do site: o logotipo sobre o tricô vinho animado",
-          "thread": "O fio 3D descendo pela página até o novelo",
-          "globe": "O globo das recomendações, com o fio ligando as cidades",
-          "atelier": "A agulha de crochê e o novelo em 3D, na página do ateliê",
           "phone": "A capa do site no celular",
           "cms": "A entrada do painel do ateliê"
         }

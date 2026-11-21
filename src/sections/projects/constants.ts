@@ -102,12 +102,7 @@ export const FEATURED_PROJECT = {
     image: '/projects/ladome/cms.webp',
   },
   year: '2026',
-  gallery: [
-    { id: 'cover', src: '/projects/ladome/cover.webp' },
-    { id: 'thread', src: '/projects/ladome/thread.webp' },
-    { id: 'globe', src: '/projects/ladome/globe.webp' },
-    { id: 'atelier', src: '/projects/ladome/atelier.webp' },
-  ],
+  cover: '/projects/ladome/cover.webp',
   phone: { src: '/projects/ladome/phone.webp', width: 600, height: 1298 },
   technologies: [
     'React 19',

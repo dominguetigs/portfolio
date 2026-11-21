@@ -54,7 +54,7 @@ Each heading carries an ID and a status: `[final]`, `[hypothesis]`, `[pending]`,
 
 `2026-11-20` · source: the user
 
-**Decision:** Ladôme Ateliê (site and panel) is the latest work and opens the projects section, above the tabs, with the site as the protagonist: a browser-framed gallery of the real site (cover, the 3D thread, the globe, the atelier's hook), its four highlights, then the panel in a smaller card. The panel shows only its sign-in screen, since it is behind a login.
+**Decision:** Ladôme Ateliê (site and panel) is the latest work and opens the projects section, above the tabs, with the site as the protagonist: its cover in a browser frame (with the phone view; the rest is on the site itself, 2026-11-21, the user), its four highlights, then the panel in a smaller card. The panel shows only its sign-in screen, since it is behind a login.
 **Images:** screenshots of the public site taken read-only; none shows a person (the founder's portrait and customers' photos are left out).
 **See:** `src/sections/projects/featured-project.tsx`, `public/projects/ladome/`.
 
