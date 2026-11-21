@@ -30,7 +30,7 @@
       "sections": {
         "whoAmI": {
           "title": "Who I Am",
-          "content": "Frontend Developer with almost 13 years of experience in web application development, working on complex and high-impact projects. Strong expertise in JavaScript, TypeScript, HTML, and CSS, specializing in Angular, React, and Next.js as well as best practices in software architecture and performance."
+          "content": "Frontend Developer with almost 12 years of experience in web application development, working on complex and high-impact projects. Strong expertise in JavaScript, TypeScript, HTML, and CSS, specializing in Angular, React, and Next.js as well as best practices in software architecture and performance."
         },
         "sectorExperience": {
           "title": "Sector Experience",
@@ -318,212 +318,209 @@
       "title": "Professional Experience",
       "description": "My professional journey includes experience in different sectors and projects, always focusing on frontend development and value delivery.",
       "current": "Current",
+      "present": "Present",
+      "months": [
+        "Jan",
+        "Feb",
+        "Mar",
+        "Apr",
+        "May",
+        "Jun",
+        "Jul",
+        "Aug",
+        "Sep",
+        "Oct",
+        "Nov",
+        "Dec"
+      ],
       "responsibilities": "Responsibilities",
       "technologies": "Technologies",
       "showMore": "Show more experiences",
       "showLess": "Show less experiences",
       "positions": {
-        "tagme": {
-          "period": "2023 – Present",
-          "title": "Frontend Technical Lead • Frontend Engineer",
-          "company": "Tagme",
-          "location": "Rio de Janeiro, RJ",
+        "fintalk": {
+          "company": "Fintalk",
           "roles": {
             "lead": {
-              "period": "Apr 2024 – Present",
-              "title": "Frontend Technical Lead",
+              "title": "Lead Frontend Engineer",
               "responsibilities": [
-                "Responsible for leading the company's Front-end architecture, promoting the application of best practices and developing reusable libraries.",
-                "Leadership and execution in creating a customizable menu system, using Next.js/React.js, ensuring flexibility and scalability.",
-                "Leadership and development of a centralized administrative system for managing the company's products, using technologies such as NX, microfrontends, Dynamic Federation, and Angular 18."
+                "Lead frontend architecture and technical strategy, focusing on scalability, performance and code quality.",
+                "Mentor frontend engineers, supporting professional development, knowledge sharing and technical excellence.",
+                "Take part in requirements refinement, technical planning and solution design alongside Product, Design and Engineering.",
+                "Drive technical decisions and guide the implementation of complex frontend solutions, keeping the architecture consistent and maintainable."
+              ]
+            },
+            "senior": {
+              "title": "Senior Frontend Engineer",
+              "responsibilities": [
+                "Developed and evolved Fintalk Studio, the core platform for managing conversational AI products, with scalable, high-performance frontend workflows.",
+                "Built and maintained the conversational bot builder, which lets non-technical users create and manage intelligent chatbots through an intuitive interface.",
+                "Contributed to Fintalk’s new institutional landing page, ensuring design consistency, performance and alignment with product and marketing goals."
+              ]
+            }
+          }
+        },
+        "tagme": {
+          "company": "Tagme",
+          "roles": {
+            "lead": {
+              "title": "Lead Frontend Engineer",
+              "responsibilities": [
+                "Led the company’s overall frontend architecture, applying best practices and creating reusable libraries.",
+                "Led and built a customizable menu system with Next.js/React.js, designed for flexibility and scale.",
+                "Led and built a centralized admin system for all the company’s products, with NX, microfrontends, Dynamic Federation and Angular 18."
+              ]
+            },
+            "senior": {
+              "title": "Senior Frontend Engineer",
+              "responsibilities": [
+                "Led the maintenance and evolution of a custom menu system used across many restaurant operations.",
+                "Built new features and improvements for the Admin platform, making menu configuration and management efficient.",
+                "Worked with Angular, React.js/Next.js and Tailwind CSS to deliver scalable, high-quality frontend solutions."
+              ]
+            }
+          }
+        },
+        "skeelo": {
+          "company": "Skeelo",
+          "roles": {
+            "senior": {
+              "title": "Senior Frontend Engineer",
+              "responsibilities": [
+                "Worked on many web projects at a literary and educational company, across a wide range of technologies and products.",
+                "Maintained and improved a CMS built with Vue.js 2.0, keeping editorial workflows stable and fast.",
+                "Built landing pages for ebooks, audiobooks and minibooks with Angular 10, improving marketing reach and conversion.",
+                "Built the new institutional website with Next.js/React, modernizing the company’s digital presence.",
+                "Customized and extended the Skeelo store on Shopify with JavaScript and Sass, and later led its full rewrite in Next.js with Mercado Pago.",
+                "Built the new React web app, bringing the Skeelo app’s key features — bookshelves and audiobooks — to the browser.",
+                "Contributed to a web reader that lets users read books on the desktop.",
+                "Defined frontend architecture and best practices for several projects with the Tech Lead.",
+                "Mentored interns and junior developers."
+              ]
+            }
+          }
+        },
+        "zup": {
+          "company": "Zup Innovation",
+          "roles": {
+            "senior": {
+              "title": "Senior Frontend Engineer",
+              "responsibilities": [
+                "Worked in the Pj Emps squad of Itaú Bank’s Insurance tribe, on high-impact financial and operational systems.",
+                "Built the end-to-end workflow for insurance consultants: onboarding, renewal, retention, delinquency and operations.",
+                "Built reporting screens and scheduling tools for the consultants.",
+                "Worked in an Nx monorepo built for scale and modular development.",
+                "Developed mostly in Angular, with parts in React and Web Components.",
+                "Wrote unit tests with Jest.",
+                "Managed source control with Gitflow.",
+                "Set up the build and deploy pipelines on AWS."
+              ]
+            }
+          }
+        },
+        "prevent": {
+          "company": "Prevent Senior",
+          "roles": {
+            "senior": {
+              "title": "Senior Software Engineer",
+              "responsibilities": [
+                "Worked on a team responsible for several business fronts, including Shift, Accreditation, Corporate and Shielding.",
+                "Maintained and evolved legacy systems built with JSP (JavaServer Pages), with jQuery on the frontend where needed.",
+                "Took part in migrating key parts of the projects to Angular 4+, modernizing the frontend."
+              ]
+            }
+          }
+        },
+        "comexport": {
+          "company": "Comexport",
+          "roles": {
+            "senior": {
+              "title": "Senior Software Engineer",
+              "responsibilities": [
+                "Worked on the team behind Comexport’s main product, which runs the whole trading workflow and core business operations.",
+                "Developed extensively in Angular, from version 4 through the migration to Angular 10, for a modern, stable and efficient experience."
+              ]
+            }
+          }
+        },
+        "digesto": {
+          "company": "Digesto",
+          "roles": {
+            "senior": {
+              "title": "Senior Software Engineer",
+              "responsibilities": [
+                "Worked on both the frontend (Angular) and the backend (Python/Flask), with a strong technical presence across cross-functional initiatives.",
+                "Took part in major government projects such as STF Case Law, building its whole frontend for simple and advanced search.",
+                "Contributed to the STF CMS module, an internal system for content and case management.",
+                "Worked with MySQL and PostgreSQL for data consumption and validation.",
+                "Wrote automated end-to-end tests with Cypress, improving reliability and regression coverage.",
+                "Supported the platform’s users, helping keep the product’s quality and their satisfaction.",
+                "Took on broader responsibilities in UX, engineering leadership and process facilitation on reaching senior level.",
+                "Acted as Scrum Master for about eight months: sprint planning, daily stand-ups and agile workflows.",
+                "Worked as UX designer on some projects, creating prototypes and wireframes.",
+                "Gave Digesto Talks internal sessions on Angular and its concepts.",
+                "Mentored junior developers in Angular and React, shaping onboarding, best practices and team culture."
               ]
             },
             "engineer": {
-              "period": "Nov 2023 – Present",
-              "title": "Frontend Engineer",
+              "title": "Software Engineer",
               "responsibilities": [
-                "Maintenance of customized menu system.",
-                "Maintenance and new features for Admin for menu configuration.",
-                "Use of Angular, React/Next, and Tailwind CSS technologies."
+                "Supported, customized and evolved the company’s flagship product, Digesto Procedural Information, used by lawyers, law firms and companies to track and distribute legal cases.",
+                "Built frontend features with Angular 7, 8 and 9, HTML5, Sass and Angular Material.",
+                "Contributed to the backend with Python, Flask and Flask Potion, on API integrations and admin modules."
               ]
             }
-          },
-          "technologies": [
-            "Angular",
-            "React",
-            "Next.js",
-            "Tailwind CSS",
-            "TypeScript",
-            "NX",
-            "Microfrontends",
-            "Dynamic Federation"
-          ]
-        },
-        "skeelo": {
-          "period": "2022 – 2023",
-          "title": "Frontend Engineer",
-          "company": "Skeelo",
-          "location": "São Paulo, SP",
-          "description": "Experience in a team dedicated to the development of Web projects in a literary/educational company.",
-          "responsibilities": [
-            "CMS built with Vue.js 2.0.",
-            "Landing pages for Ebooks, Audiobooks, and Minibooks, developed in Angular 10.",
-            "New institutional website using Next.js/React.",
-            "Skeelo Store implemented with Shopify, customized with JavaScript and Sass.",
-            "Development of the new Webapp in ReactJS, replicating the app's functionalities.",
-            "Project for the web reader, offering users the option to read on the computer.",
-            "Active participation in defining the architecture of Front-end projects.",
-            "Contribution to mentoring interns/juniors on the team."
-          ],
-          "technologies": [
-            "Vue.js",
-            "Angular",
-            "Next.js",
-            "React",
-            "Shopify",
-            "Sass",
-            "JavaScript"
-          ]
-        },
-        "zup": {
-          "period": "2021 – 2022",
-          "title": "Frontend Engineer",
-          "company": "Zup Innovation",
-          "location": "São Paulo, SP",
-          "description": "",
-          "responsibilities": [
-            "Experience in the PJ Emps squad of the Itaú bank's Insurance tribe.",
-            "Development of the complete flow for insurance consultants.",
-            "Creation of report and agenda screens for consultants.",
-            "Use of monorepo with the Nx framework.",
-            "Predominant development in Angular, with parts in React and web components.",
-            "Implementation of unit tests with Jest.",
-            "Use of Gitflow for code management.",
-            "Configuration of build/deploy in AWS pipelines."
-          ],
-          "technologies": [
-            "Angular",
-            "React",
-            "Web Components",
-            "Jest",
-            "Nx",
-            "AWS",
-            "GitFlow"
-          ]
-        },
-        "prevent": {
-          "period": "2021 – 2021",
-          "title": "Software Engineer",
-          "company": "Prevent Senior",
-          "location": "São Paulo, SP",
-          "description": "Experience at Prevent Senior, being part of a team responsible for various fronts.",
-          "responsibilities": [
-            "Work on legacy projects built on JSP (JavaServer Pages) and incorporation of jQuery.",
-            "Participation in segments migrated to Angular 4+, contributing to modernization.",
-            "Involvement in various fronts, including On-call, Accreditation, Corporate, and Shielding."
-          ],
-          "technologies": ["JSP", "jQuery", "Angular", "JavaScript"]
-        },
-        "comexport": {
-          "period": "2020 – 2021",
-          "title": "Software Engineer",
-          "company": "Comexport",
-          "location": "São Paulo, SP",
-          "description": "Participation in the team responsible for the company's main product, managing the entire trading flow.",
-          "responsibilities": [
-            "Intensive work with Angular, starting with version 4 and migrating to version 10."
-          ],
-          "technologies": ["Angular", "TypeScript", "RxJS", "SCSS"]
-        },
-        "digesto": {
-          "period": "2019 – 2020",
-          "title": "Software Developer",
-          "company": "Digesto Pesquisa e Banco de Dados",
-          "location": "São Paulo, SP",
-          "description": "At Digesto, I was part of a team where the main responsibility was to support/customize/promote the company's main product - Digesto Procedural Information - where the client - lawyers, law firms, and companies that wanted better control of their legal matters - had access to a platform where they could monitor their processes, follow up and distribute them, and obtain concrete information through this.",
-          "responsibilities": [
-            "Frontend development with Angular 7, 8, 9, Sass, HTML5, and Angular Material.",
-            "E2E tests with Cypress.",
-            "Backend development with Python, Flask, and Flask Potion.",
-            "Database manipulation with MySQL and PostgreSQL.",
-            "Version control with Git.",
-            "Mentoring in the Frontend area, focusing on Angular and some work in React.",
-            "Participation in Digesto Talks, with a lecture on 'Angular and Concepts'.",
-            "Acting as a UX Designer, prototyping screens for various projects.",
-            "Acting as a Scrum Master, responsible for sprint planning and daily meetings.",
-            "Participation in important Government projects, including STF Jurisprudence and STF CMS.",
-            "Customer support and guidance for system usage."
-          ],
-          "technologies": [
-            "Angular",
-            "Angular Material",
-            "Sass",
-            "HTML5",
-            "Cypress",
-            "Python",
-            "Flask",
-            "MySQL",
-            "PostgreSQL",
-            "Git",
-            "Scrum"
-          ]
+          }
         },
         "cedro": {
-          "period": "2018 – 2019",
-          "title": "Development Analyst",
           "company": "Cedro Technologies",
-          "location": "São Paulo, SP",
-          "description": "Participation in the development of various financial sector projects, including the construction of the ImparCapital platform's Frontend from the beginning.",
-          "responsibilities": [
-            "Use of Angular 6 in the Frontend to create dynamic and responsive user interfaces.",
-            "Frontend styling using Sass to ensure an attractive and modern visual presentation.",
-            "Backend contribution using .NET Core to provide the business logic and functionalities necessary for financial systems.",
-            "Use of the MySQL database to store and manage project data.",
-            "Source code versioning done with Git to facilitate collaborative work and track changes."
-          ],
-          "technologies": ["Angular 6", "Sass", ".NET Core", "MySQL", "Git"]
+          "roles": {
+            "frontend": {
+              "title": "Frontend Engineer",
+              "responsibilities": [
+                "Worked on several projects in the financial sector, on key platforms and internal systems.",
+                "Built dynamic, responsive interfaces with Angular 6 for financial operations.",
+                "Styled the frontend with Sass, for modern and consistent layouts.",
+                "Contributed to the backend with .NET Core, on business logic and critical features.",
+                "Worked with MySQL for persistence, modeling and data retrieval.",
+                "Used Git for source control and collaboration.",
+                "Built the ImparCapital platform’s frontend from the ground up: a secure, reliable product for choosing, monitoring and reviewing investments."
+              ]
+            }
+          }
         },
         "sym": {
-          "period": "2018 – 2018",
-          "title": "Web UI Developer",
           "company": "Grupo Sym",
-          "location": "Divinópolis, MG",
-          "description": "Development of a support system for the professional medical audience.",
-          "responsibilities": [
-            "Frontend development in a support system for the professional medical audience, using AngularJS.",
-            "Frontend styling using Sass to ensure an attractive and consistent visual presentation.",
-            "Backend contribution using .Net Core to provide essential support and functionalities to the system.",
-            "Use of SVN Version Control to manage and track changes in the source code.",
-            "Customization and implementation of page breaks in the text editor, similar to Microsoft Word, to improve usability and user experience."
-          ],
-          "technologies": ["AngularJS", "Sass", ".NET Core", "SVN"]
+          "roles": {
+            "fullStack": {
+              "title": "Full Stack Engineer",
+              "responsibilities": [
+                "Built frontend features for a medical support system with AngularJS, improving healthcare professionals’ workflows.",
+                "Styled the interface with Sass, for a consistent, modern and friendly experience.",
+                "Contributed to the backend with .NET Core.",
+                "Managed source code with SVN.",
+                "Solved a key challenge: page breaks in the text editor, like Microsoft Word’s, for doctors who relied heavily on document formatting."
+              ]
+            }
+          }
         },
         "find": {
-          "period": "2016 – 2018",
-          "title": "Full Stack Web Developer",
-          "company": "Find Soluções Corporativa Ltda",
-          "location": "Divinópolis, MG",
-          "description": "Full Stack development in a student social network project.",
-          "responsibilities": [
-            "Use of AngularJS in the Frontend, with Gulp for the workflow and LESS for styling.",
-            "Backend implementation with Node.js.",
-            "Use of the NoSQL MongoDB database.",
-            "Firebase integration for real-time notifications.",
-            "Use of Socket.IO to build the chat on the platform.",
-            "Use of Google Analytics for mapping user interaction.",
-            "Version control done with Git."
-          ],
-          "technologies": [
-            "AngularJS",
-            "Node.js",
-            "MongoDB",
-            "Firebase",
-            "Socket.IO",
-            "LESS",
-            "Gulp",
-            "Git",
-            "Google Analytics"
-          ]
+          "company": "Find",
+          "roles": {
+            "fullStack": {
+              "title": "Full Stack Engineer",
+              "responsibilities": [
+                "Worked end to end on a student social network.",
+                "Built the frontend with AngularJS, Gulp for the workflow and LESS for styling.",
+                "Built the backend with Node.js: authentication, data processing and platform features.",
+                "Used MongoDB as the NoSQL database.",
+                "Integrated Firebase for real-time notifications.",
+                "Built the platform’s real-time chat with Socket.IO.",
+                "Tracked user behavior with Google Analytics.",
+                "Managed source control with Git."
+              ]
+            }
+          }
         }
       }
     },
