@@ -5,7 +5,7 @@ export const headerVariants = {
     y: 0,
     transition: {
       duration: 0.7,
-      ease: 'easeOut',
+      ease: 'easeOut' as const,
     },
   },
 };
@@ -17,7 +17,7 @@ export const itemVariants = {
     y: 0,
     transition: {
       duration: 0.5,
-      ease: 'easeOut',
+      ease: 'easeOut' as const,
     },
   },
 };

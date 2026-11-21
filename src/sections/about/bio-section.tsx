@@ -2,7 +2,7 @@
 
 import { useTranslations } from 'next-intl';
 
-import { motion } from 'framer-motion';
+import { motion } from 'motion/react';
 
 import { bioSectionAnimation } from './animations';
 import { BioItem } from './bio-item';

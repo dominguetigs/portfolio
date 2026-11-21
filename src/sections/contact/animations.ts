@@ -1,4 +1,4 @@
-import { Variants } from 'framer-motion';
+import { Variants } from 'motion/react';
 
 export const sectionVariants: Variants = {
   hidden: { opacity: 0 },
@@ -20,7 +20,7 @@ export const titleVariants: Variants = {
     y: 0,
     transition: {
       duration: 0.4,
-      ease: 'easeOut',
+      ease: 'easeOut' as const,
     },
   },
 };
@@ -33,7 +33,7 @@ export const descriptionVariants: Variants = {
     transition: {
       duration: 0.4,
       delay: 0.1,
-      ease: 'easeOut',
+      ease: 'easeOut' as const,
     },
   },
 };
@@ -44,7 +44,7 @@ export const leftColVariants: Variants = {
     opacity: 1,
     x: 0,
     transition: {
-      type: 'spring',
+      type: 'spring' as const,
       stiffness: 100,
       damping: 16,
       when: 'beforeChildren',
@@ -59,7 +59,7 @@ export const rightColVariants: Variants = {
     opacity: 1,
     x: 0,
     transition: {
-      type: 'spring',
+      type: 'spring' as const,
       stiffness: 100,
       damping: 16,
     },
@@ -72,7 +72,7 @@ export const fadeInUpVariants: Variants = {
     opacity: 1,
     y: 0,
     transition: {
-      type: 'spring',
+      type: 'spring' as const,
       stiffness: 100,
       damping: 15,
     },
@@ -97,7 +97,7 @@ export const dialogItemVariants: Variants = {
     opacity: 1,
     y: 0,
     transition: {
-      type: 'spring',
+      type: 'spring' as const,
       damping: 12,
       stiffness: 100,
     },
@@ -111,7 +111,7 @@ export const heartAnimation: Variants = {
     opacity: 1,
     transition: {
       duration: 0.6,
-      ease: 'easeOut',
+      ease: 'easeOut' as const,
     },
   },
   pulse: {
@@ -119,7 +119,7 @@ export const heartAnimation: Variants = {
     transition: {
       duration: 1.2,
       repeat: Infinity,
-      repeatType: 'reverse',
+      repeatType: 'reverse' as const,
     },
   },
 };
@@ -137,14 +137,14 @@ export const confettiVariants: Variants = {
     rotate: [0, Math.random() * 360],
     transition: {
       duration: 1.5 + Math.random() * 0.8,
-      ease: 'easeOut',
+      ease: 'easeOut' as const,
     },
   }),
 };
 
 export const formInputFocusAnimation = {
   whileFocus: { scale: 1.01 },
-  transition: { type: 'spring', stiffness: 300, damping: 15 },
+  transition: { type: 'spring' as const, stiffness: 300, damping: 15 },
 };
 
 export const submitButtonAnimation = (isSubmitting: boolean) => ({

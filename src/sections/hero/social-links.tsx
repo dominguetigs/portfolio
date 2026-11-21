@@ -1,17 +1,20 @@
 'use client';
 
-import { motion } from 'framer-motion';
+import { motion } from 'motion/react';
 
 import { Button } from '@/components/ui/button';
 
 import { CONTACT_INFO } from '@/constants';
+import { useEntrance } from '@/components/splash-screen/splash-state';
 
 import { contentSocial } from './animations';
 
 export function SocialLinks() {
+  const entrance = useEntrance(contentSocial);
+
   return (
     <motion.div
-      {...contentSocial}
+      {...entrance}
       className="flex flex-wrap justify-center gap-4 mb-16"
     >
       {CONTACT_INFO.social.map(({ name, url, icon }) => (

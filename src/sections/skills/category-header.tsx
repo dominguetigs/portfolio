@@ -1,6 +1,6 @@
 'use client';
 
-import { motion } from 'framer-motion';
+import { motion } from 'motion/react';
 
 import { skillItemHeaderAnimation, categoryIconAnimation } from './animations';
 import { CATEGORY_ICONS } from './constants/category-icons';

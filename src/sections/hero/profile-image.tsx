@@ -4,7 +4,9 @@ import Image from 'next/image';
 
 import { useTranslations } from 'next-intl';
 
-import { motion } from 'framer-motion';
+import { motion } from 'motion/react';
+
+import { useEntrance } from '@/components/splash-screen/splash-state';
 
 import {
   profileImageContainer,
@@ -15,23 +17,27 @@ import {
 
 export function ProfileImage() {
   const t = useTranslations('Index.Hero');
+  const container = useEntrance(profileImageContainer);
+  const curtainLeft = useEntrance(profileImageCurtainLeft);
+  const curtainMiddle = useEntrance(profileImageCurtainMiddle);
+  const curtainRight = useEntrance(profileImageCurtainRight);
 
   return (
-    <motion.div {...profileImageContainer} className="mb-6 relative">
+    <motion.div {...container} className="mb-6 relative">
       <div className="w-48 h-48 mx-auto relative mb-6 overflow-hidden rounded-full border-4 border-primary/20 shadow-lg">
         <motion.div
           className="absolute inset-0 bg-primary z-10"
-          {...profileImageCurtainLeft}
+          {...curtainLeft}
         />
 
         <motion.div
           className="absolute inset-0 bg-background z-10"
-          {...profileImageCurtainMiddle}
+          {...curtainMiddle}
         />
 
         <motion.div
           className="absolute inset-0 bg-primary/40 z-10"
-          {...profileImageCurtainRight}
+          {...curtainRight}
         />
 
         <div className="relative w-full h-full">

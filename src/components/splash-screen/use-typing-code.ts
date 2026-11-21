@@ -1,4 +1,4 @@
-import { useState, useEffect, useCallback, useMemo, useRef } from 'react';
+import { useState, useEffect, useCallback, useMemo } from 'react';
 
 import { getLoadingCode } from './utils';
 
@@ -8,15 +8,13 @@ const PROGRESS_INCREMENT = 2;
 const PROGRESS_INTERVAL = 50;
 const TYPING_INTERVAL = 70;
 
-export function useTypingCode(locale: string, onComplete?: () => void) {
+export function useTypingCode(locale: string) {
   const loadingCode = useMemo(() => getLoadingCode(locale), [locale]);
 
   const [displayedCode, setDisplayedCode] = useState('');
   const [currentIndex, setCurrentIndex] = useState(0);
   const [progressWidth, setProgressWidth] = useState(0);
   const [cursorPosition, setCursorPosition] = useState({ top: 0, left: 0 });
-
-  const hasCompletedRef = useRef(false);
 
   const calculateCursorPosition = useCallback((text: string) => {
     const lines = text.split('\n');
@@ -42,12 +40,6 @@ export function useTypingCode(locale: string, onComplete?: () => void) {
     }
 
     if (currentIndex === loadingCode.length) {
-      const lines = loadingCode.split('\n');
-      const lastLine = lines[lines.length - 1];
-      const left = (lastLine.length + 1) * CHAR_WIDTH;
-
-      setCursorPosition({ top: (lines.length - 1) * 1.5, left });
-
       const interval = setInterval(() => {
         setProgressWidth(prev => {
           if (prev >= 100) {
@@ -60,11 +52,6 @@ export function useTypingCode(locale: string, onComplete?: () => void) {
 
       const timeout = setTimeout(() => {
         setProgressWidth(100);
-
-        if (!hasCompletedRef.current && onComplete) {
-          hasCompletedRef.current = true;
-          onComplete();
-        }
       }, COMPLETION_DELAY);
 
       return () => {
@@ -72,7 +59,7 @@ export function useTypingCode(locale: string, onComplete?: () => void) {
         clearTimeout(timeout);
       };
     }
-  }, [currentIndex, loadingCode, calculateCursorPosition, onComplete]);
+  }, [currentIndex, loadingCode, calculateCursorPosition]);
 
   return { displayedCode, progressWidth, cursorPosition };
 }

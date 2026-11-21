@@ -1,5 +1,5 @@
 import { Moon, Sun } from 'lucide-react';
-import { motion } from 'framer-motion';
+import { motion } from 'motion/react';
 import { iconVariants } from './animations';
 
 type ThemeType = 'dark' | 'light';

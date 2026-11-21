@@ -6,7 +6,12 @@ const withNextIntl = createNextIntlPlugin();
 const nextConfig = {
   allowedDevOrigins: ['192.168.15.2'],
 
-  /* config options here */
+  // `next dev` would write an AGENTS.md; its one rule lives in CLAUDE.md.
+  agentRules: false,
+
+  images: {
+    formats: ['image/avif', 'image/webp'],
+  },
 };
 
 export default withNextIntl(nextConfig);

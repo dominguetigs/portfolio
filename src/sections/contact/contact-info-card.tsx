@@ -4,7 +4,7 @@ import { ReactNode } from 'react';
 
 import { useTranslations } from 'next-intl';
 
-import { motion } from 'framer-motion';
+import { motion } from 'motion/react';
 
 import { Copy } from 'lucide-react';
 

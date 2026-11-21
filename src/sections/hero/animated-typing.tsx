@@ -1,10 +1,10 @@
 'use client';
 
-import { useState, useEffect, useRef, useCallback } from 'react';
+import { useState, useEffect, useRef, useCallback, useMemo } from 'react';
 
 import { useTranslations } from 'next-intl';
 
-import { motion } from 'framer-motion';
+import { motion } from 'motion/react';
 
 import { textCursor } from './animations';
 import { ANIMATED_TITLES, TYPING_CONFIG } from './constants';
@@ -17,7 +17,7 @@ interface AnimatedTitle {
 
 export function AnimatedTyping() {
   const t = useTranslations('Index.Hero');
-  const titles = useRef<AnimatedTitle[]>(ANIMATED_TITLES(t)).current;
+  const titles = useMemo<AnimatedTitle[]>(() => ANIMATED_TITLES(t), [t]);
   const typingTimeoutRef = useRef<ReturnType<typeof setTimeout> | null>(null);
 
   const [state, setState] = useState({
@@ -120,7 +120,12 @@ export function AnimatedTyping() {
 
   return (
     <div className="h-9 md:h-10 flex justify-center items-center">
-      <div className="text-xl md:text-2xl relative inline-flex min-h-10 items-center">
+      <p className="sr-only">{titles[0].text}</p>
+
+      <div
+        aria-hidden="true"
+        className="text-xl md:text-2xl relative inline-flex min-h-10 items-center"
+      >
         <span className={`${currentTitle.color} font-medium`}>
           {state.displayText}
         </span>

@@ -1,11 +1,14 @@
-import { useEffect, useState } from 'react';
+import { useSyncExternalStore } from 'react';
 
+const subscribe = () => () => {};
+
+/** False during server render and hydration, true once on the client. */
 export function useMount() {
-  const [mounted, setMounted] = useState(false);
-
-  useEffect(() => {
-    setMounted(true);
-  }, []);
+  const mounted = useSyncExternalStore(
+    subscribe,
+    () => true,
+    () => false,
+  );
 
   return { mounted };
 }

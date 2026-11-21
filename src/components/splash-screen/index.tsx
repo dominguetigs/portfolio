@@ -1,53 +1,41 @@
 'use client';
 
-import { useEffect, useState } from 'react';
+import { useCallback, useEffect, useState } from 'react';
 
 import { useLocale } from 'next-intl';
 
-import { motion, AnimatePresence } from 'framer-motion';
+import { motion, AnimatePresence } from 'motion/react';
 
 import { GhibliBackground } from '../ghibli-background';
 import { CodeBox } from './code-box';
 import { useTypingCode } from './use-typing-code';
 import { ProgressBar } from './progress-bar';
+import { finishSplash, useSplashState } from './splash-state';
 
-interface SplashScreenProps {
-  onComplete?: () => void;
-}
-
-export function SplashScreen({ onComplete }: SplashScreenProps) {
-  const locale = useLocale();
+export function SplashScreen() {
+  const state = useSplashState();
   const [isVisible, setIsVisible] = useState(true);
 
-  const { displayedCode, progressWidth, cursorPosition } = useTypingCode(
-    locale,
-    onComplete,
-  );
+  const handleDone = useCallback(() => {
+    finishSplash();
+    setIsVisible(false);
+  }, []);
 
-  useEffect(() => {
-    if (progressWidth === 100) {
-      const timeout = setTimeout(() => {
-        setIsVisible(false);
-
-        if (onComplete) {
-          onComplete();
-        }
-      }, 500);
-
-      return () => clearTimeout(timeout);
-    }
-  }, [progressWidth, onComplete]);
+  if (state === 'skip') {
+    return null;
+  }
 
   return (
-    <AnimatePresence mode="wait">
+    <AnimatePresence>
       {isVisible && (
         <motion.div
+          data-splash-screen
           initial={{ opacity: 1 }}
           exit={{
             opacity: 0,
             transition: { duration: 0.8, ease: 'easeInOut' },
           }}
-          className="fixed inset-0 z-50 flex items-center justify-center bg-background"
+          className="fixed inset-0 z-[60] flex items-center justify-center bg-background"
         >
           <div className="texture" />
 
@@ -55,17 +43,34 @@ export function SplashScreen({ onComplete }: SplashScreenProps) {
             <GhibliBackground />
           </div>
 
-          <div className="flex items-center justify-center h-full w-full">
-            <div className="relative w-full max-w-[480px] px-4 mx-auto">
-              <div className="relative flex items-center justify-center">
-                <CodeBox code={displayedCode} cursorPosition={cursorPosition} />
-              </div>
-
-              <ProgressBar progressWidth={progressWidth} />
-            </div>
-          </div>
+          <SplashCode onDone={handleDone} />
         </motion.div>
       )}
     </AnimatePresence>
+  );
+}
+
+function SplashCode({ onDone }: { onDone: () => void }) {
+  const locale = useLocale();
+  const { displayedCode, progressWidth, cursorPosition } =
+    useTypingCode(locale);
+
+  useEffect(() => {
+    if (progressWidth === 100) {
+      const timeout = setTimeout(onDone, 500);
+      return () => clearTimeout(timeout);
+    }
+  }, [progressWidth, onDone]);
+
+  return (
+    <div className="flex items-center justify-center h-full w-full">
+      <div className="relative w-full max-w-[480px] px-4 mx-auto">
+        <div className="relative flex items-center justify-center">
+          <CodeBox code={displayedCode} cursorPosition={cursorPosition} />
+        </div>
+
+        <ProgressBar progressWidth={progressWidth} />
+      </div>
+    </div>
   );
 }

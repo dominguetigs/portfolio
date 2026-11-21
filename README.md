@@ -2,13 +2,13 @@
 
 <p align="center">
   <a href="https://nodejs.org/en/" target="_blank">
-    <img alt="Node.js version" src="https://img.shields.io/badge/node-v20.18.1-74AB63?style=for-the-badge&logo=node.js&logoColor=74AB63">
+    <img alt="Node.js version" src="https://img.shields.io/badge/node-v24-74AB63?style=for-the-badge&logo=node.js&logoColor=74AB63">
   </a>
   <a href="https://www.npmjs.com/" target="_blank">
     <img alt="NPM version" src="https://img.shields.io/badge/npm-v10.8.2-C53730?style=for-the-badge&logo=npm&logoColor=C53730">
   </a>
   <a href="https://react.dev/" target="_blank">
-    <img alt="ReactJS version" src="https://img.shields.io/badge/React-v19.0.0-20232A?style=for-the-badge&logo=react&logoColor=61DAFB">
+    <img alt="ReactJS version" src="https://img.shields.io/badge/React-v19.3-20232A?style=for-the-badge&logo=react&logoColor=61DAFB">
   </a>
   <a href="https://www.linkedin.com/in/gustavo-domingueti/" target="_blank">
     <img alt="Made by Gustavo Domingueti" src="https://img.shields.io/badge/made%20by-Gustavo%20Domingueti-0078D7?style=for-the-badge&logoColor=0078D7">
@@ -43,7 +43,7 @@ A modern and professional portfolio website built with Next.js, React, and TypeS
 
 - Modern and responsive UI
 - Dark mode support
-- Smooth animations with Framer Motion
+- Smooth animations with Motion
 - Toast notifications
 - Accessible components with Radix UI
 - Type-safe development with TypeScript
@@ -62,7 +62,7 @@ The project was developed using the following technologies and libraries:
 - [TypeScript](https://www.typescriptlang.org/) - JavaScript with syntax for types
 - [Tailwind CSS](https://tailwindcss.com/) - A utility-first CSS framework
 - [Radix UI](https://www.radix-ui.com/) - Unstyled, accessible components
-- [Framer Motion](https://www.framer.com/motion/) - A production-ready motion library for React
+- [Motion](https://motion.dev/) - A production-ready motion library for React
 - [next-themes](https://github.com/pacocoursey/next-themes) - Dark mode with Next.js
 - [next-intl](https://next-intl-docs.vercel.app/) - Internationalization for Next.js
 - [Sonner](https://sonner.emilkowal.ski/) - Toast notifications
@@ -98,6 +98,7 @@ This project follows modern best practices to ensure code quality, consistency, 
 ├── constants/               # Shared constants
 ├── emails/                  # Template emails to send using Resend library
 ├── i18n/                    # I18n configuration using next-intl
+├── proxy.ts                 # Redirects every request to a locale (next-intl)
 ├── lib/                     # Shared libraries, helpers, and integrations
 ├── sections/                # Page sections
 ├── types/                   # TypeScript type definitions

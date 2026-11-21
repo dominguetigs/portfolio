@@ -4,7 +4,7 @@ import { useState } from 'react';
 
 import { useTranslations } from 'next-intl';
 
-import { motion } from 'framer-motion';
+import { motion } from 'motion/react';
 
 import { Layout } from 'lucide-react';
 

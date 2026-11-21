@@ -4,6 +4,6 @@ export const heartBeatAnimation = {
     duration: 1.5,
     repeat: Infinity,
     repeatType: 'reverse' as const,
-    ease: 'easeInOut',
+    ease: 'easeInOut' as const,
   },
 };

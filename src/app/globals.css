@@ -175,8 +175,6 @@
   --primary-border: oklch(0.59 0.096 111.8);
   --destructive-foreground: oklch(0.97 0.018 0);
   --destructive-border: oklch(0.43 0.24 29.2);
-  --theme-background-image: none;
-  --theme-background-size: auto;
 }
 
 .dark {
@@ -212,8 +210,6 @@
   --sidebar-border: oklch(1 0 0 / 10%);
   --sidebar-ring: oklch(0.551 0.027 264.364);
   --primary-border: oklch(0.45 0.096 111.8);
-  --theme-background-image: url('https://www.transparenttextures.com/patterns/brushed-alum.png');
-  --theme-background-size: 250px 250px;
 }
 
 @layer base {
@@ -297,7 +293,7 @@
 
   /* Textura para o modo claro */
   .texture {
-    background-image: url(https://matsu-theme.vercel.app/texture.jpg);
+    background-image: url('/textures/paper.webp');
     background-size: 100% 100%;
     background-repeat: repeat;
     opacity: 0.12;
@@ -316,9 +312,6 @@
   }
 
   .dark .texture {
-    background-image: url(https://matsu-theme.vercel.app/texture.jpg);
-    background-size: 100% 100%;
-    background-repeat: repeat;
     opacity: 0.15;
     mix-blend-mode: screen;
     filter: contrast(1.3) brightness(0.45) invert(0.1);
@@ -366,4 +359,24 @@
   #message {
     @apply max-h-24 overflow-y-auto;
   }
+}
+
+/* The painted background settles in when the page loads */
+@keyframes painting-enter {
+  from {
+    opacity: 0;
+    transform: scale(1.02) translateY(20px);
+  }
+}
+
+/* The splash (see splash-state.ts): hidden before the first paint when it is
+   skipped, and the page does not scroll underneath it. !important because the
+   build folds these rules into the base layer, below the utilities on the
+   splash element (.flex) and on <html> (.overflow-x-hidden). */
+html[data-splash='skip'] [data-splash-screen] {
+  display: none !important;
+}
+
+html[data-splash='show'] {
+  overflow: hidden !important;
 }

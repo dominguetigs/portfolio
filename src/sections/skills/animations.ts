@@ -41,7 +41,7 @@ export const categoryIconAnimation = {
     rotate: 5,
   },
   transition: {
-    type: 'spring',
+    type: 'spring' as const,
     stiffness: 400,
     damping: 10,
   },
@@ -55,14 +55,14 @@ export const skillItemAnimation = {
   transition: (delay: number, index: number) => ({
     duration: 0.3,
     delay: delay + index * 0.08,
-    type: 'spring',
+    type: 'spring' as const,
     stiffness: 200,
   }),
   whileHover: {
     scale: 1.03,
     y: -5,
     transition: {
-      type: 'spring',
+      type: 'spring' as const,
       stiffness: 300,
       damping: 15,
       mass: 0.8,
@@ -76,7 +76,7 @@ export const skillIconAnimation = {
     scale: 1.3,
     rotate: 5,
     transition: {
-      type: 'spring',
+      type: 'spring' as const,
       stiffness: 400,
       damping: 5,
     },
@@ -99,7 +99,7 @@ export const favoriteStarAnimation = {
   animate: (inView: boolean) => (inView ? { scale: 1 } : { scale: 0 }),
   transition: (delay: number, index: number) => ({
     delay: delay + index * 0.08 + 0.2,
-    type: 'spring',
+    type: 'spring' as const,
     stiffness: 300,
   }),
 };

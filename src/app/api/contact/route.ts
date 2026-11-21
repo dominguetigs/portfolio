@@ -1,23 +1,35 @@
 import { NextResponse } from 'next/server';
 import { Resend } from 'resend';
-import { ContactFormEmail } from '@/emails/contact-email';
 
-// Inicializar o cliente Resend com a API key
-const resend = new Resend(process.env.RESEND_API_KEY);
+import { ContactFormEmail } from '@/emails/contact-email';
+import { contactFormSchema } from '@/sections/contact/schemas';
 
 export async function POST(request: Request) {
   try {
-    const { name, email, message } = await request.json();
+    const parsed = contactFormSchema.safeParse(
+      await request.json().catch(() => null),
+    );
 
-    // Validação básica dos dados
-    if (!name || !email || !message) {
+    if (!parsed.success) {
       return NextResponse.json(
-        { error: 'Name, email, and message are required' },
+        { error: 'Name, a valid email and a message are required' },
         { status: 400 },
       );
     }
 
-    // Enviar o email usando o Resend
+    // Created per request, so a build without RESEND_API_KEY does not fail.
+    const apiKey = process.env.RESEND_API_KEY;
+    if (!apiKey) {
+      console.error('RESEND_API_KEY is not set');
+      return NextResponse.json(
+        { error: 'Email service is not configured' },
+        { status: 503 },
+      );
+    }
+
+    const { name, email, message } = parsed.data;
+    const resend = new Resend(apiKey);
+
     const { data, error } = await resend.emails.send({
       from: process.env.FROM_EMAIL || 'Contact Form <onboarding@resend.dev>',
       to:

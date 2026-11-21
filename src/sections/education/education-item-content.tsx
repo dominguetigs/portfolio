@@ -1,6 +1,6 @@
 'use client';
 
-import { motion } from 'framer-motion';
+import { motion } from 'motion/react';
 import { Calendar, MapPin, Building } from 'lucide-react';
 import { Badge } from '@/components/ui/badge';
 import { educationItemVariants, getAnimationDelay } from './animations';

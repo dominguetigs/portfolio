@@ -1,4 +1,4 @@
-import { Variants } from 'framer-motion';
+import { Variants } from 'motion/react';
 
 export const languageItemVariants: Variants = {
   hidden: { opacity: 0, y: 20 },
@@ -8,7 +8,7 @@ export const languageItemVariants: Variants = {
 export const getLanguageItemTransition = (delay: number = 0) => ({
   duration: 0.5,
   delay,
-  type: 'spring',
+  type: 'spring' as const,
   stiffness: 100,
   damping: 12,
 });
@@ -21,7 +21,7 @@ export const skillBarItemVariants: Variants = {
 export const getSkillBarItemTransition = (index: number) => ({
   duration: 0.4,
   delay: 0.2 + index * 0.1,
-  type: 'spring',
+  type: 'spring' as const,
   stiffness: 200,
 });
 

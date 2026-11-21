@@ -1,6 +1,6 @@
 'use client';
 
-import { motion } from 'framer-motion';
+import { motion } from 'motion/react';
 import { Building2, Calendar, MapPin, Check, Code } from 'lucide-react';
 import { ReactNode } from 'react';
 import { Badge } from '@/components/ui/badge';
@@ -45,7 +45,7 @@ export function ExperienceItem({
       transition={{
         duration: 0.4,
         delay: delay * 0.5,
-        type: 'spring',
+        type: 'spring' as const,
         stiffness: 110,
       }}
       className="relative pl-8 sm:pl-10 pb-6 mb-0"
@@ -97,7 +97,7 @@ export function ExperienceItem({
                   transition={{
                     duration: 0.25,
                     delay: delay * 0.7 + 0.07 + index * 0.03,
-                    type: 'tween',
+                    type: 'tween' as const,
                   }}
                   className="flex gap-2"
                 >
@@ -128,7 +128,7 @@ export function ExperienceItem({
                   transition={{
                     duration: 0.25,
                     delay: delay * 0.7 + 0.07 + index * 0.03,
-                    type: 'tween',
+                    type: 'tween' as const,
                   }}
                 >
                   <Badge variant="secondary">{tech}</Badge>

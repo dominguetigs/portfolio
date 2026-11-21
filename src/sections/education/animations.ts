@@ -1,4 +1,4 @@
-import { Variants } from 'framer-motion';
+import { Variants } from 'motion/react';
 
 export const educationItemVariants = {
   container: {
@@ -8,7 +8,7 @@ export const educationItemVariants = {
   content: {
     whileHover: {
       y: -5,
-      transition: { type: 'spring', stiffness: 400, damping: 10 },
+      transition: { type: 'spring' as const, stiffness: 400, damping: 10 },
     },
   },
   text: {
@@ -31,11 +31,11 @@ export const educationItemVariants = {
     visible: (delay: number) => ({
       opacity: 1,
       scale: 1,
-      transition: { duration: 0.3, delay, type: 'spring' },
+      transition: { duration: 0.3, delay, type: 'spring' as const },
     }),
     hover: {
       scale: 1.05,
-      transition: { type: 'spring', stiffness: 400 },
+      transition: { type: 'spring' as const, stiffness: 400 },
     },
   },
   chevron: (isExpanded: boolean): Variants => ({

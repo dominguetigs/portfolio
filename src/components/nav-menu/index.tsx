@@ -1,7 +1,7 @@
 'use client';
 
 import { useState, useEffect, useRef } from 'react';
-import { motion, AnimatePresence } from 'framer-motion';
+import { motion, AnimatePresence } from 'motion/react';
 import { useTranslations } from 'next-intl';
 import {
   User,
@@ -16,6 +16,7 @@ import {
 
 import { cn } from '@/lib/utils';
 import { Button } from '@/components/ui/button';
+import { useMount } from '@/hooks/use-mount';
 
 import { throttle } from '@/utils/throttle';
 
@@ -45,7 +46,7 @@ export function NavMenu() {
   const [userClicked, setUserClicked] = useState(false);
   const [showMenu, setShowMenu] = useState(true);
   const [showScrollTopButton, setShowScrollTopButton] = useState(false);
-  const [mounted, setMounted] = useState(false);
+  const { mounted } = useMount();
   const timeoutRef = useRef<NodeJS.Timeout | null>(null);
   const clickTimeoutRef = useRef<NodeJS.Timeout | null>(null);
   const observersRef = useRef<Record<string, IntersectionObserver>>({});
@@ -58,11 +59,9 @@ export function NavMenu() {
   }));
 
   useEffect(() => {
-    setMounted(true);
+    const observers = observersRef;
     return () => {
-      setMounted(false);
-
-      Object.values(observersRef.current).forEach(observer =>
+      Object.values(observers.current).forEach(observer =>
         observer.disconnect(),
       );
     };
@@ -109,15 +108,15 @@ export function NavMenu() {
       }
     };
 
-    sections.forEach(section => {
-      const element = document.getElementById(section.id);
+    sectionIds.forEach(id => {
+      const element = document.getElementById(id);
       if (element) {
         const observer = new IntersectionObserver(
           handleIntersection,
           observerOptions,
         );
         observer.observe(element);
-        sectionObservers[section.id] = observer;
+        sectionObservers[id] = observer;
       }
     });
 
@@ -257,7 +256,7 @@ export function NavMenu() {
                 exit={{ opacity: 0, x: -20 }}
                 transition={{
                   duration: 0.5,
-                  ease: 'easeInOut',
+                  ease: 'easeInOut' as const,
                 }}
               >
                 <div className="bg-card/80 backdrop-blur-sm border rounded-full shadow-sm p-2 flex flex-col gap-2">
@@ -279,7 +278,7 @@ export function NavMenu() {
                           layoutId="desktopNavIndicator"
                           className="absolute inset-0 rounded-full bg-primary"
                           transition={{
-                            type: 'spring',
+                            type: 'spring' as const,
                             stiffness: 500,
                             damping: 30,
                           }}
@@ -306,7 +305,7 @@ export function NavMenu() {
                   exit={{ opacity: 0, y: 20 }}
                   transition={{
                     duration: 0.5,
-                    ease: 'easeInOut',
+                    ease: 'easeInOut' as const,
                   }}
                 >
                   <div className="flex items-center">
@@ -329,7 +328,7 @@ export function NavMenu() {
                               layoutId="mobileNavIndicator"
                               className="absolute inset-0 rounded-full bg-primary"
                               transition={{
-                                type: 'spring',
+                                type: 'spring' as const,
                                 stiffness: 500,
                                 damping: 30,
                               }}
@@ -360,7 +359,7 @@ export function NavMenu() {
                             transition: {
                               duration: 0.6,
                               delay: 0.2,
-                              ease: [0.22, 1, 0.36, 1],
+                              ease: [0.22, 1, 0.36, 1] as const,
                             },
                           }}
                           exit={{
@@ -370,7 +369,7 @@ export function NavMenu() {
                             filter: 'blur(2px)',
                             transition: {
                               duration: 0.4,
-                              ease: [0.22, 1, 0.36, 1],
+                              ease: [0.22, 1, 0.36, 1] as const,
                             },
                           }}
                           className="ml-2"
@@ -387,7 +386,7 @@ export function NavMenu() {
                                 transition: {
                                   delay: 0.15,
                                   duration: 0.5,
-                                  ease: 'easeInOut',
+                                  ease: 'easeInOut' as const,
                                   repeat: Infinity,
                                   repeatDelay: 3,
                                 },

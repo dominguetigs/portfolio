@@ -3,17 +3,17 @@ export const iconVariants = {
     dark: {
       rotate: 45,
       scale: 1.1,
-      transition: { type: 'spring', stiffness: 400, damping: 10 },
+      transition: { type: 'spring' as const, stiffness: 400, damping: 10 },
     },
     light: {
       rotate: 45,
       scale: 1.1,
-      transition: { type: 'spring', stiffness: 400, damping: 10 },
+      transition: { type: 'spring' as const, stiffness: 400, damping: 10 },
     },
     initial: {
       rotate: 0,
       scale: 1,
-      transition: { type: 'spring', stiffness: 300, damping: 15 },
+      transition: { type: 'spring' as const, stiffness: 300, damping: 15 },
     },
   },
 };

@@ -1,7 +1,7 @@
 export const profileImageContainer = {
   initial: { opacity: 0, scale: 0.8 },
   animate: { opacity: 1, scale: 1 },
-  transition: { duration: 0.8, type: 'spring' },
+  transition: { duration: 0.8, type: 'spring' as const },
 };
 
 export const profileImageCurtainLeft = {
@@ -10,7 +10,7 @@ export const profileImageCurtainLeft = {
   transition: {
     duration: 0.8,
     delay: 0.4,
-    ease: [0.645, 0.045, 0.355, 1.0],
+    ease: [0.645, 0.045, 0.355, 1.0] as const,
   },
 };
 
@@ -20,7 +20,7 @@ export const profileImageCurtainMiddle = {
   transition: {
     duration: 0.8,
     delay: 0.6,
-    ease: [0.645, 0.045, 0.355, 1.0],
+    ease: [0.645, 0.045, 0.355, 1.0] as const,
   },
 };
 
@@ -30,7 +30,7 @@ export const profileImageCurtainRight = {
   transition: {
     duration: 0.8,
     delay: 0.8,
-    ease: [0.645, 0.045, 0.355, 1.0],
+    ease: [0.645, 0.045, 0.355, 1.0] as const,
   },
 };
 
@@ -70,7 +70,7 @@ export const arrowMotion = {
     transition: {
       delay: 0.15,
       duration: 0.5,
-      ease: 'easeInOut',
+      ease: 'easeInOut' as const,
       repeat: Infinity,
       repeatDelay: 3,
     },
@@ -92,7 +92,7 @@ export const scrollDownButton = {
     transition: {
       duration: 0.6,
       delay: 0.2,
-      ease: [0.22, 1, 0.36, 1],
+      ease: [0.22, 1, 0.36, 1] as const,
     },
   },
   exit: {
@@ -102,7 +102,7 @@ export const scrollDownButton = {
     filter: 'blur(2px)',
     transition: {
       duration: 0.4,
-      ease: [0.22, 1, 0.36, 1],
+      ease: [0.22, 1, 0.36, 1] as const,
     },
   },
 };
@@ -122,7 +122,7 @@ export const scrollUpButton = {
     transition: {
       duration: 0.6,
       delay: 0.2,
-      ease: [0.22, 1, 0.36, 1],
+      ease: [0.22, 1, 0.36, 1] as const,
     },
   },
   exit: {
@@ -132,7 +132,7 @@ export const scrollUpButton = {
     filter: 'blur(2px)',
     transition: {
       duration: 0.4,
-      ease: [0.22, 1, 0.36, 1],
+      ease: [0.22, 1, 0.36, 1] as const,
     },
   },
 };

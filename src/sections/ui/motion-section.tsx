@@ -1,6 +1,6 @@
 'use client';
 
-import { motion } from 'framer-motion';
+import { motion } from 'motion/react';
 import { useInView } from 'react-intersection-observer';
 import { ReactNode, forwardRef, useEffect, useState } from 'react';
 
@@ -47,7 +47,7 @@ export const MotionSection = forwardRef<HTMLElement, MotionSectionProps>(
         transition={{
           duration: 0.4,
           delay,
-          type: 'spring',
+          type: 'spring' as const,
           stiffness: 60,
           damping: 8,
         }}

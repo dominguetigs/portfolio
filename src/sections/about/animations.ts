@@ -13,7 +13,7 @@ export const primaryLayerAnimation = {
   transition: {
     duration: 0.7,
     delay: 0.4,
-    ease: [0.645, 0.045, 0.355, 1.0],
+    ease: [0.645, 0.045, 0.355, 1.0] as const,
   },
   viewport: { once: true },
 };
@@ -24,7 +24,7 @@ export const backgroundLayerAnimation = {
   transition: {
     duration: 0.7,
     delay: 0.6,
-    ease: [0.645, 0.045, 0.355, 1.0],
+    ease: [0.645, 0.045, 0.355, 1.0] as const,
   },
   viewport: { once: true },
 };
@@ -35,7 +35,7 @@ export const imageScaleAnimation = {
   transition: {
     duration: 1.2,
     delay: 0.5,
-    ease: [0.25, 0.1, 0.25, 1.0],
+    ease: [0.25, 0.1, 0.25, 1.0] as const,
   },
   viewport: { once: true },
 };
@@ -88,7 +88,7 @@ export const createBioItemAnimation = (delayOffset: number) => ({
     whileInView: { scale: 1, opacity: 1 },
     viewport: { once: true },
     transition: {
-      type: 'spring',
+      type: 'spring' as const,
       stiffness: 260,
       damping: 20,
       delay: delayOffset + 0.2,
@@ -123,7 +123,7 @@ export const createCardAnimation = (index: number) => ({
   transition: {
     duration: 0.6,
     delay: 0.3 + index * 0.15,
-    type: 'spring',
+    type: 'spring' as const,
     stiffness: 80,
   },
 });

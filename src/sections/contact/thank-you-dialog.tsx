@@ -1,10 +1,10 @@
 'use client';
 
-import { useEffect, useState } from 'react';
+import { useEffect } from 'react';
 
 import { useTranslations } from 'next-intl';
 
-import { motion, AnimatePresence } from 'framer-motion';
+import { motion, AnimatePresence } from 'motion/react';
 
 import { HeartHandshake, Heart } from 'lucide-react';
 
@@ -37,16 +37,11 @@ export function ThankYouDialog({
   onAnimationStart,
 }: ThankYouDialogProps) {
   const t = useTranslations('Index.Contact');
-  const [showConfetti, setShowConfetti] = useState(false);
-
   const heartsArray = Array.from({ length: 24 }, (_, i) => i);
 
   useEffect(() => {
     if (isOpen) {
-      setShowConfetti(true);
       onAnimationStart();
-    } else {
-      setShowConfetti(false);
     }
   }, [isOpen, onAnimationStart]);
 
@@ -69,7 +64,7 @@ export function ThankYouDialog({
               </div>
 
               <AnimatePresence>
-                {showConfetti && (
+                {isOpen && (
                   <>
                     {heartsArray.map(i => (
                       <motion.div

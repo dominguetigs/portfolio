@@ -1,4 +1,4 @@
-import { motion } from 'framer-motion';
+import { motion } from 'motion/react';
 import { SectionHeader, MotionSection } from '@/sections/ui';
 import { ExperienceItem } from './experience-item';
 import { Check, ChevronDown } from 'lucide-react';
@@ -66,7 +66,7 @@ export function ExperienceSection() {
                           transition={{
                             duration: 0.25,
                             delay: 0.05 + idx * 0.03,
-                            type: 'tween',
+                            type: 'tween' as const,
                           }}
                           className="flex gap-2"
                         >
@@ -106,7 +106,7 @@ export function ExperienceSection() {
                           transition={{
                             duration: 0.25,
                             delay: 0.05 + idx * 0.03,
-                            type: 'tween',
+                            type: 'tween' as const,
                           }}
                           className="flex gap-2"
                         >
