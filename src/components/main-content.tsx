@@ -12,7 +12,7 @@ interface MainContentProps {
 export function MainContent({ children }: MainContentProps) {
   return (
     <>
-      <GhibliBackground />
+      <GhibliBackground live />
       <div className="texture" />
       {children}
 

@@ -36,17 +36,17 @@ Order: 0 → 1 + 2 → 4 → 3 → 5 (D-006). Each phase is one batch the user t
 - [x] The theme icon no longer depends on the stored theme while rendering (it caused a hydration mismatch once the header was server-rendered); the "more projects on GitHub" link pointed at `undefined`.
 - [ ] **Waiting on the user:** the experience list from LinkedIn (see "Open questions").
 
-### 1 · The living sky (hero)
+### 1 + 2 · The living sky and the sunset — done, awaiting the user's test
 
-- Split the painting into layers (sky, far hills, near hills and trees) plus a depth map made once, offline, so it moves in 2.5D with the pointer, the scroll and the phone's gyroscope.
-- Clouds drift, the grass ripples, the sun breathes.
-- Fallback when WebGL fails, the device is weak, or the visitor asks for reduced motion: today's static painting.
-- Art (D-004): the sky and hills are painted images; whatever moves (grass, cloud overlay, stars, fireflies) is procedural.
+How it works: `docs/scene.md`.
 
-### 2 · Time passes (the theme toggle)
-
-- The toggle becomes a sunset or a sunrise: the sun goes down behind the hills, the sky turns golden, then magenta, then night; stars appear, the moon rises, fireflies come out over the grass. The UI colours follow.
-- Optional: an "now in São Paulo" mode where the sky follows Gustavo's real local time.
+- [x] The two paintings split offline into sky, clouds, sun or moon, land and a depth/grass map (`scripts/scene/split_painting.py`; D-004: painted layers, procedural motion).
+- [x] One fullscreen shader (R3F) brings them back together: layers move in depth with the pointer, the scroll and the phone's tilt; clouds drift; the grass catches the wind; the sun breathes.
+- [x] The theme toggle is a sunset (or a sunrise): golden hour, dusk, the sun going down behind the hills, the moon rising, stars, fireflies over the grass; reversible mid-way.
+- [x] It fades in over the static painting (identical at rest, measured), only after the splash and when the browser is idle; never with reduced motion or without WebGL; 30 fps on phones.
+- [x] Console clean in dev: the splash's head script renders from the server only, next-themes' script is inert when React re-creates it (both were re-created when the root layout remounts on a locale change); the paintings load eagerly as the LCP; three pinned to 0.182 (D-008).
+- [x] The splash can no longer trap the page: if React has not started it within 6 s (a script that failed or was blocked), the head script skips it. Found on the phone through the LAN: Next 16 blocks dev resources from origins outside `allowedDevOrigins` (now `192.168.*.*`), so the page never hydrated.
+- Not done: the "now in São Paulo" mode (optional in the plan). The UI colours still switch at once with the theme.
 
 ### 3 · The real sky (astronomy)
 
@@ -66,14 +66,9 @@ Order: 0 → 1 + 2 → 4 → 3 → 5 (D-006). Each phase is one batch the user t
 - Contact: a mailbox on the fence; a sent message flies off with the wind.
 - Splash (D-005): the code box stays, shorter; the code "paints" the scene, a pencil sketch of the landscape that watercolour fills in.
 
-## How the 3D will be built (from the Ladôme scene)
+## How the 3D is built
 
-- One fixed `<Canvas>` behind the content; the text stays in the DOM (SEO, accessibility, i18n).
-- Orthographic camera, 1 unit = 1 CSS px, `position.y = -scrollY` each frame.
-- three.js / R3F load with `next/dynamic` after the first paint and stay out of the LCP.
-- Measure the DOM at most every 200 ms per target, never per frame; cap the per-frame clock step at 0.12 s.
-- On phones: capped DPR, a scene that does not restart when the browser bar changes the viewport height, paused when the tab is hidden.
-- A path rule (`.claude/rules/three.md`) and a scene doc, as in Ladôme.
+See `docs/scene.md` and `.claude/rules/scene.md`. From the Ladôme scene, still to come with phase 5: content-aligned geometry (orthographic camera, 1 unit = 1 CSS px, `position.y = -scrollY`), DOM measured at most every 200 ms per target, a scene that does not restart when the phone's browser bar changes the viewport height.
 
 ## Open questions
 

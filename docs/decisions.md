@@ -57,3 +57,11 @@ Each heading carries an ID and a status: `[final]`, `[hypothesis]`, `[pending]`,
 **Decision:** Ladôme Ateliê (site and panel) is the latest work and opens the projects section, above the tabs, with the site as the protagonist: a browser-framed gallery of the real site (cover, the 3D thread, the globe, the atelier's hook), its four highlights, then the panel in a smaller card. The panel shows only its sign-in screen, since it is behind a login.
 **Images:** screenshots of the public site taken read-only; none shows a person (the founder's portrait and customers' photos are left out).
 **See:** `src/sections/projects/featured-project.tsx`, `public/projects/ladome/`.
+
+### D-008 · three.js pinned to 0.182 [final]
+
+`2026-11-20` · source: found while building phase 1
+
+**Decision:** `three` and `@types/three` stay at 0.182.0.
+**Why:** React Three Fiber 9.8 (the latest) still creates a `THREE.Clock`, which logs a deprecation warning on every load from three r183. Nothing the scene uses needs a newer three.
+**Revisit when:** a React Three Fiber release moves to `THREE.Timer`.

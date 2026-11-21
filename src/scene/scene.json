@@ -1,0 +1,28 @@
+{
+  "day": {
+    "width": 1536,
+    "height": 1024,
+    "light": {
+      "x": 182,
+      "y": 0,
+      "width": 539,
+      "height": 462,
+      "centerX": 451,
+      "centerY": 203
+    },
+    "horizon": 733
+  },
+  "night": {
+    "width": 1536,
+    "height": 1024,
+    "light": {
+      "x": 232,
+      "y": 40,
+      "width": 360,
+      "height": 356,
+      "centerX": 413,
+      "centerY": 218
+    },
+    "horizon": 734
+  }
+}

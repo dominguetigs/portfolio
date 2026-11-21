@@ -4,6 +4,7 @@ import { useEffect, useRef } from 'react';
 import Image from 'next/image';
 
 import { cn } from '@/lib/utils';
+import { LivingSkyGate } from '@/scene/living-sky-gate';
 
 const EASE = 'cubic-bezier(0.25, 0.4, 0.3, 1)';
 const CROSSFADE_MS = 2500;
@@ -23,13 +24,15 @@ const paintings = [
 
 /**
  * The painted landscape behind the page: day in light mode, night in dark mode.
+ * With `live`, the living painting (src/scene) fades in over it once ready;
+ * the static paintings stay underneath as the fallback.
  *
  * Both paintings are stacked and the `.dark` class (set by next-themes before
  * the first paint) picks one, so the background is in the server HTML. A theme
  * change flips the class at once (next-themes disables CSS transitions while
  * it switches), so the cross-fade runs on the Web Animations API instead.
  */
-export function GhibliBackground() {
+export function GhibliBackground({ live = false }: { live?: boolean }) {
   const containerRef = useRef<HTMLDivElement>(null);
 
   useEffect(() => {
@@ -79,13 +82,25 @@ export function GhibliBackground() {
             alt=""
             fill
             sizes="100vw"
+            // The visible painting is the LCP, and which one depends on the
+            // theme, so both load eagerly instead of one being preloaded.
+            loading="eager"
             className={cn('object-cover', painting.className)}
-            style={{ objectPosition: '40% 20%' }}
+            // Scaled around the object position, exactly as the living
+            // painting is (src/scene), so it can fade in without a jump.
+            style={{
+              objectPosition: '40% 20%',
+              transform: 'scale(1.04)',
+              transformOrigin: '40% 20%',
+            }}
           />
         ))}
       </div>
 
       <div className="absolute inset-0 bg-gradient-to-t from-background/85 via-background/30 to-transparent dark:from-background/90 dark:via-background/40" />
+
+      {/* Above the gradient: the living painting draws its own (painting-shader). */}
+      {live && <LivingSkyGate />}
     </div>
   );
 }

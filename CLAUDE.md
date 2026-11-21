@@ -6,9 +6,10 @@ Gustavo Domingueti's personal portfolio (gustavodomingueti.com.br): a one-page N
 - `src/sections/<section>` — one folder per section (hero, about, skills, projects, experience, education, languages, contact), each with its components, `constants`, `animations` and `types`.
 - `src/components` — shared pieces (header, nav menu, footer, splash screen, the painted background, theme and language switchers). `src/components/ui` keeps only the shadcn/ui components in use.
 - `messages/{pt,en,es}.json` — every piece of copy, through next-intl; `src/i18n` holds the routing; `src/proxy.ts` redirects to a locale.
+- `src/scene` — the living painting (React Three Fiber, one shader) over the static paintings; its layers come from `scripts/scene/split_painting.py` into `public/scene/`.
 - `src/app/globals.css` — the theme tokens (light and `.dark`), the paper texture, the dark-mode contrast overrides and the splash rules.
 
-Stack: Next.js 16 (App Router, Turbopack), React 19, Tailwind v4, `motion`, next-intl (`next/root-params`), next-themes, react-hook-form + zod, Resend. Deployed on Vercel.
+Stack: Next.js 16 (App Router, Turbopack), React 19, Tailwind v4, `motion`, three.js + React Three Fiber (`src/scene` only, loaded lazily), next-intl (`next/root-params`), next-themes, react-hook-form + zod, Resend. Deployed on Vercel.
 
 ## Commands
 
@@ -31,6 +32,7 @@ No test runner: a change is checked with lint, typecheck, build and a browser pa
 ## Where the context lives
 
 - `docs/roadmap.md` — the modernization plan ("the painting comes alive"), phase by phase, with what is done. Read it before any work on `feat/living-landscape`.
+- `docs/scene.md` — how the living painting works (layers, shader, sunset, fallback). `.claude/rules/scene.md` loads with its files.
 - `docs/decisions.md` — why things are so, with a status per decision. Never contradict a `[final]` one without asking; record what the user decides there, in the same piece of work.
 
 ## Navigating the code
