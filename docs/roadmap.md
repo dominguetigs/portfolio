@@ -58,8 +58,9 @@ How it works: `docs/scene.md`.
 - [x] The moon keeps its painted place with its real phase (southern-hemisphere orientation, earthshine, glow by lit fraction).
 - [x] One landscape day and night, relit by the sun's elevation through golden hour, sunset and twilight (D-014); the static night painting in today's moon phase (D-015).
 - [x] Third-party notices for the star data (`THIRD_PARTY_NOTICES.md`, `/third-party-notices.txt`).
-- [ ] Next, asked by the user: a reveal when the splash ends, the paper torn open from the centre (like summer-afternoon.vlucendo.com's intro).
 - [x] Pointing at (or touching) a bright star names it and its constellation, whose lines light up; the constellations are drawn in a thin line; the moon gives its phase.
+- [x] Asked by the user: the splash ends by tearing open from the centre, the page waking under it (D-016).
+- [ ] Maybe later (proposed to the user): a Brazilian sky, from a public-domain star catalogue with constellation lines drawn here, and Indigenous Brazilian constellations such as the Tupi-Guarani Emu (whose head is the Coalsack, beside the Southern Cross); it would drop the d3-celestial notice.
 
 ### 4 · The wind — done, awaiting the user's test
 

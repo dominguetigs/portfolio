@@ -40,9 +40,7 @@ import dayBase from './assets/day-base.webp';
 import dayClouds from './assets/day-clouds.webp';
 import dayCloudsStill from './assets/day-clouds-still.webp';
 import dayData from './assets/day-data.webp';
-import dayLight from './assets/day-light.webp';
 import nightSky from './assets/night-sky.webp';
-import nightLight from './assets/night-light.webp';
 import dayBehind from './assets/day-behind.webp';
 import nightBehind from './assets/night-behind.webp';
 import milkyWay from './assets/milkyway.webp';
@@ -52,12 +50,10 @@ import milkyWay from './assets/milkyway.webp';
 const URLS = [
   dayBase,
   dayClouds,
-  dayLight,
   dayData,
   dayBehind,
   dayCloudsStill,
   nightSky,
-  nightLight,
   nightBehind,
   milkyWay,
 ].map(image => image.src);
@@ -101,11 +97,6 @@ const PAPER = srgb(0xf1dfbe);
 const NIGHT = srgb(0x020618);
 
 type PaintingSet = 'day' | 'night';
-
-function lightBox(set: PaintingSet) {
-  const { x, y, width, height } = scene[set].light;
-  return new Vector4(x, y, width, height);
-}
 
 function lightCircle(set: PaintingSet) {
   const { centerX, centerY, reach, body } = scene[set].light;
@@ -157,18 +148,8 @@ function createPaintingMaterial(textures: Texture[], sky: RealSky) {
     texture.wrapT = ClampToEdgeWrapping;
     texture.needsUpdate = true;
   }
-  const [
-    dBase,
-    dClouds,
-    dLight,
-    dData,
-    dBehind,
-    dCloudsStill,
-    nSky,
-    nLight,
-    nBehind,
-    mwMap,
-  ] = textures;
+  const [dBase, dClouds, dData, dBehind, dCloudsStill, nSky, nBehind, mwMap] =
+    textures;
   // The Milky Way map wraps around in right ascension.
   mwMap.wrapS = RepeatWrapping;
 
@@ -207,17 +188,17 @@ function createPaintingMaterial(textures: Texture[], sky: RealSky) {
       uNightCloudLuma: { value: new Vector2(...scene.nightClouds.luma) },
       uNightCloudMoonReach: { value: scene.nightClouds.moonReach },
       uNightCloudAlpha: { value: scene.nightClouds.alpha },
-      uDayLight: { value: dLight },
       uDayData: { value: dData },
-      uDayLightBox: { value: lightBox('day') },
+      // Where the sun's centre ends, its disc just below the hills.
+      uSunSetY: {
+        value: scene.day.horizon + scene.day.light.body + 20,
+      },
       uDayBehind: { value: dBehind },
       uDayBehindBox: { value: behindBox('day') },
       uDayGlow: { value: glowProfile('day') },
       uDayLightCircle: { value: lightCircle('day') },
       uNightSky: { value: nSky },
       uNightLand: { value: lookupTexture(scene.nightLand) },
-      uNightLight: { value: nLight },
-      uNightLightBox: { value: lightBox('night') },
       uNightBehind: { value: nBehind },
       uNightBehindBox: { value: behindBox('night') },
       uNightGlow: { value: glowProfile('night') },
@@ -243,6 +224,12 @@ function step(
 ) {
   const u = material.uniforms;
   input.update(delta, state.clock.elapsedTime);
+  // In development, `window.__sceneT = 0.7` holds the time of day (0 day,
+  // 1 night) for a look at any moment of the evening.
+  if (process.env.NODE_ENV !== 'production') {
+    const held = (window as { __sceneT?: number }).__sceneT;
+    if (typeof held === 'number') input.t = held;
+  }
   sky.night.value = input.t;
   if (state.clock.elapsedTime - sky.updatedAt > SKY_REFRESH_SECONDS) {
     refreshSky(material, sky, state.clock.elapsedTime);

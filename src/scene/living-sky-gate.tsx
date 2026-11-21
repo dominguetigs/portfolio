@@ -3,7 +3,7 @@
 import dynamic from 'next/dynamic';
 import { Component, type ReactNode, useEffect, useState } from 'react';
 
-import { useSplashDone } from '@/components/splash-screen/splash-state';
+import { useSplashGone } from '@/components/splash-screen/splash-state';
 
 const LivingSky = dynamic(() => import('./living-sky'), { ssr: false });
 
@@ -43,11 +43,13 @@ function canRun() {
  * the scene are loaded only then, so they stay out of the first paint.
  */
 export function LivingSkyGate() {
-  const splashDone = useSplashDone();
+  // Not while the splash tears open: loading three.js and compiling the
+  // shader would stall the tear.
+  const splashGone = useSplashGone();
   const [ready, setReady] = useState(false);
 
   useEffect(() => {
-    if (!splashDone || !canRun()) return;
+    if (!splashGone || !canRun()) return;
 
     if ('requestIdleCallback' in window) {
       const id = window.requestIdleCallback(() => setReady(true), {
@@ -57,7 +59,7 @@ export function LivingSkyGate() {
     }
     const id = setTimeout(() => setReady(true), 300);
     return () => clearTimeout(id);
-  }, [splashDone]);
+  }, [splashGone]);
 
   if (!ready) return null;
 

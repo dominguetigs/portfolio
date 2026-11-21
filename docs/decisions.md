@@ -116,3 +116,18 @@ Each heading carries an ID and a status: `[final]`, `[hypothesis]`, `[pending]`,
 `2026-11-21` · source: the user ("a lua entrar cheia fica estranho")
 
 **Decision:** the static night painting is baked in 24 phases (`public/night/night-NN.webp`); an inline head script picks today's before the first paint, and the live scene draws the same rounded phase, so it fades in over an identical moon. The phase is shown to about a day.
+
+### D-016 · The splash ends by tearing open [final]
+
+`2026-11-21` · source: the user ("É possível fazer uma revelação da tela com esse rasgado parecido com esse site: summer-afternoon.vlucendo.com"), accepted after their look at it
+
+**Decision:** when the code box has run, it fades and the splash's paper tears open from the centre over 1.5 s, the page already waking under it (`paper-tear.ts`). The hole is a level set of a noise field fixed on the screen (`|p - c| + roughness(p) < R`), so its ragged edge keeps a paper's scale as it grows; it runs faster along a few random directions and differs on every visit. It is cut out of the paper with `clip-path: path()`; a canvas over it draws the pale band of exposed fibres, loose fibres reaching into the hole and the paper's soft shadow on the page. Without `clip-path: path()` the splash fades as before. The living sky waits until the paper is gone (`useSplashGone`): loading three.js during the tear would stall it.
+**Rejected:** a WebGL reveal (three.js is not loaded yet, and must not be before the page shows); a fixed torn shape scaled up (its edge would coarsen as it grows).
+
+### D-017 · The sun and the moon move as light added to the sky [final]
+
+`2026-11-21` · source: the user ("a lua quando começa a subir atrás da montanha, fica nítido a sombra em volta dela"; "o mais real possível")
+
+**Decision:** while they move, the sun and the moon are what the painted light adds over the clean sky (disc and glow), added to the sky of that moment, not a cut-out disc laid over it. The moon comes up from behind the hills gold and whitens as it climbs; the sun keeps its disc down to the hills (it touches them at about +4° and is gone just after 0°), turning orange and flattening a little. At rest both are the painting, untouched (live and static still match).
+**Why:** a cut-out carries the night sky it was painted on, so over the brighter twilight its edge showed as a dark ring; the sun drawn by its glow alone lost its disc as soon as it moved.
+**Rejected:** a cut-out with a softer edge (the ring only blurs); moving the sun at the painting's own pace (its disc, about 7° across here, would still show in the blue hour).

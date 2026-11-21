@@ -55,9 +55,8 @@ export const paintingFragmentShader = /* glsl */ `
   uniform vec2 uNightCloudLuma;
   uniform float uNightCloudMoonReach;
   uniform float uNightCloudAlpha;
-  uniform sampler2D uDayLight;
+  uniform float uSunSetY;       // the sun's centre once it is behind the hills (image px)
   uniform sampler2D uDayData;   // r depth, g grass
-  uniform vec4 uDayLightBox;  // x, y, width, height (image px)
   uniform sampler2D uDayBehind; // the clean sky behind the disc and its rim
   uniform vec4 uDayBehindBox;
   uniform sampler2D uDayGlow;   // the glow's radial profile (64 x 1)
@@ -65,8 +64,6 @@ export const paintingFragmentShader = /* glsl */ `
 
   uniform sampler2D uNightSky;   // the night's sky: its gradient, the moon's glow and disc
   uniform sampler2D uNightLand;  // the day land's colour by night, by its brightness (64 x 1)
-  uniform sampler2D uNightLight;
-  uniform vec4 uNightLightBox;
   // The real sky over São Paulo (phase 3, sky-layers.ts): stars and
   // constellation lines drawn in painting pixels, the Milky Way as a map in
   // right ascension and declination, the frame that turns painting pixels
@@ -172,11 +169,29 @@ export const paintingFragmentShader = /* glsl */ `
     return texture2D(profile, vec2((d / reach * 63.0 + 0.5) / 64.0, 0.5)).rgb;
   }
 
-  vec3 sprite(sampler2D tex, vec4 box, vec2 q, vec2 offset, out float alpha) {
-    vec2 s = (q - offset - box.xy) / box.zw;
-    vec4 c = sampleIn(tex, s);
-    alpha = c.a;
-    return c.rgb;
+  // What the painted sun adds over the clean day sky at q (image px), the
+  // same way as the moon below.
+  vec3 sunExcess(vec2 q) {
+    vec3 profile = glowAt(uDayGlow, length(q - uDayLightCircle.xy), uDayLightCircle.z);
+    vec2 b = (q - uDayBehindBox.xy) / uDayBehindBox.zw;
+    vec2 edge = min(b, 1.0 - b) * uDayBehindBox.zw;
+    float inside = smoothstep(0.0, 14.0, min(edge.x, edge.y));
+    if (inside <= 0.0) return profile;
+    vec3 painted = texture2D(uDayBase, q / uImageSize).rgb - texture2D(uDayBehind, b).rgb;
+    return mix(profile, painted, inside);
+  }
+
+  // What the painted moon adds over the clean night sky at q (image px): its
+  // disc and glow as painted, measured against the clean sky behind the disc
+  // near it, the glow profile beyond.
+  vec3 moonExcess(vec2 q) {
+    vec3 profile = glowAt(uNightGlow, length(q - uNightLightCircle.xy), uNightLightCircle.z);
+    vec2 b = (q - uNightBehindBox.xy) / uNightBehindBox.zw;
+    vec2 edge = min(b, 1.0 - b) * uNightBehindBox.zw;
+    float inside = smoothstep(0.0, 14.0, min(edge.x, edge.y));
+    if (inside <= 0.0) return profile;
+    vec3 painted = texture2D(uNightSky, q / uImageSize).rgb - texture2D(uNightBehind, b).rgb;
+    return mix(profile, painted, inside);
   }
 
   // Wind over the grass: bright bands that travel across the meadow, the way
@@ -291,20 +306,20 @@ export const paintingFragmentShader = /* glsl */ `
     float h = clamp((uHorizonY - dayQ.y) / uHorizonY, 0.0, 1.0);
 
     // ---------- the sun ----------
-    // At rest the sun is the painting's own. As it goes down, its glow (a
-    // radial profile measured from the painting) is taken out where it was,
-    // the clean sky fills its place, and the profile is drawn where it is:
-    // no edge anywhere. It reaches the horizon at 0° and sinks behind the hills.
+    // At rest the sun is the painting's own. Once it moves it is light added
+    // to the sky (sunExcess: its disc and glow over the clean sky, as
+    // painted), taken out where it was: no edge anywhere, and the disc stays a
+    // disc. It goes down slowly, then faster, touches the hills at about +4°
+    // and is gone just after 0°; near the horizon it flattens a little and
+    // turns orange.
     float sunMoving = smoothstep(35.0, 33.0, elev);
-    vec2 sunMove = vec2(60.0, uHorizonY - uDayLightCircle.y) * (1.0 - elev / 35.0);
+    float sunGone = clamp((35.0 - elev) / 36.0, 0.0, 1.0);
+    vec2 sunMove = vec2(90.0 * sunGone,
+      (uSunSetY - uDayLightCircle.y) * pow(sunGone, 2.7));
     vec2 sunNow = uDayLightCircle.xy + sunMove;
     float sunFrom = length(dayQ - uDayLightCircle.xy);
-    float sunLeft = smoothstep(uDayLightCircle.w + 20.0, uDayLightCircle.w + 6.0, sunFrom);
-    vec3 sunBehind = texture2D(uDayBehind, (dayQ - uDayBehindBox.xy) / uDayBehindBox.zw).rgb;
     float sunAway = sunMoving * skyOpen;
-    vec3 sky = base.rgb - glowAt(uDayGlow, sunFrom, uDayLightCircle.z) * sunAway;
-    sky = mix(sky, sunBehind, sunLeft * sunAway);
-
+    vec3 sky = base.rgb - sunExcess(dayQ) * sunAway;
     // The twilight sky replaces the painted one: warm towards the sun at the
     // horizon, deepening upwards, a breath of the painted strokes kept.
     vec3 tHor;
@@ -317,12 +332,17 @@ export const paintingFragmentShader = /* glsl */ `
     tw *= 0.93 + 0.14 * clamp(dot(sky, LUMA) / 0.62, 0.6, 1.4);
     sky = mix(sky, tw, twilight);
 
-    // The setting sun: whiter high, orange low, and an aureole in the air
-    // around it that grows as it nears the horizon.
+    // The setting sun: whiter high, orange low and brighter against the
+    // darkening sky, flattened by the air near the horizon; once it is down
+    // its glow behind the hills fades. An aureole in the air around it grows
+    // as it nears the horizon.
     vec3 sunColor = mix(vec3(1.0), vec3(1.25, 0.6, 0.35), smoothstep(14.0, 0.0, elev));
-    float sunUp = smoothstep(-3.0, 1.0, elev);
+    float sunBoost = 1.0 + 1.2 * smoothstep(12.0, 2.0, elev);
+    float sunUp = smoothstep(-4.0, 0.0, elev);
     float fromSun = length(dayQ - sunNow);
-    sky += glowAt(uDayGlow, fromSun, uDayLightCircle.z) * sunColor * sunAway * sunUp;
+    float squash = mix(1.0, 0.88, smoothstep(6.0, 0.0, elev));
+    vec2 sunRel = (dayQ - sunNow) * vec2(1.0, 1.0 / squash);
+    sky += sunExcess(uDayLightCircle.xy + sunRel) * sunColor * sunBoost * sunAway * sunUp;
     sky += vec3(1.0, 0.66, 0.4) * exp(-fromSun / 240.0) * 0.3 * (warm + afterglow) * skyOpen;
 
     // The painted sun breathes at rest: a soft warm pulse, no edge anywhere.
@@ -330,47 +350,53 @@ export const paintingFragmentShader = /* glsl */ `
       * 0.035 * (0.5 + 0.5 * sin(uTime * 0.6)) * skyOpen * (1.0 - sunMoving);
 
     // ---------- the night sky ----------
-    // The moon: the painted one at rest (in the night's sky); while it rises
-    // with the dusk, its glow and disc come up from behind the hills, already
-    // pale in the twilight, and end exactly on it.
+    // The moon: the painted one at rest (in the night's sky). While it rises
+    // with the dusk it is light added to whatever sky is there (moonExcess:
+    // its disc and glow over the clean night sky, as painted), so it is the
+    // painting exactly once night has fallen, pale in the bright twilight,
+    // and never edged by a night sky that is not there yet. It comes up from
+    // behind the hills gold, as the air near the horizon colours it, and
+    // whitens as it climbs.
     float moonMoving = 1.0 - smoothstep(-14.0, -15.8, elev);
     float moonUp = smoothstep(-1.0, -14.0, elev);
-    vec2 moonMove = vec2(-40.0, 520.0) * (1.0 - moonUp) * (1.0 - moonUp);
+    vec2 moonMove = vec2(-40.0, uHorizonY + 140.0 - uNightLightCircle.y) * (1.0 - moonUp) * (1.0 - moonUp);
     vec2 moonNow = uNightLightCircle.xy + moonMove;
     float moonFrom = length(dayQ - uNightLightCircle.xy);
-    float moonLeft = smoothstep(uNightLightCircle.w + 20.0, uNightLightCircle.w + 6.0, moonFrom);
+    float fromMoon = length(dayQ - moonNow);
     float moonAway = moonMoving * skyOpen;
     // The moon's real phase dims its glow (at rest the painted glow gives way
     // to what the lit fraction gives).
     float glowScale = pow(uMoonPhase.z, 0.7);
-    vec3 nightSky = texture2D(uNightSky, dayUv).rgb
-      - glowAt(uNightGlow, moonFrom, uNightLightCircle.z)
-        * skyOpen * (moonMoving + (1.0 - moonMoving) * (1.0 - glowScale));
-    nightSky = mix(nightSky, texture2D(uNightBehind,
-      (dayQ - uNightBehindBox.xy) / uNightBehindBox.zw).rgb, moonLeft * moonAway);
+    vec3 nightSky = texture2D(uNightSky, dayUv).rgb - skyOpen * mix(
+      glowAt(uNightGlow, moonFrom, uNightLightCircle.z) * (1.0 - glowScale),
+      moonExcess(dayQ), moonMoving);
     sky = mix(sky, nightSky, night);
 
-    float moonVis = smoothstep(1.0, -5.0, elev);
+    // Its light, coloured by the air: gold low, white higher; plain moonlight
+    // in the twilight, the painting's silver once night has fallen.
+    float moonHigh = clamp((uHorizonY - moonNow.y) / (uHorizonY - uNightLightCircle.y), 0.0, 1.0);
+    vec3 air = mix(vec3(1.0, 0.64, 0.36) * 0.82, vec3(1.0), smoothstep(0.05, 0.8, moonHigh));
+    float moonVis = smoothstep(0.0, -2.0, elev);
     vec3 skyBeforeMoon = sky;
-    sky += glowAt(uNightGlow, length(dayQ - moonNow), uNightLightCircle.z)
-      * moonAway * glowScale * moonVis;
-    float moonA;
-    vec3 moon = sprite(uNightLight, uNightLightBox, dayQ, moonMove, moonA);
-    sky = mix(sky, moon, moonA * moonAway * moonVis);
+    vec3 moonLight = moonExcess(dayQ - moonMove)
+      - glowAt(uNightGlow, fromMoon, uNightLightCircle.z) * (1.0 - glowScale);
+    moonLight = mix(vec3(dot(moonLight, LUMA)) * vec3(1.0, 0.97, 0.9) * 1.35, moonLight, night) * air;
+    sky += moonLight * moonAway * moonVis;
 
     // The real phase on the disc: the unlit part is the sky behind it plus
     // the glow in our air, in front of it (a dark limb has no bright edge).
     // Seen from the southern hemisphere, the waxing moon is lit on the left.
-    float fromMoon = length(dayQ - moonNow);
     vec2 disc = (dayQ - moonNow) / (uNightLightCircle.w + 3.0);
-    float onDisc = smoothstep(1.16, 0.98, length(disc)) * skyOpen;
+    float onDisc = smoothstep(1.16, 0.98, length(disc)) * skyOpen * mix(1.0, moonVis, moonMoving);
     float side = -disc.x * uMoonPhase.y;
     float terminator = uMoonPhase.x * sqrt(max(1.0 - disc.y * disc.y, 0.0));
     float lit = smoothstep(-0.06, 0.06, side - terminator);
     vec3 behindDisc = mix(texture2D(uNightBehind,
-      (dayQ - moonMove - uNightBehindBox.xy) / uNightBehindBox.zw).rgb, skyBeforeMoon, moonMoving);
+      (dayQ - uNightBehindBox.xy) / uNightBehindBox.zw).rgb, skyBeforeMoon, moonMoving);
     vec3 airGlow = glowAt(uNightGlow, max(fromMoon, uNightLightCircle.w + 8.0), uNightLightCircle.z)
-      * glowScale * moonVis;
+      * glowScale;
+    airGlow = mix(airGlow, mix(vec3(dot(airGlow, LUMA)) * vec3(1.0, 0.97, 0.9), airGlow, night) * air,
+      moonMoving);
     sky = mix(sky, behindDisc + airGlow + sky * 0.04, (1.0 - lit) * onDisc);
 
     // ---------- the real sky (phase 3) ----------

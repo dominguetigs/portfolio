@@ -3,10 +3,6 @@
     "width": 1536,
     "height": 1024,
     "light": {
-      "x": 342,
-      "y": 94,
-      "width": 219,
-      "height": 219,
       "centerX": 451,
       "centerY": 203,
       "reach": 364,
@@ -346,10 +342,6 @@
     "width": 1536,
     "height": 1024,
     "light": {
-      "x": 312,
-      "y": 117,
-      "width": 203,
-      "height": 203,
       "centerX": 413,
       "centerY": 218,
       "reach": 247,

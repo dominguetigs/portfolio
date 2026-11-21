@@ -16,15 +16,15 @@ writes to src/scene/assets/:
 - day-clouds-still.webp  the clouds that stay put (RGBA): in the day's base by
                      day, drawn relit by night. The night has no clouds of its
                      own: one set of clouds, so the switch never changes them.
-- <set>-light.webp   the sun's or the moon's disc (RGBA), drawn only while it
-                     moves (the sunset); at rest the painting shows its own.
-                     Its glow is a radial profile in scene.json.
-- <set>-behind.webp  the clean sky behind that disc, for the place it leaves
+- <set>-behind.webp  the clean sky behind the sun's or the moon's disc: while
+                     it moves (the sunset) the shader takes the light out
+                     against it and adds it where it is (D-017). Its glow
+                     beyond is a radial profile in scene.json.
 - <set>-data.webp    half size; R: a smooth depth (0 high in the sky .. 1 at
                      the bottom, no step at the horizon), G: grass mask
 
 plus public/night/night-NN.webp, the static night painting in each of the
-moon's 24 phases, and src/scene/scene.json with the sprite boxes and image sizes (read by the
+moon's 24 phases, and src/scene/scene.json with the lights, the boxes and image sizes (read by the
 shader's uniforms).
 
 The two paintings show the same valley but are not aligned pixel to pixel,
@@ -317,11 +317,10 @@ def split(which, cfg, debug=None):
     radii = np.arange(reach + 1, dtype=np.float32)
     glow *= np.clip((reach - radii) / (reach * 0.25), 0, 1)[:, None] ** 2
 
-    # The body (the disc itself) as a sprite, so the moon keeps its craters.
+    # The body (the disc itself): where the glow falls to half its centre.
     glow_luma = glow @ np.array([0.2126, 0.7152, 0.0722], np.float32)
     body = int(np.argmax(glow_luma < glow_luma[0] * 0.5))
     body_a = np.clip((body + 4 - dist) / 8, 0, 1)
-    light_rgb, light_a = img, body_a
 
     # The clean sky behind the disc, matched to the sky around it: the fill
     # from afar is offset by what the ring just outside the disc says (that
@@ -377,10 +376,6 @@ def split(which, cfg, debug=None):
         save_rgba(cloud_rgb, cloud_a, os.path.join(OUT, 'day-clouds.webp'), quality=76, scale=0.75)
         save_rgba(still_rgb, still_a, os.path.join(OUT, 'day-clouds-still.webp'), quality=76, scale=0.75)
 
-    # The light as a tight sprite.
-    ys, xs = np.where(light_a > 0.01)
-    x0, x1, y0, y1 = xs.min(), xs.max() + 1, ys.min(), ys.max() + 1
-    save_rgba(light_rgb[y0:y1, x0:x1], light_a[y0:y1, x0:x1], os.path.join(OUT, f'{which}-light.webp'), quality=90)
     # The clean sky behind the disc, for the place it leaves (subtracting the
     # average glow would leave the moon's craters behind as a ghost).
     cover = body + 24
@@ -435,10 +430,6 @@ def split(which, cfg, debug=None):
         'width': w,
         'height': h,
         'light': {
-            'x': int(x0),
-            'y': int(y0),
-            'width': int(x1 - x0),
-            'height': int(y1 - y0),
             'centerX': lx,
             'centerY': ly,
             'reach': reach,

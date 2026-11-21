@@ -12,7 +12,9 @@ import { createElement, useSyncExternalStore } from 'react';
  * - `show`: the splash is on screen (the page does not scroll)
  * - `skip`: already seen in this session, reduced motion, or the page's
  *   scripts never ran (CSS hides it)
- * - `done`: it has just finished
+ * - `leaving`: it is tearing open (paper-tear.ts) and the page is waking
+ *   under it
+ * - `done`: it is gone
  */
 
 const SEEN_KEY = 'splash-seen';
@@ -56,19 +58,34 @@ export function useSplashState() {
   return useSyncExternalStore(subscribe, readState, () => 'show');
 }
 
-/** True once the splash is gone (or was never shown). */
+/** True once the splash is leaving (or was never shown): the page wakes. */
 export function useSplashDone() {
   return useSplashState() !== 'show';
 }
 
-export function finishSplash() {
+/** True once the splash has left the screen: heavy work can start. */
+export function useSplashGone() {
+  const state = useSplashState();
+  return state === 'skip' || state === 'done';
+}
+
+function setSplash(state: 'leaving' | 'done') {
   try {
     sessionStorage.setItem(SEEN_KEY, '1');
   } catch {
     // Private mode or blocked storage: the splash shows again next visit.
   }
-  document.documentElement.dataset.splash = 'done';
+  document.documentElement.dataset.splash = state;
   window.dispatchEvent(new Event(DONE_EVENT));
+}
+
+/** The splash is on its way out: the page wakes under it. */
+export function leaveSplash() {
+  setSplash('leaving');
+}
+
+export function finishSplash() {
+  setSplash('done');
 }
 
 type EntrancePreset = { initial?: unknown; animate?: unknown };

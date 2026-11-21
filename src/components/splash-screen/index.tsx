@@ -1,49 +1,119 @@
 'use client';
 
-import { useCallback, useEffect, useState } from 'react';
+import { useCallback, useEffect, useRef, useState } from 'react';
 
 import { useLocale } from 'next-intl';
 
-import { motion, AnimatePresence } from 'motion/react';
+import { motion, AnimatePresence, type Variants } from 'motion/react';
+
+import { cn } from '@/lib/utils';
 
 import { GhibliBackground } from '../ghibli-background';
 import { CodeBox } from './code-box';
 import { useTypingCode } from './use-typing-code';
 import { ProgressBar } from './progress-bar';
-import { finishSplash, markSplashLive, useSplashState } from './splash-state';
+import { canTear, tearPaper } from './paper-tear';
+import {
+  finishSplash,
+  leaveSplash,
+  markSplashLive,
+  useSplashState,
+} from './splash-state';
+
+/** The box fades before the paper tears under it. */
+const TEAR_DELAY_MS = 200;
+
+// Torn, nothing is left to fade (AnimatePresence hands the stage to the
+// leaving splash through `custom`).
+const LEAVE: Variants = {
+  exit: (stage: Stage) =>
+    stage === 'torn'
+      ? { opacity: 0, transition: { duration: 0 } }
+      : { opacity: 0, transition: { duration: 0.8, ease: 'easeInOut' } },
+};
+
+type Stage = 'loading' | 'tearing' | 'torn';
 
 export function SplashScreen() {
   const state = useSplashState();
   const [isVisible, setIsVisible] = useState(true);
+  const [stage, setStage] = useState<Stage>('loading');
+  const paperRef = useRef<HTMLDivElement>(null);
+  const edgeRef = useRef<HTMLCanvasElement>(null);
 
   const handleDone = useCallback(() => {
-    finishSplash();
-    setIsVisible(false);
+    if (!canTear()) {
+      finishSplash();
+      setIsVisible(false);
+      return;
+    }
+    setStage('tearing');
   }, []);
+
+  // The page wakes as the paper tears open over it.
+  useEffect(() => {
+    if (stage !== 'tearing') return;
+    const paper = paperRef.current;
+    const edge = edgeRef.current;
+    if (!paper || !edge) return;
+    let stop = () => {};
+    const timeout = setTimeout(() => {
+      leaveSplash();
+      stop = tearPaper(paper, edge, () => {
+        finishSplash();
+        setStage('torn');
+        setIsVisible(false);
+      });
+    }, TEAR_DELAY_MS);
+    return () => {
+      clearTimeout(timeout);
+      stop();
+    };
+  }, [stage]);
 
   if (state === 'skip') {
     return null;
   }
 
   return (
-    <AnimatePresence>
+    <AnimatePresence custom={stage}>
       {isVisible && (
         <motion.div
           data-splash-screen
           initial={{ opacity: 1 }}
-          exit={{
-            opacity: 0,
-            transition: { duration: 0.8, ease: 'easeInOut' },
-          }}
-          className="fixed inset-0 z-[60] flex items-center justify-center bg-background"
+          variants={LEAVE}
+          custom={stage}
+          exit="exit"
+          className={cn(
+            'fixed inset-0 z-[60]',
+            stage !== 'loading' && 'pointer-events-none',
+          )}
         >
-          <div className="texture" />
+          <div
+            ref={paperRef}
+            className="absolute inset-0 flex items-center justify-center bg-background [contain:paint]"
+          >
+            <div className="texture" />
 
-          <div className="opacity-45">
-            <GhibliBackground />
+            <div className="opacity-45">
+              <GhibliBackground />
+            </div>
+
+            <motion.div
+              className="h-full w-full"
+              animate={
+                stage === 'loading' ? undefined : { opacity: 0, scale: 0.98 }
+              }
+              transition={{ duration: 0.3, ease: 'easeOut' }}
+            >
+              <SplashCode onDone={handleDone} />
+            </motion.div>
           </div>
-
-          <SplashCode onDone={handleDone} />
+          <canvas
+            ref={edgeRef}
+            aria-hidden="true"
+            className="pointer-events-none absolute inset-0 h-full w-full"
+          />
         </motion.div>
       )}
     </AnimatePresence>
