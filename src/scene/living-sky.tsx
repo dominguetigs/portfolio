@@ -217,7 +217,7 @@ function createPaintingMaterial(textures: Texture[], sky: RealSky) {
       uNightLightCircle: { value: lightCircle('night') },
       uStars: { value: sky.stars },
       uMeteor: { value: new Vector4() },
-      uMeteorState: { value: new Vector2(-1, 0) },
+      uMeteorState: { value: new Vector3(-1, 0, 0) },
       uMilkyWay: { value: mwMap },
       uSkyFrame: {
         value: new Matrix3().fromArray(frameMatrix(sky.layers.frame)),

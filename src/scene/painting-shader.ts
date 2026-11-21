@@ -70,7 +70,7 @@ export const paintingFragmentShader = /* glsl */ `
   // back into the sky, and the moon's real phase.
   uniform sampler2D uStars;      // RGB
   uniform vec4 uMeteor;          // a shooting star's path: from x, y, to x, y (painting px)
-  uniform vec2 uMeteorState;     // its progress 0..1 (below 0: none), its brightness
+  uniform vec3 uMeteorState;     // its head along the path 0..1 (below 0: none), brightness, trail (fraction of the path)
   uniform sampler2D uMilkyWay;   // brightness, x = RA 0..360, y = dec +90..-90
   uniform mat3 uSkyFrame;        // columns: right, up, forward (equatorial)
   uniform vec3 uView;            // projection centre x, y and scale (painting px)
@@ -165,29 +165,28 @@ export const paintingFragmentShader = /* glsl */ `
     return mix(col, nightCloud(c, q, moon), smoothstep(-6.0, -15.0, e));
   }
 
-  // A shooting star (meteors.ts): its head runs along the path, the trail
-  // behind it brightening towards the head; it flares in and fades out, the
-  // trail lingering a moment.
+  // A shooting star (meteors.ts): its head falls along the path and goes
+  // behind the hills (the land hides it, as it hides the stars), the trail
+  // behind it brightening towards the head and lingering a moment.
   vec3 meteorLight(vec2 q) {
-    float t = uMeteorState.x;
-    if (t < 0.0) return vec3(0.0);
+    float head = uMeteorState.x;
+    if (head < 0.0) return vec3(0.0);
     vec2 a = uMeteor.xy;
     vec2 ab = uMeteor.zw - a;
     float len = length(ab);
     vec2 dir = ab / len;
     float across = abs(dot(q - a, vec2(-dir.y, dir.x)));
     if (across > 6.0) return vec3(0.0);
-    float head = min(t / 0.85, 1.0);
-    float tail = max(0.0, head - 0.45);
+    float tail = max(0.0, head - uMeteorState.z);
     float s = dot(q - a, dir) / len;
-    float along = smoothstep(tail, head, s) * (1.0 - smoothstep(head, head + 2.0 / len, s));
+    float along = smoothstep(tail, head + 0.0001, s) * (1.0 - smoothstep(head, head + 2.0 / len, s));
     along *= along;
     float width = mix(0.35, 1.0, along);
     float line = exp(-across * across / (width * width)) + 0.18 * exp(-across * across / 7.0);
-    float glow = exp(-dot(q - a - ab * head, q - a - ab * head) / 5.0) * 0.6;
-    float fade = smoothstep(0.0, 0.1, t) * (1.0 - smoothstep(0.55, 1.0, t));
+    vec2 toHead = q - a - ab * head;
+    float glow = exp(-dot(toHead, toHead) / 5.0) * 0.6 * step(head, 0.999);
     vec3 color = mix(vec3(0.72, 0.84, 1.0), vec3(1.0, 0.97, 0.9), along);
-    return color * (line * along + glow * step(t, 0.85)) * fade * uMeteorState.y;
+    return color * (line * along + glow) * uMeteorState.y;
   }
 
   vec3 glowAt(sampler2D profile, float d, float reach) {

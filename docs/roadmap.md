@@ -70,7 +70,6 @@ How it works: `docs/scene.md`.
 ### 5 · Every section gets a place
 
 - Scrolling is walking down into the valley: the hero is the sky, the middle the hills, the footer the ground.
-- Skills at night become constellations (a category is a constellation, a skill a star, its brightness the level). By day, today's cards.
 - Experience: the painting's fence continues down the page as the timeline, one post per job.
 - Contact: a mailbox on the fence; a sent message flies off with the wind.
 - Splash (D-005): the code box stays, shorter; the code "paints" the scene, a pencil sketch of the landscape that watercolour fills in.
