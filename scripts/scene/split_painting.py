@@ -5,16 +5,21 @@ Run once when a painting changes (needs numpy, pillow and scipy):
     python3 scripts/scene/split_painting.py [--debug DIR]
 
 For each painting (public/bg-light.png = day, public/bg-dark.png = night) it
-writes to public/scene/:
+writes to src/scene/assets/:
 
-- <set>-sky.webp     the sky alone: clouds, sun or moon and land removed, the
-                     holes filled from the clear sky around them
+- <set>-base.webp    the painting itself, sun or moon included, with only its
+                     drifting clouds taken out (the sky behind them filled from
+                     the clear sky around); alpha = land, which hides what
+                     moves behind the hills. One image, so the parallax can
+                     never tear it.
 - <set>-clouds.webp  the painted clouds (RGBA), matted against that sky, so
                      they can drift over it
-- <set>-light.webp   the sun (day) or the moon (night) as a sprite (RGBA)
-- <set>-land.webp    hills, trees and meadow (RGBA, soft edge)
-- <set>-data.webp    half size; R: depth (0 sky .. 1 nearest meadow),
-                     G: grass mask
+- <set>-light.webp   the sun's or the moon's disc (RGBA), drawn only while it
+                     moves (the sunset); at rest the painting shows its own.
+                     Its glow is a radial profile in scene.json.
+- <set>-behind.webp  the clean sky behind that disc, for the place it leaves
+- <set>-data.webp    half size; R: a smooth depth (0 high in the sky .. 1 at
+                     the bottom, no step at the horizon), G: grass mask
 
 and src/scene/scene.json with the sprite boxes and image sizes (read by the
 shader's uniforms).
@@ -33,7 +38,9 @@ from scipy import ndimage as ndi
 
 ROOT = os.path.abspath(os.path.join(os.path.dirname(__file__), '..', '..'))
 PUBLIC = os.path.join(ROOT, 'public')
-OUT = os.path.join(PUBLIC, 'scene')
+# Imported by src/scene/living-sky.tsx: the build names each file by its
+# content hash, so a browser or CDN never mixes an old layer with a new one.
+OUT = os.path.join(ROOT, 'src', 'scene', 'assets')
 
 SETS = {
     'day': {
@@ -111,12 +118,14 @@ def find_light(img):
     return int(xs.mean()), int(ys.mean())
 
 
-def save_rgba(rgb, alpha, path, quality=82, scale=1.0):
+def save_rgba(rgb, alpha, path, quality=82, scale=1.0, exact=False):
+    """exact keeps the colour under transparent pixels, which the encoder
+    otherwise throws away (the base's sky is transparent: alpha is the land)."""
     a = np.dstack([rgb, alpha[..., None]])
     im = Image.fromarray(np.clip(a * 255 + 0.5, 0, 255).astype(np.uint8), 'RGBA')
     if scale != 1.0:
         im = im.resize((round(im.width * scale), round(im.height * scale)), Image.LANCZOS)
-    im.save(path, 'WEBP', quality=quality, alpha_quality=90, method=6)
+    im.save(path, 'WEBP', quality=quality, alpha_quality=90, method=6, exact=exact)
 
 
 def save_rgb(rgb, path, quality=82):
@@ -170,16 +179,28 @@ def split(which, cfg, debug=None):
 
     # Clouds win over the light: the sun sits behind them.
     disc = dist < cfg['disc_radius']
-    cloud = sky & ~disc & (lift > cfg['cloud_lift'])
-    cloud = ndi.binary_dilation(ndi.binary_opening(cloud, iterations=1), iterations=4)
+    # The haze along the horizon is not a cloud: it stays in the base. If it
+    # drifted, the clean sky behind it would show as a pale outline on the hills.
+    # Whole clouds only: one that reaches down into the horizon band stays in
+    # the base entirely, so no cloud is ever cut in two.
+    # Specks (the frayed edge of the haze) stay too: they would drift as dots.
+    # Clouds in the light's glow stay too: drifting, they would open holes in
+    # it, and the glow is lit into them.
+    near_land = ndi.binary_dilation(land, iterations=45)
+    found = ndi.binary_opening(sky & ~disc & (lift > cfg['cloud_lift']), iterations=1)
+    labels, count = ndi.label(found)
+    grounded = np.unique(labels[near_land & (labels > 0)])
+    glow_reach = dist < cfg['light_radius'] * 1.3
+    glowing = np.unique(labels[glow_reach & (labels > 0)])
+    sizes = ndi.sum(found, labels, index=np.arange(1, count + 1))
+    specks = np.arange(1, count + 1)[sizes < 250]
+    cloud = found & ~np.isin(labels, np.concatenate([grounded, glowing, specks]))
+    cloud = ndi.binary_dilation(cloud, iterations=4) & ~ndi.binary_dilation(land, iterations=6)
 
-    # The clean sky. Under the land it continues the sky from well above the
-    # horizon, so that parallax never uncovers the treetops left at its edge.
+    # The clean sky, filled from the clear sky around (used under the drifting
+    # clouds, and around the sun or moon while it moves).
     clear = sky & ~cloud & ~light_zone
     plate = fill_holes(img, clear)
-    near_land = ndi.binary_dilation(land, iterations=40)
-    under = fill_holes(img, clear & ~near_land)
-    plate = np.where(near_land[..., None] & ~clear[..., None], under, plate)
 
     # Matte the clouds and the light against the clean sky: alpha from how
     # much brighter the pixel is, colour unmixed so it composites back exactly.
@@ -197,15 +218,50 @@ def split(which, cfg, debug=None):
     cloud_zone = ndi.gaussian_filter(cloud.astype(np.float32), 2)
     cloud_rgb, cloud_a = matte(cloud_zone, 6.0 if which == 'day' else 9.0)
 
-    light_soft = np.clip((cfg['light_radius'] - dist) / 30, 0, 1) * (1 - cloud_zone)
-    light_rgb, light_a = matte(light_soft, 2.2 if which == 'day' else 3.0)
+    # The sun or moon, for the sunset only (at rest the painting keeps its
+    # own): its glow is radially symmetric, so it is measured as a profile,
+    # the median brightness each ring adds over the clean sky (the median
+    # ignores the clouds), fading to nothing at its reach. While it moves, the
+    # shader subtracts that profile where the light was and adds it where it
+    # is: exactly the painting when it starts, no edge, nothing cut.
+    reach = int(cfg['light_radius'] * 1.3)
+    rings = np.clip(dist, 0, reach).astype(np.int32)
+    ring_labels = np.where(sky & ~land, rings + 1, 0)
+    glow = np.zeros((reach + 1, 3), np.float32)
+    for c in range(3):
+        med = np.array(
+            ndi.median(img[..., c] - plate[..., c], labels=ring_labels, index=np.arange(1, reach + 2)),
+            np.float32,
+        )
+        for r in range(len(med)):
+            if np.isnan(med[r]):
+                med[r] = med[r - 1] if r else 0.0
+        glow[:, c] = np.clip(ndi.gaussian_filter1d(med, 2), 0, None)
+    radii = np.arange(reach + 1, dtype=np.float32)
+    glow *= np.clip((reach - radii) / (reach * 0.25), 0, 1)[:, None] ** 2
 
-    # Depth: 0 for the sky, then from the horizon (far) to the bottom (near).
+    # The body (the disc itself) as a sprite, so the moon keeps its craters.
+    glow_luma = glow @ np.array([0.2126, 0.7152, 0.0722], np.float32)
+    body = int(np.argmax(glow_luma < glow_luma[0] * 0.5))
+    body_a = np.clip((body + 4 - dist) / 8, 0, 1)
+    light_rgb, light_a = img, body_a
+
+    # The clean sky behind the disc, matched to the sky around it: the fill
+    # from afar is offset by what the ring just outside the disc says (that
+    # ring with the glow taken out), so the place the disc leaves has no edge.
+    glow_here = glow[np.clip(dist, 0, reach).astype(np.int32)] * (dist < reach)[..., None]
+    # (The ring starts past the disc's rim: the painted edge is not a perfect
+    # circle, so the rim is covered by this sky too.)
+    around = sky & ~land & (dist > body + 20) & (dist < body + 46)
+    offset = fill_holes(img - glow_here - plate, around, sigmas=(6, 18, 50))
+    behind = plate + offset
+
+    # Depth: smooth all the way, rising from a little above the horizon to
+    # the bottom. A step between sky and land would tear the warped painting.
     hz = horizon[None, :].astype(np.float32)
-    depth = np.clip((yy - hz) / np.maximum(h - hz, 1), 0, 1) ** 0.8
-    depth = 0.25 + 0.75 * depth
-    depth = np.where(land, depth, 0)
-    depth = ndi.gaussian_filter(depth, 4)
+    rise = 90.0
+    depth = np.clip((yy - (hz - rise)) / np.maximum(h - hz + rise, 1), 0, 1) ** 0.85
+    depth = ndi.gaussian_filter(depth, 24)
 
     # Grass: the meadow, not the dark tree crowns, a little below the horizon.
     r, g, b = img[..., 0], img[..., 1], img[..., 2]
@@ -216,16 +272,26 @@ def split(which, cfg, debug=None):
     grass = land & grassy & (yy > hz + 25)
     grass = ndi.gaussian_filter(grass.astype(np.float32), 3)
 
+    # The base: the painting itself, sun or moon included, with the clean sky
+    # only under the drifting clouds (so they composite back exactly).
+    moving = (cloud_zone > 0.001) & ~land
+    base = np.where(moving[..., None], plate, img)
+
     os.makedirs(OUT, exist_ok=True)
-    save_rgb(plate, os.path.join(OUT, f'{which}-sky.webp'))
+    save_rgba(base, land_alpha, os.path.join(OUT, f'{which}-base.webp'), quality=84, exact=True)
     # Clouds are soft: three quarters of the size is enough.
     save_rgba(cloud_rgb, cloud_a, os.path.join(OUT, f'{which}-clouds.webp'), quality=76, scale=0.75)
-    save_rgba(img, land_alpha, os.path.join(OUT, f'{which}-land.webp'))
 
     # The light as a tight sprite.
     ys, xs = np.where(light_a > 0.01)
     x0, x1, y0, y1 = xs.min(), xs.max() + 1, ys.min(), ys.max() + 1
     save_rgba(light_rgb[y0:y1, x0:x1], light_a[y0:y1, x0:x1], os.path.join(OUT, f'{which}-light.webp'), quality=90)
+    # The clean sky behind the disc, for the place it leaves (subtracting the
+    # average glow would leave the moon's craters behind as a ghost).
+    cover = body + 24
+    bx0, by0 = max(lx - cover, 0), max(ly - cover, 0)
+    bx1, by1 = min(lx + cover, w), min(ly + cover, h)
+    save_rgb(behind[by0:by1, bx0:bx1], os.path.join(OUT, f'{which}-behind.webp'), quality=90)
 
     data = np.dstack([depth, grass, np.zeros_like(depth)])
     Image.fromarray(np.clip(data * 255 + 0.5, 0, 255).astype(np.uint8), 'RGB').resize(
@@ -236,11 +302,12 @@ def split(which, cfg, debug=None):
         os.makedirs(debug, exist_ok=True)
         Image.fromarray((land * 255).astype(np.uint8)).save(os.path.join(debug, f'{which}-land-mask.png'))
         Image.fromarray((cloud * 255).astype(np.uint8)).save(os.path.join(debug, f'{which}-cloud-mask.png'))
-        save_rgb(plate, os.path.join(debug, f'{which}-plate.webp'))
-        # Recomposite check: sky + clouds + light + land must give the painting back.
-        comp = plate * (1 - light_a[..., None]) + light_rgb * light_a[..., None]
-        comp = comp * (1 - cloud_a[..., None]) + cloud_rgb * cloud_a[..., None]
-        comp = comp * (1 - land_alpha[..., None]) + img * land_alpha[..., None]
+        save_rgb(base, os.path.join(debug, f'{which}-base.webp'))
+        Image.fromarray((depth * 255).astype(np.uint8)).save(os.path.join(debug, f'{which}-depth.png'))
+        # Recomposite check at rest: base + clouds (hidden by the land) must
+        # give the painting back; the sun or moon is the painting's own.
+        sky_open = (1 - land_alpha)[..., None]
+        comp = base * (1 - cloud_a[..., None] * sky_open) + cloud_rgb * cloud_a[..., None] * sky_open
         save_rgb(comp, os.path.join(debug, f'{which}-recomposite.webp'))
         err = np.abs(comp - img).mean()
         print(f'{which}: recomposite mean abs error {err:.4f}')
@@ -255,6 +322,19 @@ def split(which, cfg, debug=None):
             'height': int(y1 - y0),
             'centerX': lx,
             'centerY': ly,
+            'reach': reach,
+            'body': body,
+            'behind': {
+                'x': int(bx0),
+                'y': int(by0),
+                'width': int(bx1 - bx0),
+                'height': int(by1 - by0),
+            },
+            # The glow profile: RGB added over the sky, from the centre (first)
+            # to the reach (last), 64 samples.
+            'glow': [
+                [round(float(v), 4) for v in glow[int(i * reach / 63)]] for i in range(64)
+            ],
         },
         'horizon': int(np.median(horizon)),
     }

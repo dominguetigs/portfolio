@@ -29,22 +29,36 @@ export const paintingFragmentShader = /* glsl */ `
   uniform float uT;           // 0 day .. 1 night
   uniform vec2 uPointer;      // -1..1, smoothed
   uniform float uScroll;      // 0 at the top .. 1 one screen down
+  uniform float uPixelRatio;
+  uniform float uWind;        // 0 calm .. 1 a strong gust
+  uniform float uWindPhase;   // accumulated wind travel
+  uniform float uCloudPush;   // how far the wind has pushed the clouds
+  uniform vec2 uBreeze;       // the pointer, device px from the top left
+  uniform float uBreezeStrength;
+  uniform float uLeafAge;     // seconds since a gust carried leaves (large: none)
+  uniform float uLeafSeed;
   uniform vec3 uPaper;        // light theme background
   uniform vec3 uNight;        // dark theme background
 
-  uniform sampler2D uDaySky;
+  uniform sampler2D uDayBase;   // the painting without clouds and sun; a = land
   uniform sampler2D uDayClouds;
   uniform sampler2D uDayLight;
-  uniform sampler2D uDayLand;
-  uniform sampler2D uDayData;
+  uniform sampler2D uDayData;   // r depth, g grass
   uniform vec4 uDayLightBox;  // x, y, width, height (image px)
+  uniform sampler2D uDayBehind; // the clean sky behind the disc and its rim
+  uniform vec4 uDayBehindBox;
+  uniform sampler2D uDayGlow;   // the glow's radial profile (64 x 1)
+  uniform vec4 uDayLightCircle; // centre x, y, the glow's reach, the disc's radius
 
-  uniform sampler2D uNightSky;
+  uniform sampler2D uNightBase;
   uniform sampler2D uNightClouds;
   uniform sampler2D uNightLight;
-  uniform sampler2D uNightLand;
   uniform sampler2D uNightData;
   uniform vec4 uNightLightBox;
+  uniform sampler2D uNightBehind;
+  uniform vec4 uNightBehindBox;
+  uniform sampler2D uNightGlow;
+  uniform vec4 uNightLightCircle;
 
   float hash12(vec2 p) {
     vec3 p3 = fract(vec3(p.xyx) * 0.1031);
@@ -82,7 +96,14 @@ export const paintingFragmentShader = /* glsl */ `
   // How far a layer moves with the pointer and the scroll, by depth.
   vec2 parallax(float depth) {
     vec2 drive = uPointer * vec2(1.0, 0.55) + vec2(0.0, uScroll * 1.4);
-    return drive * mix(0.002, 0.012, depth);
+    return drive * mix(0.001, 0.011, depth);
+  }
+
+  // The light's glow at a distance from its centre: what it adds over the
+  // clean sky, nothing beyond its reach.
+  vec3 glowAt(sampler2D profile, float d, float reach) {
+    if (d >= reach) return vec3(0.0);
+    return texture2D(profile, vec2((d / reach * 63.0 + 0.5) / 64.0, 0.5)).rgb;
   }
 
   vec3 sprite(sampler2D tex, vec4 box, vec2 q, vec2 offset, out float alpha) {
@@ -93,12 +114,59 @@ export const paintingFragmentShader = /* glsl */ `
   }
 
   // Wind over the grass: bright bands that travel across the meadow, the way
-  // a gust combs a field.
-  float gust(vec2 q) {
-    float t = uTime;
-    float n = noise(q * 0.0035 + vec2(t * 0.04, 0.0));
-    float band = sin(q.x * 0.011 + q.y * 0.006 - t * 1.25 + n * 5.0);
-    return smoothstep(0.35, 1.0, band) * (0.55 + 0.45 * noise(q * 0.01 - t * 0.2));
+  // a gust combs a field. They travel with the wind's accumulated phase, so a
+  // gust speeds them up without a jump; where the pointer moves, a small
+  // breeze ripples out from it.
+  float gust(vec2 q, vec2 frag) {
+    float n = noise(q * 0.0035 + vec2(uWindPhase * 0.035, 0.0));
+    float band = sin(q.x * 0.011 + q.y * 0.006 - uWindPhase + n * 5.0);
+    float field = smoothstep(0.35, 1.0, band)
+      * (0.55 + 0.45 * noise(q * 0.01 - uWindPhase * 0.16));
+    field *= 0.6 + 1.3 * uWind;
+    float dist = length(frag - uBreeze) / uPixelRatio;
+    float ring = 0.5 + 0.5 * sin(dist * 0.06 - uTime * 7.0);
+    return field + uBreezeStrength * exp(-dist / 140.0) * ring * 1.4;
+  }
+
+  // From one section to the next, a gust carries a few leaves across the
+  // screen (device px, top left): they flutter, spin and turn over; by night
+  // they are silhouettes.
+  vec4 leaves(vec2 frag, float night) {
+    if (uLeafAge > 7.0) return vec4(0.0);
+    float px = uPixelRatio;
+    vec3 color = vec3(0.0);
+    float alpha = 0.0;
+    for (int i = 0; i < 9; i++) {
+      float fi = float(i);
+      vec2 r = hash22(vec2(fi * 7.13 + uLeafSeed * 3.7, uLeafSeed + fi * 1.9));
+      float age = uLeafAge - r.x * 1.2;
+      if (age < 0.0) continue;
+      float speed = (0.3 + 0.22 * r.y) * uResolution.x;
+      vec2 pos = vec2(
+        -40.0 * px + age * speed,
+        uResolution.y * (0.1 + 0.75 * fract(r.y * 3.1 + r.x))
+          + sin(age * (1.6 + r.x) + fi) * 38.0 * px - age * 24.0 * px
+      );
+      vec2 d = frag - pos;
+      if (dot(d, d) > 900.0 * px * px) continue;
+      float angle = age * (2.2 + 2.5 * r.x) * (r.y > 0.5 ? 1.0 : -1.0);
+      float c = cos(angle);
+      float s = sin(angle);
+      vec2 p = vec2(c * d.x + s * d.y, -s * d.x + c * d.y) / px;
+      float turn = 0.3 + 0.7 * abs(cos(age * (3.0 + 2.0 * r.y) + fi));
+      float len = 11.0 + 5.0 * r.x;
+      float x = p.x / len;
+      float inside = (5.0 + 2.0 * r.y) * turn * (1.0 - x * x) - abs(p.y);
+      float a = smoothstep(-0.8, 0.8, inside) * step(abs(x), 1.0);
+      if (a <= 0.0) continue;
+      vec3 leaf = mix(vec3(0.42, 0.55, 0.2), vec3(0.72, 0.66, 0.28), r.x);
+      leaf = leaf * (0.8 + 0.3 * turn) - smoothstep(0.9, 0.0, abs(p.y)) * 0.12;
+      leaf = mix(leaf, vec3(0.04, 0.07, 0.1), night);
+      color = mix(color, leaf, a);
+      alpha = max(alpha, a);
+    }
+    float fade = smoothstep(7.0, 5.5, uLeafAge);
+    return vec4(color, alpha * fade * mix(0.85, 0.65, night));
   }
 
   vec3 stars(vec2 q, float t) {
@@ -124,7 +192,7 @@ export const paintingFragmentShader = /* glsl */ `
           sin(t * (0.35 + r.y * 0.4) + r.x * 40.0),
           cos(t * (0.28 + r.x * 0.5) + r.y * 30.0)
         );
-        vec2 p = (cell + 0.5 + 0.4 * wander) * 70.0;
+        vec2 p = (cell + 0.5 + 0.4 * wander) * 70.0 + vec2(uWind * 30.0, -uWind * 8.0);
         float d = length(q - p);
         float blink = smoothstep(0.15, 0.9, sin(t * (0.9 + r.y) + r.x * 20.0));
         glow += vec3(1.0, 0.93, 0.45) * (smoothstep(3.0, 0.0, d) + 0.35 * exp(-d / 9.0)) * blink;
@@ -146,64 +214,99 @@ export const paintingFragmentShader = /* glsl */ `
     float dusk = bell(uT, 0.5, 0.18);
 
     // ---------- the day painting, with its sunset ----------
+    // One image (the painting without its clouds and its sun) warped by a
+    // smooth depth: the meadow moves more than the far hills, and nothing can
+    // tear. What really moves (the sun, the clouds) is drawn on it, hidden by
+    // the land sampled at the same warped point, so it stays behind the hills.
+    float dayDepth = texture2D(uDayData, uv).r;
+    vec2 dayUv = uv + parallax(dayDepth);
+    vec4 dayBase = texture2D(uDayBase, dayUv);
+    float dayLand = dayBase.a;
+    float daySky = 1.0 - dayLand;
+    float dayGrass = texture2D(uDayData, dayUv).g;
+    vec2 dayQ = dayUv * uImageSize;
+
+    // At rest the sun is the painting's own. While it sets, its glow (a
+    // radial profile measured from the painting) is taken out where it was
+    // and drawn where it is, and the clean sky fills the place the disc
+    // leaves: at the first instant that is exactly the painting, and the glow
+    // fades to nothing at its reach, so there is no edge anywhere.
+    float sunMoving = smoothstep(0.0, 0.08, uT);
+    float set = smoothstep(0.0, 0.6, uT);
+    vec2 sunMove = vec2(60.0, 560.0) * set * set;
+    float setting = smoothstep(0.05, 0.45, uT);
+    float sunFrom = length(dayQ - uDayLightCircle.xy);
+    float sunLeft = smoothstep(uDayLightCircle.w + 20.0, uDayLightCircle.w + 6.0, sunFrom);
+    vec3 sunBehind = texture2D(uDayBehind, (dayQ - uDayBehindBox.xy) / uDayBehindBox.zw).rgb;
+    float sunAway = sunMoving * daySky;
+    vec3 day = dayBase.rgb - glowAt(uDayGlow, sunFrom, uDayLightCircle.z) * sunAway;
+    day = mix(day, sunBehind, sunLeft * sunAway);
+    day *= 1.0 + gust(dayQ, frag) * dayGrass * 0.12;
+
     // The sky leans towards a golden-hour gradient, then a dusk one (warm at
-    // the horizon, cooler above), keeping some of the painted strokes.
-    vec2 skyUv = uv + parallax(0.0);
-    vec3 day = texture2D(uDaySky, skyUv).rgb;
+    // the horizon, cooler above), keeping some of the painted strokes; the
+    // land warms, then turns violet.
     float horizonward = pow(clamp(uv.y / 0.72, 0.0, 1.0), 1.6);
     vec3 goldenSky = mix(vec3(0.62, 0.7, 0.86), vec3(1.0, 0.8, 0.5), horizonward);
     vec3 duskSky = mix(vec3(0.2, 0.2, 0.42), vec3(0.96, 0.5, 0.44), horizonward);
-    day = mix(day, goldenSky * (0.75 + 0.35 * day), golden * 0.6);
-    day = mix(day, duskSky * (0.8 + 0.3 * day), dusk * 0.75);
+    vec3 skyLit = mix(day, goldenSky * (0.75 + 0.35 * day), golden * 0.6);
+    skyLit = mix(skyLit, duskSky * (0.8 + 0.3 * skyLit), dusk * 0.75);
+    vec3 landLit = mix(day, day * vec3(0.95, 0.78, 0.55), golden);
+    landLit = mix(landLit, landLit * vec3(0.42, 0.36, 0.55), dusk);
+    day = mix(skyLit, landLit, dayLand);
 
-    // The sun breathes, then goes down behind the hills, turning orange.
-    float set = smoothstep(0.0, 0.6, uT);
-    vec2 sunMove = vec2(60.0, 560.0) * set * set;
-    float sunA;
-    vec3 sun = sprite(uDayLight, uDayLightBox, skyUv * uImageSize, sunMove, sunA);
-    float breathe = 1.0 + 0.06 * sin(uTime * 0.6);
-    vec3 setting = vec3(1.0, 0.55, 0.28);
-    sun = mix(sun, setting * (0.6 + 0.5 * sun), smoothstep(0.05, 0.45, uT));
-    day = mix(day, sun, clamp(sunA * breathe, 0.0, 1.0));
+    // The setting sun, light over the sky, turning orange, hidden by the
+    // hills. Its disc is uniform, so the profile alone draws it whole: disc
+    // and glow in one, with no edge between them.
+    vec3 sunTint = mix(vec3(1.0), vec3(1.25, 0.6, 0.35), setting);
+    day += glowAt(uDayGlow, length(dayQ - uDayLightCircle.xy - sunMove), uDayLightCircle.z)
+      * sunTint * sunAway;
 
-    // Clouds drift slowly back and forth, lit warm, then pink, as it sets.
-    vec2 drift = vec2(0.045 * sin(uTime * 0.026), 0.0);
-    vec4 cloud = sampleIn(uDayClouds, uv + parallax(0.08) + drift);
+    // The painted sun breathes: a soft warm pulse, no edge anywhere.
+    float sunDist = length(dayQ - uDayLightCircle.xy);
+    day += vec3(1.0, 0.92, 0.7) * exp(-sunDist / 110.0)
+      * 0.035 * (0.5 + 0.5 * sin(uTime * 0.6)) * daySky * (1.0 - sunMoving);
+
+    // Clouds drift slowly back and forth; a gust pushes them on a little.
+    // They are lit warm, then pink, as the sun sets.
+    vec2 drift = vec2(0.045 * sin(uTime * 0.026) + uCloudPush, 0.0);
+    vec4 cloud = sampleIn(uDayClouds, dayUv + drift);
     cloud.rgb = mix(cloud.rgb, cloud.rgb * vec3(1.15, 0.86, 0.62) + vec3(0.08, 0.03, 0.0), golden);
     cloud.rgb = mix(cloud.rgb, cloud.rgb * vec3(0.95, 0.58, 0.72) + vec3(0.06, 0.0, 0.04), dusk);
-    day = mix(day, cloud.rgb, cloud.a);
-
-    // The land, moved by its own depth; the grass catches the wind.
-    float dayDepth = texture2D(uDayData, uv).r;
-    vec2 dayLandUv = uv + parallax(dayDepth);
-    vec4 dayLand = texture2D(uDayLand, dayLandUv);
-    float dayGrass = texture2D(uDayData, dayLandUv).g;
-    dayLand.rgb *= 1.0 + gust(dayLandUv * uImageSize) * dayGrass * 0.12;
-    dayLand.rgb = mix(dayLand.rgb, dayLand.rgb * vec3(0.95, 0.78, 0.55), golden);
-    dayLand.rgb = mix(dayLand.rgb, dayLand.rgb * vec3(0.42, 0.36, 0.55), dusk);
-    day = mix(day, dayLand.rgb, dayLand.a);
+    day = mix(day, cloud.rgb, cloud.a * daySky);
 
     // ---------- the night painting ----------
-    vec3 nightCol = texture2D(uNightSky, skyUv).rgb;
-    float skyOpen = 1.0 - texture2D(uNightLand, uv).a;
-    nightCol += stars(skyUv * uImageSize, uTime) * skyOpen * smoothstep(0.6, 1.0, uT);
+    float nightDepth = texture2D(uNightData, uv).r;
+    vec2 nightUv = uv + parallax(nightDepth);
+    vec4 nightBase = texture2D(uNightBase, nightUv);
+    float nightLand = nightBase.a;
+    float nightSky = 1.0 - nightLand;
+    float nightGrass = texture2D(uNightData, nightUv).g;
+    vec2 nightQ = nightUv * uImageSize;
 
-    // The moon rises from behind the hills.
+    // Likewise the moon: the painting's own at rest; while it rises, its
+    // glow and disc move up from behind the hills and end exactly on the
+    // painted moon.
+    float moonMoving = 1.0 - smoothstep(0.92, 1.0, uT);
     float rise = 1.0 - smoothstep(0.5, 1.0, uT);
     vec2 moonMove = vec2(-40.0, 520.0) * rise * rise;
+    float moonFrom = length(nightQ - uNightLightCircle.xy);
+    float moonLeft = smoothstep(uNightLightCircle.w + 20.0, uNightLightCircle.w + 6.0, moonFrom);
+    vec3 moonBehind = texture2D(uNightBehind, (nightQ - uNightBehindBox.xy) / uNightBehindBox.zw).rgb;
+    float moonAway = moonMoving * nightSky;
+    vec3 nightCol = nightBase.rgb - glowAt(uNightGlow, moonFrom, uNightLightCircle.z) * moonAway;
+    nightCol = mix(nightCol, moonBehind, moonLeft * moonAway);
+    nightCol *= 1.0 + gust(nightQ, frag) * nightGrass * 0.18;
+    nightCol += stars(nightQ, uTime) * nightSky * smoothstep(0.6, 1.0, uT);
+
+    nightCol += glowAt(uNightGlow, length(nightQ - uNightLightCircle.xy - moonMove), uNightLightCircle.z)
+      * moonAway;
     float moonA;
-    vec3 moon = sprite(uNightLight, uNightLightBox, skyUv * uImageSize, moonMove, moonA);
-    nightCol = mix(nightCol, moon, moonA * (0.96 + 0.04 * sin(uTime * 0.5)));
+    vec3 moon = sprite(uNightLight, uNightLightBox, nightQ, moonMove, moonA);
+    nightCol = mix(nightCol, moon, moonA * moonAway);
 
-    vec4 nightCloud = sampleIn(uNightClouds, uv + parallax(0.08) + drift);
-    nightCol = mix(nightCol, nightCloud.rgb, nightCloud.a);
-
-    float nightDepth = texture2D(uNightData, uv).r;
-    vec2 nightLandUv = uv + parallax(nightDepth);
-    vec4 nightLand = texture2D(uNightLand, nightLandUv);
-    float nightGrass = texture2D(uNightData, nightLandUv).g;
-    nightLand.rgb *= 1.0 + gust(nightLandUv * uImageSize) * nightGrass * 0.18;
-    nightCol = mix(nightCol, nightLand.rgb, nightLand.a);
+    vec4 nightCloud = sampleIn(uNightClouds, nightUv + drift);
+    nightCol = mix(nightCol, nightCloud.rgb, nightCloud.a * nightSky);
 
     // ---------- washed into the page, like the static painting ----------
     vec3 painting = mix(day, nightCol, night);
@@ -222,7 +325,10 @@ export const paintingFragmentShader = /* glsl */ `
       : mix(middle, 0.0, (fromBottom - 0.5) / 0.5);
     color = mix(color, page, fade);
 
-    color += fireflies(nightLandUv * uImageSize, uTime, nightGrass * nightLand.a)
+    vec4 leaf = leaves(frag, night);
+    color = mix(color, leaf.rgb, leaf.a);
+
+    color += fireflies(nightUv * uImageSize, uTime, nightGrass * nightLand)
       * smoothstep(0.7, 1.0, uT) * 0.85;
 
     gl_FragColor = vec4(color, 1.0);

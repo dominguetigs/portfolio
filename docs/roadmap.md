@@ -32,9 +32,9 @@ Order: 0 → 1 + 2 → 4 → 3 → 5 (D-006). Each phase is one batch the user t
 - [x] SEO: metadata per language, canonical and hreflang, Open Graph per language with a generated preview image (JPEG of about 60 KB, small enough for WhatsApp), `sitemap.xml`, `robots.txt`, JSON-LD `Person`.
 - [x] The contact route validates with the form's zod schema and creates the Resend client per request (the build no longer fails without `RESEND_API_KEY`).
 - [x] The new React Compiler lint rules pass (setState in effects, refs read during render).
-- [x] Content: "almost 13 years" of experience; Ladôme Ateliê as the featured project above the tabs, the site first and its panel after (D-007).
+- [x] Content: "almost 12 years" of experience; Ladôme Ateliê as the featured project above the tabs, the site first and its panel after (D-007).
 - [x] The theme icon no longer depends on the stored theme while rendering (it caused a hydration mismatch once the header was server-rendered); the "more projects on GitHub" link pointed at `undefined`.
-- [ ] **Waiting on the user:** the experience list from LinkedIn (see "Open questions").
+- [x] Experience from the user's LinkedIn (2026-11-20): Fintalk (current) to Find, one or more roles per company; data-driven (`src/sections/experience/constants.ts` for dates, places and stacks; words in the messages, English from LinkedIn, Portuguese and Spanish translated).
 
 ### 1 + 2 · The living sky and the sunset — done, awaiting the user's test
 
@@ -46,17 +46,19 @@ How it works: `docs/scene.md`.
 - [x] It fades in over the static painting (identical at rest, measured), only after the splash and when the browser is idle; never with reduced motion or without WebGL; 30 fps on phones.
 - [x] Console clean in dev: the splash's head script renders from the server only, next-themes' script is inert when React re-creates it (both were re-created when the root layout remounts on a locale change); the paintings load eagerly as the LCP; three pinned to 0.182 (D-008).
 - [x] The splash can no longer trap the page: if React has not started it within 6 s (a script that failed or was blocked), the head script skips it. Found on the phone through the LAN: Next 16 blocks dev resources from origins outside `allowedDevOrigins` (now `192.168.*.*`), so the page never hydrated.
-- Not done: the "now in São Paulo" mode (optional in the plan). The UI colours still switch at once with the theme.
+- [x] The page's colours follow the sunset: they start to change when the sky darkens and arrive with it; text turns quickly in the middle so it stays readable (`docs/scene.md` › The page follows the sunset).
+- [x] The painting no longer tears under parallax: one base warped by a smooth depth instead of separate sky and land layers (D-009); found by the user (a split tree crown, pale outlines along the hills).
+- Not done: the "now in São Paulo" mode (optional in the plan).
 
 ### 3 · The real sky (astronomy)
 
 - At night the stars come from a real catalogue (about 5,000 naked-eye stars), placed as they are over São Paulo at the visitor's moment, with the real moon phase.
 - Touching a bright star names it; constellations in a thin line.
 
-### 4 · The wind (the thread through the page)
+### 4 · The wind — done, awaiting the user's test
 
-- One wind field moves the grass, clouds, fireflies and leaves.
-- Scroll speed is a gust, the pointer a local breeze; between sections a gust carries a few leaves.
+- [x] One wind for the scene: a breeze that never stops, gusts from the scroll's speed, the pointer's own breeze; it combs the grass, pushes the clouds a little and carries the fireflies.
+- [x] From one section to the next, a gust carries a few leaves across the screen.
 
 ### 5 · Every section gets a place
 
@@ -72,4 +74,5 @@ See `docs/scene.md` and `.claude/rules/scene.md`. From the Ladôme scene, still 
 
 ## Open questions
 
-- Experience: Fintalk is the current job and the list must follow LinkedIn exactly, but LinkedIn blocks automated reads (HTTP 999) and `public/cv/*.pdf` stops at Tagme. Waiting for the user to share the profile (LinkedIn's "Save to PDF" or the text); the résumés in `public/cv` need the same update.
+- "Almost 12 years" (LinkedIn starts in January 2015), "for now", the user said on 2026-11-21.
+- The résumé PDFs in `public/cv` stop at Tagme.

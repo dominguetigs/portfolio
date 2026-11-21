@@ -65,3 +65,25 @@ Each heading carries an ID and a status: `[final]`, `[hypothesis]`, `[pending]`,
 **Decision:** `three` and `@types/three` stay at 0.182.0.
 **Why:** React Three Fiber 9.8 (the latest) still creates a `THREE.Clock`, which logs a deprecation warning on every load from three r183. Nothing the scene uses needs a newer three.
 **Revisit when:** a React Three Fiber release moves to `THREE.Timer`.
+
+### D-009 · One warped base, not separate sky and land layers [final]
+
+`2026-11-21` · source: the user's report (a split tree crown, pale outlines on the hills)
+
+**Decision:** the scene draws the painting as one image (its clouds and sun or moon taken out) warped by a smooth depth; only the clouds and the sun or moon are separate, hidden by the base's land mask at the same warped point.
+**Why:** separate sky and land layers moving against each other tear wherever the mask is imperfect; a single image under a smooth warp cannot.
+**Rejected:** more, finer layers (more edges to tear).
+
+### D-010 · The page's colours follow the sunset [final]
+
+`2026-11-21` · source: the user ("da melhor forma possível")
+
+**Decision:** with the living sky on, the theme toggle starts the sky at once, the icon at once, and the page's colours when the sky starts to darken; surfaces glide, text turns quickly in the middle. Without the sky, the theme switches at once.
+**See:** `docs/scene.md` › The page follows the sunset.
+
+### D-011 · The sun and the moon stay painted at rest [final]
+
+`2026-11-21` · source: the user ("esse círculo luminoso em volta da lua e do sol ... nada natural", also during the switch)
+
+**Decision:** at rest the sun and the moon are the painting's own. Only while they move does the scene take them out and draw them again, with the glow as a radial profile measured from the painting (subtracted where the light was, added where it is) and the moon's disc as a sprite.
+**Rejected:** cutting the light and its glow out as a sprite against a reconstructed sky (a ring wherever the reconstruction and the painting disagree), and clouds drifting through a glow (holes in it).

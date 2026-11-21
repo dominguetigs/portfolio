@@ -3,6 +3,11 @@
 import { ThemeProvider as NextThemesProvider } from 'next-themes';
 import { type ThemeProviderProps } from 'next-themes';
 
+import { registerColorTokens } from '@/components/theme-toggle/register-color-tokens';
+
+// Before any theme change, so the page's colours can follow the sunset.
+registerColorTokens();
+
 /**
  * next-themes' inline script sets the theme class before the first paint. It
  * must run from the server HTML only: the root layout remounts on the client

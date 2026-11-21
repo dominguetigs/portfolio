@@ -171,12 +171,7 @@ export default async function RootLayout({ children, params }: LayoutProps) {
         className={`${nunito.variable} ${ptSans.variable} antialiased relative overflow-x-hidden`}
       >
         <NextIntlClientProvider>
-          <ThemeProvider
-            attribute="class"
-            defaultTheme="light"
-            enableSystem
-            disableTransitionOnChange
-          >
+          <ThemeProvider attribute="class" defaultTheme="light" enableSystem>
             <MainContent>{children}</MainContent>
           </ThemeProvider>
         </NextIntlClientProvider>

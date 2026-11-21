@@ -3,8 +3,9 @@ import { motion } from 'motion/react';
 import { iconVariants } from './animations';
 
 /**
- * Both icons render and the `.dark` class picks one, so the server HTML (which
- * cannot know the stored theme) matches the client's first render.
+ * Both icons render; CSS (globals.css) shows the one for where the theme is
+ * going: `.dark`, or `data-theme-to` while a sunset is under way. So the
+ * server HTML matches the first client render, and a click answers at once.
  */
 export function ThemeIcon() {
   return (
@@ -14,8 +15,8 @@ export function ThemeIcon() {
       animate="initial"
       variants={iconVariants.rotate}
     >
-      <Sun className="h-[1.2rem] w-[1.2rem] dark:hidden" />
-      <Moon className="hidden h-[1.2rem] w-[1.2rem] dark:block" />
+      <Sun className="theme-icon-sun h-[1.2rem] w-[1.2rem]" />
+      <Moon className="theme-icon-moon h-[1.2rem] w-[1.2rem]" />
     </motion.div>
   );
 }

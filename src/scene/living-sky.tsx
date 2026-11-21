@@ -10,6 +10,8 @@ import {
 } from '@react-three/fiber';
 import {
   ClampToEdgeWrapping,
+  DataTexture,
+  RGBAFormat,
   LinearFilter,
   NoColorSpace,
   ShaderMaterial,
@@ -29,10 +31,31 @@ import {
 import scene from './scene.json';
 import { createSceneInput, type SceneInput } from './scene-input';
 
-const LAYERS = ['sky', 'clouds', 'light', 'land', 'data'] as const;
-const URLS = (['day', 'night'] as const).flatMap(set =>
-  LAYERS.map(layer => `/scene/${set}-${layer}.webp`),
-);
+import dayBase from './assets/day-base.webp';
+import dayClouds from './assets/day-clouds.webp';
+import dayData from './assets/day-data.webp';
+import dayLight from './assets/day-light.webp';
+import nightBase from './assets/night-base.webp';
+import nightClouds from './assets/night-clouds.webp';
+import nightData from './assets/night-data.webp';
+import nightLight from './assets/night-light.webp';
+import dayBehind from './assets/day-behind.webp';
+import nightBehind from './assets/night-behind.webp';
+
+// Static imports: the build gives each layer a content-hashed URL, cached for
+// good and never mixed with an older version of another layer.
+const URLS = [
+  dayBase,
+  dayClouds,
+  dayLight,
+  dayData,
+  dayBehind,
+  nightBase,
+  nightClouds,
+  nightLight,
+  nightData,
+  nightBehind,
+].map(image => image.src);
 
 // Matches the static painting's scale (ghibli-background): a margin for the
 // parallax to move into without reaching the painting's edge.
@@ -55,6 +78,36 @@ function lightBox(set: keyof typeof scene) {
   return new Vector4(x, y, width, height);
 }
 
+function lightCircle(set: keyof typeof scene) {
+  const { centerX, centerY, reach, body } = scene[set].light;
+  return new Vector4(centerX, centerY, reach, body);
+}
+
+function behindBox(set: keyof typeof scene) {
+  const { x, y, width, height } = scene[set].light.behind;
+  return new Vector4(x, y, width, height);
+}
+
+/** The light's glow profile (scene.json) as a 64 x 1 texture. */
+function glowProfile(set: keyof typeof scene) {
+  const samples = scene[set].light.glow;
+  const data = new Uint8Array(samples.length * 4);
+  samples.forEach(([r, g, b], i) => {
+    data.set(
+      [r, g, b].map(v => Math.round(Math.min(Math.max(v, 0), 1) * 255)),
+      i * 4,
+    );
+    data[i * 4 + 3] = 255;
+  });
+  const texture = new DataTexture(data, samples.length, 1, RGBAFormat);
+  texture.colorSpace = NoColorSpace;
+  texture.minFilter = LinearFilter;
+  texture.magFilter = LinearFilter;
+  texture.wrapS = ClampToEdgeWrapping;
+  texture.needsUpdate = true;
+  return texture;
+}
+
 // three.js is imperative; these helpers keep its mutations out of React's
 // render, where the React Compiler rules forbid them.
 
@@ -72,16 +125,16 @@ function createPaintingMaterial(textures: Texture[]) {
     texture.needsUpdate = true;
   }
   const [
-    dSky,
+    dBase,
     dClouds,
     dLight,
-    dLand,
     dData,
-    nSky,
+    dBehind,
+    nBase,
     nClouds,
     nLight,
-    nLand,
     nData,
+    nBehind,
   ] = textures;
 
   return new ShaderMaterial({
@@ -99,20 +152,34 @@ function createPaintingMaterial(textures: Texture[]) {
       uT: { value: 0 },
       uPointer: { value: new Vector2() },
       uScroll: { value: 0 },
+      uPixelRatio: { value: 1 },
+      uWind: { value: 0 },
+      uWindPhase: { value: 0 },
+      uCloudPush: { value: 0 },
+      uBreeze: { value: new Vector2(-9999, -9999) },
+      uBreezeStrength: { value: 0 },
+      uLeafAge: { value: 100 },
+      uLeafSeed: { value: 0 },
       uPaper: { value: PAPER },
       uNight: { value: NIGHT },
-      uDaySky: { value: dSky },
+      uDayBase: { value: dBase },
       uDayClouds: { value: dClouds },
       uDayLight: { value: dLight },
-      uDayLand: { value: dLand },
       uDayData: { value: dData },
       uDayLightBox: { value: lightBox('day') },
-      uNightSky: { value: nSky },
+      uDayBehind: { value: dBehind },
+      uDayBehindBox: { value: behindBox('day') },
+      uDayGlow: { value: glowProfile('day') },
+      uDayLightCircle: { value: lightCircle('day') },
+      uNightBase: { value: nBase },
       uNightClouds: { value: nClouds },
       uNightLight: { value: nLight },
-      uNightLand: { value: nLand },
       uNightData: { value: nData },
       uNightLightBox: { value: lightBox('night') },
+      uNightBehind: { value: nBehind },
+      uNightBehindBox: { value: behindBox('night') },
+      uNightGlow: { value: glowProfile('night') },
+      uNightLightCircle: { value: lightCircle('night') },
     },
   });
 }
@@ -130,12 +197,23 @@ function step(
   u.uT.value = input.t;
   u.uPointer.value.copy(input.pointer);
   u.uScroll.value = input.scroll;
+  const ratio = state.gl.getPixelRatio();
+  u.uPixelRatio.value = ratio;
+  u.uWind.value = input.wind;
+  u.uWindPhase.value = input.windPhase;
+  u.uCloudPush.value = input.cloudPush;
+  u.uBreeze.value.set(input.breeze.x * ratio, input.breeze.y * ratio);
+  u.uBreezeStrength.value = input.breezeStrength;
+  u.uLeafAge.value = input.leafAge;
+  u.uLeafSeed.value = input.leafSeed;
 }
 
 function Painting({ onFirstFrame }: { onFirstFrame: () => void }) {
   const textures = useLoader(TextureLoader, URLS);
   const material = useMemo(() => createPaintingMaterial(textures), [textures]);
-  const [input] = useState(createSceneInput);
+  // useMemo, not useState: Fast Refresh recreates it when the code changes,
+  // so an edit never leaves an older input object behind.
+  const input = useMemo(() => createSceneInput(), []);
   const [started, setStarted] = useState(false);
 
   useEffect(() => input.listen(), [input]);
@@ -188,6 +266,13 @@ function Ticker({ fps }: { fps: number }) {
  */
 export default function LivingSky() {
   const [visible, setVisible] = useState(false);
+
+  useEffect(
+    () => () => {
+      delete document.documentElement.dataset.sky;
+    },
+    [],
+  );
   // The painting is soft and shown washed out: 1.5 device px per CSS px is as
   // sharp as it needs to be, and phones stay at 1.25. (Client only: this
   // component is loaded with ssr: false.)
@@ -217,7 +302,13 @@ export default function LivingSky() {
       >
         <Ticker fps={fps} />
         <Suspense fallback={null}>
-          <Painting onFirstFrame={() => setVisible(true)} />
+          <Painting
+            onFirstFrame={() => {
+              // The theme toggle sweeps only while the sky is live.
+              document.documentElement.dataset.sky = 'live';
+              setVisible(true);
+            }}
+          />
         </Suspense>
       </Canvas>
     </div>
