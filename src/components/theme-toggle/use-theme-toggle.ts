@@ -1,7 +1,8 @@
 import { useTheme } from 'next-themes';
 
-/** When the living sky starts to darken (painting-shader: 35% of the way). */
-const SWEEP_DELAY_MS = 1500;
+/** When the sun reaches the horizon (painting-shader: the elevation hits 0°
+ * about halfway through the 6 s evening). */
+const SWEEP_DELAY_MS = 2700;
 /** How long the page's colours take to follow (globals.css, :root transition). */
 const SWEEP_MS = 1600;
 

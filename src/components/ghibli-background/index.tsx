@@ -3,26 +3,22 @@
 import { useEffect, useRef } from 'react';
 import Image from 'next/image';
 
-import { cn } from '@/lib/utils';
 import { LivingSkyGate } from '@/scene/living-sky-gate';
 
 const EASE = 'cubic-bezier(0.25, 0.4, 0.3, 1)';
 const CROSSFADE_MS = 2500;
 
 const paintings = [
-  {
-    src: '/bg-light.png',
-    opacity: { light: 0.35, dark: 0 },
-    className: 'opacity-35 dark:opacity-0',
-  },
-  {
-    // The night painting with the day's clouds, relit (D-012): baked by
-    // scripts/scene/split_painting.py from bg-dark.png, which is its source.
-    src: '/bg-night.webp',
-    opacity: { light: 0, dark: 0.6 },
-    className: 'opacity-0 dark:opacity-60',
-  },
+  { opacity: { light: 0.35, dark: 0 } },
+  { opacity: { light: 0, dark: 0.6 } },
 ];
+
+// Scaled around the object position, exactly as the living painting is
+// (src/scene), so it can fade in without a jump.
+const FIT = {
+  transform: 'scale(1.04)',
+  transformOrigin: '40% 20%',
+} as const;
 
 /**
  * The painted landscape behind the page: day in light mode, night in dark mode.
@@ -76,27 +72,31 @@ export function GhibliBackground({ live = false }: { live?: boolean }) {
       className="fixed inset-0 w-full h-full -z-10 pointer-events-none overflow-hidden"
     >
       <div className="absolute inset-0 motion-safe:animate-[painting-enter_3s_cubic-bezier(0.25,0.4,0.3,1)]">
-        {paintings.map(painting => (
-          <Image
-            key={painting.src}
-            data-painting
-            src={painting.src}
-            alt=""
-            fill
-            sizes="100vw"
-            // The visible painting is the LCP, and which one depends on the
-            // theme, so both load eagerly instead of one being preloaded.
-            loading="eager"
-            className={cn('object-cover', painting.className)}
-            // Scaled around the object position, exactly as the living
-            // painting is (src/scene), so it can fade in without a jump.
-            style={{
-              objectPosition: '40% 20%',
-              transform: 'scale(1.04)',
-              transformOrigin: '40% 20%',
-            }}
-          />
-        ))}
+        <Image
+          data-painting
+          src="/bg-light.png"
+          alt=""
+          fill
+          sizes="100vw"
+          // The visible painting is the LCP, and which one depends on the
+          // theme, so both load eagerly instead of one being preloaded.
+          loading="eager"
+          className="object-cover opacity-35 dark:opacity-0"
+          style={{ objectPosition: '40% 20%', ...FIT }}
+        />
+        {/* The night: the same landscape, relit, with the moon in today's
+            phase (D-014). One painting per phase, baked by scripts/scene/
+            split_painting.py; NightPaintingScript picks today's before the
+            first paint, and only that one is downloaded. */}
+        <div
+          data-painting
+          className="absolute inset-0 bg-cover opacity-0 dark:opacity-60"
+          style={{
+            backgroundImage: 'var(--night-painting, url(/night/night-12.webp))',
+            backgroundPosition: '40% 20%',
+            ...FIT,
+          }}
+        />
       </div>
 
       <div className="absolute inset-0 bg-gradient-to-t from-background/85 via-background/30 to-transparent dark:from-background/90 dark:via-background/40" />

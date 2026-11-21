@@ -13,6 +13,7 @@ import '../globals.css';
 import { ThemeProvider } from '@/hooks/theme-provider';
 import { MainContent } from '@/components/main-content';
 import { SplashHeadScript } from '@/components/splash-screen/splash-state';
+import { NightPaintingScript } from '@/components/ghibli-background/night-painting-script';
 import { CONTACT_INFO, SITE_URL } from '@/constants';
 import { routing } from '@/i18n/routing';
 
@@ -157,6 +158,7 @@ export default async function RootLayout({ children, params }: LayoutProps) {
     <html lang={locale} suppressHydrationWarning className="overflow-x-hidden">
       <head>
         <SplashHeadScript />
+        <NightPaintingScript />
         <noscript>
           <style>{'[data-splash-screen]{display:none}'}</style>
         </noscript>

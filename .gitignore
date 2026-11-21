@@ -42,3 +42,6 @@ next-env.d.ts
 
 # cartog index
 .cartog/
+
+# python
+__pycache__/

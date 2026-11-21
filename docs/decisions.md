@@ -94,3 +94,25 @@ Each heading carries an ID and a status: `[final]`, `[hypothesis]`, `[pending]`,
 
 **Decision:** the day's clouds are the only clouds. The night painting loses its own (its sky becomes a smooth fit of the painted one) and shows the day's, relit; the static night painting (`public/bg-night.webp`) is baked the same way. The stars sit behind the clouds.
 **Rejected:** cross-fading two paintings with different clouds (the clouds visibly change shape during the switch).
+
+### D-013 · The night painting looks south, at the real sky [final]
+
+`2026-11-21` · source: phase 3 of the roadmap, accepted by the user
+
+**Decision:** the night painting shows the real sky over São Paulo at the visitor's moment, looking due south from the horizon to about 59° up: the circumpolar southern sky (the Southern Cross, the Pointers, Canopus, Achernar, the Magellanic Clouds) is always there, turning around the pole. The moon keeps its painted place, with its real phase. Star and constellation data from d3-celestial (BSD-3-Clause); the Milky Way is modelled.
+**Why south:** the painting's sky is only ~59° tall; any other direction would often show little that is recognisable, while the south always holds the Cross's sky (and the Cross is on the Brazilian flag).
+**Rejected:** placing the moon at its real position (the painting is composed around it).
+
+### D-014 · One landscape, relit by the hour [final]
+
+`2026-11-21` · source: the user ("até as árvores do cenário estão diferentes no dia e na noite, gostaria que tudo fosse idêntico"; "gosto mais da paisagem que estava de dia")
+
+**Decision:** the day painting is the only landscape. The night keeps from its painting only the sky (a smooth gradient), the moon, and its colours: the day's land is relit by a lookup from the day land's brightness to the night land's colour, and the day's clouds by colours from the night's clouds. Everything in between follows the sun's elevation (golden hour, sunset, civil and nautical twilight): the sky is replaced by a twilight gradient warm towards the sun, the clouds are lit pink from below, then grey, the land goes into shade, then the blue hour, then moonlight; the brightest stars come out first.
+**The land's edge** is found as what departs from the clear sky filled in behind it (not "everything below each column's first land", which stepped into blocks between the treetops and missed the far tree lines).
+**Rejected:** cross-fading two paintings of different landscapes.
+
+### D-015 · The static night painting in the moon's phase [final]
+
+`2026-11-21` · source: the user ("a lua entrar cheia fica estranho")
+
+**Decision:** the static night painting is baked in 24 phases (`public/night/night-NN.webp`); an inline head script picks today's before the first paint, and the live scene draws the same rounded phase, so it fades in over an identical moon. The phase is shown to about a day.

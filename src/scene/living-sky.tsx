@@ -11,6 +11,8 @@ import {
 import {
   ClampToEdgeWrapping,
   DataTexture,
+  Matrix3,
+  RepeatWrapping,
   RGBAFormat,
   LinearFilter,
   NoColorSpace,
@@ -30,17 +32,20 @@ import {
 } from './painting-shader';
 import scene from './scene.json';
 import { createSceneInput, type SceneInput } from './scene-input';
+import { createRealSky, type RealSky } from './real-sky';
+import { frameMatrix, VIEW } from './sky-layers';
+import { SkyLabels } from './sky-labels';
 
 import dayBase from './assets/day-base.webp';
 import dayClouds from './assets/day-clouds.webp';
 import dayCloudsStill from './assets/day-clouds-still.webp';
 import dayData from './assets/day-data.webp';
 import dayLight from './assets/day-light.webp';
-import nightBase from './assets/night-base.webp';
-import nightData from './assets/night-data.webp';
+import nightSky from './assets/night-sky.webp';
 import nightLight from './assets/night-light.webp';
 import dayBehind from './assets/day-behind.webp';
 import nightBehind from './assets/night-behind.webp';
+import milkyWay from './assets/milkyway.webp';
 
 // Static imports: the build gives each layer a content-hashed URL, cached for
 // good and never mixed with an older version of another layer.
@@ -51,11 +56,33 @@ const URLS = [
   dayData,
   dayBehind,
   dayCloudsStill,
-  nightBase,
+  nightSky,
   nightLight,
-  nightData,
   nightBehind,
+  milkyWay,
 ].map(image => image.src);
+
+/** How often the real sky is redrawn as it turns (it moves ~3.5 px a minute). */
+const SKY_REFRESH_SECONDS = 20;
+
+function moonPhaseUniform(sky: RealSky) {
+  const { phase, illumination } = sky.layers.moon;
+  return new Vector3(
+    Math.cos(2 * Math.PI * phase),
+    phase < 0.5 ? 1 : -1,
+    illumination,
+  );
+}
+
+/** Redraws the sky for now and hands it to the shader. */
+function refreshSky(material: ShaderMaterial, sky: RealSky, elapsed: number) {
+  sky.layers.update(new Date());
+  sky.stars.needsUpdate = true;
+  sky.lines.needsUpdate = true;
+  sky.updatedAt = elapsed;
+  material.uniforms.uSkyFrame.value.fromArray(frameMatrix(sky.layers.frame));
+  material.uniforms.uMoonPhase.value.copy(moonPhaseUniform(sky));
+}
 
 // Matches the static painting's scale (ghibli-background): a margin for the
 // parallax to move into without reaching the painting's edge.
@@ -92,7 +119,11 @@ function behindBox(set: PaintingSet) {
 
 /** The light's glow profile (scene.json) as a 64 x 1 texture. */
 function glowProfile(set: PaintingSet) {
-  const samples = scene[set].light.glow;
+  return lookupTexture(scene[set].light.glow);
+}
+
+/** A 64 × 1 RGB lookup (scene.json) as a texture, sampled linearly. */
+function lookupTexture(samples: number[][]) {
   const data = new Uint8Array(samples.length * 4);
   samples.forEach(([r, g, b], i) => {
     data.set(
@@ -113,7 +144,7 @@ function glowProfile(set: PaintingSet) {
 // three.js is imperative; these helpers keep its mutations out of React's
 // render, where the React Compiler rules forbid them.
 
-function createPaintingMaterial(textures: Texture[]) {
+function createPaintingMaterial(textures: Texture[], sky: RealSky) {
   for (const texture of textures) {
     // Image rows top-down, colours untouched: the shader mixes in the same
     // sRGB space the browser uses for the static painting.
@@ -133,11 +164,13 @@ function createPaintingMaterial(textures: Texture[]) {
     dData,
     dBehind,
     dCloudsStill,
-    nBase,
+    nSky,
     nLight,
-    nData,
     nBehind,
+    mwMap,
   ] = textures;
+  // The Milky Way map wraps around in right ascension.
+  mwMap.wrapS = RepeatWrapping;
 
   return new ShaderMaterial({
     vertexShader: paintingVertexShader,
@@ -152,6 +185,7 @@ function createPaintingMaterial(textures: Texture[]) {
       uZoom: { value: PAINTING_ZOOM },
       uTime: { value: 0 },
       uT: { value: 0 },
+      uHorizonY: { value: scene.day.horizon },
       uPointer: { value: new Vector2() },
       uScroll: { value: 0 },
       uPixelRatio: { value: 1 },
@@ -180,14 +214,22 @@ function createPaintingMaterial(textures: Texture[]) {
       uDayBehindBox: { value: behindBox('day') },
       uDayGlow: { value: glowProfile('day') },
       uDayLightCircle: { value: lightCircle('day') },
-      uNightBase: { value: nBase },
+      uNightSky: { value: nSky },
+      uNightLand: { value: lookupTexture(scene.nightLand) },
       uNightLight: { value: nLight },
-      uNightData: { value: nData },
       uNightLightBox: { value: lightBox('night') },
       uNightBehind: { value: nBehind },
       uNightBehindBox: { value: behindBox('night') },
       uNightGlow: { value: glowProfile('night') },
       uNightLightCircle: { value: lightCircle('night') },
+      uStars: { value: sky.stars },
+      uLines: { value: sky.lines },
+      uMilkyWay: { value: mwMap },
+      uSkyFrame: {
+        value: new Matrix3().fromArray(frameMatrix(sky.layers.frame)),
+      },
+      uView: { value: new Vector3(VIEW.cx, VIEW.cy, VIEW.scale) },
+      uMoonPhase: { value: moonPhaseUniform(sky) },
     },
   });
 }
@@ -195,11 +237,16 @@ function createPaintingMaterial(textures: Texture[]) {
 function step(
   material: ShaderMaterial,
   input: SceneInput,
+  sky: RealSky,
   state: RootState,
   delta: number,
 ) {
   const u = material.uniforms;
   input.update(delta, state.clock.elapsedTime);
+  sky.night.value = input.t;
+  if (state.clock.elapsedTime - sky.updatedAt > SKY_REFRESH_SECONDS) {
+    refreshSky(material, sky, state.clock.elapsedTime);
+  }
   state.gl.getDrawingBufferSize(u.uResolution.value);
   u.uTime.value = state.clock.elapsedTime;
   u.uT.value = input.t;
@@ -216,9 +263,18 @@ function step(
   u.uLeafSeed.value = input.leafSeed;
 }
 
-function Painting({ onFirstFrame }: { onFirstFrame: () => void }) {
+function Painting({
+  sky,
+  onFirstFrame,
+}: {
+  sky: RealSky;
+  onFirstFrame: () => void;
+}) {
   const textures = useLoader(TextureLoader, URLS);
-  const material = useMemo(() => createPaintingMaterial(textures), [textures]);
+  const material = useMemo(
+    () => createPaintingMaterial(textures, sky),
+    [textures, sky],
+  );
   // useMemo, not useState: Fast Refresh recreates it when the code changes,
   // so an edit never leaves an older input object behind.
   const input = useMemo(() => createSceneInput(), []);
@@ -228,7 +284,7 @@ function Painting({ onFirstFrame }: { onFirstFrame: () => void }) {
   useEffect(() => () => material.dispose(), [material]);
 
   useFrame((state, delta) => {
-    step(material, input, state, delta);
+    step(material, input, sky, state, delta);
     if (!started) {
       setStarted(true);
       onFirstFrame();
@@ -274,6 +330,8 @@ function Ticker({ fps }: { fps: number }) {
  */
 export default function LivingSky() {
   const [visible, setVisible] = useState(false);
+  // Client only (ssr: false): the sky is drawn on 2D canvases.
+  const [sky] = useState(createRealSky);
 
   useEffect(
     () => () => {
@@ -311,6 +369,7 @@ export default function LivingSky() {
         <Ticker fps={fps} />
         <Suspense fallback={null}>
           <Painting
+            sky={sky}
             onFirstFrame={() => {
               // The theme toggle sweeps only while the sky is live.
               document.documentElement.dataset.sky = 'live';
@@ -319,6 +378,7 @@ export default function LivingSky() {
           />
         </Suspense>
       </Canvas>
+      <SkyLabels sky={sky} />
     </div>
   );
 }

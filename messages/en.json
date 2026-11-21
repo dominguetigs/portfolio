@@ -573,6 +573,19 @@
       "changeLanguage": "Change language",
       "resumeEnglish": "Resume (English)",
       "resumePortuguese": "Resume (Portuguese)"
+    },
+    "Sky": {
+      "moonPhases": [
+        "New moon",
+        "Waxing crescent",
+        "First quarter",
+        "Waxing gibbous",
+        "Full moon",
+        "Waning gibbous",
+        "Last quarter",
+        "Waning crescent"
+      ],
+      "illuminated": "{percent}% lit"
     }
   }
 }

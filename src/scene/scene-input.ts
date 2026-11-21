@@ -2,7 +2,8 @@ import { Vector2 } from 'three';
 
 import { SWEEP_EVENT } from '@/components/theme-toggle/use-theme-toggle';
 
-const NIGHT_FALL_SECONDS = 4.2;
+// Long enough for the evening to unfold: golden hour, sunset, the blue hour.
+const NIGHT_FALL_SECONDS = 6;
 
 function isDark() {
   return document.documentElement.classList.contains('dark');

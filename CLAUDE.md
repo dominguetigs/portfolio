@@ -6,7 +6,7 @@ Gustavo Domingueti's personal portfolio (gustavodomingueti.com.br): a one-page N
 - `src/sections/<section>` — one folder per section (hero, about, skills, projects, experience, education, languages, contact), each with its components, `constants`, `animations` and `types`.
 - `src/components` — shared pieces (header, nav menu, footer, splash screen, the painted background, theme and language switchers). `src/components/ui` keeps only the shadcn/ui components in use.
 - `messages/{pt,en,es}.json` — every piece of copy, through next-intl; `src/i18n` holds the routing; `src/proxy.ts` redirects to a locale.
-- `src/scene` — the living painting (React Three Fiber, one shader) over the static paintings; its layers come from `scripts/scene/split_painting.py` into `src/scene/assets/`.
+- `src/scene` — the living painting (React Three Fiber, one shader) over the static paintings; its layers come from `scripts/scene/split_painting.py` into `src/scene/assets/`, the real night sky from `scripts/scene/build_sky.py` into `src/scene/sky.json`.
 - `src/app/globals.css` — the theme tokens (light and `.dark`), the paper texture, the dark-mode contrast overrides and the splash rules.
 
 Stack: Next.js 16 (App Router, Turbopack), React 19, Tailwind v4, `motion`, three.js + React Three Fiber (`src/scene` only, loaded lazily), next-intl (`next/root-params`), next-themes, react-hook-form + zod, Resend. Deployed on Vercel.
@@ -22,7 +22,7 @@ npm run build
 node scripts/cv/build.mjs   # the résumés in public/cv, from the same data as the site (Google Chrome, headless)
 ```
 
-No test runner: a change is checked with lint, typecheck, build and a browser pass at 390px and 1440px, in light and dark, in at least two locales. The splash shows once per browser session: test it in a fresh context, and test everything else with `sessionStorage['splash-seen'] = '1'`.
+No test runner: a change is checked with lint, typecheck, build and a browser pass at 390px and 1440px, in light and dark, in at least two locales. Read the console on `npm run dev` as well as on the build: production React does not report hydration mismatches. The splash shows once per browser session: test it in a fresh context, and test everything else with `sessionStorage['splash-seen'] = '1'`.
 
 ## Working rules
 

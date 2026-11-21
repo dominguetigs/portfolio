@@ -573,6 +573,19 @@
       "changeLanguage": "Mudar idioma",
       "resumeEnglish": "Currículo (Inglês)",
       "resumePortuguese": "Currículo (Português)"
+    },
+    "Sky": {
+      "moonPhases": [
+        "Lua nova",
+        "Lua crescente",
+        "Quarto crescente",
+        "Lua gibosa crescente",
+        "Lua cheia",
+        "Lua gibosa minguante",
+        "Quarto minguante",
+        "Lua minguante"
+      ],
+      "illuminated": "{percent}% iluminada"
     }
   }
 }

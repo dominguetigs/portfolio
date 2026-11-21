@@ -10,7 +10,7 @@ verified: none
 
 # The living painting
 
-Phases 1 and 2 of `docs/roadmap.md`: the painted landscape breathes (clouds drift, the grass catches the wind, the sun breathes, layers move in depth with the pointer, the scroll and the phone's tilt), and the theme toggle is a sunset or a sunrise.
+Phases 1 to 4 of `docs/roadmap.md`: the painted landscape breathes (clouds drift, the grass catches the wind, the sun breathes, layers move in depth with the pointer, the scroll and the phone's tilt), and the theme toggle is a sunset or a sunrise.
 
 ## From painting to layers (offline)
 
@@ -46,8 +46,30 @@ Everything is in image pixels (1536 × 1024). For the day and the night painting
 - **Leaves**: crossing from one section to the next (at most every 4 s) sends nine leaves across the screen, fluttering, spinning and turning over; by night they are silhouettes. Drawn in screen pixels, after the page's gradient.
 - **Clouds** drift back and forth (±4.5% over about four minutes) instead of wrapping: no seam, and they never empty the sky.
 - **One set of clouds** (D-012): the clouds are drawn after the day and night paintings are mixed, the same shapes in the same places; only their light changes (white, golden, pink, then night blue with a silver edge towards the moon). The stars are drawn before them and masked by their coverage, so they never shine through a cloud; the moon passes behind them.
-- **Sunset** (`uT` 0 → 1 over 4.2 s, ease-in-out sine, reversible mid-way): the sky leans towards a golden-hour gradient, then a dusk one; clouds warm, then turn pink; the land darkens to violet; the night painting fades in, stars twinkle, fireflies light up over the grass.
+- **Sunset** (superseded by the section on one landscape, below; `uT` 0 → 1 over 6 s, ease-in-out sine, reversible mid-way): the sky leans towards a golden-hour gradient, then a dusk one; clouds warm, then turn pink; the land darkens to violet; the night painting fades in, stars twinkle, fireflies light up over the grass.
 - **The sun and the moon** (D-011): at rest they are the painting's own, untouched. While they move, the shader subtracts the glow profile where the light was, puts the matched clean sky where the disc and its rim were, and adds the profile where the light is now (orange as the sun sets), plus the moon's disc sprite (its craters). At the first and last instant that is exactly the painting, and the profile fades to nothing at its reach, so there is no ring anywhere. The sun is drawn by the profile alone (its disc is uniform). The painted sun breathes with a soft additive pulse.
+
+## One landscape, relit by the hour (D-014)
+
+The day painting is the only landscape. `uT` (the toggle's progress over 6 s) drives the sun's elevation: 35° → 10° quickly, then 10° → −16° slowly, so golden hour, sunset (0°), civil (−6°) and nautical (−12°) twilight each get their time; a sunrise is the same evening backwards. From the elevation:
+
+- **Sky:** the painted sky (its clouds taken out into layers) gives way, from 14° down, to a twilight gradient (`twilightColors`: horizon, middle, top, from photographs of clear evenings), warmer towards the sun; from −6° the night's sky (`night-sky.webp`: the night painting's sky as a smooth gradient, its moon and glow) takes over.
+- **Sun:** moves down to the horizon at 0° and behind the hills, whiter high and orange low, with an aureole that grows near the horizon.
+- **Clouds** (`cloudLight`): warm in golden hour, lit pink from below at sunset, grey as the light leaves them, then the night's colours. The same shapes all the time.
+- **Land:** warm, then in shade once the sun touches the hills, then the blue hour (dark, flat, cool), then moonlight: `nightLand`, a lookup (scene.json `nightLand`, 64 samples) from the day land's brightness to the night painting's land colour, matched by quantiles.
+- **Moon:** rises with the dusk, already pale in the twilight; stars come out by brightness from −4°; the Milky Way and constellations from −9°; fireflies from −8°.
+- **Land edge:** `land_from_sky` in the art script: what departs from the clear sky (filled in behind the land from sure-sky pixels: bright and blue) is land, with a soft edge that follows every crown and the far tree lines.
+
+## The real sky (phase 3)
+
+The night painting shows the sky over São Paulo as it is at the visitor's moment, looking **south** (D-013): from the horizon (y ≈ 734) to about 59° up, about 115° across, in a stereographic projection centred due south and tilted 30° up (`sky-model.ts`). Everything in the frame lies within ~65° of the south celestial pole, which sits fixed at (768, 385): the Southern Cross, the Pointers (Rigil Kentaurus and Hadar), Canopus, Achernar, Carina and the Magellanic Clouds, turning around the pole in real time. (In November evenings the Cross is below the horizon and rises before dawn; in May evenings it is at the top of the frame.)
+
+- **Data** (`scripts/scene/build_sky.py` → `src/scene/sky.json`, 84 KB): 1,582 stars to magnitude 5.8 south of declination −18°, with colour from B−V; the IAU names of the 67 brightest; the constellation lines; constellation names in pt (hand-written in the script), en and es. From the d3-celestial package's data (BSD-3-Clause, © 2015 Olaf Frohn; XHIP stars, IAU names and lines), downloaded to a scratch folder when the data must be rebuilt, not kept in the repo.
+- **Milky Way** (`src/scene/assets/milkyway.webp`): modelled along the galactic plane (wider and brighter towards Sagittarius and through Carina–Crux–Centaurus, the Coalsack and the Great Rift dark, clumped by noise) plus the two Magellanic Clouds, as an RA/Dec map; the shader turns each pixel back into the sky (inverse stereographic, `uSkyFrame`) to sample it.
+- **Stars and lines** are drawn on 2D canvases in painting pixels (`sky-layers.ts`) and redrawn every 20 s (the sky turns about 3.5 px a minute); the shader samples them where the night painting is, so they sit behind the land and the clouds, are hidden by the moon's disc and washed out near it, twinkle with a slow noise (one phase per star), and are added **after** the painting is washed into the page (washed, they would all but disappear).
+- **The moon** stays where it is painted, with its real phase, rounded to one of 24 (D-015: the static night painting is baked in each and picked before the first paint): the terminator on the disc (seen from the southern hemisphere, a waxing moon is lit on the left), the unlit side the sky behind plus the air's glow (the glow is in front of the disc, so a dark limb has no bright edge), the glow scaled by the lit fraction.
+- **Names** (`sky-labels.tsx`): at night, pointing at a bright star (or touching it, for 4 s) shows its name and its constellation, whose lines are picked out; pointing at the moon shows its phase and lit fraction (`Index.Sky` in the messages). Never over the page's text or controls.
+- Accuracy: J2000 positions without precession (~0.4° by 2026), mean sidereal time, the mean lunar month (phase within about half a day). Checked against known events: the pole at 23.6°, the Cross below the horizon on a November evening and at 50° on a May one, the full moon of 2026-11-24 and the new moon of 2026-12-09.
 
 ## The page follows the sunset
 

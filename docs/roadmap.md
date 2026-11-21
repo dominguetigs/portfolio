@@ -52,10 +52,14 @@ How it works: `docs/scene.md`.
 - [x] One set of clouds for the day and the night, relit at the switch; the stars behind the clouds (D-012).
 - Not done: the "now in São Paulo" mode (optional in the plan).
 
-### 3 · The real sky (astronomy)
+### 3 · The real sky — done, awaiting the user's test
 
-- At night the stars come from a real catalogue (about 5,000 naked-eye stars), placed as they are over São Paulo at the visitor's moment, with the real moon phase.
-- Touching a bright star names it; constellations in a thin line.
+- [x] At night the stars are the real ones over São Paulo at the visitor's moment, looking south (the Southern Cross, the Pointers, Canopus, Achernar, the Magellanic Clouds), behind the clouds and the land, twinkling; the Milky Way along its real path (D-013).
+- [x] The moon keeps its painted place with its real phase (southern-hemisphere orientation, earthshine, glow by lit fraction).
+- [x] One landscape day and night, relit by the sun's elevation through golden hour, sunset and twilight (D-014); the static night painting in today's moon phase (D-015).
+- [x] Third-party notices for the star data (`THIRD_PARTY_NOTICES.md`, `/third-party-notices.txt`).
+- [ ] Next, asked by the user: a reveal when the splash ends, the paper torn open from the centre (like summer-afternoon.vlucendo.com's intro).
+- [x] Pointing at (or touching) a bright star names it and its constellation, whose lines light up; the constellations are drawn in a thin line; the moon gives its phase.
 
 ### 4 · The wind — done, awaiting the user's test
 
