@@ -1,11 +1,6 @@
 export const iconVariants = {
   rotate: {
-    dark: {
-      rotate: 45,
-      scale: 1.1,
-      transition: { type: 'spring' as const, stiffness: 400, damping: 10 },
-    },
-    light: {
+    hover: {
       rotate: 45,
       scale: 1.1,
       transition: { type: 'spring' as const, stiffness: 400, damping: 10 },

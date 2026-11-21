@@ -2,36 +2,20 @@ import { Moon, Sun } from 'lucide-react';
 import { motion } from 'motion/react';
 import { iconVariants } from './animations';
 
-type ThemeType = 'dark' | 'light';
-
-interface ThemeIconProps {
-  theme: ThemeType;
-}
-
-export function ThemeIcon({ theme }: ThemeIconProps) {
-  const isDark = theme === 'dark';
-
-  if (isDark) {
-    return (
-      <motion.div
-        initial="initial"
-        whileHover="dark"
-        animate="initial"
-        variants={iconVariants.rotate}
-      >
-        <Moon className="h-[1.2rem] w-[1.2rem]" />
-      </motion.div>
-    );
-  }
-
+/**
+ * Both icons render and the `.dark` class picks one, so the server HTML (which
+ * cannot know the stored theme) matches the client's first render.
+ */
+export function ThemeIcon() {
   return (
     <motion.div
       initial="initial"
-      whileHover="light"
+      whileHover="hover"
       animate="initial"
       variants={iconVariants.rotate}
     >
-      <Sun className="h-[1.2rem] w-[1.2rem]" />
+      <Sun className="h-[1.2rem] w-[1.2rem] dark:hidden" />
+      <Moon className="hidden h-[1.2rem] w-[1.2rem] dark:block" />
     </motion.div>
   );
 }

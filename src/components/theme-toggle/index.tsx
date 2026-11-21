@@ -10,7 +10,7 @@ import { useThemeToggle } from './use-theme-toggle';
 type ThemeToggleProps = Omit<ComponentProps<typeof Button>, 'onClick'>;
 
 export function ThemeToggle(props: ThemeToggleProps) {
-  const { theme, toggleTheme } = useThemeToggle();
+  const { toggleTheme } = useThemeToggle();
 
   return (
     <Button
@@ -21,7 +21,7 @@ export function ThemeToggle(props: ThemeToggleProps) {
       {...props}
     >
       <div className="relative">
-        <ThemeIcon theme={theme} />
+        <ThemeIcon />
       </div>
       <span className="sr-only">Toggle theme</span>
     </Button>
