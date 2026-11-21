@@ -1,0 +1,15 @@
+# cartog: the code graph and semantic search agents use to navigate this repo.
+# The index lives in .cartog/ (git-ignored). Defaults apply to everything not set here;
+# `cartog init --dry-run` in an empty directory shows the full template.
+
+[project]
+name        = "portfolio"
+description = "Gustavo Domingueti's personal portfolio: one-page Next.js App Router site, i18n (pt/en/es), Ghibli-style day/night theme."
+
+[embedding]
+# Re-embed on save, so the code and the docs stay searchable as they change.
+auto_embed = true
+
+[index]
+# On top of .gitignore (.next/, node_modules/, .vercel/ are already ignored there).
+exclude = ["package-lock.json", "public/**", ".github/**"]
