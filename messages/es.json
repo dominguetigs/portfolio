@@ -65,34 +65,18 @@
     },
     "Skills": {
       "title": "Habilidades",
-      "description": "Principales tecnologías y herramientas que domino, organizadas por categorías.",
-      "mobileSelectLabel": "Seleccione una categoría",
-      "categories": {
-        "frontend": "Frontend",
-        "languages": "Lenguajes",
-        "backend": "Backend",
-        "data": "Datos",
-        "tools": "Herramientas"
+      "description": "Lo que cosecho todos los días, lo que aún está brotando y las semillas que guardo.",
+      "harvest": {
+        "title": "Cosechando",
+        "hint": "lo uso todos los días"
       },
-      "sections": {
-        "core": "Core",
-        "frameworks": "Frameworks & Bibliotecas",
-        "stateManagement": "Gestión de Estado",
-        "ui": "UI & Estilización",
-        "mobile": "Móvil",
-        "ecommerceCms": "E-commerce/CMS",
-        "programmingLanguages": "Lenguajes de Programación",
-        "operatingSystems": "Sistemas Operativos",
-        "backendTechnologies": "Tecnologías Backend",
-        "communication": "Comunicación",
-        "monitoring": "Monitoreo",
-        "databases": "Bases de Datos",
-        "testing": "Pruebas",
-        "build": "Build & Bundlers",
-        "packageManagers": "Gestores de Paquetes",
-        "devops": "DevOps & CI/CD",
-        "projectManagement": "Gestión de Proyectos",
-        "agileMethodologies": "Metodologías Ágiles"
+      "sprouting": {
+        "title": "Brotando",
+        "hint": "profundizando ahora"
+      },
+      "seeds": {
+        "title": "Semillas guardadas",
+        "hint": "también trabajé con"
       }
     },
     "Projects": {
@@ -278,36 +262,19 @@
     },
     "Languages": {
       "title": "Idiomas",
-      "description": "Evaluación de habilidades lingüísticas basada en el Marco Común Europeo de Referencia para las Lenguas (MCERL).",
       "languages": {
         "portuguese": {
           "name": "Portugués",
-          "level": "Nativo (C2)",
-          "flagAlt": "Bandera de Portugués"
+          "level": "Nativo (C2)"
         },
         "english": {
           "name": "Inglés",
-          "level": "Independiente (B2)",
-          "flagAlt": "Bandera de Inglés"
+          "level": "Independiente (B2)"
         },
         "spanish": {
           "name": "Español",
-          "level": "Básico (A2)",
-          "flagAlt": "Bandera de Español"
+          "level": "Básico (A2)"
         }
-      },
-      "skills": {
-        "reading": "Lectura",
-        "writing": "Escritura",
-        "speaking": "Habla",
-        "listening": "Comprensión"
-      },
-      "levels": {
-        "a1": "Básico (A1)",
-        "a2": "Elemental (A2)",
-        "b1": "Intermedio (B1)",
-        "b2": "Independiente (B2)",
-        "c1c2": "Avanzado (C1/C2)"
       }
     },
     "Experience": {

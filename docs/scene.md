@@ -71,6 +71,10 @@ The night painting shows the sky over São Paulo as it is at the visitor's momen
 - **The moon's label** (`moon-label.tsx`): at night, pointing at the moon (or touching it, for 4 s) shows its phase and lit fraction (`Index.Sky` in the messages). Never over the page's text or controls.
 - Accuracy: J2000 positions without precession (~0.4° by 2026), mean sidereal time, the mean lunar month (phase within about half a day). Checked against known events: the pole at 23.6°, the Cross below the horizon on a November evening and at 50° on a May one, the full moon of 2026-11-24 and the new moon of 2026-12-09.
 
+## The page shares the wind
+
+`shareWind` (`living-sky.tsx`) sets `--wind` on `<html>` (0 calm .. 1 a gust, the scene input's smoothed wind, fed by the scroll's and the pointer's speed) whenever it changes by 0.01: the garden's plants (`.plant-lean`) and the bunting's flags (`.flag-lean`) lean with it, on top of their own sway (`.plant-sway`, `.flag-sway`), so scrolling past them makes them bend. The wind blows the clouds to the left, so plants lean left and flags swing left. Without the living sky `--wind` is unset (0); with reduced motion nothing sways.
+
 ## The page follows the sunset
 
 `use-theme-toggle.ts`: with the sky live (`html[data-sky="live"]`) and motion allowed, a click starts the sunset at once (`theme:sweep` event) and turns the icon at once (`data-theme-to`), and sets `.dark` 1.5 s later, when the sky starts to darken. The colour tokens are registered as colours in JS (`register-color-tokens.ts`: the CSS build drops `@property` rules it does not own), so `:root` interpolates them: surfaces over 1.6 s, ink (text) in a quick 0.4 s turn in the middle, when the surfaces cross mid-grey, so text never fades into its background. The dark-mode olive text is tokens too (`--primary-ink*`). While it sweeps, `html[data-sweep]` stops the elements' own transitions. Without the sky, the theme changes at once.

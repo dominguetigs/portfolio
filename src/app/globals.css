@@ -4,87 +4,6 @@
 @custom-variant dark (&:is(.dark *));
 
 @theme inline {
-  /* Skill icons colors */
-  --color-angular-material: #265bb5;
-  --color-angular: #c3002f;
-  --color-angularjs: #b52e31;
-  --color-aws: #ff9900;
-  --color-azure: #0078d7;
-  --color-babel: #f9dc3e;
-  --color-bitbucket: #0052cc;
-  --color-bootstrap: #563d7c;
-  --color-bower: #ef5734;
-  --color-chakraui: #319795;
-  --color-css-modules: #21759b;
-  --color-css3: #2965f1;
-  --color-cypress-light: #f0f6fc;
-  --color-cypress: #17202c;
-  --color-datadog: #632ca6;
-  --color-docker: #2496ed;
-  --color-elasticsearch: #005571;
-  --color-elixir: #6e4a7e;
-  --color-firebase: #ffca28;
-  --color-git: #f05032;
-  --color-github-light: #f0f6fc;
-  --color-github: #181717;
-  --color-go: #00add8;
-  --color-googlecloud: #4285f4;
-  --color-graphql: #e10098;
-  --color-grunt: #fba919;
-  --color-gulp: #da4648;
-  --color-html5: #e34f26;
-  --color-ionic: #3880ff;
-  --color-javascript: #f0db4f;
-  --color-jest: #c21325;
-  --color-jira: #0052cc;
-  --color-jquery: #0769ad;
-  --color-karma: #d04a37;
-  --color-less-light: #f0f6fc;
-  --color-less: #1d365d;
-  --color-linux-light: #f0f6fc;
-  --color-linux: #000000;
-  --color-mac: #a2aaad;
-  --color-mongodb: #47a248;
-  --color-mysql: #4479a1;
-  --color-new-relic: #008c99;
-  --color-nextjs-light: #f0f6fc;
-  --color-nextjs: #000000;
-  --color-ngrx: #591f7e;
-  --color-nodejs: #339933;
-  --color-npm: #cb3837;
-  --color-pnpm: #f69220;
-  --color-postgres: #336791;
-  --color-protractor: #e23237;
-  --color-python: #3776ab;
-  --color-react-testing-library: #e33332;
-  --color-reactjs: #61dbfb;
-  --color-redux: #764abc;
-  --color-rxjs: #b7178c;
-  --color-sass: #cc6699;
-  --color-sentry-light: #f0f6fc;
-  --color-sentry: #362d59;
-  --color-shellscript-light: #f0f6fc;
-  --color-shellscript: #000000;
-  --color-shopify: #96bf48;
-  --color-socketio-light: #f0f6fc;
-  --color-socketio: #010101;
-  --color-sqlite: #003b57;
-  --color-styled-components: #db7093;
-  --color-svelte: #ff3e00;
-  --color-swift: #f05138;
-  --color-tailwind: #06b6d4;
-  --color-trello: #0079bf;
-  --color-typescript: #3178c6;
-  --color-vercel-light: #f0f6fc;
-  --color-vercel: #000000;
-  --color-vite: #646cff;
-  --color-vuejs: #42b883;
-  --color-webpack: #8dd6f9;
-  --color-windows: #00a4ef;
-  --color-yarn: #2c8ebb;
-  --color-zustand-light: #f0f6fc;
-  --color-zustand: #000000;
-
   --color-background: var(--background);
   --color-foreground: var(--foreground);
   --font-sans: Nunito, sans-serif;
@@ -181,6 +100,29 @@
   --primary-ink-strong: oklch(0.71 0.097 111.7);
   --destructive-foreground: oklch(0.97 0.018 0);
   --destructive-border: oklch(0.43 0.24 29.2);
+  /* The garden (skills) and the bunting (languages), painted. */
+  --garden-leaf: #8ea35c;
+  --garden-leaf-light: #b9c780;
+  --garden-leaf-dark: #5d7337;
+  --garden-stem: #71893f;
+  --garden-petal: #fbf3df;
+  --garden-petal-shade: #dccfb0;
+  --garden-yellow: #e6b54a;
+  --garden-orange: #d68a3d;
+  --garden-red: #c75a3f;
+  --garden-brown: #7b5331;
+  --garden-soil: #8f6d48;
+  --garden-soil-dark: #6c5034;
+  --garden-wood: #e6cb98;
+  --garden-wood-dark: #b08752;
+  --garden-ink: #5a4120;
+  --garden-kraft: #e2c99c;
+  --flag-red: #cf6b4e;
+  --flag-yellow: #e9bf58;
+  --flag-green: #93a867;
+  --flag-blue: #7f9cb5;
+  --flag-paper: #f6e8c8;
+  --flag-string: #8f6d48;
 }
 
 .dark {
@@ -220,6 +162,29 @@
   --primary-ink-soft: oklch(0.85 0.09 111.7);
   --primary-ink-icon: oklch(0.85 0.12 111.7);
   --primary-ink-strong: oklch(0.9 0.12 111.7);
+  /* The garden and the bunting by moonlight. */
+  --garden-leaf: #4b6556;
+  --garden-leaf-light: #6c8777;
+  --garden-leaf-dark: #2f443a;
+  --garden-stem: #41584b;
+  --garden-petal: #bcc4d2;
+  --garden-petal-shade: #8a93a6;
+  --garden-yellow: #a88f52;
+  --garden-orange: #8c6b47;
+  --garden-red: #86493f;
+  --garden-brown: #4a3a2c;
+  --garden-soil: #3a3229;
+  --garden-soil-dark: #29231d;
+  --garden-wood: #6b5b45;
+  --garden-wood-dark: #4b3f30;
+  --garden-ink: #efe6d4;
+  --garden-kraft: #3d3a3a;
+  --flag-red: #7e4a40;
+  --flag-yellow: #8d7a4c;
+  --flag-green: #4e6650;
+  --flag-blue: #4a5f78;
+  --flag-paper: #323a4f;
+  --flag-string: #6b6253;
 }
 
 /* The theme sweep (src/components/theme-toggle): the colour tokens are
@@ -255,7 +220,29 @@
       --primary-ink 0.4s ease-in-out 0.6s,
       --primary-ink-soft 0.4s ease-in-out 0.6s,
       --primary-ink-icon 0.4s ease-in-out 0.6s,
-      --primary-ink-strong 0.4s ease-in-out 0.6s;
+      --primary-ink-strong 0.4s ease-in-out 0.6s,
+      --garden-leaf 1.6s cubic-bezier(0.45, 0, 0.55, 1),
+      --garden-leaf-light 1.6s cubic-bezier(0.45, 0, 0.55, 1),
+      --garden-leaf-dark 1.6s cubic-bezier(0.45, 0, 0.55, 1),
+      --garden-stem 1.6s cubic-bezier(0.45, 0, 0.55, 1),
+      --garden-petal 1.6s cubic-bezier(0.45, 0, 0.55, 1),
+      --garden-petal-shade 1.6s cubic-bezier(0.45, 0, 0.55, 1),
+      --garden-yellow 1.6s cubic-bezier(0.45, 0, 0.55, 1),
+      --garden-orange 1.6s cubic-bezier(0.45, 0, 0.55, 1),
+      --garden-red 1.6s cubic-bezier(0.45, 0, 0.55, 1),
+      --garden-brown 1.6s cubic-bezier(0.45, 0, 0.55, 1),
+      --garden-soil 1.6s cubic-bezier(0.45, 0, 0.55, 1),
+      --garden-soil-dark 1.6s cubic-bezier(0.45, 0, 0.55, 1),
+      --garden-wood 1.6s cubic-bezier(0.45, 0, 0.55, 1),
+      --garden-wood-dark 1.6s cubic-bezier(0.45, 0, 0.55, 1),
+      --garden-ink 1.6s cubic-bezier(0.45, 0, 0.55, 1),
+      --garden-kraft 1.6s cubic-bezier(0.45, 0, 0.55, 1),
+      --flag-red 1.6s cubic-bezier(0.45, 0, 0.55, 1),
+      --flag-yellow 1.6s cubic-bezier(0.45, 0, 0.55, 1),
+      --flag-green 1.6s cubic-bezier(0.45, 0, 0.55, 1),
+      --flag-blue 1.6s cubic-bezier(0.45, 0, 0.55, 1),
+      --flag-paper 1.6s cubic-bezier(0.45, 0, 0.55, 1),
+      --flag-string 1.6s cubic-bezier(0.45, 0, 0.55, 1);
   }
 }
 
@@ -456,4 +443,91 @@ html[data-splash='skip'] [data-splash-screen] {
 
 html[data-splash='show'] {
   overflow: hidden !important;
+}
+
+/* The garden (skills, D-019) and the bunting (languages): each plant and
+   flag sways on its own and leans with the painting's wind (--wind, 0 calm
+   .. 1 a gust, set by the living sky; the wind blows the clouds left). */
+.plant-lean {
+  transform-origin: 50% 100%;
+  rotate: calc(var(--wind, 0) * -9deg);
+  transition: rotate 0.9s cubic-bezier(0.3, 0.7, 0.4, 1);
+}
+.plant-sway {
+  transform-origin: 50% 100%;
+  animation: plant-sway var(--sway-duration, 3s) ease-in-out
+    var(--sway-delay, 0s) infinite alternate;
+}
+@keyframes plant-sway {
+  from {
+    rotate: -1.8deg;
+  }
+  to {
+    rotate: 1.8deg;
+  }
+}
+.flag-lean {
+  transform-origin: 50% 0;
+  rotate: calc(var(--wind, 0) * 16deg);
+  transition: rotate 1.1s cubic-bezier(0.3, 0.7, 0.4, 1);
+}
+.flag-sway {
+  transform-origin: 50% 0;
+  animation: flag-sway var(--sway-duration, 2.6s) ease-in-out
+    var(--sway-delay, 0s) infinite alternate;
+}
+@keyframes flag-sway {
+  from {
+    rotate: -3.5deg;
+  }
+  to {
+    rotate: 3.5deg;
+  }
+}
+@media (prefers-reduced-motion: reduce) {
+  .plant-sway,
+  .flag-sway {
+    animation: none;
+  }
+  .plant-lean,
+  .flag-lean {
+    rotate: none;
+  }
+}
+
+.garden-marker {
+  background: var(--garden-wood);
+  color: var(--garden-ink);
+  box-shadow: 0 1.5px 0 var(--garden-wood-dark);
+}
+.garden-stake {
+  background: var(--garden-wood-dark);
+}
+.garden-plank {
+  background:
+    linear-gradient(
+      to bottom,
+      transparent 45%,
+      color-mix(in srgb, var(--garden-wood-dark) 60%, black 12%) 45% 55%,
+      transparent 55%
+    ),
+    var(--garden-wood-dark);
+  border-radius: 1px;
+}
+.garden-packet {
+  background: var(--garden-kraft);
+  box-shadow: 0 2px 0 var(--garden-wood-dark);
+}
+.garden-packet-label {
+  background: color-mix(in srgb, var(--garden-petal) 70%, var(--garden-kraft));
+  outline: 1.5px dashed var(--garden-wood-dark);
+  outline-offset: -4px;
+}
+
+/* A festa junina flag: paper with a V cut at the bottom. */
+.bunting-flag {
+  clip-path: polygon(0 0, 100% 0, 100% 100%, 50% calc(100% - 1.4rem), 0 100%);
+}
+.bunting-paper {
+  background: var(--flag-paper);
 }

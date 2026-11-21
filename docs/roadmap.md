@@ -67,12 +67,16 @@ How it works: `docs/scene.md`.
 - [x] One wind for the scene: a breeze that never stops, gusts from the scroll's speed, the pointer's own breeze; it combs the grass, pushes the clouds a little and carries the fireflies.
 - [x] From one section to the next, a gust carries a few leaves across the screen.
 
-### 5 · Every section gets a place
+### 5 · Every section gets a place (D-019)
 
-- Scrolling is walking down into the valley: the hero is the sky, the middle the hills, the footer the ground.
-- Experience: the painting's fence continues down the page as the timeline, one post per job.
-- Contact: a mailbox on the fence; a sent message flies off with the wind.
-- Splash (D-005): the code box stays, shorter; the code "paints" the scene, a pencil sketch of the landscape that watercolour fills in.
+Scrolling is walking down into the valley: the hero is the sky, the middle the hills, the footer the ground. Each section is a place or an object of the landscape, with little text in sight; the plants and flags lean with the painting's wind.
+
+- [x] Batch 1, awaiting the user's look: Skills as a garden ("Colhendo", "Brotando", a seed packet with the rest) and Languages as festa junina bunting.
+- [ ] Batch 2: Experience as the painting's fence, drawn as you scroll, one post per job (a sign with the company, role and years, one line of the main result; a letter with three achievements on demand; a bird on the current job's post); Education its first post, courses as stamps pinned to it.
+- [ ] Batch 3: About as a field notebook (one short paragraph, three notes with drawings; the thinking portrait drawn in pencil, then painted in watercolour); the hero trimmed (name written by a brush, email and phone moved to Contact, a dandelion seed as the scroll cue).
+- [ ] Batch 4: Projects as painted postcards (the screenshot as watercolour that clears on hover; turned over, a line, the stack, the links and a dated stamp); Ladôme stays the larger one.
+- [ ] Batch 5: Contact as a mailbox on the fence (the form a letter that folds into a paper aeroplane and flies off over the hills; email, LinkedIn and GitHub as stamps); the footer as the ground (grass that moves with the pointer, fireflies at night).
+- [ ] Splash (D-005): the code box stays, shorter; the code "paints" the scene, a pencil sketch of the landscape that watercolour fills in.
 
 ## How the 3D is built
 

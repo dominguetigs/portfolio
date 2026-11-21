@@ -228,6 +228,14 @@ function createPaintingMaterial(textures: Texture[], sky: RealSky) {
   });
 }
 
+/** The page's plants and flags lean with the painting's wind (--wind). */
+let windShown = -1;
+function shareWind(wind: number) {
+  if (Math.abs(wind - windShown) < 0.01) return;
+  windShown = wind;
+  document.documentElement.style.setProperty('--wind', wind.toFixed(2));
+}
+
 function step(
   material: ShaderMaterial,
   input: SceneInput,
@@ -271,6 +279,7 @@ function step(
   u.uBreezeStrength.value = input.breezeStrength;
   u.uLeafAge.value = input.leafAge;
   u.uLeafSeed.value = input.leafSeed;
+  shareWind(input.wind);
   stepMeteors(
     meteors,
     Math.min(delta, 0.12),
@@ -356,6 +365,7 @@ export default function LivingSky() {
   useEffect(
     () => () => {
       delete document.documentElement.dataset.sky;
+      document.documentElement.style.removeProperty('--wind');
     },
     [],
   );
