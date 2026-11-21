@@ -25,7 +25,6 @@ export const LanguageHeader = ({
             fill
             sizes="40px"
             className="object-cover"
-            priority
           />
         </div>
       )}

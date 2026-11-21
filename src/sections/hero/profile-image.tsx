@@ -50,7 +50,7 @@ export function ProfileImage() {
             style={{
               filter: 'contrast(1.05) saturate(1.1)',
             }}
-            priority
+            preload
           />
         </div>
       </div>

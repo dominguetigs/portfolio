@@ -38,7 +38,13 @@ export function FlagButton({ language, isPending, ...props }: FlagButtonProps) {
         animate="initial"
         variants={springAnimation}
       >
-        <Image src={flag} alt={name} fill className="object-cover" priority />
+        <Image
+          src={flag}
+          alt={name}
+          fill
+          className="object-cover"
+          loading="eager"
+        />
       </motion.div>
     </Button>
   );

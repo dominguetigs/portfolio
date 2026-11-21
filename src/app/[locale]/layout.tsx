@@ -12,7 +12,7 @@ import { SpeedInsights } from '@vercel/speed-insights/next';
 import '../globals.css';
 import { ThemeProvider } from '@/hooks/theme-provider';
 import { MainContent } from '@/components/main-content';
-import { SPLASH_HEAD_SCRIPT } from '@/components/splash-screen/splash-state';
+import { SplashHeadScript } from '@/components/splash-screen/splash-state';
 import { CONTACT_INFO, SITE_URL } from '@/constants';
 import { routing } from '@/i18n/routing';
 
@@ -156,7 +156,7 @@ export default async function RootLayout({ children, params }: LayoutProps) {
   return (
     <html lang={locale} suppressHydrationWarning className="overflow-x-hidden">
       <head>
-        <script dangerouslySetInnerHTML={{ __html: SPLASH_HEAD_SCRIPT }} />
+        <SplashHeadScript />
         <noscript>
           <style>{'[data-splash-screen]{display:none}'}</style>
         </noscript>

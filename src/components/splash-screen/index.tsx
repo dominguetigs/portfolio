@@ -10,7 +10,7 @@ import { GhibliBackground } from '../ghibli-background';
 import { CodeBox } from './code-box';
 import { useTypingCode } from './use-typing-code';
 import { ProgressBar } from './progress-bar';
-import { finishSplash, useSplashState } from './splash-state';
+import { finishSplash, markSplashLive, useSplashState } from './splash-state';
 
 export function SplashScreen() {
   const state = useSplashState();
@@ -54,6 +54,8 @@ function SplashCode({ onDone }: { onDone: () => void }) {
   const locale = useLocale();
   const { displayedCode, progressWidth, cursorPosition } =
     useTypingCode(locale);
+
+  useEffect(markSplashLive, []);
 
   useEffect(() => {
     if (progressWidth === 100) {
