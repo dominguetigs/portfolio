@@ -49,6 +49,7 @@ How it works: `docs/scene.md`.
 - [x] The splash can no longer trap the page: if React has not started it within 6 s (a script that failed or was blocked), the head script skips it. Found on the phone through the LAN: Next 16 blocks dev resources from origins outside `allowedDevOrigins` (now `192.168.*.*`), so the page never hydrated.
 - [x] The page's colours follow the sunset: they start to change when the sky darkens and arrive with it; text turns quickly in the middle so it stays readable (`docs/scene.md` › The page follows the sunset).
 - [x] The painting no longer tears under parallax: one base warped by a smooth depth instead of separate sky and land layers (D-009); found by the user (a split tree crown, pale outlines along the hills).
+- [x] One set of clouds for the day and the night, relit at the switch; the stars behind the clouds (D-012).
 - Not done: the "now in São Paulo" mode (optional in the plan).
 
 ### 3 · The real sky (astronomy)

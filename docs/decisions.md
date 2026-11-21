@@ -87,3 +87,10 @@ Each heading carries an ID and a status: `[final]`, `[hypothesis]`, `[pending]`,
 
 **Decision:** at rest the sun and the moon are the painting's own. Only while they move does the scene take them out and draw them again, with the glow as a radial profile measured from the painting (subtracted where the light was, added where it is) and the moon's disc as a sprite.
 **Rejected:** cutting the light and its glow out as a sprite against a reconstructed sky (a ring wherever the reconstruction and the painting disagree), and clouds drifting through a glow (holes in it).
+
+### D-012 · One set of clouds for the day and the night [final]
+
+`2026-11-21` · source: the user ("parece que as nuvens diferem quando é noite e quando é dia, não deveria"; "as estrelas também não deveriam piscar sobre as nuvens")
+
+**Decision:** the day's clouds are the only clouds. The night painting loses its own (its sky becomes a smooth fit of the painted one) and shows the day's, relit; the static night painting (`public/bg-night.webp`) is baked the same way. The stars sit behind the clouds.
+**Rejected:** cross-fading two paintings with different clouds (the clouds visibly change shape during the switch).

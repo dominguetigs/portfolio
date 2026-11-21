@@ -12,8 +12,10 @@ writes to src/scene/assets/:
                      the clear sky around); alpha = land, which hides what
                      moves behind the hills. One image, so the parallax can
                      never tear it.
-- <set>-clouds.webp  the painted clouds (RGBA), matted against that sky, so
-                     they can drift over it
+- day-clouds.webp    the drifting clouds (RGBA), matted against that sky
+- day-clouds-still.webp  the clouds that stay put (RGBA): in the day's base by
+                     day, drawn relit by night. The night has no clouds of its
+                     own: one set of clouds, so the switch never changes them.
 - <set>-light.webp   the sun's or the moon's disc (RGBA), drawn only while it
                      moves (the sunset); at rest the painting shows its own.
                      Its glow is a radial profile in scene.json.
@@ -109,6 +111,30 @@ def fill_holes(img, known, sigmas=(12, 40, 120, 320)):
     return out
 
 
+def smooth_sky(img, mask, iterations=4):
+    """A smooth gradient fitted to the sky: a low-order polynomial per channel,
+    refitted without what stands out above it (clouds, stars, haze)."""
+    h, w, _ = img.shape
+    ys, xs = np.mgrid[0:h:4, 0:w:4].astype(np.float32)
+    m = mask[::4, ::4]
+    sub = img[::4, ::4]
+
+    def features(x, y):
+        x = x / w - 0.5
+        y = y / h
+        return np.stack([np.ones_like(x), x, y, x * x, x * y, y * y, y ** 3, x * y * y], -1)
+
+    A = features(xs[m], ys[m])
+    target = sub[m]
+    keep = np.ones(len(A), bool)
+    for _ in range(iterations):
+        coef, *_ = np.linalg.lstsq(A[keep], target[keep], rcond=None)
+        fitted = A @ coef
+        keep = (luma(target) - luma(fitted)) < 0.01
+    yy, xx = np.mgrid[0:h, 0:w].astype(np.float32)
+    return np.clip(features(xx, yy) @ coef, 0, 1).astype(np.float32)
+
+
 def find_light(img):
     """The sun or the moon: the brightest blob in the upper half."""
     h = img.shape[0]
@@ -196,27 +222,45 @@ def split(which, cfg, debug=None):
     specks = np.arange(1, count + 1)[sizes < 250]
     cloud = found & ~np.isin(labels, np.concatenate([grounded, glowing, specks]))
     cloud = ndi.binary_dilation(cloud, iterations=4) & ~ndi.binary_dilation(land, iterations=6)
+    # The clouds both paintings share: every real cloud, not the haze along
+    # the horizon (that is air, not a cloud, and it holds the treetops).
+    every = found & ~np.isin(labels, grounded)
+    every = ndi.binary_dilation(every, iterations=4) & ~ndi.binary_dilation(land, iterations=6)
 
     # The clean sky, filled from the clear sky around (used under the drifting
     # clouds, and around the sun or moon while it moves).
     clear = sky & ~cloud & ~light_zone
     plate = fill_holes(img, clear)
+    # The sky with every cloud out. The day and the night share one set of
+    # clouds, the day's (D-012): the night's sky is this, and the day's still
+    # clouds are matted against it to be drawn, relit, by night.
+    plate_all = fill_holes(img, sky & ~every & ~light_zone)
+    if which == 'night':
+        # The night's sky is a smooth fit of its painted sky (clouds, stars
+        # and the moon's glow left out), with the painting itself only in a
+        # band just above the horizon, which holds the treetops.
+        reach_early = int(cfg['light_radius'] * 1.3)
+        fit = smooth_sky(img, sky & ~ndi.binary_dilation(land, iterations=8) & (dist > reach_early))
+        band = np.clip(1 - (horizon[None, :].astype(np.float32) - yy) / 50, 0, 1)
+        plate = fit * (1 - band[..., None]) + img * band[..., None]
 
     # Matte the clouds and the light against the clean sky: alpha from how
     # much brighter the pixel is, colour unmixed so it composites back exactly.
-    def matte(zone, gain):
-        diff = np.clip(luma(img) - luma(plate), 0, None)
+    def matte(zone, gain, against):
+        diff = np.clip(luma(img) - luma(against), 0, None)
         a = np.clip(diff * gain, 0, 1) * zone
         a = ndi.gaussian_filter(a, 0.8)
         safe = np.maximum(a, 1e-3)[..., None]
-        col = np.clip((img - plate * (1 - a[..., None])) / safe, 0, 1)
+        col = np.clip((img - against * (1 - a[..., None])) / safe, 0, 1)
         # Where it is all but transparent the unmixed colour is noise: use the
         # sky's, which compresses and filters cleanly.
-        col = np.where(a[..., None] < 0.03, plate, col)
+        col = np.where(a[..., None] < 0.03, against, col)
         return col, a
 
     cloud_zone = ndi.gaussian_filter(cloud.astype(np.float32), 2)
-    cloud_rgb, cloud_a = matte(cloud_zone, 6.0 if which == 'day' else 9.0)
+    cloud_rgb, cloud_a = matte(cloud_zone, 6.0, plate)
+    still_zone = ndi.gaussian_filter((every & ~cloud).astype(np.float32), 2)
+    still_rgb, still_a = matte(still_zone, 6.0, plate_all)
 
     # The sun or moon, for the sunset only (at rest the painting keeps its
     # own): its glow is radially symmetric, so it is measured as a profile,
@@ -272,15 +316,24 @@ def split(which, cfg, debug=None):
     grass = land & grassy & (yy > hz + 25)
     grass = ndi.gaussian_filter(grass.astype(np.float32), 3)
 
-    # The base: the painting itself, sun or moon included, with the clean sky
-    # only under the drifting clouds (so they composite back exactly).
-    moving = (cloud_zone > 0.001) & ~land
-    base = np.where(moving[..., None], plate, img)
+    if which == 'day':
+        # The base: the painting itself, sun included, with the clean sky only
+        # under the drifting clouds (so they composite back exactly).
+        moving = (cloud_zone > 0.001) & ~land
+        base = np.where(moving[..., None], plate, img)
+    else:
+        # The night's base has no clouds of its own (the day's are drawn on it,
+        # relit): its clean sky, the moon's glow and painted disc, its land.
+        night_sky = np.clip(plate + glow_here, 0, 1)
+        night_sky = night_sky * (1 - body_a[..., None]) + img * body_a[..., None]
+        base = night_sky * (1 - land_alpha[..., None]) + img * land_alpha[..., None]
 
     os.makedirs(OUT, exist_ok=True)
     save_rgba(base, land_alpha, os.path.join(OUT, f'{which}-base.webp'), quality=84, exact=True)
-    # Clouds are soft: three quarters of the size is enough.
-    save_rgba(cloud_rgb, cloud_a, os.path.join(OUT, f'{which}-clouds.webp'), quality=76, scale=0.75)
+    if which == 'day':
+        # Clouds are soft: three quarters of the size is enough.
+        save_rgba(cloud_rgb, cloud_a, os.path.join(OUT, 'day-clouds.webp'), quality=76, scale=0.75)
+        save_rgba(still_rgb, still_a, os.path.join(OUT, 'day-clouds-still.webp'), quality=76, scale=0.75)
 
     # The light as a tight sprite.
     ys, xs = np.where(light_a > 0.01)
@@ -304,15 +357,34 @@ def split(which, cfg, debug=None):
         Image.fromarray((cloud * 255).astype(np.uint8)).save(os.path.join(debug, f'{which}-cloud-mask.png'))
         save_rgb(base, os.path.join(debug, f'{which}-base.webp'))
         Image.fromarray((depth * 255).astype(np.uint8)).save(os.path.join(debug, f'{which}-depth.png'))
-        # Recomposite check at rest: base + clouds (hidden by the land) must
-        # give the painting back; the sun or moon is the painting's own.
+        # Recomposite check at rest (day): base + clouds (hidden by the land)
+        # must give the painting back. The night's own clouds are gone on
+        # purpose, so it is checked by eye.
         sky_open = (1 - land_alpha)[..., None]
         comp = base * (1 - cloud_a[..., None] * sky_open) + cloud_rgb * cloud_a[..., None] * sky_open
+        if which == 'night':
+            comp = img
         save_rgb(comp, os.path.join(debug, f'{which}-recomposite.webp'))
         err = np.abs(comp - img).mean()
         print(f'{which}: recomposite mean abs error {err:.4f}')
 
-    return {
+    extras = {'base': base, 'land_alpha': land_alpha, 'light': (lx, ly)}
+    if which == 'day':
+        extras['clouds'] = [(still_rgb, still_a), (cloud_rgb, cloud_a)]
+        lum = luma(still_rgb)[still_a > 0.5]
+        extras['cloud_luma'] = [round(float(np.percentile(lum, 5)), 4), round(float(np.percentile(lum, 97)), 4)]
+    else:
+        # The colours of the night painting's own clouds: their shadowed body
+        # and their lit edges, so the day's clouds, relit, belong to it.
+        own = found & ~ndi.binary_dilation(land, iterations=20) & (dist > reach)
+        lum = luma(img)[own]
+        pick = lambda lo, hi: img[own][(lum >= np.percentile(lum, lo)) & (lum <= np.percentile(lum, hi))].mean(0)
+        extras['cloud_colors'] = {
+            'dark': [round(float(v), 4) for v in pick(5, 20)],
+            'light': [round(float(v), 4) for v in pick(92, 99.5)],
+        }
+
+    return extras, {
         'width': w,
         'height': h,
         'light': {
@@ -340,11 +412,55 @@ def split(which, cfg, debug=None):
     }
 
 
+def night_cloud(rgb, alpha, q_dist, nc):
+    """A day cloud by night: see meta['nightClouds'] and the shader."""
+    lo, hi = nc['luma']
+    t = np.clip((luma(rgb) - lo) / (hi - lo), 0, 1)
+    t = t * t * (3 - 2 * t)
+    col = np.array(nc['dark'], np.float32) + (np.array(nc['light'], np.float32) - nc['dark']) * t[..., None]
+    col = col + np.array(nc['moonlit'], np.float32) * (np.exp(-q_dist / nc['moonReach']) * t * 0.35)[..., None]
+    return np.clip(col, 0, 1), alpha * nc['alpha']
+
+
+def bake_night(night, clouds, nc):
+    """The static night painting (public/bg-night.webp): the night's base with
+    the day's clouds, relit, so the page looks the same before the living
+    scene starts and under it."""
+    base, land_alpha = night['base'], night['land_alpha']
+    h, w, _ = base.shape
+    yy, xx = np.mgrid[0:h, 0:w].astype(np.float32)
+    mx, my = night['light']
+    q_dist = np.hypot(xx - mx, yy - my)
+    out = base.copy()
+    sky_open = (1 - land_alpha)[..., None]
+    for rgb, a in clouds:
+        col, na = night_cloud(rgb, a, q_dist, nc)
+        out = out * (1 - na[..., None] * sky_open) + col * na[..., None] * sky_open
+    Image.fromarray(np.clip(out * 255 + 0.5, 0, 255).astype(np.uint8), 'RGB').save(
+        os.path.join(PUBLIC, 'bg-night.webp'), 'WEBP', quality=88, method=6
+    )
+
+
 def main():
     parser = argparse.ArgumentParser()
     parser.add_argument('--debug', help='folder for masks and a recomposite check')
     args = parser.parse_args()
-    meta = {name: split(name, cfg, args.debug) for name, cfg in SETS.items()}
+    results = {name: split(name, cfg, args.debug) for name, cfg in SETS.items()}
+    meta = {name: m for name, (_, m) in results.items()}
+    day, night = results['day'][0], results['night'][0]
+
+    # How the day's clouds look by night (the shader does the same): coloured
+    # from the night painting's clouds by their brightness, silvered towards
+    # the moon, a little thinner.
+    meta['nightClouds'] = {
+        **night['cloud_colors'],
+        'moonlit': [0.62, 0.7, 0.8],
+        'moonReach': 300,
+        'luma': day['cloud_luma'],
+        'alpha': 0.9,
+    }
+    bake_night(night, day['clouds'], meta['nightClouds'])
+
     with open(os.path.join(ROOT, 'src', 'scene', 'scene.json'), 'w') as f:
         json.dump(meta, f, indent=2)
         f.write('\n')

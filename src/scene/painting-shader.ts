@@ -41,7 +41,18 @@ export const paintingFragmentShader = /* glsl */ `
   uniform vec3 uNight;        // dark theme background
 
   uniform sampler2D uDayBase;   // the painting without clouds and sun; a = land
-  uniform sampler2D uDayClouds;
+  uniform sampler2D uDayClouds;      // the clouds that drift (RGBA)
+  uniform sampler2D uDayCloudsStill; // the clouds that stay: in the day's base
+                                     // by day, drawn relit by night
+  // The day's clouds by night (scene.json nightClouds, baked the same way into
+  // public/bg-night.webp): body and edge colours from the night painting's own
+  // clouds, the day clouds' brightness range, the moon's silver, their alpha.
+  uniform vec3 uNightCloudDark;
+  uniform vec3 uNightCloudLight;
+  uniform vec3 uNightCloudMoonlit;
+  uniform vec2 uNightCloudLuma;
+  uniform float uNightCloudMoonReach;
+  uniform float uNightCloudAlpha;
   uniform sampler2D uDayLight;
   uniform sampler2D uDayData;   // r depth, g grass
   uniform vec4 uDayLightBox;  // x, y, width, height (image px)
@@ -51,7 +62,6 @@ export const paintingFragmentShader = /* glsl */ `
   uniform vec4 uDayLightCircle; // centre x, y, the glow's reach, the disc's radius
 
   uniform sampler2D uNightBase;
-  uniform sampler2D uNightClouds;
   uniform sampler2D uNightLight;
   uniform sampler2D uNightData;
   uniform vec4 uNightLightBox;
@@ -97,6 +107,17 @@ export const paintingFragmentShader = /* glsl */ `
   vec2 parallax(float depth) {
     vec2 drive = uPointer * vec2(1.0, 0.55) + vec2(0.0, uScroll * 1.4);
     return drive * mix(0.001, 0.011, depth);
+  }
+
+  // A day cloud by night: coloured from the night painting's own clouds by
+  // its brightness, silvered towards the moon (the same as bake_night in
+  // scripts/scene/split_painting.py).
+  vec3 nightCloud(vec3 day, vec2 q, vec2 moon) {
+    float t = smoothstep(uNightCloudLuma.x, uNightCloudLuma.y,
+      dot(day, vec3(0.2126, 0.7152, 0.0722)));
+    vec3 col = mix(uNightCloudDark, uNightCloudLight, t);
+    col += uNightCloudMoonlit * exp(-length(q - moon) / uNightCloudMoonReach) * t * 0.35;
+    return clamp(col, 0.0, 1.0);
   }
 
   // The light's glow at a distance from its centre: what it adds over the
@@ -267,13 +288,13 @@ export const paintingFragmentShader = /* glsl */ `
     day += vec3(1.0, 0.92, 0.7) * exp(-sunDist / 110.0)
       * 0.035 * (0.5 + 0.5 * sin(uTime * 0.6)) * daySky * (1.0 - sunMoving);
 
-    // Clouds drift slowly back and forth; a gust pushes them on a little.
-    // They are lit warm, then pink, as the sun sets.
+
+    // The clouds (drawn after the two paintings are mixed, below), sampled
+    // here so the stars can stay behind them.
     vec2 drift = vec2(0.045 * sin(uTime * 0.026) + uCloudPush, 0.0);
+    vec4 still = sampleIn(uDayCloudsStill, dayUv);
     vec4 cloud = sampleIn(uDayClouds, dayUv + drift);
-    cloud.rgb = mix(cloud.rgb, cloud.rgb * vec3(1.15, 0.86, 0.62) + vec3(0.08, 0.03, 0.0), golden);
-    cloud.rgb = mix(cloud.rgb, cloud.rgb * vec3(0.95, 0.58, 0.72) + vec3(0.06, 0.0, 0.04), dusk);
-    day = mix(day, cloud.rgb, cloud.a * daySky);
+    float clouded = clamp(max(still.a, cloud.a) * 1.8, 0.0, 1.0);
 
     // ---------- the night painting ----------
     float nightDepth = texture2D(uNightData, uv).r;
@@ -297,7 +318,7 @@ export const paintingFragmentShader = /* glsl */ `
     vec3 nightCol = nightBase.rgb - glowAt(uNightGlow, moonFrom, uNightLightCircle.z) * moonAway;
     nightCol = mix(nightCol, moonBehind, moonLeft * moonAway);
     nightCol *= 1.0 + gust(nightQ, frag) * nightGrass * 0.18;
-    nightCol += stars(nightQ, uTime) * nightSky * smoothstep(0.6, 1.0, uT);
+    nightCol += stars(nightQ, uTime) * nightSky * (1.0 - clouded) * smoothstep(0.6, 1.0, uT);
 
     nightCol += glowAt(uNightGlow, length(nightQ - uNightLightCircle.xy - moonMove), uNightLightCircle.z)
       * moonAway;
@@ -305,11 +326,31 @@ export const paintingFragmentShader = /* glsl */ `
     vec3 moon = sprite(uNightLight, uNightLightBox, nightQ, moonMove, moonA);
     nightCol = mix(nightCol, moon, moonA * moonAway);
 
-    vec4 nightCloud = sampleIn(uNightClouds, nightUv + drift);
-    nightCol = mix(nightCol, nightCloud.rgb, nightCloud.a * nightSky);
 
     // ---------- washed into the page, like the static painting ----------
     vec3 painting = mix(day, nightCol, night);
+
+    // ---------- the clouds: one set, day and night ----------
+    // The day's clouds are the only clouds: by night the same shapes, in the
+    // same places, relit, so the switch changes their light and nothing else.
+    // They are drawn over the stars, which they hide, and over the moon.
+    float skyOpen = mix(daySky, nightSky, night);
+    vec2 moonNow = uNightLightCircle.xy + moonMove;
+
+    // The clouds that stay are already in the day's painting; by night they
+    // are drawn relit on top, as much as night has fallen.
+    painting = mix(painting, nightCloud(still.rgb, dayQ, moonNow),
+      still.a * uNightCloudAlpha * skyOpen * night);
+
+    // The clouds that drift, lit warm, then pink, as the sun sets, then by
+    // the moon.
+    // (A soft warm tint: a strong one, mixed with the blue sky through a thin
+    // wisp, read as olive.)
+    vec3 cloudDay = mix(cloud.rgb, cloud.rgb * vec3(1.08, 0.95, 0.82) + vec3(0.06, 0.03, 0.0), golden);
+    cloudDay = mix(cloudDay, cloudDay * vec3(0.95, 0.58, 0.72) + vec3(0.06, 0.0, 0.04), dusk);
+    vec3 cloudColor = mix(cloudDay, nightCloud(cloud.rgb, dayQ, moonNow), night);
+    float cloudAlpha = cloud.a * mix(1.0, uNightCloudAlpha, night);
+    painting = mix(painting, cloudColor, cloudAlpha * skyOpen);
     vec3 page = mix(uPaper, uNight, smoothstep(0.35, 0.8, uT));
     float opacity = mix(0.35, 0.6, night) + 0.25 * golden + 0.3 * dusk;
     vec3 color = mix(page, painting, clamp(opacity, 0.0, 1.0));

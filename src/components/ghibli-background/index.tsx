@@ -16,7 +16,9 @@ const paintings = [
     className: 'opacity-35 dark:opacity-0',
   },
   {
-    src: '/bg-dark.png',
+    // The night painting with the day's clouds, relit (D-012): baked by
+    // scripts/scene/split_painting.py from bg-dark.png, which is its source.
+    src: '/bg-night.webp',
     opacity: { light: 0, dark: 0.6 },
     className: 'opacity-0 dark:opacity-60',
   },

@@ -33,10 +33,10 @@ import { createSceneInput, type SceneInput } from './scene-input';
 
 import dayBase from './assets/day-base.webp';
 import dayClouds from './assets/day-clouds.webp';
+import dayCloudsStill from './assets/day-clouds-still.webp';
 import dayData from './assets/day-data.webp';
 import dayLight from './assets/day-light.webp';
 import nightBase from './assets/night-base.webp';
-import nightClouds from './assets/night-clouds.webp';
 import nightData from './assets/night-data.webp';
 import nightLight from './assets/night-light.webp';
 import dayBehind from './assets/day-behind.webp';
@@ -50,8 +50,8 @@ const URLS = [
   dayLight,
   dayData,
   dayBehind,
+  dayCloudsStill,
   nightBase,
-  nightClouds,
   nightLight,
   nightData,
   nightBehind,
@@ -73,23 +73,25 @@ function srgb(hex: number) {
 const PAPER = srgb(0xf1dfbe);
 const NIGHT = srgb(0x020618);
 
-function lightBox(set: keyof typeof scene) {
+type PaintingSet = 'day' | 'night';
+
+function lightBox(set: PaintingSet) {
   const { x, y, width, height } = scene[set].light;
   return new Vector4(x, y, width, height);
 }
 
-function lightCircle(set: keyof typeof scene) {
+function lightCircle(set: PaintingSet) {
   const { centerX, centerY, reach, body } = scene[set].light;
   return new Vector4(centerX, centerY, reach, body);
 }
 
-function behindBox(set: keyof typeof scene) {
+function behindBox(set: PaintingSet) {
   const { x, y, width, height } = scene[set].light.behind;
   return new Vector4(x, y, width, height);
 }
 
 /** The light's glow profile (scene.json) as a 64 x 1 texture. */
-function glowProfile(set: keyof typeof scene) {
+function glowProfile(set: PaintingSet) {
   const samples = scene[set].light.glow;
   const data = new Uint8Array(samples.length * 4);
   samples.forEach(([r, g, b], i) => {
@@ -130,8 +132,8 @@ function createPaintingMaterial(textures: Texture[]) {
     dLight,
     dData,
     dBehind,
+    dCloudsStill,
     nBase,
-    nClouds,
     nLight,
     nData,
     nBehind,
@@ -164,6 +166,13 @@ function createPaintingMaterial(textures: Texture[]) {
       uNight: { value: NIGHT },
       uDayBase: { value: dBase },
       uDayClouds: { value: dClouds },
+      uDayCloudsStill: { value: dCloudsStill },
+      uNightCloudDark: { value: new Vector3(...scene.nightClouds.dark) },
+      uNightCloudLight: { value: new Vector3(...scene.nightClouds.light) },
+      uNightCloudMoonlit: { value: new Vector3(...scene.nightClouds.moonlit) },
+      uNightCloudLuma: { value: new Vector2(...scene.nightClouds.luma) },
+      uNightCloudMoonReach: { value: scene.nightClouds.moonReach },
+      uNightCloudAlpha: { value: scene.nightClouds.alpha },
       uDayLight: { value: dLight },
       uDayData: { value: dData },
       uDayLightBox: { value: lightBox('day') },
@@ -172,7 +181,6 @@ function createPaintingMaterial(textures: Texture[]) {
       uDayGlow: { value: glowProfile('day') },
       uDayLightCircle: { value: lightCircle('day') },
       uNightBase: { value: nBase },
-      uNightClouds: { value: nClouds },
       uNightLight: { value: nLight },
       uNightData: { value: nData },
       uNightLightBox: { value: lightBox('night') },
