@@ -69,7 +69,8 @@ export const paintingFragmentShader = /* glsl */ `
   // right ascension and declination, the frame that turns painting pixels
   // back into the sky, and the moon's real phase.
   uniform sampler2D uStars;      // RGB
-  uniform sampler2D uLines;      // R every line, G the picked constellation
+  uniform vec4 uMeteor;          // a shooting star's path: from x, y, to x, y (painting px)
+  uniform vec2 uMeteorState;     // its progress 0..1 (below 0: none), its brightness
   uniform sampler2D uMilkyWay;   // brightness, x = RA 0..360, y = dec +90..-90
   uniform mat3 uSkyFrame;        // columns: right, up, forward (equatorial)
   uniform vec3 uView;            // projection centre x, y and scale (painting px)
@@ -162,6 +163,31 @@ export const paintingFragmentShader = /* glsl */ `
       * smoothstep(8.0, 0.0, e) * smoothstep(-5.0, -0.5, e);
     col = mix(col, l * vec3(0.42, 0.38, 0.52), smoothstep(-1.5, -7.0, e));
     return mix(col, nightCloud(c, q, moon), smoothstep(-6.0, -15.0, e));
+  }
+
+  // A shooting star (meteors.ts): its head runs along the path, the trail
+  // behind it brightening towards the head; it flares in and fades out, the
+  // trail lingering a moment.
+  vec3 meteorLight(vec2 q) {
+    float t = uMeteorState.x;
+    if (t < 0.0) return vec3(0.0);
+    vec2 a = uMeteor.xy;
+    vec2 ab = uMeteor.zw - a;
+    float len = length(ab);
+    vec2 dir = ab / len;
+    float across = abs(dot(q - a, vec2(-dir.y, dir.x)));
+    if (across > 6.0) return vec3(0.0);
+    float head = min(t / 0.85, 1.0);
+    float tail = max(0.0, head - 0.45);
+    float s = dot(q - a, dir) / len;
+    float along = smoothstep(tail, head, s) * (1.0 - smoothstep(head, head + 2.0 / len, s));
+    along *= along;
+    float width = mix(0.35, 1.0, along);
+    float line = exp(-across * across / (width * width)) + 0.18 * exp(-across * across / 7.0);
+    float glow = exp(-dot(q - a - ab * head, q - a - ab * head) / 5.0) * 0.6;
+    float fade = smoothstep(0.0, 0.1, t) * (1.0 - smoothstep(0.55, 1.0, t));
+    vec3 color = mix(vec3(0.72, 0.84, 1.0), vec3(1.0, 0.97, 0.9), along);
+    return color * (line * along + glow * step(t, 0.85)) * fade * uMeteorState.y;
   }
 
   vec3 glowAt(sampler2D profile, float d, float reach) {
@@ -425,15 +451,14 @@ export const paintingFragmentShader = /* glsl */ `
     vec3 skyLight = vec3(0.55, 0.63, 0.8) * galaxy * 0.11 * (1.0 - 0.55 * uMoonPhase.z)
       * open * deep * mix(0.4, 1.0, nearMoon);
 
-    // The constellations, in a thin line; the one picked out a little more.
-    vec2 lines = texture2D(uLines, dayQ / uImageSize).rg;
-    skyLight += vec3(0.7, 0.78, 0.92) * (lines.r * 0.05 + lines.g * 0.34) * open * deep * nearMoon;
-
     // The stars, twinkling (a slow noise, so each star keeps one phase).
     vec3 starLight = texture2D(uStars, dayQ / uImageSize).rgb;
     float starVis = clamp((-elev - 4.0) / 9.0 + (dot(starLight, vec3(0.333)) - 0.45) * 1.4, 0.0, 1.0);
     float twinkle = 0.74 + 0.26 * sin(uTime * 2.1 + noise(dayQ * 0.09) * 14.0);
     skyLight += starLight * twinkle * starVis * open * nearMoon;
+
+    // Now and then a shooting star, behind the clouds and the hills.
+    skyLight += meteorLight(dayQ) * open * deep;
 
     // ---------- the clouds: one set, relit by the hour ----------
     // The same shapes in the same places all day and night: only their light

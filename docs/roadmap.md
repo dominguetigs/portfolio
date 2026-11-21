@@ -57,10 +57,10 @@ How it works: `docs/scene.md`.
 - [x] At night the stars are the real ones over São Paulo at the visitor's moment, looking south (the Southern Cross, the Pointers, Canopus, Achernar, the Magellanic Clouds), behind the clouds and the land, twinkling; the Milky Way along its real path (D-013).
 - [x] The moon keeps its painted place with its real phase (southern-hemisphere orientation, earthshine, glow by lit fraction).
 - [x] One landscape day and night, relit by the sun's elevation through golden hour, sunset and twilight (D-014); the static night painting in today's moon phase (D-015).
-- [x] Third-party notices for the star data (`THIRD_PARTY_NOTICES.md`, `/third-party-notices.txt`).
-- [x] Pointing at (or touching) a bright star names it and its constellation, whose lines light up; the constellations are drawn in a thin line; the moon gives its phase.
+- [x] Notices for the star data (`THIRD_PARTY_NOTICES.md`, `/third-party-notices.txt`).
+- [x] Pointing at (or touching) the moon gives its phase. (Star names and constellation lines were here until D-018.)
 - [x] Asked by the user: the splash ends by tearing open from the centre, the page waking under it (D-016).
-- [ ] Maybe later (proposed to the user): a Brazilian sky, from a public-domain star catalogue with constellation lines drawn here, and Indigenous Brazilian constellations such as the Tupi-Guarani Emu (whose head is the Coalsack, beside the Southern Cross); it would drop the d3-celestial notice.
+- [x] Asked by the user: only the stars, and now and then a shooting star (D-018); the stars from the Yale Bright Star Catalogue (NASA HEASARC), so d3-celestial is gone.
 
 ### 4 · The wind — done, awaiting the user's test
 

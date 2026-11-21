@@ -1,25 +1,24 @@
-"""Build the real sky the night painting shows (phase 3).
+"""Build the real sky the night painting shows (phase 3, D-013; D-018).
 
-    python3 scripts/scene/build_sky.py <d3-celestial>/data
+    python3 scripts/scene/build_sky.py <folder>
 
-The source is the data folder of the d3-celestial package (BSD-3-Clause,
-(c) 2015 Olaf Frohn; stars from XHIP, names from the IAU, constellation lines
-from the IAU pages, the Milky Way outline from J. R. Vieira). Download it with
-`curl -L $(npm view d3-celestial dist.tarball) | tar -xz` into a scratch folder;
-it is not kept in the repo.
+The folder holds heasarc_bsc5p.tdat.gz, not kept in the repo: the Yale Bright
+Star Catalogue, 5th revised edition (Hoffleit & Warren 1991), as NASA's
+HEASARC distributes it (a U.S. Government work), from
+https://heasarc.gsfc.nasa.gov/FTP/heasarc/dbase/tdat_files/heasarc_bsc5p.tdat.gz
 
 Writes:
 - src/scene/sky.json            the stars the painting can show (the southern
-                                sky: it looks south from São Paulo), the
-                                constellation lines, the bright stars' names
-                                and the constellations' names in pt, en, es
+                                sky: it looks south from São Paulo)
 - src/scene/assets/milkyway.webp  the Milky Way (modelled along the galactic
                                 plane) and the Magellanic Clouds, as a
                                 brightness map in right ascension and
                                 declination (equirectangular)
 """
 
+import gzip
 import json
+import math
 import os
 import sys
 
@@ -29,35 +28,60 @@ from scipy import ndimage as ndi
 
 ROOT = os.path.abspath(os.path.join(os.path.dirname(__file__), '..', '..'))
 
-# The painting looks south from São Paulo (latitude -23.55) up to about 50°
-# above the horizon: everything it can show lies south of declination -30°.
+# The painting looks south from São Paulo (latitude -23.55) up to about 59°
+# above the horizon: even at its widest it shows nothing north of about -30°.
 # A margin keeps stars that sit just outside the frame for wide screens.
 MAX_DEC = -18.0
 MAG_LIMIT = 5.8
-NAME_MAG = 3.2
-
-# The constellations of that sky, in Portuguese (the data has en and es).
-PT_NAMES = {
-    'Aps': 'Ave-do-Paraíso', 'Aqr': 'Aquário', 'Aql': 'Águia', 'Ara': 'Altar',
-    'Cae': 'Buril', 'CMa': 'Cão Maior', 'Cap': 'Capricórnio', 'Car': 'Quilha',
-    'Cen': 'Centauro', 'Cet': 'Baleia', 'Cha': 'Camaleão', 'Cir': 'Compasso',
-    'Col': 'Pomba', 'CrA': 'Coroa Austral', 'Crt': 'Taça', 'Cru': 'Cruzeiro do Sul',
-    'Crv': 'Corvo', 'Dor': 'Dourado', 'Eri': 'Erídano', 'For': 'Fornalha',
-    'Gru': 'Grou', 'Hor': 'Relógio', 'Hya': 'Hidra', 'Hyi': 'Hidra Macho',
-    'Ind': 'Índio', 'Lep': 'Lebre', 'Lib': 'Balança', 'Lup': 'Lobo',
-    'Men': 'Mesa', 'Mic': 'Microscópio', 'Mus': 'Mosca', 'Nor': 'Esquadro',
-    'Oct': 'Oitante', 'Oph': 'Ofiúco', 'Pav': 'Pavão', 'Phe': 'Fênix',
-    'Pic': 'Pintor', 'PsA': 'Peixe Austral', 'Pup': 'Popa', 'Pyx': 'Bússola',
-    'Ret': 'Retículo', 'Sgr': 'Sagitário', 'Sco': 'Escorpião', 'Scl': 'Escultor',
-    'Ser': 'Serpente', 'Tel': 'Telescópio', 'TrA': 'Triângulo Austral',
-    'Tuc': 'Tucano', 'Vel': 'Vela', 'Vol': 'Peixe Voador', 'Ant': 'Máquina Pneumática',
-    'Mon': 'Unicórnio', 'Ori': 'Órion', 'Vir': 'Virgem', 'Sct': 'Escudo',
-}
+# Components closer than this (degrees, well under a pixel) are one star.
+MERGE = 0.05
 
 
-def ra_deg(lon):
-    """d3-celestial stores right ascension as GeoJSON longitude (-180..180)."""
-    return lon % 360.0
+def load_catalogue(path):
+    """The Bright Star Catalogue's stars: position (J2000), V magnitude, B-V."""
+    opener = gzip.open if path.endswith('.gz') else open
+    with opener(path, 'rt', encoding='latin-1') as fh:
+        lines = fh.read().split('\n')
+    fields = next(l for l in lines if l.startswith('line[1]')).split('=')[1].split()
+    col = {f: i for i, f in enumerate(fields)}
+    stars = []
+    for line in lines[lines.index('<DATA>') + 1:]:
+        row = line.split('|')
+        if len(row) < len(fields) or not row[col['vmag']] or not row[col['ra']]:
+            continue  # the header's end, and the few entries that are not stars
+        stars.append({
+            'ra': float(row[col['ra']]),
+            'dec': float(row[col['dec']]),
+            'mag': float(row[col['vmag']]),
+            'bv': float(row[col['bv_color']]) if row[col['bv_color']] else 0.6,
+        })
+    return stars
+
+
+def separation(a, b):
+    ra0, dec0, ra1, dec1 = map(math.radians, (a['ra'], a['dec'], b['ra'], b['dec']))
+    c = math.sin(dec0) * math.sin(dec1) + math.cos(dec0) * math.cos(dec1) * math.cos(ra0 - ra1)
+    return math.degrees(math.acos(max(-1.0, min(1.0, c))))
+
+
+def merge_close(stars):
+    """Close doubles (α Centauri, Acrux) as one star with their summed light,
+    where the brighter one is (the catalogue lists their components)."""
+    out, cells = [], {}
+    for s in sorted(stars, key=lambda s: s['mag']):
+        cell = (int(s['dec'] // 1), int(s['ra'] // 1))
+        near = next((o for dy in (-1, 0, 1) for dx in (-1, 0, 1)
+                     for o in cells.get((cell[0] + dy, (cell[1] + dx) % 360), [])
+                     if separation(o, s) < MERGE), None)
+        if near:
+            near['flux'] += 10 ** (-0.4 * s['mag'])
+            continue
+        s = dict(s, flux=10 ** (-0.4 * s['mag']))
+        cells.setdefault(cell, []).append(s)
+        out.append(s)
+    for s in out:
+        s['mag'] = round(-2.5 * math.log10(s['flux']), 2)
+    return out
 
 
 def bv_to_rgb(bv):
@@ -74,80 +98,20 @@ def bv_to_rgb(bv):
 
 
 def main():
-    data = sys.argv[1]
-    load = lambda name: json.load(open(os.path.join(data, name), encoding='utf-8'))
-    stars = load('stars.6.json')['features']
-    names = load('starnames.json')
-    constellations = {f['id']: f['properties'] for f in load('constellations.json')['features']}
-    lines = load('constellations.lines.json')['features']
-
-    out_stars = []
-    index = {}
-    for f in stars:
-        lon, dec = f['geometry']['coordinates']
-        mag = float(f['properties']['mag'])
-        if dec > MAX_DEC or mag > MAG_LIMIT:
-            continue
-        hip = str(f['id'])
-        try:
-            bv = float(f['properties'].get('bv') or 0.6)
-        except ValueError:
-            bv = 0.6
-        star = {'ra': round(ra_deg(lon), 4), 'dec': round(dec, 4), 'mag': round(mag, 2), 'rgb': bv_to_rgb(bv)}
-        n = names.get(hip)
-        if n and n.get('name') and mag <= NAME_MAG:
-            star['name'] = n['name']
-            if n.get('es') and n['es'] != n['name']:
-                star['es'] = n['es']
-        if n and n.get('c'):
-            star['c'] = n['c']
-        index[(round(ra_deg(lon), 2), round(dec, 2))] = len(out_stars)
-        out_stars.append(star)
-
-    # Constellation lines as pairs of points (ra, dec), for the constellations
-    # that reach the southern sky.
-    out_lines = {}
-    used = set()
-    for f in lines:
-        segments = []
-        for path in f['geometry']['coordinates']:
-            for (l0, d0), (l1, d1) in zip(path, path[1:]):
-                if min(d0, d1) > MAX_DEC + 5:
-                    continue
-                segments.append([round(ra_deg(l0), 3), round(d0, 3), round(ra_deg(l1), 3), round(d1, 3)])
-        if segments:
-            out_lines[f['id']] = segments
-            used.add(f['id'])
-    used |= {s['c'] for s in out_stars if 'c' in s and 'name' in s}
-
-    out_constellations = {}
-    for cid in sorted(used):
-        p = constellations.get(cid)
-        if not p:
-            continue
-        out_constellations[cid] = {
-            'en': p.get('en') or p['name'],
-            'es': p.get('es') or p['name'],
-            'pt': PT_NAMES.get(cid, p['name']),
-        }
-    missing = sorted(c for c in out_constellations if c not in PT_NAMES)
-    if missing:
-        print('no Portuguese name for', missing)
+    catalogue = load_catalogue(os.path.join(sys.argv[1], 'heasarc_bsc5p.tdat.gz'))
+    merged = merge_close([s for s in catalogue if s['dec'] <= MAX_DEC + 1])
+    shown = sorted((s for s in merged if s['dec'] <= MAX_DEC and s['mag'] <= MAG_LIMIT), key=lambda s: s['ra'])
 
     sky = {
-        'source': 'Derived from d3-celestial 0.7.35 data, (c) 2015 Olaf Frohn, BSD-3-Clause: see THIRD_PARTY_NOTICES.md (served at /third-party-notices.txt)',
+        'source': 'Yale Bright Star Catalogue, 5th ed. (Hoffleit & Warren 1991), via NASA HEASARC: '
+                  'see THIRD_PARTY_NOTICES.md (served at /third-party-notices.txt).',
         # One row per star: ra, dec (degrees, J2000), magnitude, r, g, b.
-        'stars': [[s['ra'], s['dec'], s['mag'], *s['rgb']] for s in out_stars],
-        'names': {str(i): {k: s[k] for k in ('name', 'es', 'c') if k in s} for i, s in enumerate(out_stars) if 'name' in s},
-        'constellationOf': {str(i): s['c'] for i, s in enumerate(out_stars) if 'c' in s and s['mag'] <= 4.5},
-        'lines': out_lines,
-        'constellations': out_constellations,
+        'stars': [[round(s['ra'], 4), round(s['dec'], 4), s['mag'], *bv_to_rgb(s['bv'])] for s in shown],
     }
     path = os.path.join(ROOT, 'src', 'scene', 'sky.json')
     with open(path, 'w', encoding='utf-8') as fh:
         json.dump(sky, fh, ensure_ascii=False, separators=(',', ':'))
-    print(f'{len(out_stars)} stars, {len(sky["names"])} named, {len(out_lines)} constellations with lines, '
-          f'{os.path.getsize(path) // 1024} KB')
+    print(f'{len(shown)} stars, {os.path.getsize(path) // 1024} KB')
 
     build_milky_way()
 

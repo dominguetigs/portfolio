@@ -99,7 +99,7 @@ Each heading carries an ID and a status: `[final]`, `[hypothesis]`, `[pending]`,
 
 `2026-11-21` · source: phase 3 of the roadmap, accepted by the user
 
-**Decision:** the night painting shows the real sky over São Paulo at the visitor's moment, looking due south from the horizon to about 59° up: the circumpolar southern sky (the Southern Cross, the Pointers, Canopus, Achernar, the Magellanic Clouds) is always there, turning around the pole. The moon keeps its painted place, with its real phase. Star and constellation data from d3-celestial (BSD-3-Clause); the Milky Way is modelled.
+**Decision:** the night painting shows the real sky over São Paulo at the visitor's moment, looking due south from the horizon to about 59° up: the circumpolar southern sky (the Southern Cross, the Pointers, Canopus, Achernar, the Magellanic Clouds) is always there, turning around the pole. The moon keeps its painted place, with its real phase. Star and constellation data from d3-celestial (BSD-3-Clause); the Milky Way is modelled. (D-018: only the stars, from another catalogue.)
 **Why south:** the painting's sky is only ~59° tall; any other direction would often show little that is recognisable, while the south always holds the Cross's sky (and the Cross is on the Brazilian flag).
 **Rejected:** placing the moon at its real position (the painting is composed around it).
 
@@ -131,3 +131,11 @@ Each heading carries an ID and a status: `[final]`, `[hypothesis]`, `[pending]`,
 **Decision:** while they move, the sun and the moon are what the painted light adds over the clean sky (disc and glow), added to the sky of that moment, not a cut-out disc laid over it. The moon comes up from behind the hills gold and whitens as it climbs; the sun keeps its disc down to the hills (it touches them at about +4° and is gone just after 0°), turning orange and flattening a little. At rest both are the painting, untouched (live and static still match).
 **Why:** a cut-out carries the night sky it was painted on, so over the brighter twilight its edge showed as a dark ring; the sun drawn by its glow alone lost its disc as soon as it moved.
 **Rejected:** a cut-out with a softer edge (the ring only blurs); moving the sun at the painting's own pace (its disc, about 7° across here, would still show in the blue hour).
+
+### D-018 · Only the stars, and now and then a shooting star [final]
+
+`2026-11-21` · source: the user ("não curti muito essa questão de constelações ... tem umas coisas sem pé e sem cabeça"; "somente as estrelas no céu, e de vez em quando uma estrela cadente")
+
+**Decision:** the night sky shows only the real stars over São Paulo (and the Milky Way), with no constellation lines and no star names; the moon still gives its phase when pointed at. Once night has fallen, a shooting star crosses the part of the sky on the screen every half a minute to a minute and a half: under a second, a bright head with a trail that lingers a moment, behind the clouds and the hills (`meteors.ts`, `meteorLight` in the shader). The stars come from the Yale Bright Star Catalogue as NASA's HEASARC distributes it (a U.S. Government work), so d3-celestial is gone.
+**Why:** a painting's sky is calmer and more beautiful without a chart drawn over it.
+**Rejected:** constellation lines, ours or the IAU's, and the Guarani Rhea and Deer after Germano Bruno Afonso (built and shown to the user: lines over the painting read as arbitrary); naming the stars on hover, and the flag's states on its stars.

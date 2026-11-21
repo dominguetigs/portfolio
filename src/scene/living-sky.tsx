@@ -34,7 +34,8 @@ import scene from './scene.json';
 import { createSceneInput, type SceneInput } from './scene-input';
 import { createRealSky, type RealSky } from './real-sky';
 import { frameMatrix, VIEW } from './sky-layers';
-import { SkyLabels } from './sky-labels';
+import { createMeteors, stepMeteors, type Meteors } from './meteors';
+import { MoonLabel } from './moon-label';
 
 import dayBase from './assets/day-base.webp';
 import dayClouds from './assets/day-clouds.webp';
@@ -70,11 +71,22 @@ function moonPhaseUniform(sky: RealSky) {
   );
 }
 
-/** Redraws the sky for now and hands it to the shader. */
+/**
+ * The moment the sky shows: now; in development, `window.__skyDate =
+ * '2026-05-15T21:00-03:00'` holds another (the Southern Cross high).
+ */
+function skyDate() {
+  if (process.env.NODE_ENV !== 'production') {
+    const held = (window as { __skyDate?: string }).__skyDate;
+    if (held) return new Date(held);
+  }
+  return new Date();
+}
+
+/** Redraws the sky for that moment and hands it to the shader. */
 function refreshSky(material: ShaderMaterial, sky: RealSky, elapsed: number) {
-  sky.layers.update(new Date());
+  sky.layers.update(skyDate());
   sky.stars.needsUpdate = true;
-  sky.lines.needsUpdate = true;
   sky.updatedAt = elapsed;
   material.uniforms.uSkyFrame.value.fromArray(frameMatrix(sky.layers.frame));
   material.uniforms.uMoonPhase.value.copy(moonPhaseUniform(sky));
@@ -204,7 +216,8 @@ function createPaintingMaterial(textures: Texture[], sky: RealSky) {
       uNightGlow: { value: glowProfile('night') },
       uNightLightCircle: { value: lightCircle('night') },
       uStars: { value: sky.stars },
-      uLines: { value: sky.lines },
+      uMeteor: { value: new Vector4() },
+      uMeteorState: { value: new Vector2(-1, 0) },
       uMilkyWay: { value: mwMap },
       uSkyFrame: {
         value: new Matrix3().fromArray(frameMatrix(sky.layers.frame)),
@@ -219,6 +232,7 @@ function step(
   material: ShaderMaterial,
   input: SceneInput,
   sky: RealSky,
+  meteors: Meteors,
   state: RootState,
   delta: number,
 ) {
@@ -231,7 +245,16 @@ function step(
     if (typeof held === 'number') input.t = held;
   }
   sky.night.value = input.t;
-  if (state.clock.elapsedTime - sky.updatedAt > SKY_REFRESH_SECONDS) {
+  // (In development, a new `window.__skyDate` redraws the sky at once.)
+  const heldDate =
+    process.env.NODE_ENV !== 'production'
+      ? (window as { __skyDate?: string }).__skyDate
+      : undefined;
+  if (
+    heldDate !== sky.heldDate ||
+    state.clock.elapsedTime - sky.updatedAt > SKY_REFRESH_SECONDS
+  ) {
+    sky.heldDate = heldDate;
     refreshSky(material, sky, state.clock.elapsedTime);
   }
   state.gl.getDrawingBufferSize(u.uResolution.value);
@@ -248,6 +271,15 @@ function step(
   u.uBreezeStrength.value = input.breezeStrength;
   u.uLeafAge.value = input.leafAge;
   u.uLeafSeed.value = input.leafSeed;
+  stepMeteors(
+    meteors,
+    Math.min(delta, 0.12),
+    input.t,
+    state.size,
+    PAINTING_ZOOM,
+    u.uMeteor.value,
+    u.uMeteorState.value,
+  );
 }
 
 function Painting({
@@ -265,13 +297,14 @@ function Painting({
   // useMemo, not useState: Fast Refresh recreates it when the code changes,
   // so an edit never leaves an older input object behind.
   const input = useMemo(() => createSceneInput(), []);
+  const meteors = useMemo(() => createMeteors(), []);
   const [started, setStarted] = useState(false);
 
   useEffect(() => input.listen(), [input]);
   useEffect(() => () => material.dispose(), [material]);
 
   useFrame((state, delta) => {
-    step(material, input, sky, state, delta);
+    step(material, input, sky, meteors, state, delta);
     if (!started) {
       setStarted(true);
       onFirstFrame();
@@ -365,7 +398,7 @@ export default function LivingSky() {
           />
         </Suspense>
       </Canvas>
-      <SkyLabels sky={sky} />
+      <MoonLabel sky={sky} />
     </div>
   );
 }
