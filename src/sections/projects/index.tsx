@@ -24,6 +24,7 @@ import {
 import { PERSONAL_PROJECTS, WORK_PROJECTS } from './constants';
 import { ProjectsTabs } from './projects-tabs';
 import { ProjectsGrid } from './projects-grid';
+import { FeaturedProject } from './featured-project';
 
 export function ProjectsSection() {
   const t = useTranslations('Index.Projects');
@@ -32,7 +33,9 @@ export function ProjectsSection() {
   const workProjects = WORK_PROJECTS(t);
   const personalProjects = PERSONAL_PROJECTS(t);
 
-  const githubUrl = CONTACT_INFO.social.find(s => s.name === 'github')?.url;
+  const githubUrl = CONTACT_INFO.social.find(
+    s => s.name.toLowerCase() === 'github',
+  )?.url;
 
   const handleTabChange = (value: string) => {
     setActiveTab(value);
@@ -44,6 +47,8 @@ export function ProjectsSection() {
       <motion.div {...projectsDescriptionAnimation} className="mb-6">
         <p className="text-muted-foreground">{t('description')}</p>
       </motion.div>
+
+      <FeaturedProject />
 
       <ProjectsTabs activeTab={activeTab} onTabChange={handleTabChange}>
         <TabsContent value="work" className="mt-0">

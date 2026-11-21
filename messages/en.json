@@ -30,7 +30,7 @@
       "sections": {
         "whoAmI": {
           "title": "Who I Am",
-          "content": "Frontend Developer with almost 10 years of experience in web application development, working on complex and high-impact projects. Strong expertise in JavaScript, TypeScript, HTML, and CSS, specializing in Angular, React, and Next.js as well as best practices in software architecture and performance."
+          "content": "Frontend Developer with almost 13 years of experience in web application development, working on complex and high-impact projects. Strong expertise in JavaScript, TypeScript, HTML, and CSS, specializing in Angular, React, and Next.js as well as best practices in software architecture and performance."
         },
         "sectorExperience": {
           "title": "Sector Experience",
@@ -98,6 +98,45 @@
     "Projects": {
       "title": "Projects",
       "description": "Selection of projects that demonstrate my technical skills and professional experiences. Explore the tabs to see work and personal projects.",
+      "featured": {
+        "label": "Featured project",
+        "title": "Ladôme Ateliê",
+        "subtitle": "Website and back office for a crochet bag atelier",
+        "description": "A catalogue that feels handmade. The site brings the atelier’s craft to the screen with three.js and shaders, and the sale closes in a WhatsApp conversation with the order already written. Behind it, a panel runs the atelier’s day.",
+        "siteTitle": "The site",
+        "highlights": {
+          "knit": {
+            "title": "Real knit, alive",
+            "text": "The cover is a photograph of the brand’s own knit, animated by a GLSL shader: relief under a slowly turning light, fabric that breathes and gives under your finger."
+          },
+          "thread": {
+            "title": "A thread that sews the page",
+            "text": "A 3D yarn (React Three Fiber) runs down the page, stitches the frames and tags, and ends in a rolling ball of yarn."
+          },
+          "globe": {
+            "title": "Who already has a Ladôme",
+            "text": "Testimonials sit on a WebGL globe, with a thread tying each city to its review."
+          },
+          "whatsapp": {
+            "title": "From the clothesline to WhatsApp",
+            "text": "Bags hang as paper tags on a clothesline; the cart becomes a written order and opens the chat with the atelier."
+          }
+        },
+        "cmsTitle": "The atelier’s panel",
+        "cmsText": "Pieces and their versions, the shelf of materials, pricing, production and stock, orders, customers and coupons, and the site’s copy with a live preview. All on one Supabase project, with the business rules in SQL functions.",
+        "cmsNote": "Restricted to the atelier",
+        "visitSite": "Visit the site",
+        "visitCms": "Open the panel",
+        "showImage": "Show image",
+        "images": {
+          "cover": "The site’s cover: the logo over the animated wine knit",
+          "thread": "The 3D yarn running down the page to the ball",
+          "globe": "The testimonials globe, with the thread tying the cities",
+          "atelier": "The 3D crochet hook and ball of yarn on the atelier page",
+          "phone": "The site’s cover on a phone",
+          "cms": "The atelier panel’s sign-in"
+        }
+      },
       "viewMore": "View more projects on GitHub",
       "workTab": "Work Projects",
       "personalTab": "Personal Projects",

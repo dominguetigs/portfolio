@@ -93,3 +93,31 @@ export const WORK_PROJECTS = (t: TranslationFunction): WorkProject[] => [
     year: '2019-2020',
   },
 ];
+
+/** The latest work, shown above the tabs (copy in Index.Projects.featured). */
+export const FEATURED_PROJECT = {
+  site: 'https://ladomeatelie.com.br',
+  cms: {
+    url: 'https://cms.ladomeatelie.com.br',
+    image: '/projects/ladome/cms.webp',
+  },
+  year: '2026',
+  gallery: [
+    { id: 'cover', src: '/projects/ladome/cover.webp' },
+    { id: 'thread', src: '/projects/ladome/thread.webp' },
+    { id: 'globe', src: '/projects/ladome/globe.webp' },
+    { id: 'atelier', src: '/projects/ladome/atelier.webp' },
+  ],
+  phone: { src: '/projects/ladome/phone.webp', width: 600, height: 1298 },
+  technologies: [
+    'React 19',
+    'TypeScript',
+    'three.js',
+    'React Three Fiber',
+    'GLSL',
+    'Vite',
+    'TanStack Router',
+    'Tailwind CSS',
+    'Supabase',
+  ],
+} as const;

@@ -49,3 +49,11 @@ Each heading carries an ID and a status: `[final]`, `[hypothesis]`, `[pending]`,
 `2026-11-20` · source: proposal accepted by the user
 
 **Decision:** 0 (foundation) → 1 + 2 (living sky, sunset toggle) → 4 (wind) → 3 (real sky) → 5 (sections). Each phase is one batch the user tests on a phone and on the web before the next starts.
+
+### D-007 · Ladôme is the featured project, the site first [final]
+
+`2026-11-20` · source: the user
+
+**Decision:** Ladôme Ateliê (site and panel) is the latest work and opens the projects section, above the tabs, with the site as the protagonist: a browser-framed gallery of the real site (cover, the 3D thread, the globe, the atelier's hook), its four highlights, then the panel in a smaller card. The panel shows only its sign-in screen, since it is behind a login.
+**Images:** screenshots of the public site taken read-only; none shows a person (the founder's portrait and customers' photos are left out).
+**See:** `src/sections/projects/featured-project.tsx`, `public/projects/ladome/`.

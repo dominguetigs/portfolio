@@ -32,7 +32,9 @@ Order: 0 → 1 + 2 → 4 → 3 → 5 (D-006). Each phase is one batch the user t
 - [x] SEO: metadata per language, canonical and hreflang, Open Graph per language with a generated preview image (JPEG of about 60 KB, small enough for WhatsApp), `sitemap.xml`, `robots.txt`, JSON-LD `Person`.
 - [x] The contact route validates with the form's zod schema and creates the Resend client per request (the build no longer fails without `RESEND_API_KEY`).
 - [x] The new React Compiler lint rules pass (setState in effects, refs read during render).
-- [ ] **Waiting on the user:** the content review (see "Open questions").
+- [x] Content: "almost 13 years" of experience; Ladôme Ateliê as the featured project above the tabs, the site first and its panel after (D-007).
+- [x] The theme icon no longer depends on the stored theme while rendering (it caused a hydration mismatch once the header was server-rendered); the "more projects on GitHub" link pointed at `undefined`.
+- [ ] **Waiting on the user:** the experience list from LinkedIn (see "Open questions").
 
 ### 1 · The living sky (hero)
 
@@ -75,4 +77,4 @@ Order: 0 → 1 + 2 → 4 → 3 → 5 (D-006). Each phase is one batch the user t
 
 ## Open questions
 
-- Content: is "Tagme · 2023 – Atual" still current? "quase 10 anos" of experience? Should Ladôme Ateliê join the projects as featured work (it is the strongest R3F and shader work, and the portfolio does not show it)?
+- Experience: Fintalk is the current job and the list must follow LinkedIn exactly, but LinkedIn blocks automated reads (HTTP 999) and `public/cv/*.pdf` stops at Tagme. Waiting for the user to share the profile (LinkedIn's "Save to PDF" or the text); the résumés in `public/cv` need the same update.

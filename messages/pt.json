@@ -30,7 +30,7 @@
       "sections": {
         "whoAmI": {
           "title": "Quem sou",
-          "content": "Desenvolvedor Frontend com quase 10 anos de experiência no desenvolvimento de aplicações web, atuando em projetos complexos e de alto impacto. Forte expertise em JavaScript, TypeScript, HTML e CSS, com especialização em Angular, React e Next.js além das melhores práticas em arquitetura de software e performance."
+          "content": "Desenvolvedor Frontend com quase 13 anos de experiência no desenvolvimento de aplicações web, atuando em projetos complexos e de alto impacto. Forte expertise em JavaScript, TypeScript, HTML e CSS, com especialização em Angular, React e Next.js além das melhores práticas em arquitetura de software e performance."
         },
         "sectorExperience": {
           "title": "Experiência Setorial",
@@ -98,6 +98,45 @@
     "Projects": {
       "title": "Projetos",
       "description": "Seleção de projetos que demonstram minhas habilidades técnicas e experiências profissionais. Explore as abas para ver projetos de trabalho e pessoais.",
+      "featured": {
+        "label": "Projeto em destaque",
+        "title": "Ladôme Ateliê",
+        "subtitle": "Site e painel de um ateliê de bolsas de crochê",
+        "description": "Um catálogo que parece feito à mão. O site leva o ofício do ateliê para a tela com three.js e shaders, e a venda fecha numa conversa de WhatsApp com o pedido já escrito. Por trás, um painel cuida do dia a dia do ateliê.",
+        "siteTitle": "O site",
+        "highlights": {
+          "knit": {
+            "title": "O tricô de verdade, vivo",
+            "text": "A capa é a foto real do tricô da marca, animada por um shader GLSL: relevo sob uma luz que gira, o tecido respira e afunda sob o dedo."
+          },
+          "thread": {
+            "title": "Um fio que costura a página",
+            "text": "Um fio em 3D (React Three Fiber) desce pela página, borda as molduras e as etiquetas e termina num novelo que rola."
+          },
+          "globe": {
+            "title": "Quem já levou uma Ladôme",
+            "text": "As recomendações ficam num globo em WebGL, com um fio ligando cada cidade ao seu depoimento."
+          },
+          "whatsapp": {
+            "title": "Do varal ao WhatsApp",
+            "text": "As bolsas ficam penduradas num varal de etiquetas; o carrinho vira um pedido escrito e abre a conversa com o ateliê."
+          }
+        },
+        "cmsTitle": "O painel do ateliê",
+        "cmsText": "Peças e versões, estante de materiais, precificação, produção e estoque, pedidos, clientes e cupons, e os textos do site com prévia ao vivo. Tudo num único projeto Supabase, com a regra de negócio em funções SQL.",
+        "cmsNote": "Acesso restrito ao ateliê",
+        "visitSite": "Visitar o site",
+        "visitCms": "Abrir o painel",
+        "showImage": "Mostrar imagem",
+        "images": {
+          "cover": "A capa do site: o logotipo sobre o tricô vinho animado",
+          "thread": "O fio 3D descendo pela página até o novelo",
+          "globe": "O globo das recomendações, com o fio ligando as cidades",
+          "atelier": "A agulha de crochê e o novelo em 3D, na página do ateliê",
+          "phone": "A capa do site no celular",
+          "cms": "A entrada do painel do ateliê"
+        }
+      },
       "viewMore": "Ver mais projetos no GitHub",
       "workTab": "Projetos de Trabalho",
       "personalTab": "Projetos Pessoais",

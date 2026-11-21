@@ -30,7 +30,7 @@
       "sections": {
         "whoAmI": {
           "title": "Quién Soy",
-          "content": "Desarrollador Frontend con casi 10 años de experiencia en el desarrollo de aplicaciones web, trabajando en proyectos complejos y de alto impacto. Fuerte experiencia en JavaScript, TypeScript, HTML y CSS, con especialización en Angular, React y Next.js, además de las mejores prácticas en arquitectura de software y rendimiento."
+          "content": "Desarrollador Frontend con casi 13 años de experiencia en el desarrollo de aplicaciones web, trabajando en proyectos complejos y de alto impacto. Fuerte experiencia en JavaScript, TypeScript, HTML y CSS, con especialización en Angular, React y Next.js, además de las mejores prácticas en arquitectura de software y rendimiento."
         },
         "sectorExperience": {
           "title": "Experiencia Sectorial",
@@ -98,6 +98,45 @@
     "Projects": {
       "title": "Proyectos",
       "description": "Selección de proyectos que demuestran mis habilidades técnicas y experiencias profesionales. Explore las pestañas para ver proyectos de trabajo y personales.",
+      "featured": {
+        "label": "Proyecto destacado",
+        "title": "Ladôme Ateliê",
+        "subtitle": "Sitio web y panel de un taller de bolsos de crochet",
+        "description": "Un catálogo que parece hecho a mano. El sitio lleva el oficio del taller a la pantalla con three.js y shaders, y la venta se cierra en una conversación de WhatsApp con el pedido ya escrito. Detrás, un panel lleva el día a día del taller.",
+        "siteTitle": "El sitio",
+        "highlights": {
+          "knit": {
+            "title": "El tejido de verdad, vivo",
+            "text": "La portada es la foto real del tejido de la marca, animada por un shader GLSL: relieve bajo una luz que gira, la tela respira y se hunde bajo el dedo."
+          },
+          "thread": {
+            "title": "Un hilo que cose la página",
+            "text": "Un hilo en 3D (React Three Fiber) baja por la página, borda los marcos y las etiquetas y termina en un ovillo que rueda."
+          },
+          "globe": {
+            "title": "Quién ya tiene una Ladôme",
+            "text": "Las recomendaciones están en un globo en WebGL, con un hilo que une cada ciudad a su testimonio."
+          },
+          "whatsapp": {
+            "title": "Del tendedero a WhatsApp",
+            "text": "Los bolsos cuelgan como etiquetas de papel en un tendedero; el carrito se vuelve un pedido escrito y abre la conversación con el taller."
+          }
+        },
+        "cmsTitle": "El panel del taller",
+        "cmsText": "Piezas y sus versiones, el estante de materiales, precios, producción y stock, pedidos, clientes y cupones, y los textos del sitio con vista previa en vivo. Todo en un solo proyecto de Supabase, con las reglas de negocio en funciones SQL.",
+        "cmsNote": "Acceso restringido al taller",
+        "visitSite": "Visitar el sitio",
+        "visitCms": "Abrir el panel",
+        "showImage": "Mostrar imagen",
+        "images": {
+          "cover": "La portada del sitio: el logotipo sobre el tejido vino animado",
+          "thread": "El hilo 3D bajando por la página hasta el ovillo",
+          "globe": "El globo de las recomendaciones, con el hilo uniendo las ciudades",
+          "atelier": "La aguja de crochet y el ovillo en 3D, en la página del taller",
+          "phone": "La portada del sitio en el móvil",
+          "cms": "La entrada al panel del taller"
+        }
+      },
       "viewMore": "Ver más proyectos en GitHub",
       "workTab": "Proyectos de Trabajo",
       "personalTab": "Proyectos Personales",
